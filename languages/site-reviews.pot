@@ -336,7 +336,7 @@ msgstr ""
 #: config/forms/metabox-fields.php:18
 #: config/settings.php:781
 #: config/settings.php:796
-#: plugin/Controllers/PrivacyController.php:120
+#: plugin/Controllers/PrivacyController.php:122
 #: plugin/Defaults/PostTypeColumnDefaults.php:15
 #: plugin/Defaults/RevisionFieldsDefaults.php:13
 msgctxt "admin-text"
@@ -346,7 +346,7 @@ msgstr ""
 #: config/forms/metabox-fields.php:22
 #: config/settings.php:782
 #: config/settings.php:797
-#: plugin/Controllers/PrivacyController.php:121
+#: plugin/Controllers/PrivacyController.php:123
 #: plugin/Defaults/PostTypeColumnDefaults.php:16
 #: plugin/Defaults/RevisionFieldsDefaults.php:14
 msgctxt "admin-text"
@@ -354,7 +354,7 @@ msgid "Email"
 msgstr ""
 
 #: config/forms/metabox-fields.php:26
-#: plugin/Controllers/PrivacyController.php:122
+#: plugin/Controllers/PrivacyController.php:124
 #: plugin/Defaults/PostTypeColumnDefaults.php:17
 #: plugin/Defaults/RevisionFieldsDefaults.php:15
 msgctxt "admin-text"
@@ -376,7 +376,7 @@ msgid "Terms"
 msgstr ""
 
 #: config/forms/metabox-fields.php:35
-#: plugin/Controllers/PrivacyController.php:123
+#: plugin/Controllers/PrivacyController.php:125
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:35
 #: plugin/Tinymce/SiteReviewsTinymce.php:33
 msgctxt "admin-text"
@@ -1495,7 +1495,7 @@ msgstr ""
 
 #: config/settings.php:444
 #: helpers.php:126
-#: plugin/Controllers/MenuController.php:181
+#: plugin/Controllers/MenuController.php:182
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -2282,52 +2282,52 @@ msgid "Enabling this option will persist field values entered into the review fo
 msgstr ""
 
 #: helpers.php:108
-#: plugin/Controllers/MenuController.php:121
-#: plugin/Controllers/MenuController.php:183
+#: plugin/Controllers/MenuController.php:122
+#: plugin/Controllers/MenuController.php:184
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
 #: helpers.php:109
-#: plugin/Controllers/MenuController.php:119
+#: plugin/Controllers/MenuController.php:120
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
 #: helpers.php:110
-#: plugin/Controllers/MenuController.php:209
+#: plugin/Controllers/MenuController.php:210
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
 #: helpers.php:111
-#: plugin/Controllers/MenuController.php:66
+#: plugin/Controllers/MenuController.php:67
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr ""
 
 #: helpers.php:112
 #: plugin/Commands/DetectIpAddress.php:14
-#: plugin/Controllers/MenuController.php:115
+#: plugin/Controllers/MenuController.php:116
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
 #: helpers.php:113
-#: plugin/Controllers/MenuController.php:179
+#: plugin/Controllers/MenuController.php:180
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
 #: helpers.php:114
-#: plugin/Controllers/MenuController.php:118
+#: plugin/Controllers/MenuController.php:119
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
 #: helpers.php:115
-#: plugin/Controllers/MenuController.php:177
-#: plugin/Controllers/MenuController.php:206
+#: plugin/Controllers/MenuController.php:178
+#: plugin/Controllers/MenuController.php:207
 #: plugin/Integrations/Avada/Defaults/ControlDefaults.php:46
 #: plugin/Integrations/Breakdance/Transformer.php:141
 #: plugin/Integrations/Bricks/BricksElement.php:127
@@ -2339,35 +2339,35 @@ msgid "General"
 msgstr ""
 
 #: helpers.php:116
-#: plugin/Controllers/MenuController.php:117
+#: plugin/Controllers/MenuController.php:118
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
 #: helpers.php:117
-#: plugin/Controllers/MenuController.php:120
-#: plugin/Controllers/MenuController.php:182
+#: plugin/Controllers/MenuController.php:121
+#: plugin/Controllers/MenuController.php:183
 msgctxt "admin-text"
 msgid "Integrations"
 msgstr ""
 
 #: helpers.php:118
-#: plugin/Controllers/MenuController.php:185
+#: plugin/Controllers/MenuController.php:186
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
 #: helpers.php:119
-#: plugin/Controllers/MenuController.php:122
-#: plugin/Controllers/MenuController.php:184
+#: plugin/Controllers/MenuController.php:123
+#: plugin/Controllers/MenuController.php:185
 #: views/pages/premium/index.php:33
 msgctxt "admin-text"
 msgid "Premium"
 msgstr ""
 
 #: helpers.php:121
-#: plugin/Controllers/MenuController.php:178
-#: plugin/Controllers/PrivacyController.php:136
+#: plugin/Controllers/MenuController.php:179
+#: plugin/Controllers/PrivacyController.php:138
 #: plugin/Defaults/PostTypeLabelDefaults.php:29
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:95
 #: plugin/Integrations/SureCart/Controllers/ProductController.php:158
@@ -2380,13 +2380,13 @@ msgid "Reviews"
 msgstr ""
 
 #: helpers.php:122
-#: plugin/Controllers/MenuController.php:207
+#: plugin/Controllers/MenuController.php:208
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
 #: helpers.php:123
-#: plugin/Controllers/MenuController.php:180
+#: plugin/Controllers/MenuController.php:181
 #: plugin/Integrations/Breakdance/Transformer.php:132
 #: plugin/Integrations/Bricks/Controller.php:37
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:82
@@ -2400,7 +2400,7 @@ msgstr ""
 #: helpers.php:124
 #: plugin/Addons/Controller.php:51
 #: plugin/Controllers/AdminController.php:72
-#: plugin/Controllers/MenuController.php:64
+#: plugin/Controllers/MenuController.php:65
 #: views/pages/tools/sync.php:23
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -2411,27 +2411,27 @@ msgid "Settings"
 msgstr ""
 
 #: helpers.php:125
-#: plugin/Controllers/MenuController.php:116
+#: plugin/Controllers/MenuController.php:117
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
 #: helpers.php:127
 #: plugin/Addons/Controller.php:289
-#: plugin/Controllers/MenuController.php:114
+#: plugin/Controllers/MenuController.php:115
 #: plugin/Controllers/WelcomeController.php:66
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
 #: helpers.php:129
-#: plugin/Controllers/MenuController.php:210
+#: plugin/Controllers/MenuController.php:211
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
 #: helpers.php:130
-#: plugin/Controllers/MenuController.php:65
+#: plugin/Controllers/MenuController.php:66
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
@@ -3929,7 +3929,7 @@ msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
 #: plugin/Controllers/FlyoutController.php:36
-#: plugin/Controllers/MenuController.php:67
+#: plugin/Controllers/MenuController.php:68
 msgctxt "admin-text"
 msgid "Upgrade to Premium"
 msgstr ""
@@ -4213,7 +4213,7 @@ msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:208
+#: plugin/Controllers/MenuController.php:209
 #: views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
@@ -4229,12 +4229,12 @@ msgctxt "admin-text"
 msgid "The email and associated name and IP address has been removed from all reviews, but the reviews themselves were not removed."
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:118
+#: plugin/Controllers/PrivacyController.php:120
 msgctxt "admin-text"
 msgid "Review Title"
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:119
+#: plugin/Controllers/PrivacyController.php:121
 msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
@@ -4288,78 +4288,84 @@ msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:102
+#: plugin/Controllers/ToolsController.php:103
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:124
+#: plugin/Controllers/ToolsController.php:125
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:146
+#: plugin/Controllers/ToolsController.php:147
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:169
+#: plugin/Controllers/ToolsController.php:170
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:176
+#: plugin/Controllers/ToolsController.php:177
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:191
+#: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
 msgid "Your user role does not have permission to view the system info."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:233
+#: plugin/Controllers/ToolsController.php:234
 msgctxt "admin-text"
 msgid "You do not have permission to remove location data from reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:234
+#: plugin/Controllers/ToolsController.php:235
 msgctxt "admin-text"
 msgid "You do not have permission to geolocate reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:255
+#: plugin/Controllers/ToolsController.php:256
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:282
+#: plugin/Controllers/ToolsController.php:283
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:350
+#: plugin/Controllers/ToolsController.php:351
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/ToolsController.php:355
+#: plugin/Controllers/ToolsController.php:356
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/ToolsController.php:411
+#: plugin/Controllers/ToolsController.php:412
 #, php-format
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:430
+#: plugin/Controllers/ToolsController.php:431
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:436
+#: views/pages/tools/general/rollback-plugin.php:21
+msgctxt "admin-text"
+msgid "Rollback is unavailable because the Site Reviews folder is a git repository."
 msgstr ""
 
 #. translators: %s: number of reviews
@@ -4445,9 +4451,23 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/UpdateController.php:32
+#: plugin/Controllers/UpdateController.php:47
 msgctxt "admin-text"
 msgid "The following Site Reviews addons did not update because their license does not allow it:"
+msgstr ""
+
+#. translators: %s: plugin name
+#: plugin/Controllers/UpdateController.php:241
+#, php-format
+msgctxt "admin-text"
+msgid "Updates are turned off for %s because its folder is a git repository."
+msgstr ""
+
+#. translators: %s: plugin name
+#: plugin/Controllers/UpdateController.php:319
+#, php-format
+msgctxt "admin-text"
+msgid "%s was not updated because its folder is a git repository."
 msgstr ""
 
 #: plugin/Controllers/VerificationController.php:35
@@ -8552,7 +8572,7 @@ msgstr ""
 
 #. translators: %s: the selected plugin version
 #: views/pages/tools/general/rollback-plugin.php:7
-#: views/pages/tools/general/rollback-plugin.php:51
+#: views/pages/tools/general/rollback-plugin.php:56
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr ""
@@ -8565,31 +8585,31 @@ msgid "Unable to connect to %s to get the available plugin versions."
 msgstr ""
 
 #. translators: %s: link with the text "contact us"
-#: views/pages/tools/general/rollback-plugin.php:21
+#: views/pages/tools/general/rollback-plugin.php:26
 #, php-format
 msgctxt "submit a support request (admin-text)"
 msgid "If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:22
+#: views/pages/tools/general/rollback-plugin.php:27
 msgctxt "admin-text"
 msgid "contact us"
 msgstr ""
 
 #. translators: %1$s: installed plugin version, %2$s: plugin name
-#: views/pages/tools/general/rollback-plugin.php:27
+#: views/pages/tools/general/rollback-plugin.php:32
 #, php-format
 msgctxt "admin-text"
 msgid "You currently have version %1$s installed of %2$s. Run this tool to rollback to a previous release."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:39
+#: views/pages/tools/general/rollback-plugin.php:44
 msgctxt "admin-text"
 msgid "Rollback Version To"
 msgstr ""
 
 #. translators: %s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:50
+#: views/pages/tools/general/rollback-plugin.php:55
 #, php-format
 msgctxt "admin-text"
 msgid "Rolling back to %s, please wait..."

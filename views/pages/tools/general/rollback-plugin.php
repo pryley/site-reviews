@@ -16,6 +16,11 @@
                 ),
                 ['type' => 'error', 'additional_classes' => ['inline']]
             ); ?>
+        <?php elseif ($rollback_locked) : ?>
+            <?php echo wp_get_admin_notice(
+                _x('Rollback is unavailable because the Site Reviews folder is a git repository.', 'admin-text', 'site-reviews'),
+                ['type' => 'warning', 'additional_classes' => ['inline']]
+            ); ?>
         <?php else: ?>
             <?php /* translators: %s: link with the text "contact us" */ echo wp_get_admin_notice(
                 sprintf(_x('If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed.', 'submit a support request (admin-text)', 'site-reviews'),

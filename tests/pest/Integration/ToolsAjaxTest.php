@@ -2,12 +2,14 @@
 
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Modules\UpdateLock;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\swapInstance;
 
 uses(InteractsWithAjax::class);
 
@@ -208,10 +210,17 @@ test('importing refuses without permission, and does nothing without a valid sta
 test('the rollback ajax hands back what the updater needs, and refuses without permission', function () {
     // rollbackPluginAjax gates on the update_plugins capability (not hasPermission), so the refusal
     // bites off an admin screen too. The success path returns rollbackData — the nonce, action,
-    // plugin and slug the admin JS feeds straight into wp.updates.
-    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->rollbackPluginAjax(
+    // plugin and slug the admin JS feeds straight into wp.updates. wp-env mounts this repository
+    // as the plugin, which locks the rollback; the fake unlocks it for the success path.
+    $unlocked = new class extends UpdateLock {
+        public function isLocked(string $basename): bool
+        {
+            return false;
+        }
+    };
+    $response = swapInstance(UpdateLock::class, $unlocked, fn () => $this->jsonSentBy(fn () => glsr(ToolsController::class)->rollbackPluginAjax(
         new Request(['version' => '8.0.0'])
-    ));
+    )));
     expect($response['success'])->toBeTrue()
         ->and($response['data']['data']['plugin'])->toBe(glsr()->basename)
         ->and($response['data']['data']['slug'])->toBe(glsr()->id)
@@ -224,6 +233,17 @@ test('the rollback ajax hands back what the updater needs, and refuses without p
     ));
     expect($refused['success'])->toBeFalse()
         ->and($refused['data']['error'])->toContain('permission');
+});
+
+test('the rollback ajax refuses when the plugin folder is a git repository', function () {
+    // The real lock: this checkout holds .git, so no fake is needed.
+    $refused = $this->jsonSentBy(fn () => glsr(ToolsController::class)->rollbackPluginAjax(
+        new Request(['version' => '8.0.0'])
+    ));
+
+    expect($refused['success'])->toBeFalse()
+        ->and($refused['data']['error'])->toContain('git repository')
+        ->and(get_transient(glsr()->prefix.'rollback_version'))->toBeFalse();
 });
 
 test('removing location data needs its own permission, named in the refusal', function () {
