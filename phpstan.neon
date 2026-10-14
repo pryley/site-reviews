@@ -44,7 +44,6 @@ parameters:
     -
       identifier: staticMethod.internal
     # These are ArrayObject classes
-    - '#^Access to an undefined property (WP_\w+|GeminiLabs\\SiteReviews\\(Arguments|Request|Review))::#'
     - '#Access to an undefined property GeminiLabs\\SiteReviews\\Contracts\\(Field|Plugin|Shortcode)Contract::(.+)#'
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
     - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
