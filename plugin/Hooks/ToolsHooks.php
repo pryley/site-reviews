@@ -37,7 +37,6 @@ class ToolsHooks extends AbstractHooks
             ['repairReviewRelationsAjax', 'site-reviews/route/ajax/repair-review-relations'],
             ['resetAssignedMeta', 'site-reviews/route/admin/reset-assigned-meta'],
             ['resetAssignedMetaAjax', 'site-reviews/route/ajax/reset-assigned-meta'],
-            ['rollbackPlugin', "update-custom_rollback-{$this->id}"],
             ['rollbackPluginAjax', "site-reviews/route/ajax/rollback-{$this->id}"],
         ]);
     }

@@ -209,30 +209,6 @@ Features are subject to change and are sorted alphabetically, not by priority.
   covered, the command needs a seam that does not run live DDL against a shared table
   (e.g. a bindable table-engine service the suite can fake).
 
-- [ ] **`Rollback::rollback()` is deliberately left uncovered — the offline suite
-  structurally can't drive it, and it is not a plugin defect.** It is an admin-screen
-  render wrapper: `require_once` of `wp-admin/admin-header.php`, a real
-  `\Plugin_Upgrader_Skin`, the upgrade, then `admin-footer.php`. Three walls, none in the
-  plugin:
-
-  1. `admin-header.php` pulls in `admin.php` unless `WP_ADMIN` is defined, and the suite
-     runs with `WP_ADMIN` undefined / `is_admin()` false on purpose (see the note in
-     `InteractsWithAjax` about admin includes fataling third-party code). `admin.php`
-     also runs `auth_redirect()`, which in the cookieless CLI process redirects and
-     `exit`s — killing the run.
-  2. `define('WP_ADMIN', true)` would get past (1), but a constant can't be unset, so it
-     poisons `is_admin()` for every later test — a worse leak than one uncovered method.
-  3. The real `Plugin_Upgrader_Skin` closes the output buffers — exactly why
-     `RollbackTest` drives `PluginUpgrader::rollback()` through a silent skin subclass
-     instead.
-
-  The one behaviour that matters — that it downloads
-  `https://downloads.wordpress.org/plugin/site-reviews.{version}.zip` — is already
-  asserted by that test. The uncovered lines are admin chrome plus trivial
-  `$title`/`$parent_file`/nonce/url assignments. A real fix would extract the upgrade
-  call from the render — a plugin change for marginal coverage; leaving it is fine.
-  Traced statically 2026-07-15; not executed (the render path can't run offline).
-
 - [ ] **Move Polylang and WPML into `/plugin/Integrations`, in the full integration shape.**
   They are the only two third-party plugins the codebase reaches into from `/plugin/Modules`;
   everything else lives under `Integrations/` with its own `Hooks`, controller and
