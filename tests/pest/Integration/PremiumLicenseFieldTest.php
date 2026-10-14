@@ -393,29 +393,73 @@ test('the Settings page says once that premium is installed, from the mark the i
     });
 });
 
-test('the rollback card warns which registered addons a version would stop', function () {
+test('the rollback popup is told which registered addons each version stops', function () {
     $registry = new ReflectionProperty(get_class(glsr()), 'addons');
     $registry->setAccessible(true);
     $registered = $registry->getValue(glsr());
     try {
+        $registry->setValue(glsr(), []);
         glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class); // GLSR requires at least: 8.0.0
-        $warnings = protectedMethod(MenuController::class, 'rollbackWarnings')
+        $stops = protectedMethod(MenuController::class, 'rollbackStops')
             ->invoke(glsr(MenuController::class), ['8.4.0', '8.0.0', '7.9.0']);
 
-        expect(array_keys($warnings))->toBe(['7.9.0'])
-            ->and($warnings['7.9.0'])->toContain('After the rollback to 7.9.0, Test Addon will stop working')
-            ->and($warnings['7.9.0'])->not->toContain('deactivated stay inactive');
+        expect($stops)->toBe(['7.9.0' => ['site-reviews-test-addon' => 'Test Addon']]);
 
         $page = glsr()->build('pages/tools/general/rollback-plugin', [
             'rollback_locked' => false,
             'rollback_script' => '',
+            'rollback_stops' => $stops,
             'rollback_versions' => ['8.4.0', '7.9.0'],
-            'rollback_warnings' => $warnings,
         ]);
-        expect($page)->toContain('value="7.9.0" data-warning="After the rollback to 7.9.0, Test Addon will stop working')
-            ->and($page)->toContain('value="8.4.0" data-warning=""')
-            ->and($page)->toContain('id="rollback-warning"');
+        expect($page)->toMatch('/value="7\.9\.0"\s+data-stops="\[&quot;Test Addon&quot;\]"\s+>/')
+            ->and($page)->toMatch('/value="8\.4\.0"\s+data-stops="\[\]"\s+>/')
+            ->and($page)->not->toContain('data-premium="1"')
+            ->and($page)->not->toContain('id="rollback-warning"');
     } finally {
         $registry->setValue(glsr(), $registered);
     }
+});
+
+test('the rollback popup is told when a version stops Site Reviews Premium', function () {
+    withPremiumRegistered(function () { // GLSR requires at least: 8.0.0
+        $stops = protectedMethod(MenuController::class, 'rollbackStops')
+            ->invoke(glsr(MenuController::class), ['8.4.0', '7.9.0']);
+
+        expect(array_keys($stops))->toBe(['7.9.0'])
+            ->and($stops['7.9.0'][LicenseRow::ADDON_ID])->toBe('Site Reviews Premium');
+
+        $page = glsr()->build('pages/tools/general/rollback-plugin', [
+            'rollback_locked' => false,
+            'rollback_script' => '',
+            'rollback_stops' => $stops,
+            'rollback_versions' => ['8.4.0', '7.9.0'],
+        ]);
+        expect($page)->toMatch('/value="7\.9\.0"\s+data-stops="[^"]+"\s+data-premium="1"\s+>/')
+            ->and(substr_count($page, 'data-premium="1"'))->toBe(1);
+    });
+});
+
+/*
+ * rollback.js reads each of these from the page.
+ */
+test('the rollback card prints the popup that confirms the rollback', function () {
+    $page = glsr()->build('pages/tools/general/rollback-plugin', [
+        'rollback_locked' => false,
+        'rollback_script' => '',
+        'rollback_stops' => [],
+        'rollback_versions' => ['8.4.0'],
+    ]);
+    $version = glsr()->version;
+
+    expect($page)->toContain('<div id="rollback-dialog" class="notification-dialog-wrap hidden">')
+        ->and($page)->toContain('<div class="notification-dialog-background"></div>')
+        ->and($page)->toContain('role="dialog" aria-modal="true" aria-labelledby="rollback-dialog-title"')
+        ->and($page)->toContain('Roll back Site Reviews to version <span data-version></span>?')
+        ->and($page)->toContain("You are rolling back from version {$version}. The plugin files will be replaced with version <span data-version></span> from wordpress.org.")
+        ->and($page)->toContain('<div class="notice notice-warning inline hidden" data-warning>')
+        ->and($page)->toContain('<strong>These plugins will stop working until Site Reviews is updated again:</strong>')
+        ->and($page)->toContain('<ul class="ul-disc"></ul>')
+        ->and($page)->toContain('<p class="hidden" data-premium>The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself.</p>')
+        ->and($page)->toContain('data-cancel>Cancel and go back</button>')
+        ->and($page)->toContain('data-confirm>Rollback Plugin</button>');
 });

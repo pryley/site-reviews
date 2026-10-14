@@ -145,6 +145,22 @@ const loadPublic = ({ added, before = '', inline, compat = !inline, config = {},
     { after: scripts('site-reviews', { compat, debug }), before: DIALOG + before, html, url }
 );
 
+// The rollback script runs inside jQuery(fn); fn runs at once here, with the real jQuery as its argument.
+const JQUERY = fs.readFileSync(require.resolve('jquery/dist/jquery.js'), 'utf8')
+    + ';window.jQuery = (fn) => fn(window.$);';
+
+// wp.ajax.send() keeps each request in window.sent and sends nothing.
+const WP = 'window.sent = []; window.wp = { ajax: { send: (request) => { window.sent.push(request); return { always: () => {} }; } }, i18n: { __: (text) => text } };';
+
+// jsdom does not give a form its fields as properties (form.version), which browsers do.
+const FORM_FIELDS = 'document.querySelectorAll("form").forEach(form => [...form.elements].filter(el => el.name).forEach(el => Object.defineProperty(form, el.name, { get: () => form.elements.namedItem(el.name) })));';
+
+const loadRollback = ({ before = '', html } = {}) => load(
+    'rollback.js',
+    inlineScript(adminConfig()),
+    { before: JQUERY + WP + FORM_FIELDS + before, html }
+);
+
 // the block editor: both scripts on one page; `order` names which runs first
 const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}) => {
     const infos = [];
@@ -173,4 +189,4 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
     return { errors, infos, warnings, window };
 };
 
-module.exports = { PUBLIC_INLINE_83, adminConfig, loadAdmin, loadBoth, loadPublic, publicConfig };
+module.exports = { PUBLIC_INLINE_83, adminConfig, loadAdmin, loadBoth, loadPublic, loadRollback, publicConfig };
