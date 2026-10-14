@@ -230,8 +230,8 @@ class MenuController extends AbstractController
                 'myisam_tables' => Arr::get(glsr(Tables::class)->tableEngines(), 'MyISAM', []),
                 'rollback_locked' => glsr(UpdateLock::class)->isLocked(glsr()->basename),
                 'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
+                'rollback_stops' => $this->rollbackStops(glsr(Cache::class)->getPluginVersions()),
                 'rollback_versions' => glsr(Cache::class)->getPluginVersions(),
-                'rollback_warnings' => $this->rollbackWarnings(glsr(Cache::class)->getPluginVersions()),
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,
@@ -312,9 +312,9 @@ class MenuController extends AbstractController
     /**
      * The addons that stop working after a rollback to each version.
      *
-     * @return array<string, string> keyed by version
+     * @return array<string, array<string, string>> version => [addon id => addon name]
      */
-    protected function rollbackWarnings(array $versions): array
+    protected function rollbackStops(array $versions): array
     {
         $requirements = [];
         foreach (array_keys(glsr()->retrieveAs('array', 'addons', [])) as $addonId) {
@@ -324,23 +324,13 @@ class MenuController extends AbstractController
                 $requirements[$addonId] = compact('requires') + ['name' => $addon->name];
             }
         }
-        $warnings = [];
+        $stops = [];
         foreach ($versions as $version) {
             $stopped = array_filter($requirements, fn ($addon) => version_compare($version, $addon['requires'], '<'));
-            if (empty($stopped)) {
-                continue;
+            if (!empty($stopped)) {
+                $stops[$version] = array_map(fn ($addon) => $addon['name'], $stopped);
             }
-            $warning = sprintf(
-                /* translators: %1$s: the plugin version, %2$s: the names of the addons */
-                _x('After the rollback to %1$s, %2$s will stop working until Site Reviews is updated again.', 'admin-text', 'site-reviews'),
-                $version,
-                wp_sprintf_l('%l', array_column($stopped, 'name'))
-            );
-            if (array_key_exists(LicenseRow::ADDON_ID, $stopped)) {
-                $warning .= ' '._x('The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself.', 'admin-text', 'site-reviews');
-            }
-            $warnings[$version] = $warning;
         }
-        return $warnings;
+        return $stops;
     }
 }
