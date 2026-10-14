@@ -47,7 +47,7 @@ class NormalizePaginationArgs extends Arguments
             }
             $this->pageUrl = Url::home($urlPath);
         } elseif (empty($this->pageUrl = get_permalink())) {
-            $this->pageUrl = Url::home(Url::path($_SERVER['REQUEST_URI']));
+            $this->pageUrl = Url::home(Url::path($_SERVER['REQUEST_URI'])); // wp_fix_server_vars() corrects $_SERVER only
         }
     }
 
