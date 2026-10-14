@@ -205,7 +205,8 @@ class ClientIp
         }
         $proxies = new IpWhitelist($trustedProxies);
         if ($proxies->isIpWhitelisted($server['REMOTE_ADDR'])) {
-            $server[$key] = $this->visitorAddress($server[$key], $proxies);
+            // WordPress adds slashes to $_SERVER: a quoted Forwarded value is for=\"203.0.113.5\".
+            $server[$key] = $this->visitorAddress(wp_unslash($server[$key]), $proxies);
         }
         return $server;
     }
