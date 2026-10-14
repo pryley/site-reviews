@@ -237,6 +237,55 @@ test('a site that keeps its reviews forgets the person instead', function () {
         ->and($result['messages'][0])->toContain('the reviews themselves were not removed');
 });
 
+/**
+ * The eraser run as WordPress runs it, called again until it answers done, on batches of
+ * two so that three reviews take more than one batch.
+ */
+function eraserInBatches(string $email, bool $eraseAll = true): array
+{
+    add_filter('site-reviews/personal-data/erase-all', fn () => $eraseAll);
+    $controller = new PrivacyController();
+    (new \ReflectionProperty($controller, 'perPage'))->setValue($controller, 2);
+    $pages = [];
+    do {
+        $result = $controller->erasePersonalDataCallback($email);
+        $pages[] = $result;
+    } while (!$result['done'] && count($pages) < 10);
+    return $pages;
+}
+
+test('a person with more reviews than one page holds is erased from every one of them', function () {
+    $reviews = array_map(fn () => createReview(['email' => 'jane@example.org']), range(1, 3));
+
+    $pages = eraserInBatches('jane@example.org');
+
+    expect($pages)->toHaveCount(2);
+    foreach ($reviews as $review) {
+        expect(get_post($review->ID))->toBeNull();
+    }
+});
+
+test('a person with more reviews than one page holds is forgotten in every one of them', function () {
+    $reviews = array_map(fn () => createReview(['email' => 'jane@example.org']), range(1, 3));
+
+    eraserInBatches('jane@example.org', $eraseAll = false);
+
+    foreach ($reviews as $review) {
+        expect(storedRating($review->ID, 'email'))->toBe('');
+    }
+});
+
+test('a batch that erases nothing ends the erasure instead of asking again forever', function () {
+    array_map(fn () => createReview(['email' => 'jane@example.org']), range(1, 3));
+    add_filter('pre_delete_post', '__return_false'); // the delete fails, so the reviews keep matching
+
+    $pages = eraserInBatches('jane@example.org');
+
+    expect($pages)->toHaveCount(1)
+        ->and($pages[0]['done'])->toBeTrue()
+        ->and($pages[0]['items_removed'])->toBeFalse();
+});
+
 test('an anonymised review can no longer be found by the email that was on it', function () {
     // The proof that the anonymisation is real rather than cosmetic: ask the plugin the same
     // question again and it has nothing to give.

@@ -31,12 +31,13 @@ class PrivacyController extends AbstractController
     /**
      * @see filterPersonalDataErasers
      */
-    public function erasePersonalDataCallback(string $email, int $page = 1): array
+    public function erasePersonalDataCallback(string $email): array
     {
-        $reviews = $this->reviews($email, $page);
-        array_walk($reviews, [$this, 'erasePersonalData']);
+        // An erased review no longer matches the email, so each batch is the first page of what is left.
+        $reviews = $this->reviews($email, 1);
+        $erased = array_filter(array_map([$this, 'erasePersonalData'], $reviews));
         return [
-            'done' => count($reviews) < $this->perPage,
+            'done' => count($reviews) < $this->perPage || empty($erased),
             'items_removed' => $this->itemsRemoved,
             'items_retained' => $this->itemsRetained,
             'messages' => $this->messages,
@@ -89,14 +90,14 @@ class PrivacyController extends AbstractController
         wp_add_privacy_policy_content(glsr()->name, wp_kses_post($content));
     }
 
-    protected function erasePersonalData(Review $review): void
+    protected function erasePersonalData(Review $review): bool
     {
         glsr()->action('personal-data/erase', $review, $this->itemsRetained);
         if (!$this->itemsRetained) {
-            wp_delete_post($review->ID, true);
+            $isErased = !empty(wp_delete_post($review->ID, true));
         } else {
             glsr(ReviewManager::class)->deleteRevisions($review->ID);
-            glsr(ReviewManager::class)->updateRating($review->ID, [
+            $isErased = 0 < glsr(ReviewManager::class)->updateRating($review->ID, [
                 'email' => '',
                 'ip_address' => '',
                 'name' => '',
@@ -108,7 +109,8 @@ class PrivacyController extends AbstractController
                 'rating_id' => $review->rating_id,
             ]);
         }
-        $this->itemsRemoved = true;
+        $this->itemsRemoved = $this->itemsRemoved || $isErased;
+        return $isErased;
     }
 
     protected function exportPersonalData(Review $review): array
