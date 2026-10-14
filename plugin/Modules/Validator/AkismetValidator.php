@@ -25,7 +25,7 @@ class AkismetValidator extends ValidatorAbstract
             // 'user_role' => 'administrator',
             // 'is_test' => 1,
         ];
-        foreach ($_SERVER as $key => $value) {
+        foreach ($_SERVER as $key => $value) { // as the Akismet plugin sends it
             if (!is_array($value) && !in_array($key, ['HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW'])) {
                 $submission[$key] = $value;
             }

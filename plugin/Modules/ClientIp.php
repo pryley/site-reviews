@@ -74,7 +74,7 @@ class ClientIp
      */
     public function isProxyHeaderSent(): bool
     {
-        $value = $_SERVER[$this->serverKey()] ?? '';
+        $value = $_SERVER[$this->serverKey()] ?? ''; // Whip reads $_SERVER
         return is_string($value) && '' !== trim($value);
     }
 
@@ -109,7 +109,7 @@ class ClientIp
      */
     public function peer(): string
     {
-        $address = $_SERVER['REMOTE_ADDR'] ?? '';
+        $address = $_SERVER['REMOTE_ADDR'] ?? ''; // Whip reads $_SERVER
         return false !== filter_var($address, \FILTER_VALIDATE_IP) ? $address : '';
     }
 
@@ -198,7 +198,7 @@ class ClientIp
      */
     protected function server(array $trustedProxies): array
     {
-        $server = $_SERVER;
+        $server = $_SERVER; // Whip reads $_SERVER
         $key = $this->serverKey();
         if (!is_string($server[$key] ?? null) || !$this->hasPeer()) {
             return $server;
