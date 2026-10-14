@@ -58,6 +58,24 @@ class ImageCopier
     }
 
     /**
+     * Set the upload folder to uploads/site-reviews.
+     *
+     * @filter upload_dir
+     */
+    public function filterUploadDir(array $upload): array
+    {
+        $subdir = '/'.glsr()->id;
+        if (get_option('uploads_use_yearmonth_folders')) {
+            $time = current_time('mysql');
+            $subdir .= '/'.substr($time, 0, 4).'/'.substr($time, 5, 2);
+        }
+        $upload['path'] = $upload['basedir'].$subdir;
+        $upload['subdir'] = $subdir;
+        $upload['url'] = $upload['baseurl'].$subdir;
+        return $upload;
+    }
+
+    /**
      * Retrieve the meta by the given attachment post.
      */
     protected function attachmentMeta(\WP_Post $attachment): array
@@ -82,17 +100,15 @@ class ImageCopier
     protected function copyAttachmentsFromSource(array $sourceAttachmentIds): array
     {
         $attachmentIds = [];
-        $reviewAttachmentIds = [];
-        if (class_exists('GeminiLabs\SiteReviews\Addon\Images\Uploader')) {
-            $reviewAttachmentIds = array_filter($sourceAttachmentIds,
-                fn ($attachmentId) => str_contains((string) get_attached_file($attachmentId, true), 'site-reviews/')
-            );
-            if (!empty($reviewAttachmentIds)) {
-                glsr('Addon\Images\Uploader')->setUploadPath(glsr()->id);
-                glsr('Addon\Images\Uploader')->setIntermediateImageSizes();
+        $reviewAttachmentIds = array_filter($sourceAttachmentIds,
+            fn ($attachmentId) => str_starts_with((string) get_post_meta($attachmentId, '_wp_attached_file', true), glsr()->id.'/')
+        );
+        if (!empty($reviewAttachmentIds)) {
+            add_filter('upload_dir', [$this, 'filterUploadDir']);
+            try {
                 $attachmentIds = $this->copyAttachmentIds($reviewAttachmentIds);
-                glsr('Addon\Images\Uploader')->resetIntermediateImageSizes();
-                glsr('Addon\Images\Uploader')->resetUploadPath();
+            } finally {
+                remove_filter('upload_dir', [$this, 'filterUploadDir']);
             }
         }
         if ($otherAttachmentIds = Arr::added($reviewAttachmentIds, $sourceAttachmentIds)) {
