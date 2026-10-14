@@ -13,6 +13,7 @@
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed updates and rollbacks to be turned off when the plugin folder is a git repository
 - Fixed "unique key" warnings in the browser console of the block editor
+- Fixed IP address detection with a Forwarded proxy HTTP header that puts the address in quotes
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
 - Improved the searchable dropdowns in the admin, they now search using the REST API

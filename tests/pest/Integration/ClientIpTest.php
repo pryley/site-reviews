@@ -9,7 +9,8 @@ uses()->group('plugin');
 /**
  * The address ClientIp works out for a request. $server is merged over $_SERVER for the call (a
  * null value removes the key) and $_SERVER is put back afterwards; $setting is the saved
- * Configure IP Address Detection tool.
+ * Configure IP Address Detection tool. $server holds the values as the request sends them;
+ * they are slashed as wp_magic_quotes() slashes $_SERVER before any plugin code reads it.
  */
 function clientIpFor(array $server, array $setting = []): string
 {
@@ -18,7 +19,7 @@ function clientIpFor(array $server, array $setting = []): string
         'trusted_proxies' => '',
     ]));
     $original = $_SERVER;
-    $_SERVER = array_filter(array_merge($_SERVER, $server), fn ($value) => !is_null($value));
+    $_SERVER = array_filter(array_merge($_SERVER, add_magic_quotes($server)), fn ($value) => !is_null($value));
     try {
         return glsr(ClientIp::class)->address();
     } finally {
@@ -238,6 +239,7 @@ test('the address is read from the for parameter of the Forwarded header', funct
     'a token' => ['for=203.0.113.5', '203.0.113.5'],
     'with other parameters' => ['for=203.0.113.5;proto=https;by=10.0.0.1', '203.0.113.5'],
     'after other parameters' => ['proto=https;For=203.0.113.5', '203.0.113.5'],
+    'a quoted address' => ['for="203.0.113.5"', '203.0.113.5'],
     'a quoted IPv6 address with a port' => ['for="[2001:db8::7]:4711";proto=https', '2001:db8::7'],
     'the last element that is not a trusted proxy' => ['for=198.51.100.7, for=203.0.113.5, for=10.0.0.2', '203.0.113.5'],
     'an address with no parameter name' => ['203.0.113.5', '203.0.113.5'],
