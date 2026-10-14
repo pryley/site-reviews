@@ -1,0 +1,25 @@
+.glsr-rollback-dialog {
+  margin: 25px;
+}
+.glsr-rollback-dialog h1 {
+  font-size: 1.3em;
+  margin: 1em 0;
+}
+.glsr-rollback-dialog .notice {
+  margin: 15px 0;
+}
+.glsr-rollback-dialog > p:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media only screen and (max-height: 480px), screen and (max-width: 450px) {
+  #rollback-dialog .notification-dialog {
+    height: 100%;
+    left: 0;
+    margin: 0;
+    max-height: 100%;
+    top: 0;
+    width: 100%;
+  }
+}
