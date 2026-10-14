@@ -507,6 +507,29 @@ Features are subject to change and are sorted alphabetically, not by priority.
   built from and push it, only when that tag exists neither locally nor on `origin`. The tags
   from `v8.3.2` on are annotated.
 
+- [ ] **The deactivation report cannot show why a site reads as local, and `isLocalServer()`
+  was wrong on about one public site in five.** Measured 2026-10-13 on an export of the
+  insights tables (10,000 reports, 2022-09 to 2025-01, plugin 6.0 to 7.2). 2,256 reports have
+  `is_local` set; 1,774 of them (17.7% of all reports) have an ordinary public domain as the
+  site URL. The rate is 16% to 24% in every version and year. Those versions read
+  `SERVER_ADDR` with `filter_input()` and took an empty answer as `::1`; `63e708718` (8.2)
+  reads `$_SERVER` as a fallback. The export has no report from 8.2 or later, so the current
+  method is not measured. The cause is not confirmed either: the report sends nothing about
+  the server, and `server_software` in the websites table is empty in every exported row.
+
+  `isLocalServer()` also sets `sslverify` for the plugin's own requests (`Helper.php`,
+  `ApiDefaults.php`), so a wrong "local" turns certificate checks off on a live site.
+
+  To build:
+  - Send what decided the result (`DeactivatePlugin::insights()`): the server address and
+    whether `filter_input()` or `$_SERVER` supplied it, the request host, `PHP_SAPI`,
+    `SERVER_SOFTWARE` and `wp_get_environment_type()`. The deactivation dialog lists what is
+    submitted (`DeactivationController::deactivateInsight()`); add each new item there too.
+  - Measure again on reports from 8.2 and later.
+  - Then change `isLocalServer()`: a missing server address is unknown, not local, and a
+    loopback address does not decide by itself. Require the host to read as local as well,
+    or use `wp_get_environment_type()`.
+
 ## Upcoming Add-ons
 
 ### Functionality
