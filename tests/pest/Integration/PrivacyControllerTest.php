@@ -151,6 +151,17 @@ test('accepting the terms is exported as WHEN they were accepted', function () {
         ->toBe(storedReview($review->ID)->date);
 });
 
+test('a review waiting for approval or in the Trash comes back too', function () {
+    createReview(['email' => 'jane@example.org', 'is_approved' => false, 'title' => 'Pending']);
+    wp_trash_post(createReview(['email' => 'jane@example.org', 'title' => 'Trashed'])->ID);
+
+    $export = exportFor('jane@example.org');
+
+    expect($export['data'])->toHaveCount(2)
+        ->and(exportedFields($export, 0)['Review Title'])->toBe('Pending')
+        ->and(exportedFields($export, 1)['Review Title'])->toBe('Trashed');
+});
+
 test('nobody\'s data comes back for an email nobody used', function () {
     createReview(['email' => 'jane@example.org']);
 
@@ -182,6 +193,17 @@ test('by default the reviews are deleted, and everything in them with them', fun
     // from the plugin's own tables too.
     expect(get_post($review->ID))->toBeNull()
         ->and(storedReview($review->ID)->isValid())->toBeFalse();
+});
+
+test('a review waiting for approval or in the Trash is erased too', function () {
+    $pending = createReview(['email' => 'jane@example.org', 'is_approved' => false]);
+    $trashed = createReview(['email' => 'jane@example.org']);
+    wp_trash_post($trashed->ID);
+
+    eraserFor('jane@example.org');
+
+    expect(get_post($pending->ID))->toBeNull()
+        ->and(get_post($trashed->ID))->toBeNull();
 });
 
 test('somebody else\'s review is not deleted along with it', function () {

@@ -142,10 +142,15 @@ class PrivacyController extends AbstractController
 
     protected function reviews(string $email, int $page): array
     {
-        return glsr(Query::class)->reviews([
-            'email' => $email,
-            'page' => $page,
-            'per_page' => $this->perPage,
-        ]);
+        $sql = glsr(Query::class)->sql("
+            SELECT r.review_id
+            FROM table|ratings AS r
+            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
+            WHERE r.email = %s AND p.post_type = %s
+            ORDER BY r.review_id ASC
+            LIMIT %d OFFSET %d
+        ", $email, glsr()->post_type, $this->perPage, ($page - 1) * $this->perPage);
+        $reviewIds = glsr(Database::class)->dbGetCol($sql);
+        return empty($reviewIds) ? [] : glsr(Query::class)->reviews([], $reviewIds);
     }
 }
