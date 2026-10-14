@@ -176,15 +176,28 @@ test('an uninstall drops the tables of every site, and an install rebuilds them'
         restore_current_blog();
     }
 
-    glsr(Install::class)->dropTables(true);
+    global $wpdb;
+    try {
+        glsr(Install::class)->dropTables(true);
 
-    foreach (siteIds() as $siteId) {
-        switch_to_blog($siteId);
-        expect(glsr(Tables::class)->tablesExist())->toBeFalse();
-        restore_current_blog();
+        // tablesExist() is false when one table is gone, so each table is checked.
+        // A refused DROP only prints a database error.
+        foreach (siteIds() as $siteId) {
+            switch_to_blog($siteId);
+            foreach (glsr(Tables::class)->tables() as $table) {
+                $tablename = glsr($table)->tablename;
+                $found = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($tablename)));
+                expect($found)->toBeNull("{$tablename} was not dropped");
+            }
+            restore_current_blog();
+        }
+    } finally {
+        // the tests after this one need the tables, also when an assertion above fails
+        while (ms_is_switched()) {
+            restore_current_blog();
+        }
+        glsr(Install::class)->run(); // leave the network as we found it
     }
-
-    glsr(Install::class)->run(); // leave the network as we found it
 
     foreach (siteIds() as $siteId) {
         switch_to_blog($siteId);
