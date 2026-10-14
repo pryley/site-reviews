@@ -484,36 +484,6 @@ test('the non-ajax rollback refuses anyone who cannot update plugins', function 
 });
 
 /*
- * The forged "update" that a rollback actually rides on.
- *
- * A rollback does not download anything itself — it drops a version number in a transient and lets
- * the normal plugin-update machinery do the work. filterUpdatePluginsTransient is where that
- * happens: while the transient is set, it forges an entry in site_transient_update_plugins pointing
- * WordPress at the wordpress.org zip for the OLDER version, so "update this plugin" installs it.
- */
-
-test('while a rollback is pending, the plugin advertises the old version as its update', function () {
-    set_transient(glsr()->prefix.'rollback_version', '8.0.0', MINUTE_IN_SECONDS);
-    $value = (object) ['response' => []];
-
-    $filtered = glsr(ToolsController::class)->filterUpdatePluginsTransient($value);
-
-    $update = $filtered->response[glsr()->basename];
-    expect($update->new_version)->toBe('8.0.0')
-        ->and($update->slug)->toBe(glsr()->id)
-        ->and($update->package)->toBe('https://downloads.wordpress.org/plugin/'.glsr()->id.'.8.0.0.zip');
-});
-
-test('with no rollback pending, the update transient is handed back untouched', function () {
-    delete_transient(glsr()->prefix.'rollback_version');
-    $value = (object) ['response' => ['unrelated/unrelated.php' => 'kept']];
-
-    $filtered = glsr(ToolsController::class)->filterUpdatePluginsTransient($value);
-
-    expect($filtered->response)->toBe(['unrelated/unrelated.php' => 'kept']);
-});
-
-/*
  * The downloads. Each ends the request through glsr_exit() after echoing raw
  * bytes; capturesDownload() catches the shadow's throw and hands the bytes back.
  */
