@@ -235,6 +235,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed the personal data eraser skipping reviews when a person has more than 100 of them
+- Fixed the personal data exporter and eraser leaving out reviews that are pending or in the Trash
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
 - Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
