@@ -78,7 +78,7 @@ class Install extends AbstractBaseCommand
         if (is_wp_error($result)) {
             return $this->refuse('activation',
                 sprintf(_x('Site Reviews Premium is installed but could not be activated: %s', 'admin-text', 'site-reviews'), $result->get_error_message()),
-                $this->link(admin_url('plugins.php'), __('Plugins')), 500
+                $this->link(admin_url('plugins.php'), __('Plugins')), 500 // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
             );
         }
         return true;
