@@ -9,9 +9,9 @@ class Rollback
      */
     public function isUpdateRequest(): bool
     {
-        $plugin = plugin_basename(sanitize_text_field(wp_unslash($_POST['plugin'] ?? '')));
+        $plugin = plugin_basename(sanitize_text_field((string) Helper::input(\INPUT_POST, 'plugin')));
         return wp_doing_ajax()
-            && 'update-plugin' === ($_POST['action'] ?? '')
+            && 'update-plugin' === Helper::input(\INPUT_POST, 'action')
             && glsr()->basename === $plugin;
     }
 
