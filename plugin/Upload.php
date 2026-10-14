@@ -55,7 +55,7 @@ trait Upload
      */
     protected function file(): UploadedFile
     {
-        $files = Arr::get($_FILES, 'import-files', []);
+        $files = Arr::get($_FILES, 'import-files', []); // filter_input() cannot read uploaded files
         $files = $this->fixPhpFilesArray($files);
         if (!wp_is_numeric_array($files)) {
             return new UploadedFile($files);
@@ -71,7 +71,7 @@ trait Upload
     protected function files(): array
     {
         $files = [];
-        $importFiles = Arr::get($_FILES, 'import-files', []);
+        $importFiles = Arr::get($_FILES, 'import-files', []); // filter_input() cannot read uploaded files
         $importFiles = $this->fixPhpFilesArray($importFiles);
         if (!wp_is_numeric_array($importFiles)) {
             $importFiles = [$importFiles];

@@ -51,7 +51,7 @@ class RestController
      */
     public function dispatchAjaxRequest(): void
     {
-        $response = $this->ajaxResponse(wp_unslash($_POST), $_FILES);
+        $response = $this->ajaxResponse(wp_unslash($_POST), $_FILES); // as WP_REST_Server::serve_request() reads them
         wp_send_json($response->get_data(), $response->get_status());
     }
 

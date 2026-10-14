@@ -179,6 +179,7 @@ class Router implements ControllerContract
         if (in_array($restPath, ['', '/'])) {
             return false; // a filtered rest_url with no path: only ?rest_route= reaches the REST API
         }
+        // wp_fix_server_vars() corrects $_SERVER only
         $requestPath = (string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), \PHP_URL_PATH);
         return str_starts_with($requestPath, $restPath);
     }
