@@ -173,7 +173,7 @@ test('the rollback card shows a notice in place of the form on a locked checkout
         'rollback_locked' => true,
         'rollback_script' => '',
         'rollback_versions' => ['8.0.0'],
-        'rollback_warnings' => [],
+        'rollback_stops' => [],
     ]);
 
     expect($page)->toContain('Rollback is unavailable because the Site Reviews folder is a git repository.')
@@ -186,7 +186,7 @@ test('the rollback card shows the form when the checkout is not locked', functio
         'rollback_locked' => false,
         'rollback_script' => '',
         'rollback_versions' => ['8.0.0'],
-        'rollback_warnings' => [],
+        'rollback_stops' => [],
     ]);
 
     expect($page)->toContain('id="rollback-plugin"')

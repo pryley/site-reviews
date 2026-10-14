@@ -35,6 +35,33 @@
                 ); ?>
             </p>
             <script><?php echo $rollback_script; ?></script>
+            <div id="rollback-dialog" class="notification-dialog-wrap hidden">
+                <div class="notification-dialog-background"></div>
+                <div class="notification-dialog" role="dialog" aria-modal="true" aria-labelledby="rollback-dialog-title">
+                    <div class="glsr-rollback-dialog">
+                        <h1 id="rollback-dialog-title">
+                            <?php /* translators: %s: the selected plugin version */ echo sprintf(_x('Roll back Site Reviews to version %s?', 'admin-text', 'site-reviews'),
+                                '<span data-version></span>'
+                            ); ?>
+                        </h1>
+                        <p>
+                            <?php /* translators: %1$s: installed plugin version, %2$s: the selected plugin version */ echo sprintf(_x('You are rolling back from version %1$s. The plugin files will be replaced with version %2$s from wordpress.org.', 'admin-text', 'site-reviews'),
+                                glsr()->version,
+                                '<span data-version></span>'
+                            ); ?>
+                        </p>
+                        <div class="notice notice-warning inline hidden" data-warning>
+                            <p><strong><?php echo _x('These plugins will stop working until Site Reviews is updated again:', 'admin-text', 'site-reviews'); ?></strong></p>
+                            <ul class="ul-disc"></ul>
+                            <p class="hidden" data-premium><?php echo _x('The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself.', 'admin-text', 'site-reviews'); ?></p>
+                        </div>
+                        <p>
+                            <button type="button" class="button" data-cancel><?php echo __('Cancel and go back'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain ?></button>
+                            <button type="button" class="button button-primary" data-confirm><?php echo _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?></button>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div class="hide-if-js">
                 <?php echo wp_get_admin_notice(
                     _x('The Rollback Plugin tool needs JavaScript.', 'admin-text', 'site-reviews'),
@@ -44,7 +71,6 @@
             <form id="rollback-plugin" class="hide-if-no-js">
                 <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('rollback-'.glsr()->id); ?>">
                 <input type="hidden" name="action" value="<?php echo 'rollback-'.glsr()->id; ?>">
-                <div id="rollback-warning" class="notice notice-warning inline" hidden><p></p></div>
                 <fieldset>
                     <div>
                         <label for="rollback_version">
@@ -52,7 +78,10 @@
                         </label>
                         <select id="rollback_version" name="version">
                             <?php foreach ($rollback_versions as $version) : ?>
-                                <option value="<?php echo $version; ?>" data-warning="<?php echo esc_attr($rollback_warnings[$version] ?? ''); ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
+                                <option value="<?php echo $version; ?>"
+                                    data-stops="<?php echo esc_attr(wp_json_encode(array_values($rollback_stops[$version] ?? []))); ?>"
+                                    <?php if (isset($rollback_stops[$version][\GeminiLabs\SiteReviews\Licensing\LicenseRow::ADDON_ID])) : ?>data-premium="1"<?php endif; ?>
+                                ><?php echo glsr()->name; ?> <?php echo $version; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
