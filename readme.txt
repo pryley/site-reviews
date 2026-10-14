@@ -220,6 +220,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid
 - Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
+- Added a confirmation popup to the Rollback Plugin tool
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
@@ -235,7 +236,6 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
 - Fixed the license key of a deactivated addon being removed when the settings are saved
-- Fixed the Rollback Plugin tool not warning which addons will stop working after the rollback
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead

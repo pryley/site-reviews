@@ -58,16 +58,46 @@ jQuery($ => {
             }
         })
     }
-    const warning = form.querySelector('#rollback-warning');
-    const onVersionChange = () => {
-        const text = form.version.selectedOptions[0]?.dataset.warning || '';
-        warning.querySelector('p').textContent = text;
-        warning.hidden = '' === text;
+    const dialog = document.querySelector('#rollback-dialog');
+    const close = (focusEl) => {
+        $(document).off('keydown.glsr-rollback');
+        dialog.classList.add('hidden');
+        $(document.body).removeClass('modal-open');
+        $('#wpwrap').removeAttr('aria-hidden');
+        focusEl.focus();
     }
-    $(form.version).on('change', onVersionChange);
-    onVersionChange();
-    $(form).on('submit', (ev) => {
-        ev.preventDefault();
+    const onKeydown = (ev) => {
+        if ('Escape' === ev.key) {
+            close($btn[0]);
+        } else if ('Tab' === ev.key) {
+            // Safari does not move the focus to a button with the Tab key.
+            const buttons = [...dialog.querySelectorAll('button')];
+            const index = buttons.indexOf(ev.target);
+            const next = ev.shiftKey ? (index < 1 ? buttons.length : index) - 1 : (index + 1) % buttons.length;
+            buttons[next].focus();
+            ev.preventDefault();
+        }
+    }
+    const open = () => {
+        const option = form.version.selectedOptions[0];
+        const names = JSON.parse(option.dataset.stops || '[]');
+        const warning = dialog.querySelector('[data-warning]');
+        dialog.querySelectorAll('[data-version]').forEach(el => (el.textContent = form.version.value));
+        warning.querySelector('ul').replaceChildren(...names.map(name => {
+            const item = document.createElement('li');
+            item.textContent = name;
+            return item;
+        }));
+        warning.classList.toggle('hidden', 0 === names.length);
+        warning.querySelector('[data-premium]').classList.toggle('hidden', !option.dataset.premium);
+        $('#wpwrap').attr('aria-hidden', 'true');
+        // #wpwrap is hidden from screen readers while the dialog is open; the dialog must be outside it.
+        $(document.body).addClass('modal-open').append(dialog);
+        dialog.classList.remove('hidden');
+        dialog.querySelector('[data-cancel]').focus();
+        $(document).on('keydown.glsr-rollback', onKeydown);
+    }
+    const rollback = () => {
         let data = { _ajax_request: true, action: config.request.ajax.action };
         let request = {
             _action: form.action.value,
@@ -81,5 +111,15 @@ jQuery($ => {
             error: onError,
             success: onSuccess,
         })
+    }
+    $(dialog).on('click', '[data-cancel], .notification-dialog-background', () => close($btn[0]));
+    $(dialog).on('click', '[data-confirm]', () => {
+        // The busy state disables the form button, which then cannot hold the focus.
+        close(form.version);
+        rollback();
+    });
+    $(form).on('submit', (ev) => {
+        ev.preventDefault();
+        open();
     })
 })
