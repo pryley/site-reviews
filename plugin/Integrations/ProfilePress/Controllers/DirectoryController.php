@@ -138,7 +138,7 @@ class DirectoryController extends AbstractController
         }
         $css = file_get_contents(glsr()->path('assets/styles/minimal.css'));
         $css .= glsr(EnqueuePublicAssets::class)->inlineStyles();
-        $_POST['builder_css'] = $_POST['builder_css'].$css;
+        $_POST['builder_css'] = $_POST['builder_css'].$css; // ProfilePress reads $_POST after this callback
     }
 
     /**

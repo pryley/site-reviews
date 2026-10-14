@@ -58,6 +58,7 @@ class Helper
     public static function filterInputArray(string $key): array
     {
         $variable = filter_input(\INPUT_POST, $key, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+        // filter_input() cannot see values that code added to $_POST.
         if (empty($variable) && !empty($_POST[$key]) && is_array($_POST[$key])) {
             $variable = $_POST[$key];
         }
@@ -201,6 +202,7 @@ class Helper
      */
     public static function input(int $type, string $key, int $filter = \FILTER_DEFAULT)
     {
+        // filter_input() cannot see values that code added, or INPUT_SERVER on FastCGI (PHP #49184).
         $fallback = match ($type) {
             \INPUT_GET => $_GET,
             \INPUT_POST => $_POST,
