@@ -25,11 +25,19 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
+     * Returns the paged AJAX request, empty on a page render.
+     */
+    public static function pagedRequest(): Arguments
+    {
+        return glsr()->args(glsr()->retrieve(glsr()->paged_handle));
+    }
+
+    /**
      * Set the current page number.
      */
     protected function normalizePage(): void
     {
-        $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
+        $args = static::pagedRequest();
         $page = $args->cast('page', 'int', 0);
         $this->page = $page ?: Helper::getPageNumber($args->url, $this->page);
     }
@@ -39,7 +47,7 @@ class NormalizePaginationArgs extends Arguments
      */
     protected function normalizePageUrl(): void
     {
-        $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
+        $args = static::pagedRequest();
         if (!$args->isEmpty()) {
             $urlPath = Url::path((string) $args->url); // url comes from the request and can be missing
             if (Url::path(Url::home()) === $urlPath) {
@@ -56,7 +64,7 @@ class NormalizePaginationArgs extends Arguments
      */
     protected function normalizePageUrlParameters(): void
     {
-        $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
+        $args = static::pagedRequest();
         $parameters = Url::queries($args->url);
         unset($parameters[glsr()->constant('PAGED_QUERY_VAR')]);
         $this->pageUrlParameters = $parameters;

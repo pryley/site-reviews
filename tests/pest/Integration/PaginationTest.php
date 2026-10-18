@@ -67,6 +67,49 @@ test('the current page url query is carried into every page link, minus the veri
     }
 });
 
+test('over admin-ajax, the own url query of a paged request is not added to the page links', function () {
+    // Over REST, REST_REQUEST marks the request URL as the endpoint's own, not the page's. Over
+    // admin-ajax that constant is not defined; the stored paged request is the plugin's own sign
+    // for the same thing, so the request's query is dropped on both transports alike. admin-ajax is
+    // posted without a query; the URL here is given one so that the stored request, not the URL's
+    // shape, is what the assertion rests on. REST_REQUEST cannot be defined in this suite, so the
+    // REST branch is traced, not executed.
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $_SERVER['REQUEST_URI'] = '/wp-admin/admin-ajax.php?atts%5Bdisplay%5D=5&page=2';
+    glsr()->store(glsr()->paged_handle, ['page' => 2, 'url' => 'https://example.org/reviews/?foo=bar']);
+    try {
+        $paginate = new \GeminiLabs\SiteReviews\Modules\Paginate([
+            'add_args' => ['foo' => 'bar'],
+            'base' => home_url('/reviews/').'?'.glsr()->constant('PAGED_QUERY_VAR').'=%#%',
+            'total' => 3,
+            'current' => 2,
+        ]);
+        expect($paginate->args->add_args)->toBe(['foo' => 'bar']);
+    } finally {
+        glsr()->discard(glsr()->paged_handle);
+        $_SERVER['REQUEST_URI'] = $requestUri;
+    }
+});
+
+test('an empty stored request is no paged request, and the page url query is carried', function () {
+    // CreateReview stores the form's pagination atts, which a form without them leaves empty;
+    // NormalizePaginationArgs treats that as absent, and Paginate must agree with it.
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $_SERVER['REQUEST_URI'] = '/?foo=bar';
+    glsr()->store(glsr()->paged_handle, []);
+    try {
+        $paginate = new \GeminiLabs\SiteReviews\Modules\Paginate([
+            'base' => home_url('/').'?'.glsr()->constant('PAGED_QUERY_VAR').'=%#%',
+            'total' => 3,
+            'current' => 2,
+        ]);
+        expect($paginate->args->add_args)->toBe(['foo' => 'bar']);
+    } finally {
+        glsr()->discard(glsr()->paged_handle);
+        $_SERVER['REQUEST_URI'] = $requestUri;
+    }
+});
+
 test('one page means no links at all', function () {
     expect((new \GeminiLabs\SiteReviews\Modules\Paginate(['total' => 1]))->links())->toBe([]);
 });

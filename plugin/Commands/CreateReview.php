@@ -130,7 +130,7 @@ class CreateReview extends AbstractCommand
         $args = $this->request->cast('_reviews_atts', 'array');
         if (!empty($args) && $this->review->is_approved) {
             $paginationArgs = $this->request->cast('_pagination_atts', 'array');
-            glsr()->store(glsr()->paged_handle, $paginationArgs);
+            glsr()->store(glsr()->paged_handle, $paginationArgs); // Same store as FetchPagedReviews
             return glsr(SiteReviewsShortcode::class)
                 ->normalize($args, $args['from'] ?? 'shortcode')
                 ->buildTemplate();

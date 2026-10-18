@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\NormalizePaginationArgs;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -16,12 +17,8 @@ class Paginate
         $args = wp_parse_args($args, compact('base'));
         $args = glsr(PaginationDefaults::class)->restrict($args);
         $parts = explode('?', $base);
-        // The current URL's query args are carried into the pagination links so that a
-        // filtered page stays filtered. A REST request's query args are the endpoint's
-        // own (atts, page, url) and belong to no page; the page's args arrive through
-        // add_args from the request the endpoint was given.
-        if (wp_is_serving_rest_request()) {
-            $parts = [$parts[0]];
+        if (wp_is_serving_rest_request() || !NormalizePaginationArgs::pagedRequest()->isEmpty()) {
+            $parts = [$parts[0]]; // this is an AJAX request
         }
         if ($parts[1] ?? false) {
             $format = explode('?', str_replace('%_%', $args['format'], $args['base']));
