@@ -25,7 +25,7 @@ export const submitUnrouted = (fn) => {
     unrouted = fn;
 }
 
-// the answer of a Site Reviews route is final, whatever the status
+// the answer of the route is final regardless of status
 const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith('glsr_');
 
 const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
@@ -42,10 +42,10 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-// for a config without routes: the admin script, and a page cached before 8.4.0
+// for config without routes: admin script or page was cached before 8.4.0
 const ROUTES = { 'submit-review': 'submissions' };
 
-// for a page cached before 8.4.0, whose config has no rest action
+// for config without rest action: page was cached before 8.4.0
 const REST_ACTION = 'glsr_rest_request';
 
 const submit = (formData) => {
@@ -71,7 +71,6 @@ const _notice = (reason) => {
     }
 }
 
-// the inline script did not run: an optimisation plugin moved it, or a filter removed the request config
 const _unconfigured = () => {
     console.error('Site Reviews: the request config is missing.')
     return { data: { message: 'The request was not sent: the Site Reviews config is missing.' }, status: 0, success: false };
@@ -89,7 +88,7 @@ const _query = (params, search = new URLSearchParams()) => {
     return search;
 }
 
-// as wp.apiFetch does when a nonce has expired; a visitor whose login has ended gets none
+// as wp.apiFetch does when a nonce has expired (logged in users only)
 const _refreshNonce = async () => {
     try {
         const url = new URL(config.request.ajax.url);
