@@ -16,6 +16,7 @@
 - Fixed IP address detection with a Forwarded proxy HTTP header that puts the address in quotes
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
+- Fixed the review form not submitting on a site where another script has replaced the browser's `window.fetch`
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead

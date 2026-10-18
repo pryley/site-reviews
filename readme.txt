@@ -240,6 +240,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
 - Fixed the license key of a deactivated addon being removed when the settings are saved
+- Fixed the review form not submitting on a site where another script has replaced the browser's `window.fetch`
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead

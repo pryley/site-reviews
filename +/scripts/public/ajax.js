@@ -1,5 +1,7 @@
 /** global: FormData */
 
+import xhr from '@/public/xhr.js';
+
 /**
  * GLSR.ajax and GLSR.request.data of 8.x: always posts to admin-ajax.
  */
@@ -31,19 +33,17 @@ const data = (action, values = {}) => {
 }
 
 const get = (url, callback, headers) => {
-    fetch(url, { headers: Object.assign({}, headers, { 'X-Requested-With': 'XMLHttpRequest' }) })
-        .then(response => response.text())
-        .then(text => callback(text))
+    xhr(url, { headers, method: 'GET' })
+        .then(({ text }) => callback(text))
         .catch(e => callback(e.message))
 }
 
 const post = (formOrData, callback, headers) => {
-    fetch(window.GLSR.config.request.ajax.url, {
-        body: body(formOrData),
-        headers: Object.assign({}, headers, { 'X-Requested-With': 'XMLHttpRequest' }),
-        method: 'POST',
-    })
-        .then(response => response.json())
+    if (!window.GLSR.config.request?.ajax?.url) { // the inline script did not run
+        return callback({ message: 'The request was not sent: the Site Reviews config is missing.' }, false);
+    }
+    xhr(window.GLSR.config.request.ajax.url, { body: body(formOrData), headers })
+        .then(({ text }) => JSON.parse(text))
         .then(json => callback(json.data, json.success))
         .catch(e => callback({ message: e.message }, false))
 }

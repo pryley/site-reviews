@@ -2,6 +2,7 @@
 
 import config from '@/public/config.js';
 import report from '@/public/report.js';
+import xhr from '@/public/xhr.js';
 
 // the REST API itself is unavailable (a security plugin, removed routes)
 const FALLBACK_CODES = ['rest_disabled', 'rest_forbidden', 'rest_no_route', 'rest_not_logged_in'];
@@ -39,7 +40,13 @@ const review = (reviewId, values = {}) => send({
 // for a config without routes: the admin script, and a page cached before 8.4.0
 const ROUTES = { 'submit-review': 'submissions' };
 
+// for a page cached before 8.4.0, whose config has no rest action
+const REST_ACTION = 'glsr_rest_request';
+
 const submit = (formData) => {
+    if (!config.request?.ajax?.url) {
+        return Promise.resolve(_unconfigured());
+    }
     const action = formData.get(`${config.nameprefix}[_action]`) || 'submit-review';
     const path = (config.request?.routes || ROUTES)[action];
     if (path) {
@@ -59,6 +66,12 @@ const _notice = (reason) => {
     }
 }
 
+// the inline script did not run: an optimisation plugin moved it, or a filter removed the request config
+const _unconfigured = () => {
+    console.error('Site Reviews: the request config is missing.')
+    return { data: { message: 'The request was not sent: the Site Reviews config is missing.' }, status: 0, success: false };
+}
+
 const _query = (params, search = new URLSearchParams()) => {
     Object.entries(params || {}).forEach(([key, value]) => {
         if (undefined === value || null === value) return;
@@ -76,8 +89,8 @@ const _refreshNonce = async () => {
     try {
         const url = new URL(config.request.ajax.url);
         url.searchParams.set('action', 'rest-nonce');
-        const response = await fetch(url);
-        nonce = response.ok ? await response.text() : false;
+        const { ok, text } = await xhr(url, { method: 'GET' });
+        nonce = ok ? text : false;
     } catch (e) {
         nonce = false;
     }
@@ -89,13 +102,16 @@ const _rest = async (method, path, params, body, isRetry = false) => {
     }
     const headers = nonce ? { ...HEADERS, 'X-WP-Nonce': nonce } : HEADERS;
     const response = await fetch(_restUrl(path, params), { body, headers, method });
+    if ('function' !== typeof response?.json) {
+        throw new FallbackError('window.fetch has been replaced by another script and returned no Response');
+    }
     if (!(response.headers.get('content-type') || '').includes('application/json')) {
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
     }
     const json = await response.json();
     if (isInvalidNonce(json) && !isRetry) {
         await _refreshNonce()
-        return _rest(method, path, params, body, true);
+        return _rest(method, path, params, body, true); // once more, with the fresh nonce
     }
     if (!response.ok && !isFinal(json) && ([401, 403].includes(response.status) || FALLBACK_CODES.includes(json.code))) {
         throw new FallbackError(json.code || `HTTP ${response.status}`);
@@ -122,7 +138,7 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
     } else {
         Object.entries(body || {}).forEach(([key, value]) => data.append(key, value))
     }
-    data.append('action', config.request.ajax.rest)
+    data.append('action', config.request.ajax.rest || REST_ACTION)
     data.append('_rest_method', method)
     data.append('_rest_path', path)
     data.append('_rest_query', _query(params).toString())
@@ -130,13 +146,13 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
         data.append('_rest_nonce', nonce)
     }
     try {
-        const response = await fetch(config.request.ajax.url, { body: data, headers: HEADERS, method: 'POST' });
-        const json = await response.json();
+        const { ok, status, text } = await xhr(config.request.ajax.url, { body: data });
+        const json = JSON.parse(text);
         if (isInvalidNonce(json) && !isRetry) {
             await _refreshNonce()
-            return _tunnel(method, path, params, body, true);
+            return _tunnel(method, path, params, body, true); // once more, with the fresh nonce
         }
-        return { data: json, status: response.status, success: response.ok };
+        return { data: json, status, success: ok };
     } catch (e) {
         return { data: { message: e.message }, status: 0, success: false };
     }
@@ -144,6 +160,9 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
 
 // REST first, admin-ajax on any sign that the REST API itself is unavailable
 const send = async ({ body, method = 'GET', params, path }) => {
+    if (!config.request?.ajax?.url) {
+        return _unconfigured();
+    }
     const start = Date.now();
     let result;
     let transport = 'REST';
