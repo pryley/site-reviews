@@ -4,23 +4,28 @@ import config from '@/public/config.js';
 import report from '@/public/report.js';
 import xhr from '@/public/xhr.js';
 
-// the REST API itself is unavailable (a security plugin, removed routes)
-const FALLBACK_CODES = ['rest_disabled', 'rest_forbidden', 'rest_no_route', 'rest_not_logged_in'];
+// codes that say the REST API is unavailable (security plugin, login requirement, etc.)
+const REST_UNAVAILABLE_CODES = ['rest_disabled', 'rest_forbidden', 'rest_not_logged_in'];
 
 const HEADERS = { 'X-Requested-With': 'XMLHttpRequest' };
 
 let nonce = config.request?.nonce;
 let noticeShown = false;
+let restUnavailable = null;
 let unrouted = null;
 
+// this request goes to admin-ajax
 class FallbackError extends Error {}
+
+// this request and the rest of the page go to admin-ajax
+class RestUnavailableError extends FallbackError {}
 
 // the compat script submits a form whose action has no route
 export const submitUnrouted = (fn) => {
     unrouted = fn;
 }
 
-// the answer of a Site Reviews route is final, whatever the status
+// the answer of the route is final regardless of status
 const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith('glsr_');
 
 const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
@@ -37,10 +42,10 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-// for a config without routes: the admin script, and a page cached before 8.4.0
+// for config without routes: admin script or page was cached before 8.4.0
 const ROUTES = { 'submit-review': 'submissions' };
 
-// for a page cached before 8.4.0, whose config has no rest action
+// for config without rest action: page was cached before 8.4.0
 const REST_ACTION = 'glsr_rest_request';
 
 const submit = (formData) => {
@@ -66,7 +71,6 @@ const _notice = (reason) => {
     }
 }
 
-// the inline script did not run: an optimisation plugin moved it, or a filter removed the request config
 const _unconfigured = () => {
     console.error('Site Reviews: the request config is missing.')
     return { data: { message: 'The request was not sent: the Site Reviews config is missing.' }, status: 0, success: false };
@@ -84,7 +88,7 @@ const _query = (params, search = new URLSearchParams()) => {
     return search;
 }
 
-// as wp.apiFetch does when a nonce has expired; a visitor whose login has ended gets none
+// as wp.apiFetch does when a nonce has expired (logged in users only)
 const _refreshNonce = async () => {
     try {
         const url = new URL(config.request.ajax.url);
@@ -97,13 +101,16 @@ const _refreshNonce = async () => {
 }
 
 const _rest = async (method, path, params, body, isRetry = false) => {
+    if (restUnavailable) {
+        throw restUnavailable;
+    }
     if (!config.request?.url) {
-        throw new FallbackError('no REST URL');
+        throw new RestUnavailableError('no REST URL');
     }
     const headers = nonce ? { ...HEADERS, 'X-WP-Nonce': nonce } : HEADERS;
     const response = await fetch(_restUrl(path, params), { body, headers, method });
     if ('function' !== typeof response?.json) {
-        throw new FallbackError('window.fetch has been replaced by another script and returned no Response');
+        throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
     if (!(response.headers.get('content-type') || '').includes('application/json')) {
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
@@ -113,8 +120,13 @@ const _rest = async (method, path, params, body, isRetry = false) => {
         await _refreshNonce()
         return _rest(method, path, params, body, true); // once more, with the fresh nonce
     }
-    if (!response.ok && !isFinal(json) && ([401, 403].includes(response.status) || FALLBACK_CODES.includes(json.code))) {
-        throw new FallbackError(json.code || `HTTP ${response.status}`);
+    if (!response.ok && !isFinal(json)) {
+        if ('rest_no_route' === json.code) {
+            throw new FallbackError(json.code); // a removed route says nothing about the others
+        }
+        if ([401, 403].includes(response.status) || REST_UNAVAILABLE_CODES.includes(json.code)) {
+            throw new RestUnavailableError(json.code || `HTTP ${response.status}`);
+        }
     }
     return { data: json, status: response.status, success: response.ok }; // a 4xx here is the final answer of a route
 }
@@ -170,6 +182,9 @@ const send = async ({ body, method = 'GET', params, path }) => {
         result = await _rest(method, path, params, body);
     } catch (e) {
         _notice(e.message);
+        if (e instanceof RestUnavailableError) {
+            restUnavailable = e;
+        }
         transport = 'admin-ajax';
         result = await _tunnel(method, path, params, body);
     }

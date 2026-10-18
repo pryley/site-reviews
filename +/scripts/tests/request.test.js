@@ -122,6 +122,69 @@ for (const [reason, blocked] of [
     });
 }
 
+for (const [reason, blocked] of [
+    ['a 403 from a plugin that disables the REST API', { status: 403, json: { code: 'rest_forbidden' } }],
+    ['a 401 for logged-out visitors', { status: 401, json: { code: 'rest_login_required' } }],
+    ['a 503 with rest_disabled', { status: 503, json: { code: 'rest_disabled' } }],
+]) {
+    test(`after ${reason}, the rest of the page goes over admin-ajax without asking the REST API again`, async () => {
+        const { infos, window } = loadPublic();
+        const calls = fakeFetch(window, [blocked]);
+        const sent = fakeXhr(window, [{ json: { reviews: '<div>2</div>' } }, { json: { reviews: '<div>3</div>' } }]);
+        await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })
+        const result = await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 3 } });
+        assert.equal(calls.length, 1)
+        assert.equal(sent.length, 2)
+        assert.equal(fields(sent[1])._rest_query, 'page=3')
+        assert.deepEqual(plain(result), { data: { reviews: '<div>3</div>' }, status: 200, success: true })
+        assert.equal(infos.filter((line) => line.includes('admin-ajax fallback')).length, 1)
+    });
+}
+
+test('after a replaced window.fetch, the rest of the page goes over admin-ajax without calling it again', async () => {
+    const { window } = loadPublic();
+    let fetched = 0;
+    window.fetch = async () => { fetched++; };
+    const sent = fakeXhr(window, [{ json: {} }, { json: {} }]);
+    await window.GLSR.Request.send({ path: 'render/reviews' })
+    await window.GLSR.Request.send({ path: 'render/reviews' })
+    assert.equal(fetched, 1)
+    assert.equal(sent.length, 2)
+});
+
+for (const [reason, blocked] of [
+    ['a removed route', { status: 404, json: { code: 'rest_no_route' } }],
+    ['a response that is not JSON', { status: 500, type: 'text/html', text: '<html>' }],
+    ['a network error', { error: 'Failed to fetch' }],
+]) {
+    test(`after ${reason}, only that request goes over admin-ajax and the next one tries the REST API again`, async () => {
+        // a route can be missing or broken on its own; the REST API is still there for the others
+        const { window } = loadPublic();
+        const calls = fakeFetch(window, [blocked, { json: { reviews: '<div>REST</div>' } }]);
+        const sent = fakeXhr(window, [{ json: { reviews: '<div>admin-ajax</div>' } }]);
+        await window.GLSR.Request.send({ path: 'my-addon/route' })
+        const result = await window.GLSR.Request.send({ path: 'render/reviews' });
+        assert.equal(calls.length, 2)
+        assert.equal(sent.length, 1)
+        assert.deepEqual(plain(result), { data: { reviews: '<div>REST</div>' }, status: 200, success: true })
+    });
+}
+
+test('a config without a REST URL goes straight to admin-ajax', async () => {
+    // the guard for an inline config that has no REST URL, such as a page cached by an earlier version
+    const { url, ...withoutUrl } = request();
+    const { infos, window } = loadPublic({ config: { request: withoutUrl } });
+    const calls = fakeFetch(window, []);
+    const sent = fakeXhr(window, [{ json: { reviews: '<div></div>' } }]);
+    const result = await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } });
+    assert.equal(calls.length, 0)
+    assert.equal(sent.length, 1)
+    assert.equal(sent[0].url, AJAX_URL)
+    assert.equal(fields(sent[0])._rest_query, 'page=2')
+    assert.deepEqual(plain(result), { data: { reviews: '<div></div>' }, status: 200, success: true })
+    assert.deepEqual(infos, ['Site Reviews is using the admin-ajax fallback (no REST URL).'])
+});
+
 test('a submission over admin-ajax carries the form fields, and leaves the form data alone', async () => {
     const { window } = loadPublic({ config: { request: request({ nonce: 'abc123' }) } });
     const calls = fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
