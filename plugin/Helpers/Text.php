@@ -12,7 +12,7 @@ class Text
         [$text, $map] = static::replaceTags(static::normalize($text));
         $excerptLength = $limit;
         if ($splitWords) {
-            $excerpt = static::words($text, $limit);
+            $excerpt = static::words(static::decode($text), $limit);
             $excerptLength = mb_strlen($excerpt);
         }
         $paragraphs = static::extractParagraphs($text, $excerptLength);
@@ -113,6 +113,36 @@ class Text
         return mb_substr((string) $text, 0, $stringLength);
     }
 
+    /**
+     * The text as a reader sees it: normalize() leaves the texturized
+     * punctuation as numeric entities, which are one character each.
+     */
+    protected static function decode(string $text): string
+    {
+        return html_entity_decode($text, \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
+    }
+
+    /**
+     * The length in $text of its first $length characters as decode() counts them.
+     */
+    protected static function encodedLength(string $text, int $length): int
+    {
+        if ($length < 1) {
+            return 0;
+        }
+        preg_match_all('/&(?:#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);|./isu', $text, $matches);
+        $encoded = 0;
+        $decoded = 0;
+        foreach ($matches[0] as $unit) {
+            $encoded += mb_strlen($unit);
+            $decoded += mb_strlen(static::decode($unit));
+            if ($decoded >= $length) {
+                break;
+            }
+        }
+        return $encoded;
+    }
+
     protected static function excerptIntlSplit(string $text, int $limit): int
     {
         $iterator = static::iterator($text);
@@ -153,15 +183,16 @@ class Text
         $paragraphs = array_map('trim', $paragraphs);
         $lastIndex = count($paragraphs) - 1;
         foreach ($paragraphs as $index => &$paragraph) {
-            $paragraphLength = mb_strlen($paragraph);
+            $paragraphLength = mb_strlen(static::decode($paragraph));
             if ($length > $paragraphLength || ($length === $paragraphLength && $index === $lastIndex)) {
                 $paragraph = sprintf('<p>%s</p>', $paragraph);
                 $length -= $paragraphLength;
                 continue;
             }
             if ($length > 0) {
-                $hidden = mb_substr($paragraph, $length);
-                $visible = mb_substr($paragraph, 0, $length);
+                $cut = static::encodedLength($paragraph, $length);
+                $hidden = mb_substr($paragraph, $cut);
+                $visible = mb_substr($paragraph, 0, $cut);
                 $paragraph = glsr(Builder::class)->p([
                     'class' => 'glsr-hidden-text',
                     'data-show-less' => __('Show less', 'site-reviews'),

@@ -124,6 +124,21 @@ test('a paragraph past the cut is hidden whole', function () {
         ->toContain('<p class="glsr-hidden">second paragraph here</p>');
 });
 
+test('texturized punctuation counts as one character, not as its entity', function () {
+    // normalize() leaves a curly quote as the seven-character &#8220;. Counted as written, a
+    // quoted review was cut six characters short per quote.
+    $excerpt = Text::excerpt('He said "hello" and then left', 10, false);
+
+    expect($excerpt)->toContain('He said &#8220;h<span class="glsr-hidden">ello&#8221; and then left</span>');
+});
+
+test('an entity does not count as a word', function () {
+    // The word-break rules read &#8220; as the number 8220: a quoted word cost two words.
+    $excerpt = Text::excerpt('I said "hello" to them all', 3);
+
+    expect($excerpt)->toContain('I said &#8220;hello<span class="glsr-hidden">&#8221; to them all</span>');
+});
+
 test('html tags do not count against the limit, and survive the excerpt', function () {
     // Tags are swapped out for a placeholder before measuring and restored afterwards, so
     // a link mid-review is neither truncated in half nor counted as words.
