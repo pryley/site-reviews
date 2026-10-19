@@ -4,6 +4,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewLocationTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewResponseTag;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTitleTag;
 use GeminiLabs\SiteReviews\Review;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -163,6 +164,22 @@ test('a response is printed under the review, saying who it is from', function (
     expect($rendered)->toContain('glsr-review-response-inner')
         ->toContain('Response from '.get_bloginfo('name'))
         ->toContain('Thank you for the kind words!');
+});
+
+test('a response curls its quotes as the review text does', function () {
+    // WordPress texturizes post titles and content; the review's content already curls through
+    // Text::normalize, so typed quotes read the same in every part of the review.
+    expect((new ReviewResponseTag('response'))->handleFor('review', 'We said "thanks" -- twice', createReview()))
+        ->toContain('We said &#8220;thanks&#8221; &#8212; twice');
+});
+
+test('a title curls its quotes, and an empty title still reads "No Title"', function () {
+    $review = createReview();
+
+    expect((new ReviewTitleTag('title'))->handleFor('review', 'A "great" product', $review))
+        ->toContain('A &#8220;great&#8221; product');
+    expect((new ReviewTitleTag('title'))->handleFor('review', '', $review))
+        ->toContain('No Title');
 });
 
 test('a review with no response prints nothing, not an empty box', function () {

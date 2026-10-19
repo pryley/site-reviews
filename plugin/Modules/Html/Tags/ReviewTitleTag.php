@@ -14,6 +14,6 @@ class ReviewTitleTag extends ReviewTag
 
     protected function value(): string
     {
-        return $this->value ?: __('No Title', 'site-reviews');
+        return wptexturize($this->value) ?: __('No Title', 'site-reviews');
     }
 }
