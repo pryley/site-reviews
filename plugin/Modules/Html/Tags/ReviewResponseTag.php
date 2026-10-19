@@ -19,7 +19,7 @@ class ReviewResponseTag extends ReviewContentTag
         $responseBy = glsr()->filterString('review/build/tag/response/by', get_bloginfo('name'), $this->review);
         /* translators: %s: the name of the site */
         $title = sprintf(__('Response from %s', 'site-reviews'), $responseBy);
-        $value = parent::value();
+        $value = wptexturize(parent::value());
         return glsr(Builder::class)->div([
             'class' => 'glsr-review-response-inner',
             'text' => sprintf('<p><strong>%s</strong></p>%s', $title, $value),
