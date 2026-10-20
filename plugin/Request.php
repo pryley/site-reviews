@@ -37,8 +37,6 @@ class Request extends Arguments
 
     /**
      * @return static
-     *
-     * @todo support array values
      */
     public static function inputGet(): Request
     {
