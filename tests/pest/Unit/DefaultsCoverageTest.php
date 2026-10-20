@@ -247,6 +247,23 @@ test('an addon tested up to the same minor as this wordpress reads as tested on 
     \GeminiLabs\SiteReviews\Defaults\Updater\VersionDefaults::class,
 ]);
 
+test('the update answer keeps the plugin that replaces a retired addon', function () {
+    // A retired addon's last release shows the replacement in a notice, so the three fields
+    // survive the restriction and reach the update_plugins transient.
+    $values = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults::class)->restrict([
+        'new_version' => '3.1.0',
+        'replaced_by' => 'site-reviews-emails',
+        'replaced_by_name' => 'Review Emails',
+        'replaced_by_url' => 'https://niftyplugins.com/plugins/site-reviews-emails/',
+        'unknown' => 'dropped',
+    ]);
+
+    expect($values['replaced_by'])->toBe('site-reviews-emails')
+        ->and($values['replaced_by_name'])->toBe('Review Emails')
+        ->and($values['replaced_by_url'])->toBe('https://niftyplugins.com/plugins/site-reviews-emails/')
+        ->and($values)->not->toHaveKey('unknown');
+});
+
 test('an activated or checked lifetime licence gets a far-away expiry too', function (string $class) {
     $values = glsr($class)->merge(['expires' => 'lifetime', 'license' => 'abc123', 'success' => '1']);
 
