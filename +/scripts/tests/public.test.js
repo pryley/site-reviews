@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { PUBLIC_INLINE_83, loadPublic, publicConfig } = require('./harness.js');
 
-const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
+const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'historyState', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
 
 // Values that cross the jsdom realm are compared as JSON.
 const plain = (value) => JSON.parse(JSON.stringify(value));
@@ -70,7 +70,7 @@ test('the built inline script names each value that PHP supplies once, so that n
     }
 });
 
-test('Util has the nine helpers', () => {
+test('Util has the ten helpers', () => {
     const { window } = loadPublic();
     assert.deepEqual(Object.keys(window.GLSR.Util).sort(), UTIL)
 });

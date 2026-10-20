@@ -213,6 +213,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.4.0 (unreleased) =
 
+- Fixed the browser's Back button reloading the page when going back through paged or filtered reviews on a site whose theme loads the WordPress 7.1 interactivity runtime
 - Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium

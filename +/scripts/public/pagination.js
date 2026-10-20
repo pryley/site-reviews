@@ -1,5 +1,6 @@
 import Button from '@/public/button.js';
 import config from '@/public/config.js';
+import { historyState } from '@/public/helpers.js';
 import report from '@/public/report.js';
 import Request from '@/public/request.js';
 
@@ -65,7 +66,7 @@ class Pagination {
             const data = this._data(current);
             const nextLink = current.nextElementSibling;
             if (data && nextLink && 2 === +nextLink.dataset.page && config.pagination.urlParameter) { // window loaded page 1
-                window.history.replaceState(data, '', window.location)
+                window.history.replaceState(historyState(data), '', window.location)
             }
         }
     }
@@ -134,7 +135,7 @@ class Pagination {
         this._paginate(response)
         report('pagination', { id: this.wrapperEl.id, page: request.page, url: request.url })
         if (config.pagination.urlParameter) {
-            window.history.pushState(request, '', linkEl.href) // add a new entry to browser History
+            window.history.pushState(historyState(request), '', linkEl.href)
         }
     }
 

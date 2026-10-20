@@ -183,6 +183,21 @@ test('a page change fires review/paginated and then review/initialized for that 
     assert.deepEqual(names(fired).length, 2)
 });
 
+test('a page change keeps the interactivity runtime\'s id on the history entry', async () => {
+    const { window } = load({ compat: false });
+    await settle(25)
+    const { document } = window;
+    // WordPress 7.1 stamps the entry it loads on and reloads the page on a back to an entry without the stamp
+    window.history.replaceState({ wpInteractivityId: 'runtime' }, '')
+    window.GLSR_init()
+    answer(window, { pagination: '<a data-page="1" href="?reviews-page=1">1</a>', reviews: '<div class="glsr-review" id="review-2"></div>' })
+    document.querySelector('.glsr-pagination a').dispatchEvent(new window.Event('click', { cancelable: true }))
+    await settle()
+    assert.equal(window.history.state.wpInteractivityId, 'runtime')
+    assert.equal(window.history.state.page, '2')
+    assert.equal(window.location.search, '?reviews-page=2')
+});
+
 test('a modal fires opened once the dialog is shown, and closed', () => {
     const { window } = load({ compat: false });
     const { GLSR } = window;

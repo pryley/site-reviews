@@ -10,7 +10,7 @@ import report, { attach, expect } from '@/public/report.js';
 import Request, { submitUnrouted } from '@/public/request.js';
 import Review, { initModal as initReviewModal } from '@/public/review.js';
 import Summary from '@/public/summary.js';
-import { debounce, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
+import { debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
 
 const initPlugin = (root = document) => {
     // every wrapper gets the class, including those of features that do not set it themselves
@@ -36,7 +36,7 @@ const openReview = () => {
     const requestKeys = ['form', 'review_id', 'theme', 'verified'];
     const values = Object.fromEntries(requestKeys.filter(k => k in params).map(k => [k, params[k]]));
     requestKeys.forEach(k => url.searchParams.delete(k));
-    history.replaceState({}, '', url);
+    history.replaceState(historyState(), '', url);
     Review.open(params.review_id, values)
 }
 
@@ -65,7 +65,7 @@ if (config.debug?.url && new URLSearchParams(location.search).has('glsr-debug'))
     registry.register({ 'debug.public': config.debug.url })
     registry.load('debug.public').catch(() => {})
 }
-window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle };
+window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 
 window.GLSR_init = (first, ...args) => {
     initEvents()

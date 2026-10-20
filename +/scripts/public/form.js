@@ -6,6 +6,7 @@ import config from '@/public/config.js';
 import Conditions from '@/public/conditions.js';
 import Event from '@/public/event.js';
 import feature, { direction } from '@/public/feature.js';
+import { historyState } from '@/public/helpers.js';
 import report from '@/public/report.js';
 import Request from '@/public/request.js';
 import Review from '@/public/review.js';
@@ -154,7 +155,7 @@ class Form {
             if (config.pagination.urlParameter) {
                 let url = new URL(location.href);
                 url.searchParams.delete(config.pagination.urlParameter);
-                window.history.replaceState({}, '', url.toString());
+                window.history.replaceState(historyState(), '', url.toString());
             }
             Review.init(reviewsEl)
         }
