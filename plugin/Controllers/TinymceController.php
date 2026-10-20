@@ -23,7 +23,7 @@ class TinymceController extends AbstractController
             ],
             'required' => [],
         ];
-        if (!user_can_richedit()) { // @todo why are we checking this?
+        if (!user_can_richedit()) {
             return $config;
         }
         foreach (glsr()->retrieveAs('array', 'mce', []) as $tag => $args) {

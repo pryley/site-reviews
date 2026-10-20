@@ -148,7 +148,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
         if (empty($args['assigned_posts'])) {
             $args['assigned_posts_types'] = ['product'];
         }
-        $results = glsr_get_reviews($args); // @todo only return product reviews!
+        $results = glsr_get_reviews($args);
         $reviews = [];
         foreach ($results->reviews as $review) {
             if ($this->checkPermissionForProductReview('read', $review->ID)) {

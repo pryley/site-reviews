@@ -151,7 +151,6 @@ class Conditions {
             data.conditions.forEach(field => {
                 const observedEl = this.elements.filter(el => el.closest(`[data-field="${field.name}"]`)).shift();
                 if (!observedEl) return;
-                // @todo check for existing observedEl?
                 el.conditions.observes.push({ el: observedEl, ...field });
             })
             if (el.conditions.observes.length) {
