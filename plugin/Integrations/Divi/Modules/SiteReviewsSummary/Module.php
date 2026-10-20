@@ -26,11 +26,8 @@ class Module extends DiviModule
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
         $barColor = $args['attrs']['design']['decoration']['barColor']['desktop']['value']['color'] ?? '';
         $args['classnamesInstance']->add('has-bar-color', !empty($barColor));
-        // Review Themes adds the theme attribute; a theme colours its own stars.
-        if (empty($args['attrs']['shortcode']['advanced']['theme']['desktop']['value'])) {
-            $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
-            $args['classnamesInstance']->add('has-rating-color', !empty($ratingColor));
-        }
+        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
+        $args['classnamesInstance']->add('has-rating-color', !empty($ratingColor));
         $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? null;
         if (!empty($alignSelf)) {
             $normalized = str_replace('flex-', '', $alignSelf);

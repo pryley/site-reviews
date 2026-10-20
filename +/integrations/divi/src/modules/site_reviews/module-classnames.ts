@@ -1,6 +1,6 @@
 import { type ModuleAttrs } from './types';
 import { type ModuleClassnamesParams, textOptionsClassnames, getBackgroundLayoutClassnames } from '@divi/module';
-import { isEmpty, isString } from 'lodash';
+import { isString } from 'lodash';
 
 export const moduleClassnames = ({
     attrs,
@@ -17,9 +17,6 @@ export const moduleClassnames = ({
         }
     }))
     // @ts-expect-error
-    if (isEmpty(attrs?.shortcode?.advanced?.theme?.desktop?.value)) {
-        // @ts-expect-error
-        const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;
-        classnamesInstance.add('has-rating-color', isString(ratingColor) && '' !== ratingColor)
-    }
+    const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;
+    classnamesInstance.add('has-rating-color', isString(ratingColor) && '' !== ratingColor)
 };
