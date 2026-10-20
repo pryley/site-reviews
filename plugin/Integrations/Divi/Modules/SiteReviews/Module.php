@@ -24,11 +24,8 @@ class Module extends DiviModule
     {
         parent::module_classnames($args);
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        // Review Themes adds the theme attribute; a theme colours its own stars.
-        if (empty($args['attrs']['shortcode']['advanced']['theme']['desktop']['value'])) {
-            $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
-            $args['classnamesInstance']->add('has-rating-color', !empty($ratingColor));
-        }
+        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
+        $args['classnamesInstance']->add('has-rating-color', !empty($ratingColor));
     }
 
     /**
