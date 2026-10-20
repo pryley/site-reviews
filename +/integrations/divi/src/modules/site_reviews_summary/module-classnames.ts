@@ -11,11 +11,8 @@ export const moduleClassnames = ({
     const barColor = attrs?.design?.decoration?.barColor?.desktop?.value?.color;
     classnamesInstance.add('has-bar-color', isString(barColor) && '' !== barColor)
     // @ts-expect-error
-    if (isEmpty(attrs?.shortcode?.advanced?.theme?.desktop?.value)) {
-        // @ts-expect-error
-        const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;
-        classnamesInstance.add('has-rating-color', isString(ratingColor) && '' !== ratingColor)
-    }
+    const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;
+    classnamesInstance.add('has-rating-color', isString(ratingColor) && '' !== ratingColor)
     // @ts-expect-error
     const alignSelf = attrs?.module?.decoration?.sizing?.desktop?.value?.alignSelf;
     if (!isEmpty(alignSelf)) {
