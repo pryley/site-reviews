@@ -2,7 +2,7 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Reviews 8.3.6\n"
+"Project-Id-Version: Site Reviews 8.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-reviews\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
@@ -1494,8 +1494,8 @@ msgid "Display the fallback text when there are no reviews to display. This can 
 msgstr ""
 
 #: config/settings.php:444
-#: helpers.php:126
-#: plugin/Controllers/MenuController.php:182
+#: helpers.php:127
+#: plugin/Controllers/MenuController.php:183
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -2281,53 +2281,73 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr ""
 
-#: helpers.php:108
-#: plugin/Controllers/MenuController.php:122
-#: plugin/Controllers/MenuController.php:184
+#: config/settings.php:1205
+msgctxt "admin-text"
+msgid "Compatibility Mode"
+msgstr ""
+
+#: config/settings.php:1207
+msgctxt "admin-text"
+msgid "Keeps code written for earlier versions of Site Reviews working: addons, and code snippets that use older Javascript names. Turn this off to check that your site no longer needs it."
+msgstr ""
+
+#: config/settings.php:1212
+msgctxt "admin-text"
+msgid "Debug Mode"
+msgstr ""
+
+#: config/settings.php:1214
+msgctxt "admin-text"
+msgid "Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again."
+msgstr ""
+
+#: helpers.php:109
+#: plugin/Controllers/MenuController.php:123
+#: plugin/Controllers/MenuController.php:186
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
-#: helpers.php:109
-#: plugin/Controllers/MenuController.php:120
+#: helpers.php:110
+#: plugin/Controllers/MenuController.php:121
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: helpers.php:110
-#: plugin/Controllers/MenuController.php:210
+#: helpers.php:111
+#: plugin/Controllers/MenuController.php:216
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: helpers.php:111
-#: plugin/Controllers/MenuController.php:67
+#: helpers.php:112
+#: plugin/Controllers/MenuController.php:68
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr ""
 
-#: helpers.php:112
+#: helpers.php:113
 #: plugin/Commands/DetectIpAddress.php:14
-#: plugin/Controllers/MenuController.php:116
+#: plugin/Controllers/MenuController.php:117
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
-#: helpers.php:113
-#: plugin/Controllers/MenuController.php:180
+#: helpers.php:114
+#: plugin/Controllers/MenuController.php:181
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: helpers.php:114
-#: plugin/Controllers/MenuController.php:119
+#: helpers.php:115
+#: plugin/Controllers/MenuController.php:120
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
-#: helpers.php:115
-#: plugin/Controllers/MenuController.php:178
-#: plugin/Controllers/MenuController.php:207
+#: helpers.php:116
+#: plugin/Controllers/MenuController.php:179
+#: plugin/Controllers/MenuController.php:213
 #: plugin/Integrations/Avada/Defaults/ControlDefaults.php:46
 #: plugin/Integrations/Breakdance/Transformer.php:141
 #: plugin/Integrations/Bricks/BricksElement.php:127
@@ -2338,35 +2358,35 @@ msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: helpers.php:116
-#: plugin/Controllers/MenuController.php:118
+#: helpers.php:117
+#: plugin/Controllers/MenuController.php:119
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
-#: helpers.php:117
-#: plugin/Controllers/MenuController.php:121
-#: plugin/Controllers/MenuController.php:183
+#: helpers.php:118
+#: plugin/Controllers/MenuController.php:122
+#: plugin/Controllers/MenuController.php:184
 msgctxt "admin-text"
 msgid "Integrations"
 msgstr ""
 
-#: helpers.php:118
-#: plugin/Controllers/MenuController.php:186
+#: helpers.php:119
+#: plugin/Controllers/MenuController.php:188
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: helpers.php:119
-#: plugin/Controllers/MenuController.php:123
-#: plugin/Controllers/MenuController.php:185
+#: helpers.php:120
+#: plugin/Controllers/MenuController.php:124
+#: plugin/Controllers/MenuController.php:187
 #: views/pages/premium/index.php:33
 msgctxt "admin-text"
 msgid "Premium"
 msgstr ""
 
-#: helpers.php:121
-#: plugin/Controllers/MenuController.php:179
+#: helpers.php:122
+#: plugin/Controllers/MenuController.php:180
 #: plugin/Controllers/PrivacyController.php:138
 #: plugin/Defaults/PostTypeLabelDefaults.php:29
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:95
@@ -2379,14 +2399,14 @@ msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: helpers.php:122
-#: plugin/Controllers/MenuController.php:208
+#: helpers.php:123
+#: plugin/Controllers/MenuController.php:214
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: helpers.php:123
-#: plugin/Controllers/MenuController.php:181
+#: helpers.php:124
+#: plugin/Controllers/MenuController.php:182
 #: plugin/Integrations/Breakdance/Transformer.php:132
 #: plugin/Integrations/Bricks/Controller.php:37
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:82
@@ -2397,10 +2417,10 @@ msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: helpers.php:124
-#: plugin/Addons/Controller.php:51
+#: helpers.php:125
+#: plugin/Addons/Controller.php:45
 #: plugin/Controllers/AdminController.php:72
-#: plugin/Controllers/MenuController.php:65
+#: plugin/Controllers/MenuController.php:66
 #: views/pages/tools/sync.php:23
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -2410,88 +2430,90 @@ msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: helpers.php:125
-#: plugin/Controllers/MenuController.php:117
+#: helpers.php:126
+#: plugin/Controllers/MenuController.php:118
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
-#: helpers.php:127
-#: plugin/Addons/Controller.php:289
-#: plugin/Controllers/MenuController.php:115
+#: helpers.php:128
+#: plugin/Addons/Controller.php:283
+#: plugin/Controllers/MenuController.php:116
 #: plugin/Controllers/WelcomeController.php:66
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: helpers.php:129
-#: plugin/Controllers/MenuController.php:211
+#: helpers.php:130
+#: plugin/Controllers/MenuController.php:217
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: helpers.php:130
-#: plugin/Controllers/MenuController.php:66
+#: helpers.php:131
+#: plugin/Controllers/MenuController.php:67
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: helpers.php:144
+#: helpers.php:145
 msgctxt "admin-text"
 msgid "All Reviews"
 msgstr ""
 
-#: helpers.php:272
+#: helpers.php:273
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
 
-#: helpers.php:273
+#: helpers.php:274
 msgctxt "admin-text"
 msgid "Review Actions"
 msgstr ""
 
-#: helpers.php:274
+#: helpers.php:275
 msgctxt "admin-text"
 msgid "Review Alerts"
 msgstr ""
 
-#: helpers.php:275
+#: helpers.php:276
 msgctxt "admin-text"
 msgid "Review Authors"
 msgstr ""
 
-#: helpers.php:276
+#: helpers.php:277
 msgctxt "admin-text"
 msgid "Review Filters"
 msgstr ""
 
-#: helpers.php:277
+#: helpers.php:278
 msgctxt "admin-text"
 msgid "Review Forms"
 msgstr ""
 
-#: helpers.php:278
+#: helpers.php:279
 msgctxt "admin-text"
 msgid "Review Images"
 msgstr ""
 
-#: helpers.php:279
+#: helpers.php:280
 msgctxt "admin-text"
 msgid "Review Notifications"
 msgstr ""
 
-#: helpers.php:280
+#: helpers.php:281
+#: plugin/Licensing/LicenseRow.php:165
+#: views/partials/settings/premium-license.php:4
 msgctxt "admin-text"
 msgid "Site Reviews Premium"
 msgstr ""
 
-#: helpers.php:281
+#: helpers.php:282
 msgctxt "admin-text"
 msgid "Review Themes"
 msgstr ""
 
-#: plugin/Addons/Controller.php:284
+#: plugin/Addons/Controller.php:278
 #: plugin/Controllers/AdminController.php:98
 #: views/pages/tools/sync.php:25
 #: views/partials/notices/welcome.php:19
@@ -2499,82 +2521,84 @@ msgctxt "admin-text"
 msgid "Documentation"
 msgstr ""
 
-#: plugin/Addons/Controller.php:288
+#: plugin/Addons/Controller.php:282
 msgctxt "admin-text"
 msgid "Visit premium customer support"
 msgstr ""
 
-#: plugin/Addons/UpdateNotice.php:60
-#: plugin/Addons/UpdateNotice.php:90
+#: plugin/Addons/UpdateNotice.php:72
+#: plugin/Addons/UpdateNotice.php:102
 msgctxt "admin-text"
 msgid "license key"
 msgstr ""
 
 #. translators: %s: link with the text "license key"
-#: plugin/Addons/UpdateNotice.php:62
+#: plugin/Addons/UpdateNotice.php:74
 #, php-format
 msgctxt "admin-text"
 msgid "A valid %s is required to update this plugin."
 msgstr ""
 
-#: plugin/Addons/UpdateNotice.php:66
+#: plugin/Addons/UpdateNotice.php:78
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:64
+#: plugin/Licensing/LicenseRow.php:297
 msgctxt "admin-text"
 msgid "contact support"
 msgstr ""
 
 #. translators: %s: link with the text "contact support"
-#: plugin/Addons/UpdateNotice.php:68
+#: plugin/Addons/UpdateNotice.php:80
 #, php-format
 msgctxt "admin-text"
 msgid "Your license has been disabled. Please %s to update this plugin."
 msgstr ""
 
-#: plugin/Addons/UpdateNotice.php:72
+#: plugin/Addons/UpdateNotice.php:84
 msgctxt "admin-text"
 msgid "Renew it"
 msgstr ""
 
 #. translators: %s: link with the text "Renew it"
-#: plugin/Addons/UpdateNotice.php:74
+#: plugin/Addons/UpdateNotice.php:86
 #, php-format
 msgctxt "admin-text"
 msgid "Your license has expired. %s to update this plugin."
 msgstr ""
 
-#: plugin/Addons/UpdateNotice.php:78
-#: plugin/Addons/UpdateNotice.php:84
+#: plugin/Addons/UpdateNotice.php:90
+#: plugin/Addons/UpdateNotice.php:96
 msgctxt "admin-text"
 msgid "Check it"
 msgstr ""
 
 #. translators: %s: link with the text "Check it"
-#: plugin/Addons/UpdateNotice.php:80
+#: plugin/Addons/UpdateNotice.php:92
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key was not recognized. %s to update this plugin."
 msgstr ""
 
 #. translators: %s: link with the text "Check it"
-#: plugin/Addons/UpdateNotice.php:86
+#: plugin/Addons/UpdateNotice.php:98
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key is for a different plugin. %s to update this plugin."
 msgstr ""
 
 #. translators: %s: link with the text "license key"
-#: plugin/Addons/UpdateNotice.php:92
+#: plugin/Addons/UpdateNotice.php:104
 #, php-format
 msgctxt "admin-text"
 msgid "Enter your %s to update this plugin."
 msgstr ""
 
-#: plugin/Addons/UpdateNotice.php:96
+#: plugin/Addons/UpdateNotice.php:108
 msgctxt "admin-text"
 msgid "Activate it"
 msgstr ""
 
 #. translators: %s: link with the text "Activate it"
-#: plugin/Addons/UpdateNotice.php:98
+#: plugin/Addons/UpdateNotice.php:110
 #, php-format
 msgctxt "admin-text"
 msgid "Your license is not activated for this site. %s to update this plugin."
@@ -2582,6 +2606,7 @@ msgstr ""
 
 #. translators: %s: link to the License Keys page
 #: plugin/Application.php:176
+#: plugin/Licensing/LicenseRow.php:116
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
@@ -2674,12 +2699,12 @@ msgid "Your review could not be submitted and the error has been logged. Please 
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:212
-#: plugin/Controllers/PublicController.php:117
+#: plugin/Controllers/PublicController.php:82
 msgid "Your review has been submitted!"
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:213
-#: plugin/Controllers/PublicController.php:118
+#: plugin/Controllers/PublicController.php:83
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
@@ -2897,29 +2922,7 @@ msgctxt "link to addon page (admin-text)"
 msgid "%s required."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:65
-#: plugin/Overrides/ReviewsListTable.php:81
-#: views/integrations/woocommerce/bulk-edit.php:8
-#: views/partials/screen/inline-edit.php:68
-#: views/partials/screen/inline-edit.php:88
-#: views/partials/screen/inline-edit.php:98
-msgctxt "admin-text"
-msgid "No Change"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:66
-#: plugin/Overrides/ReviewsListTable.php:89
-msgctxt "admin-text"
-msgid "No Author"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:69
-#: plugin/Metaboxes/AuthorMetabox.php:28
-msgctxt "admin-text"
-msgid "Author Unknown"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:95
+#: plugin/Commands/EnqueueAdminAssets.php:50
 #: plugin/Overrides/ScheduledActionsTable.php:114
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
@@ -2929,53 +2932,63 @@ msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:96
+#: plugin/Commands/EnqueueAdminAssets.php:51
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr ""
 
 #. translators: %s: maximum file upload size
-#: plugin/Commands/EnqueueAdminAssets.php:98
+#: plugin/Commands/EnqueueAdminAssets.php:53
 #, php-format
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:101
+#: plugin/Commands/EnqueueAdminAssets.php:56
+msgctxt "admin-text"
+msgid "Just a moment while we connect your site and install Site Reviews Premium."
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:57
+msgctxt "admin-text"
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:58
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:102
+#: plugin/Commands/EnqueueAdminAssets.php:59
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#. translators: %1$s: HTTP response status code, %2$s: response error message
-#: plugin/Commands/EnqueueAdminAssets.php:104
-#, php-format
-msgctxt "admin-text"
-msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:105
-msgctxt "admin-text"
-msgid "Unable to fetch the System Info."
-msgstr ""
-
 #. translators: %s: Site Health Info page URL
-#: plugin/Commands/EnqueueAdminAssets.php:107
+#: plugin/Commands/EnqueueAdminAssets.php:61
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:67
+#. translators: %1$s: HTTP response status code, %2$s: response error message
+#: plugin/Commands/EnqueueAdminAssets.php:65
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:66
+msgctxt "admin-text"
+msgid "Unable to fetch the System Info."
+msgstr ""
+
+#: plugin/Commands/EnqueuePublicAssets.php:31
 #: plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:73
+#: plugin/Commands/EnqueuePublicAssets.php:46
 msgid "Close Modal"
 msgstr ""
 
@@ -3323,6 +3336,37 @@ msgctxt "admin-text"
 msgid "Review unverified."
 msgstr ""
 
+#. translators: %s: plugin name
+#: plugin/Commands/ValidateSettings.php:43
+#, php-format
+msgctxt "admin-text"
+msgid "Please install/activate the %s plugin to enable the integration."
+msgstr ""
+
+#. translators: %1$s: plugin name, %2$s: version number
+#: plugin/Commands/ValidateSettings.php:51
+#, php-format
+msgctxt "admin-text"
+msgid "Please update the %1$s plugin to v%2$s or greater to enable the integration."
+msgstr ""
+
+#. translators: %s: the missing placeholder tag
+#: plugin/Commands/ValidateSettings.php:171
+#, php-format
+msgctxt "admin-text"
+msgid "You forgot to include the %s placeholder tags in your Custom Text."
+msgstr ""
+
+#: plugin/Compat/Controllers/AjaxController.php:65
+#: plugin/Controllers/Api/Version1/RestRenderController.php:103
+msgid "Thank you, your review has been verified."
+msgstr ""
+
+#: plugin/Compat/Controllers/AjaxController.php:66
+#: plugin/Controllers/Api/Version1/RestRenderController.php:104
+msgid "Thank you, your review has been verified and is awaiting approval."
+msgstr ""
+
 #: plugin/Controllers/AdminController.php:101
 msgctxt "admin-text"
 msgid "Visit community forums"
@@ -3357,11 +3401,17 @@ msgctxt "admin-text"
 msgid "Import"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:309
-#: plugin/Controllers/AdminController.php:327
-#: plugin/Controllers/AdminController.php:340
+#: plugin/Controllers/AdminController.php:267
+#: plugin/Controllers/AdminController.php:285
+#: plugin/Controllers/AdminController.php:298
 msgctxt "admin-text"
 msgid "Nothing found."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/AbstractRestController.php:47
+#: plugin/Router.php:231
+#: views/pages/documentation/support/common-problems-and-solutions.php:62
+msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:13
@@ -3560,16 +3610,6 @@ msgstr ""
 msgid "The review does not exist."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestRenderController.php:103
-#: plugin/Controllers/VerificationController.php:96
-msgid "Thank you, your review has been verified."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestRenderController.php:104
-#: plugin/Controllers/VerificationController.php:97
-msgid "Thank you, your review has been verified and is awaiting approval."
-msgstr ""
-
 #: plugin/Controllers/Api/Version1/RestReviewController.php:38
 msgctxt "admin-text"
 msgid "Review creation failed, please check the Site Reviews console log for more details."
@@ -3613,15 +3653,10 @@ msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
 msgstr ""
 
+#: plugin/Controllers/Api/Version1/RestSearchController.php:19
 #: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSubmissionController.php:21
-#: plugin/Router.php:227
-#: views/pages/documentation/support/common-problems-and-solutions.php:62
-msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSummaryController.php:22
@@ -3929,7 +3964,7 @@ msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
 #: plugin/Controllers/FlyoutController.php:36
-#: plugin/Controllers/MenuController.php:68
+#: plugin/Controllers/MenuController.php:69
 msgctxt "admin-text"
 msgid "Upgrade to Premium"
 msgstr ""
@@ -3960,52 +3995,6 @@ msgctxt "admin-text"
 msgid "Rate Site Reviews ★★★★★ on Wordpress"
 msgstr ""
 
-#. translators: %s: the relative expiry date (e.g. 3 days ago)
-#: plugin/Controllers/LicensingController.php:82
-#, php-format
-msgctxt "admin-text"
-msgid "A license you entered has expired: %s."
-msgstr ""
-
-#. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:86
-#, php-format
-msgctxt "link to License Keys page (admin-text)"
-msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:94
-msgctxt "admin-text"
-msgid "A license you entered has not been activated for your website."
-msgstr ""
-
-#. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:96
-#, php-format
-msgctxt "link to License Keys page (admin-text)"
-msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:105
-msgctxt "admin-text"
-msgid "A license you entered is either invalid or has been revoked."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:111
-msgctxt "admin-text"
-msgid "A license you entered is for a different product."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:112
-msgctxt "admin-text"
-msgid "Please enter each license key in the field of the addon it was purchased for."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:119
-msgctxt "admin-text"
-msgid "The license server could not be reached. Please try again later."
-msgstr ""
-
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:12
 msgctxt "admin-text"
 msgid "Filter by assigned post"
@@ -4021,7 +4010,7 @@ msgctxt "admin-text"
 msgid "No assigned post"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:47
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:52
 msgctxt "admin-text"
 msgid "Assigned Post"
 msgstr ""
@@ -4041,7 +4030,7 @@ msgctxt "admin-text"
 msgid "No assigned user"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:48
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:53
 msgctxt "admin-text"
 msgid "Assigned User"
 msgstr ""
@@ -4061,7 +4050,7 @@ msgctxt "admin-text"
 msgid "No author"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:22
+#: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:27
 #: plugin/Metaboxes/AuthorMetabox.php:22
 #: plugin/Metaboxes/AuthorMetabox.php:39
 #: views/partials/screen/inline-edit.php:77
@@ -4146,63 +4135,63 @@ msgid "Unknown"
 msgstr ""
 
 #. translators: %s: user's name
-#: plugin/Controllers/ListTableController.php:40
-#: plugin/Controllers/ListTableController.php:55
+#: plugin/Controllers/ListTableController.php:38
+#: plugin/Controllers/ListTableController.php:53
 #, php-format
 msgctxt "admin-text"
 msgid "%s is currently editing"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:90
+#: plugin/Controllers/ListTableController.php:88
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:172
+#: plugin/Controllers/ListTableController.php:170
 msgctxt "admin-text"
 msgid "Approve this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:175
+#: plugin/Controllers/ListTableController.php:173
 #: plugin/Controllers/TranslationController.php:178
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:178
+#: plugin/Controllers/ListTableController.php:176
 msgctxt "admin-text"
 msgid "Unapprove this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:181
+#: plugin/Controllers/ListTableController.php:179
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
 #. translators: %s: review title
-#: plugin/Controllers/ListTableController.php:188
+#: plugin/Controllers/ListTableController.php:186
 #, php-format
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:190
+#: plugin/Controllers/ListTableController.php:188
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:272
+#: plugin/Controllers/ListTableController.php:270
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:275
+#: plugin/Controllers/ListTableController.php:273
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
 #. translators: %s: user's name
-#: plugin/Controllers/ListTableController.php:281
+#: plugin/Controllers/ListTableController.php:279
 #, php-format
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
@@ -4213,7 +4202,18 @@ msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:209
+#: plugin/Controllers/MenuController.php:185
+#: plugin/Integrations/Avada/Defaults/ControlDefaults.php:44
+#: plugin/Integrations/Breakdance/Transformer.php:142
+#: plugin/Integrations/Bricks/BricksElement.php:131
+#: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:78
+#: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29
+#: plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
+msgctxt "admin-text"
+msgid "Advanced"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:215
 #: views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
@@ -4239,30 +4239,9 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:52
+#: plugin/Controllers/SettingsController.php:47
 msgctxt "admin-text"
 msgid "Settings updated."
-msgstr ""
-
-#. translators: %s: the missing placeholder tag
-#: plugin/Controllers/SettingsController.php:140
-#, php-format
-msgctxt "admin-text"
-msgid "You forgot to include the %s placeholder tags in your Custom Text."
-msgstr ""
-
-#. translators: %s: plugin name
-#: plugin/Controllers/SettingsController.php:158
-#, php-format
-msgctxt "admin-text"
-msgid "Please install/activate the %s plugin to enable the integration."
-msgstr ""
-
-#. translators: %1$s: plugin name, %2$s: version number
-#: plugin/Controllers/SettingsController.php:165
-#, php-format
-msgctxt "admin-text"
-msgid "Please update the %1$s plugin to v%2$s or greater to enable the integration."
 msgstr ""
 
 #: plugin/Controllers/TaxonomyController.php:24
@@ -4283,86 +4262,79 @@ msgctxt "admin-text"
 msgid "TTID"
 msgstr ""
 
-#: plugin/Controllers/TinymceController.php:42
+#: plugin/Controllers/TinymceController.php:47
 msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:118
+#: plugin/Controllers/ToolsController.php:117
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:140
+#: plugin/Controllers/ToolsController.php:139
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:162
+#: plugin/Controllers/ToolsController.php:161
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:185
+#: plugin/Controllers/ToolsController.php:184
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:192
+#: plugin/Controllers/ToolsController.php:191
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:207
+#: plugin/Controllers/ToolsController.php:206
 msgctxt "admin-text"
 msgid "Your user role does not have permission to view the system info."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:249
+#: plugin/Controllers/ToolsController.php:248
 msgctxt "admin-text"
 msgid "You do not have permission to remove location data from reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:250
+#: plugin/Controllers/ToolsController.php:249
 msgctxt "admin-text"
 msgid "You do not have permission to geolocate reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:271
+#: plugin/Controllers/ToolsController.php:270
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:298
+#: plugin/Controllers/ToolsController.php:297
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:366
+#: plugin/Controllers/ToolsController.php:365
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/ToolsController.php:371
+#: plugin/Controllers/ToolsController.php:370
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#. translators: %s: plugin name
-#: plugin/Controllers/ToolsController.php:427
-#, php-format
-msgctxt "Site Reviews (admin-text)"
-msgid "Sorry, you are not allowed to rollback %s."
-msgstr ""
-
-#: plugin/Controllers/ToolsController.php:446
+#: plugin/Controllers/ToolsController.php:426
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:451
+#: plugin/Controllers/ToolsController.php:431
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
 msgid "Rollback is unavailable because the Site Reviews folder is a git repository."
@@ -4451,20 +4423,20 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/UpdateController.php:47
+#: plugin/Controllers/UpdateController.php:46
 msgctxt "admin-text"
 msgid "The following Site Reviews addons did not update because their license does not allow it:"
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/UpdateController.php:241
+#: plugin/Controllers/UpdateController.php:224
 #, php-format
 msgctxt "admin-text"
 msgid "Updates are turned off for %s because its folder is a git repository."
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/UpdateController.php:319
+#: plugin/Controllers/UpdateController.php:252
 #, php-format
 msgctxt "admin-text"
 msgid "%s was not updated because its folder is a git repository."
@@ -5240,16 +5212,6 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Integrations/Avada/Defaults/ControlDefaults.php:44
-#: plugin/Integrations/Breakdance/Transformer.php:142
-#: plugin/Integrations/Bricks/BricksElement.php:131
-#: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:78
-#: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29
-#: plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
-msgctxt "admin-text"
-msgid "Advanced"
-msgstr ""
-
 #: plugin/Integrations/Avada/Defaults/ControlDefaults.php:45
 #: plugin/Integrations/Bricks/BricksElement.php:136
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:91
@@ -5424,7 +5386,7 @@ msgid "Search Review..."
 msgstr ""
 
 #: plugin/Integrations/Avada/Transformer.php:91
-#: views/partials/listtable/filter.php:13
+#: views/partials/listtable/filter.php:24
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_form/index.js:1
@@ -5915,22 +5877,22 @@ msgctxt "(loyalty-program-for-woocommerce) admin-text"
 msgid "View Product"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:70
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:97
 msgctxt "multilingualpress text (admin-text)"
 msgid "Overwrite the content of the translated review with the content of the source review."
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:71
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:98
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Slug:"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:72
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:99
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Status:"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:73
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:100
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Title:"
 msgstr ""
@@ -6151,11 +6113,417 @@ msgstr ""
 msgid "Justified"
 msgstr ""
 
+#: plugin/Licensing/Commands/AbstractCommand.php:40
+msgctxt "admin-text"
+msgid "You are not allowed to manage license keys on this site."
+msgstr ""
+
+#: plugin/Licensing/Commands/AbstractCommand.php:48
+#: plugin/Licensing/Commands/Install.php:143
+msgctxt "admin-text"
+msgid "Open the License Keys page of your account"
+msgstr ""
+
+#: plugin/Licensing/Commands/AbstractCommand.php:58
+#: plugin/Licensing/Commands/Install.php:153
+msgctxt "admin-text"
+msgid "Download Site Reviews Premium from your account and install it manually"
+msgstr ""
+
+#: plugin/Licensing/Commands/AbstractCommand.php:74
+msgctxt "admin-text"
+msgid "Contact support"
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:97
+msgctxt "admin-text"
+msgid "You are not allowed to install plugins on this site."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:103
+#: plugin/Licensing/Commands/Install.php:44
+msgctxt "admin-text"
+msgid "Plugin installation is disabled on this site."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:108
+msgctxt "admin-text"
+msgid "Please verify your license key first."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:124
+msgctxt "admin-text"
+msgid "This site's addresses are on different hosts, so the store cannot send you back to it."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:139
+msgctxt "admin-text"
+msgid "The license server did not name a page to install from. Please install Site Reviews Premium manually."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:158
+msgctxt "admin-text"
+msgid "Site Reviews Premium cannot be installed from here because WordPress needs FTP credentials to write files on this site."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:169
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews Premium requires WordPress %s or later."
+msgstr ""
+
+#: plugin/Licensing/Commands/Authorize.php:174
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews Premium requires PHP %s or later."
+msgstr ""
+
+#: plugin/Licensing/Commands/Deactivate.php:29
+msgctxt "admin-text"
+msgid "No license key is saved."
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:37
+msgctxt "admin-text"
+msgid "This install request has been used or has expired. Please start again from your website."
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:71
+#: plugin/Licensing/Controllers/Controller.php:39
+msgctxt "admin-text"
+msgid "Site Reviews Premium is installed and active."
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:80
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews Premium is installed but could not be activated: %s"
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:117
+msgctxt "admin-text"
+msgid "The license server refused the download: your license is no longer valid for this website."
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:167
+msgctxt "admin-text"
+msgid "The license server did not provide a download for your license."
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:186
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews Premium could not be installed: %s"
+msgstr ""
+
+#: plugin/Licensing/Commands/Install.php:186
+msgctxt "admin-text"
+msgid "the download failed."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:61
+msgctxt "admin-text"
+msgid "A license you entered has been disabled."
+msgstr ""
+
+#. translators: %s: link with the text "contact support"
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:63
+#, php-format
+msgctxt "admin-text"
+msgid "Please %s for more information."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:73
+msgctxt "admin-text"
+msgid "A license you entered has not been activated for your website."
+msgstr ""
+
+#. translators: %s: link to the License Keys page
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:75
+#, php-format
+msgctxt "link to License Keys page (admin-text)"
+msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
+msgstr ""
+
+#. translators: %s: the relative expiry date (e.g. 3 days ago)
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:86
+#, php-format
+msgctxt "admin-text"
+msgid "A license you entered has expired: %s."
+msgstr ""
+
+#. translators: %s: link to the License Keys page
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:90
+#, php-format
+msgctxt "link to License Keys page (admin-text)"
+msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:110
+msgctxt "admin-text"
+msgid "A license you entered is invalid."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:117
+msgctxt "admin-text"
+msgid "A license you entered is for a different product."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:118
+msgctxt "admin-text"
+msgid "Please enter each license key in the field of the addon it was purchased for."
+msgstr ""
+
+#: plugin/Licensing/Commands/ValidateLicenseKeys.php:126
+#: plugin/Licensing/Commands/Verify.php:142
+#: plugin/Licensing/LicenseRow.php:280
+msgctxt "admin-text"
+msgid "The license server could not be reached. Please try again later."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:36
+msgctxt "admin-text"
+msgid "Please enter your license key."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:86
+msgctxt "admin-text"
+msgid "Your license key has been disabled. Please contact support for more information."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:94
+msgctxt "admin-text"
+msgid "Your license key has reached its activation limit. Please visit the License Keys page of your account and click \"Manage Sites\" to activate it here."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:105
+msgctxt "admin-text"
+msgid "Your license has expired. Please renew it to use Site Reviews Premium."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:106
+#: views/partials/notices/license-expired.php:7
+msgctxt "admin-text"
+msgid "Renew your license"
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:126
+#: plugin/Licensing/LicenseRow.php:299
+msgctxt "admin-text"
+msgid "This appears to be an invalid license key for Site Reviews Premium."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:134
+msgctxt "admin-text"
+msgid "This license key is for a different product."
+msgstr ""
+
+#: plugin/Licensing/Commands/Verify.php:135
+msgctxt "admin-text"
+msgid "Get Site Reviews Premium"
+msgstr ""
+
+#: plugin/Licensing/Controllers/Controller.php:24
+msgctxt "admin-text"
+msgid "Install Premium"
+msgstr ""
+
+#: plugin/Licensing/Controllers/RestController.php:21
+#: plugin/Licensing/Controllers/RestController.php:44
+msgid "You must be logged in to do this."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:112
+msgctxt "admin-text"
+msgid "License Key"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:114
+msgctxt "admin-text"
+msgid "Paste license key"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:139
+msgctxt "admin-text"
+msgid "Already purchased? Enter your license key to enable Site Reviews Premium."
+msgstr ""
+
+#. translators: %s: the names of the active addons
+#: plugin/Licensing/LicenseRow.php:161
+#, php-format
+msgctxt "admin-text"
+msgid "It replaces %s with one plugin and imports its settings."
+msgid_plural "It replaces %s with one plugin and imports their settings."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Licensing/LicenseRow.php:168
+msgctxt "admin-text"
+msgid "Site Reviews Premium is installed but not active. Activate it to unlock all features."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:169
+msgctxt "admin-text"
+msgid "Your license is active. Install Site Reviews Premium to unlock all features."
+msgstr ""
+
+#. translators: %s: link to the Nifty Plugins account page
+#: plugin/Licensing/LicenseRow.php:172
+#, php-format
+msgctxt "admin-text"
+msgid "Your license is active. Download Site Reviews Premium from %s and upload it on the Plugins screen."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:173
+msgctxt "admin-text"
+msgid "your account"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:176
+msgctxt "admin-text"
+msgid "Site Reviews Premium is not receiving updates because it has no valid license key. Verify your license key to receive updates again."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:178
+msgctxt "admin-text"
+msgid "Site Reviews Premium cannot be installed until a valid license key is verified."
+msgstr ""
+
+#. translators: %s: the names of the active addons
+#: plugin/Licensing/LicenseRow.php:180
+#, php-format
+msgctxt "admin-text"
+msgid "You are using %s, which it replaces."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:182
+msgctxt "admin-text"
+msgid "Your license includes Site Reviews Premium. Verify your license key to install it."
+msgstr ""
+
+#. translators: %s: the names of the active addons
+#: plugin/Licensing/LicenseRow.php:185
+#, php-format
+msgctxt "admin-text"
+msgid "You are using %s, and your license includes Site Reviews Premium, which replaces it. Verify your license key to install it."
+msgid_plural "You are using %s, and your license includes Site Reviews Premium, which replaces them with one plugin. Verify your license key to install it."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$s: the names of the active addons, %2$s: link with the text "Site Reviews Premium"
+#: plugin/Licensing/LicenseRow.php:190
+#, php-format
+msgctxt "admin-text"
+msgid "You are using %1$s. Site Reviews Premium replaces it and adds more features: consider upgrading to %2$s."
+msgid_plural "You are using %1$s. Site Reviews Premium replaces them with one plugin and adds more features: consider upgrading to %2$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: link with the text "Site Reviews Premium"
+#: plugin/Licensing/LicenseRow.php:196
+#, php-format
+msgctxt "admin-text"
+msgid "You are using the free Site Reviews plugin. To unlock more features, consider upgrading to %s."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:260
+msgctxt "admin-text"
+msgid "License key never expires."
+msgstr ""
+
+#. translators: %s: the expiry date
+#: plugin/Licensing/LicenseRow.php:263
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key expires on %s."
+msgstr ""
+
+#. translators: %1$s: the expiry date, %2$s: the renewal link's opening tag, %3$s: its closing tag
+#: plugin/Licensing/LicenseRow.php:283
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key expired on %1$s. Please %2$srenew it%3$s."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:288
+msgctxt "admin-text"
+msgid "Your license key is not active for this website. Click Verify License Key to activate it."
+msgstr ""
+
+#. translators: %s: link to the License Keys page
+#: plugin/Licensing/LicenseRow.php:291
+#, php-format
+msgctxt "link to License Keys page (admin-text)"
+msgid "Your license key has reached its activation limit. Please visit the %s page of your Nifty Plugins account and click \"Manage Sites\"."
+msgstr ""
+
+#. translators: %s: link with the text "contact support"
+#: plugin/Licensing/LicenseRow.php:296
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key has been disabled. Please %s for more information."
+msgstr ""
+
+#. translators: %s: the expiry date
+#: plugin/Licensing/LicenseRow.php:301
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key expires soon! It expires on %s."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:343
+msgctxt "admin-text"
+msgid "Your license subscription is active and will automatically renew."
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:346
+msgctxt "subscription status (admin-text)"
+msgid "cancelled"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:347
+msgctxt "subscription status (admin-text)"
+msgid "completed"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:348
+msgctxt "subscription status (admin-text)"
+msgid "expired"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:349
+msgctxt "subscription status (admin-text)"
+msgid "failing"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:350
+msgctxt "subscription status (admin-text)"
+msgid "pending"
+msgstr ""
+
+#: plugin/Licensing/LicenseRow.php:351
+msgctxt "subscription status (admin-text)"
+msgid "trialling"
+msgstr ""
+
+#. translators: %s: the subscription status
+#: plugin/Licensing/LicenseRow.php:354
+#, php-format
+msgctxt "admin-text"
+msgid "Your license subscription is %s and will not automatically renew."
+msgstr ""
+
 #: plugin/Metaboxes/AssignedPostsMetabox.php:28
 #: plugin/Modules/Discord.php:162
 #: plugin/Modules/Html/TemplateTags.php:77
 #: plugin/Modules/Slack.php:198
 msgid "(no title)"
+msgstr ""
+
+#: plugin/Metaboxes/AuthorMetabox.php:28
+#: plugin/Metaboxes/AuthorMetabox.php:46
+msgctxt "admin-text"
+msgid "Author Unknown"
 msgstr ""
 
 #: plugin/Metaboxes/DashboardMetabox.php:25
@@ -6200,12 +6568,12 @@ msgstr ""
 msgid "Avatar for %s"
 msgstr ""
 
-#: plugin/Modules/Console.php:68
+#: plugin/Modules/Console.php:77
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:254
+#: plugin/Modules/Console.php:316
 msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr ""
@@ -6672,13 +7040,23 @@ msgctxt "admin-text"
 msgid "Update %s"
 msgstr ""
 
-#: plugin/Overrides/PluginUpgrader.php:38
+#: plugin/Overrides/ReviewsListTable.php:81
+#: views/integrations/woocommerce/bulk-edit.php:8
+#: views/partials/screen/inline-edit.php:68
+#: views/partials/screen/inline-edit.php:88
+#: views/partials/screen/inline-edit.php:98
 msgctxt "admin-text"
-msgid "Plugin rollback successful! Please wait while it reactivates&#8230"
+msgid "No Change"
+msgstr ""
+
+#: plugin/Overrides/ReviewsListTable.php:88
+msgctxt "admin-text"
+msgid "No Author"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:86
 #: plugin/Overrides/ScheduledActionsTable.php:119
+#: views/partials/settings/premium-license.php:21
 #: views/partials/strings/plural.php:13
 #: views/partials/strings/single.php:12
 msgctxt "admin-text"
@@ -6828,24 +7206,19 @@ msgctxt "admin-text"
 msgid "async"
 msgstr ""
 
-#: plugin/Rollback.php:24
-msgctxt "admin-text"
-msgid "Rollback Site Reviews"
-msgstr ""
-
-#: plugin/Router.php:230
+#: plugin/Router.php:234
 msgctxt "admin-text"
 msgid "There was an error"
 msgstr ""
 
 #. translators: %s: a button with the text "reloading"
-#: plugin/Router.php:233
+#: plugin/Router.php:237
 #, php-format
 msgctxt "try reloading the page (admin-text)"
 msgid "Try %s the page."
 msgstr ""
 
-#: plugin/Router.php:234
+#: plugin/Router.php:238
 msgctxt "(admin-text) e.g. try reloading the page"
 msgid "reloading"
 msgstr ""
@@ -7962,12 +8335,17 @@ msgctxt "admin-text"
 msgid "View all premium features &rarr;"
 msgstr ""
 
+#: views/pages/settings/advanced.php:3
+msgctxt "admin-text"
+msgid "Advanced Settings"
+msgstr ""
+
 #: views/pages/settings/forms.php:3
 msgctxt "admin-text"
 msgid "Review Form Settings"
 msgstr ""
 
-#: views/pages/settings/general.php:3
+#: views/pages/settings/general.php:5
 msgctxt "admin-text"
 msgid "General Settings"
 msgstr ""
@@ -7977,20 +8355,8 @@ msgctxt "admin-text"
 msgid "License Key Settings"
 msgstr ""
 
-#. translators: %s: link with the text "premium addon"
-#: views/pages/settings/licenses.php:9
-#, php-format
-msgctxt "admin-text"
-msgid "You will be able to save your license key here after you install and activate a %s."
-msgstr ""
-
-#: views/pages/settings/licenses.php:10
-msgctxt "admin-text"
-msgid "premium addon"
-msgstr ""
-
 #. translators: %s: link to the License Keys page
-#: views/pages/settings/licenses.php:18
+#: views/pages/settings/licenses.php:8
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
@@ -8572,7 +8938,8 @@ msgstr ""
 
 #. translators: %s: the selected plugin version
 #: views/pages/tools/general/rollback-plugin.php:7
-#: views/pages/tools/general/rollback-plugin.php:56
+#: views/pages/tools/general/rollback-plugin.php:60
+#: views/pages/tools/general/rollback-plugin.php:92
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr ""
@@ -8603,13 +8970,42 @@ msgctxt "admin-text"
 msgid "You currently have version %1$s installed of %2$s. Run this tool to rollback to a previous release."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:44
+#. translators: %s: the selected plugin version
+#: views/pages/tools/general/rollback-plugin.php:43
+#, php-format
+msgctxt "admin-text"
+msgid "Roll back Site Reviews to version %s?"
+msgstr ""
+
+#. translators: %1$s: installed plugin version, %2$s: the selected plugin version
+#: views/pages/tools/general/rollback-plugin.php:48
+#, php-format
+msgctxt "admin-text"
+msgid "You are rolling back from version %1$s. The plugin files will be replaced with version %2$s from wordpress.org."
+msgstr ""
+
+#: views/pages/tools/general/rollback-plugin.php:54
+msgctxt "admin-text"
+msgid "These plugins will stop working until Site Reviews is updated again:"
+msgstr ""
+
+#: views/pages/tools/general/rollback-plugin.php:56
+msgctxt "admin-text"
+msgid "The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself."
+msgstr ""
+
+#: views/pages/tools/general/rollback-plugin.php:67
+msgctxt "admin-text"
+msgid "The Rollback Plugin tool needs JavaScript."
+msgstr ""
+
+#: views/pages/tools/general/rollback-plugin.php:77
 msgctxt "admin-text"
 msgid "Rollback Version To"
 msgstr ""
 
 #. translators: %s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:55
+#: views/pages/tools/general/rollback-plugin.php:91
 #, php-format
 msgctxt "admin-text"
 msgid "Rolling back to %s, please wait..."
@@ -8778,7 +9174,7 @@ msgctxt "admin-text"
 msgid "Click me!"
 msgstr ""
 
-#: views/partials/listtable/filter.php:11
+#: views/partials/listtable/filter.php:22
 msgctxt "admin-text"
 msgid "Search"
 msgstr ""
@@ -8790,13 +9186,9 @@ msgctxt "Renew your license (admin-text)"
 msgid "One or more of your licenses have expired. %s to enable plugin updates and priority support."
 msgstr ""
 
-#: views/partials/notices/license-expired.php:7
-msgctxt "admin-text"
-msgid "Renew your license"
-msgstr ""
-
 #: views/partials/notices/license-expired.php:10
 #: views/partials/notices/license-missing.php:10
+#: views/partials/notices/license-premium.php:10
 #: views/partials/notices/license-promoted.php:10
 msgctxt "admin-text"
 msgid "Dismiss this notice."
@@ -8812,6 +9204,19 @@ msgstr ""
 #: views/partials/notices/license-missing.php:7
 msgctxt "admin-text"
 msgid "Save your license"
+msgstr ""
+
+#. translators: %s: link with the text "Install Site Reviews Premium"
+#: views/partials/notices/license-premium.php:6
+#, php-format
+msgctxt "Install Site Reviews Premium (admin-text)"
+msgid "Your license includes Site Reviews Premium. %s to replace your addons with it."
+msgstr ""
+
+#: views/partials/notices/license-premium.php:7
+#: views/partials/settings/premium-license.php:38
+msgctxt "admin-text"
+msgid "Install Site Reviews Premium"
 msgstr ""
 
 #. translators: %s: link with the text "Purchase premium"
@@ -8873,17 +9278,9 @@ msgstr ""
 
 #. translators: %s: addon name
 #: views/partials/notices/retired-free.php:27
-#: views/partials/notices/retired-premium.php:28
 #, php-format
 msgctxt "admin-text"
 msgid "Deactivate %s"
-msgstr ""
-
-#. translators: %s: addon name
-#: views/partials/notices/retired-premium.php:20
-#, php-format
-msgctxt "admin-text"
-msgid "The %s addon is included in the Site Reviews Premium plugin. Please deactivate it."
 msgstr ""
 
 #: views/partials/notices/upgraded.php:5
@@ -9011,6 +9408,46 @@ msgstr ""
 #, php-format
 msgctxt "admin-text"
 msgid "&#8220;%s&#8221; is locked"
+msgstr ""
+
+#: views/partials/settings/premium-license.php:16
+msgctxt "admin-text"
+msgid "Verifying, please wait..."
+msgstr ""
+
+#: views/partials/settings/premium-license.php:17
+msgctxt "admin-text"
+msgid "Verify License Key"
+msgstr ""
+
+#: views/partials/settings/premium-license.php:20
+msgctxt "admin-text"
+msgid "Deleting, please wait..."
+msgstr ""
+
+#: views/partials/settings/premium-license.php:25
+msgctxt "admin-text"
+msgid "Deactivating, please wait..."
+msgstr ""
+
+#: views/partials/settings/premium-license.php:26
+msgctxt "admin-text"
+msgid "Deactivate"
+msgstr ""
+
+#: views/partials/settings/premium-license.php:30
+msgctxt "admin-text"
+msgid "Features"
+msgstr ""
+
+#: views/partials/settings/premium-license.php:34
+msgctxt "admin-text"
+msgid "Activate Site Reviews Premium"
+msgstr ""
+
+#: views/partials/settings/premium-license.php:37
+msgctxt "admin-text"
+msgid "Connecting, please wait..."
 msgstr ""
 
 #: views/partials/strings/plural.php:6
