@@ -159,8 +159,6 @@ class ReviewManager
 
     /**
      * @return Review|false
-     *
-     * @todo Refactor the terms logic
      */
     public function duplicate(int $reviewId)
     {

@@ -26,7 +26,8 @@ class Module extends DiviModule
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
         $barColor = $args['attrs']['design']['decoration']['barColor']['desktop']['value']['color'] ?? '';
         $args['classnamesInstance']->add('has-bar-color', !empty($barColor));
-        if (empty($args['attrs']['shortcode']['advanced']['theme']['desktop']['value'])) { // @todo move this "theme" check to Review Themes addon
+        // Review Themes adds the theme attribute; a theme colours its own stars.
+        if (empty($args['attrs']['shortcode']['advanced']['theme']['desktop']['value'])) {
             $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
             $args['classnamesInstance']->add('has-rating-color', !empty($ratingColor));
         }

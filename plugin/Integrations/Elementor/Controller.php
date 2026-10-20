@@ -78,7 +78,7 @@ class Controller extends AbstractController
             $widget->add_render_attribute('_wrapper', 'class', 'has-bar-color');
         }
         $hasRatingColor = !empty($settings['style_rating_color']) || !empty($settings['__globals__']['style_rating_color']);
-        $hasTheme = !empty($settings['theme']); // @todo move this "theme" check to Review Themes addon
+        $hasTheme = !empty($settings['theme']); // Review Themes adds the control; a theme colours its own stars
         if ($hasRatingColor && !$hasTheme) {
             $widget->add_render_attribute('_wrapper', 'class', 'has-rating-color');
         }

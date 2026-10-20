@@ -408,9 +408,6 @@ class Form extends \ArrayObject implements FormContract
         return $config;
     }
 
-    /**
-     * @todo Should this be done manually? This shouldn't be run when getting field rules for validation
-     */
     protected function normalizeConditions(FieldContract $field): void
     {
         if (!$conditions = $field->conditions()) {

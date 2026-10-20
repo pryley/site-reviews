@@ -89,8 +89,6 @@ class MigrateProductRatings extends AbstractCommand
 
     /**
      * Bulk-insert the "rated-*"" product_visibility terms for Products.
-     *
-     * @todo optimize this for cases when a site has thousands of products...
      */
     protected function insertTerms(array $ttids): int
     {
