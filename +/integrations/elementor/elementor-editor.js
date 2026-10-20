@@ -76,7 +76,7 @@ window.addEventListener('elementor/panel/init', () => {
         const $el = context?.$el;
         const attributes = context?.container?.settings?.attributes || {};
         const shortcode = attributes?.widgetType || '';
-        if (!$el || attributes?.theme || !shortcode.startsWith('site_review')) {
+        if (!$el || !shortcode.startsWith('site_review')) {
             return css;
         }
         const hasBarColor = attributes?.style_bar_color || attributes?.__globals__?.style_bar_color;
