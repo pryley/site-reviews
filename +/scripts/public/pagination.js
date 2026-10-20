@@ -135,7 +135,7 @@ class Pagination {
         this._paginate(response)
         report('pagination', { id: this.wrapperEl.id, page: request.page, url: request.url })
         if (config.pagination.urlParameter) {
-            window.history.pushState(historyState(request), '', linkEl.href) // add a new entry to browser History
+            window.history.pushState(historyState(request), '', linkEl.href)
         }
     }
 

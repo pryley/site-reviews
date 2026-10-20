@@ -32,7 +32,7 @@ import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy, { followCursor } from 'tippy.js';
 import dom from '@/public/dom.js';
-import { debounce, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
+import { debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
 
 GLSR.Event = adopt(GLSR.Event);
 GLSR.lib = lib;
@@ -44,7 +44,7 @@ GLSR.Notice = Notice;
 GLSR.Rating = StarRating();
 GLSR.Tinymce = { create: (editorId) => shortcode?.create(editorId) };
 lib.register('tippy', { tippy, plugins: { followCursor } })
-GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle };
+GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 
 Prism.languages.shortcode = {
     tag: {
