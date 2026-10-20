@@ -136,7 +136,7 @@ class Tables
         if ($logError) {
             glsr_log()->error("The [{$name}] table was not found.");
         }
-        return $name; // @todo maybe throw an exception here instead?
+        return $name;
     }
 
     public function tableEngine(string $table): string

@@ -17,15 +17,12 @@ class Mutex
         ]);
     }
 
-    /**
-     * @todo: what happens if the IP address cannot be detected?
-     */
     public function isValid(string $action): bool
     {
         if (!in_array($action, $this->actions())) {
             return true;
         }
-        $ipAddress = Helper::clientIp();
+        $ipAddress = Helper::clientIp(); // "unknown" when undetected, so those clients share one lock
         $hash = Str::hash($ipAddress, 13);
         $lock = Str::prefix($hash, glsr()->prefix);
         if (get_transient($lock)) {

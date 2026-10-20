@@ -317,8 +317,6 @@ class ReviewController extends AbstractController
      * cascade has already removed them and the delete affects nothing but the cache
      * purge still has to happen.
      *
-     * @todo Reviews are cached with no expiry, should this change?
-     *
      * @action deleted_post
      */
     public function onDeletePost(int $postId, \WP_Post $post): void
