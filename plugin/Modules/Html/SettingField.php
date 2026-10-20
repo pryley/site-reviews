@@ -13,8 +13,6 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
  * @property bool   $is_hidden
  * @property array  $tags
  * @property string $tooltip
- *
- * @todo fix checked/selected attribute values...
  */
 class SettingField extends Field
 {

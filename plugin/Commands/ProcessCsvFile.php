@@ -94,7 +94,7 @@ class ProcessCsvFile extends AbstractCommand
     public function response(): array
     {
         return [
-            'errors' => $this->errors, // @todo store this to the session
+            'errors' => $this->errors,
             'notices' => glsr(Notice::class)->get(), // this should be empty on success
             'skipped' => $this->skipped,
             'total' => $this->total,
