@@ -65,7 +65,7 @@ if (config.debug?.url && new URLSearchParams(location.search).has('glsr-debug'))
     registry.register({ 'debug.public': config.debug.url })
     registry.load('debug.public').catch(() => {})
 }
-window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle };
+window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 
 window.GLSR_init = (first, ...args) => {
     initEvents()

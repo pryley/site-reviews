@@ -6,6 +6,7 @@ import config from '@/public/config.js';
 import Conditions from '@/public/conditions.js';
 import Event from '@/public/event.js';
 import feature, { direction } from '@/public/feature.js';
+import { historyState } from '@/public/helpers.js';
 import report from '@/public/report.js';
 import Request from '@/public/request.js';
 import Review from '@/public/review.js';
@@ -13,7 +14,7 @@ import Session from '@/public/session.js';
 import StarRating from '@/public/starrating.js';
 import Summary from '@/public/summary.js';
 import Validation from '@/public/validation.js';
-import { addRemoveClass, classListSelector, historyState } from '@/public/helpers.js';
+import { addRemoveClass, classListSelector } from '@/public/helpers.js';
 
 class Form {
     constructor (formEl) {
