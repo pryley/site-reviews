@@ -21,6 +21,7 @@ class ApiDefaults extends DefaultsAbstract
         'max_retries' => 'int',
         'method' => 'string',
         'redirection' => 'int',
+        'skip_when_down' => 'bool',
         'sslverify' => 'bool',
         'timeout' => 'int',
     ];
@@ -57,6 +58,7 @@ class ApiDefaults extends DefaultsAbstract
             'max_retries' => 0, // The number of times a request can be retried
             'method' => 'GET',
             'redirection' => 5, // Number of allowed redirects.
+            'skip_when_down' => false, // if a host that is down should be skipped
             'sslverify' => !Helper::isLocalServer(), // Whether to verify SSL for the request.
             'timeout' => 5, // How long the connection should stay open in seconds.
             'transient_key' => 'request',

@@ -209,6 +209,10 @@ test('premium registered gets Features, and says so when it has no key', functio
             ->and(premiumRow())->not->toContain('not receiving updates'); // nothing is known
 
         savedValidPremiumKey();
+        // The server is back and the window in which it is not asked (ApiTest, "The host
+        // that is down") has passed.
+        $updater = glsr(LicenseRow::class)->updater('a-premium-key');
+        delete_site_transient(glsr(GeminiLabs\SiteReviews\Api::class, ['url' => $updater->apiUrl])->unreachableKey());
         $row = premiumRow();
         expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INSTALLED)
             ->and($row)->toContain('data-state="4"')
