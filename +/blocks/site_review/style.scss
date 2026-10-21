@@ -2,8 +2,6 @@
     display: block;
 }
 
-// @todo remove .has-custom-color in v8.1
-.has-custom-color .glsr:not([data-theme]),
 .has-rating-color .glsr:not([data-theme]) {
     .glsr-star {
         background: var(--glsr-review-star-bg);
