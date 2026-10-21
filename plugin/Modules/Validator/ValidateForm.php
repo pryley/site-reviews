@@ -21,28 +21,6 @@ class ValidateForm
         glsr()->sessionPluck('form_success');
     }
 
-    /**
-     * @compat
-     * @todo remove in v8
-     */
-    public function __get($property)
-    {
-        $result = $this->result();
-        if ('message' === $property) {
-            return $result->$property;
-        }
-        if ('errors' !== $property) {
-            return;
-        }
-        if (!empty($result->errors)) {
-            return $result->errors;
-        }
-        if (!$result->failed) {
-            return false; // validation success
-        }
-        return []; // validation fail
-    }
-
     public function result(): Arguments
     {
         return glsr()->args([

@@ -15,19 +15,6 @@ abstract class ValidatorAbstract implements ValidatorContract
         $this->request = $request;
     }
 
-    /**
-     * @compat < v7.1
-     * @todo remove in v8
-     */
-    public function __call(string $method, array $args = [])
-    {
-        if ('setErrors' === $method) {
-            call_user_func_array([$this, 'fail'], $args);
-            return;
-        }
-        throw new \BadMethodCallException("Method [$method] does not exist.");
-    }
-
     public function alreadyFailed(): bool
     {
         return glsr()->session()->cast('form_invalid', 'bool');
