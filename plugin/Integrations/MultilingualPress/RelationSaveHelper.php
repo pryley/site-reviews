@@ -138,11 +138,6 @@ class RelationSaveHelper
         $this->maybeRestoreSite($originalSiteId);
     }
 
-    public function syncMeta(): void
-    {
-        // @todo
-    }
-
     public function syncRating(array $sourceData): void
     {
         if (!$this->canSync()) {
