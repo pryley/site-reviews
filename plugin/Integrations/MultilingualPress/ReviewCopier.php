@@ -53,7 +53,6 @@ class ReviewCopier
                 $helper->syncAssignedPosts($review->assigned_posts, true);
                 $helper->syncAssignedUsers($review->assigned_users, true);
                 $helper->syncAssignedTerms();
-                $helper->syncMeta();
             } else {
                 glsr_log()->error('MLP: unable to copy remote review')
                   ->debug($data);
