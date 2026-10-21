@@ -237,6 +237,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed the browser's Back button reloading the page when going back through paged or filtered reviews on a site whose theme loads the WordPress 7.1 interactivity runtime
 - Fixed the license key of a deactivated addon being removed when the settings are saved
+- Fixed the license status being lost when the license server cannot be reached
 - Fixed the personal data eraser skipping reviews when a person has more than 100 of them
 - Fixed the personal data exporter and eraser leaving out reviews that are pending or in the Trash
 - Fixed the review form not submitting on a site where another script has replaced the browser's `window.fetch`

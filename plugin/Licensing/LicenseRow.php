@@ -78,6 +78,7 @@ class LicenseRow
         $updater = $this->updater($this->savedKey());
         glsr(Api::class, ['url' => $updater->apiUrl])->flushAll('check_license');
         $updater->flushCachedVersion();
+        glsr(License::class)->forgetAnswer(static::ADDON_ID);
     }
 
     public function isActive(): bool

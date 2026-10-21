@@ -242,6 +242,112 @@ test('a changed licence keeps the saved one when the licence server gives no ans
         ->and(glsr(Notice::class)->get())->toContain('could not be reached');
 });
 
+/*
+ * The answer that outlives an outage.
+ *
+ * The daily cache holds only a success. Once it expires while the licence server is down,
+ * nothing would say the site is premium and the upgrade pitches would come back until the
+ * server answers again. So License::status() keeps the last answer the server gave for three
+ * days and uses it while the server cannot be reached. Only status() does: Check on the
+ * License row still says the server could not be reached.
+ */
+
+/**
+ * The licence server goes down: the daily cache is emptied and every request is refused.
+ */
+function licenseServerDown(): void
+{
+    glsr(GeminiLabs\SiteReviews\Api::class, ['url' => GeminiLabs\SiteReviews\Addons\Updater::baseUrl()])->flushAll('check_license');
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 0]));
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+}
+
+function lastAnswerKey(string $addonId): string
+{
+    return glsr()->prefix.'license_answer_'.$addonId;
+}
+
+function ageLastAnswer(string $addonId, int $seconds): void
+{
+    $stored = (array) get_option(lastAnswerKey($addonId));
+    update_option(lastAnswerKey($addonId), array_replace($stored, ['time' => time() - $seconds]));
+}
+
+test('the last answer stands in for three days while the licence server cannot be reached', function () {
+    licensedAddon('a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    expect(glsr(License::class)->status()['premium'])->toBeTrue();
+
+    licenseServerDown();
+    expect(glsr(License::class)->status()['premium'])->toBeTrue()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse()
+        ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key');
+
+    ageLastAnswer(addonId(), 4 * DAY_IN_SECONDS);
+    expect(glsr(License::class)->status()['premium'])->toBeFalse()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse(); // nothing is known again
+});
+
+test('an expired answer stands in too, so the renewal banner stays', function () {
+    licensedAddon('an-expired-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59']]);
+    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+
+    licenseServerDown();
+    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+});
+
+test('a key changed during the outage does not inherit the answer of the old one', function () {
+    licensedAddon('an-old-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    glsr(License::class)->status();
+
+    licenseServerDown();
+    licensedAddon('a-new-key');
+    expect(glsr(License::class)->status()['premium'])->toBeFalse()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse();
+});
+
+test('Check on the License row still says the server could not be reached', function () {
+    // The row is where somebody goes to find out what is wrong. A stale "valid" there would
+    // send them away thinking the server answered.
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    glsr(License::class)->status();
+
+    licenseServerDown();
+    expect(glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->check(true)['license'])->toBe('unknown')
+        ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key'); // while status() keeps the answer
+});
+
+test('the answer is written once an hour, not on every admin page', function () {
+    // status() runs several times on every admin page. An hour keeps the stored time close
+    // to the last real answer, so the three days are three days.
+    licensedAddon('a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    glsr(License::class)->status();
+
+    ageLastAnswer(addonId(), 30 * MINUTE_IN_SECONDS);
+    $halfAnHourAgo = get_option(lastAnswerKey(addonId()))['time'];
+    glsr(License::class)->status();
+    expect(get_option(lastAnswerKey(addonId()))['time'])->toBe($halfAnHourAgo); // the same answer, younger than an hour
+
+    ageLastAnswer(addonId(), 2 * HOUR_IN_SECONDS);
+    glsr(License::class)->status();
+    expect(get_option(lastAnswerKey(addonId()))['time'])->toBeGreaterThan(time() - 5); // written again
+});
+
+test('deactivating or deleting the premium key forgets the answer', function () {
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    glsr(License::class)->status();
+    expect(get_option(lastAnswerKey('site-reviews-premium')))->toBeArray();
+
+    glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->flush(); // what Deactivate and Delete call
+
+    expect(get_option(lastAnswerKey('site-reviews-premium')))->toBeFalse();
+});
+
 test('a licence that could not be checked is not reported as invalid', function () {
     // The status feeds the licence banners on every admin page. No answer says nothing
     // about the licence either way.
