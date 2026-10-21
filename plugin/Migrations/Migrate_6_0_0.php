@@ -63,7 +63,6 @@ class Migrate_6_0_0 implements MigrateContract
         if (!$this->insertTableColumn('score', 'terms')) {
             $result = false;
         }
-        // @todo migrate custom fields to the fields table
         // if (glsr(TableFields::class)->create()) {
         //     glsr(TableFields::class)->addForeignConstraints();
         // } else {
