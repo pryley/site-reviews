@@ -213,41 +213,41 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.4.0 (unreleased) =
 
-- Fixed the browser's Back button reloading the page when going back through paged or filtered reviews on a site whose theme loads the WordPress 7.1 interactivity runtime
+- Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
 - Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)
+- Added a confirmation popup to the Rollback Plugin tool
+- Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
+- Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
-- Changed the Licenses tab: it is shown only while a standalone addon is active
-- Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid
-- Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
-- Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
-- Added a confirmation popup to the Rollback Plugin tool
-- Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
+- Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
-- Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
-- Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
-- Changed updates and rollbacks to be turned off when the plugin folder is a git repository
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
+- Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid
+- Changed the Licenses tab: it is shown only while a standalone addon is active
+- Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
-- Fixed "unique key" warnings in the browser console of the block editor
-- Fixed IP address detection with a Forwarded proxy HTTP header that puts the address in quotes
-- Fixed PHP warnings on admin pages for users without access to Site Reviews
-- Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
-- Fixed the personal data eraser skipping reviews when a person has more than 100 of them
-- Fixed the personal data exporter and eraser leaving out reviews that are pending or in the Trash
-- Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
+- Changed updates and rollbacks to be turned off when the plugin folder is a git repository
 - Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed IP address detection with a Forwarded proxy HTTP header that puts the address in quotes
+- Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
+- Fixed PHP warnings on admin pages for users without access to Site Reviews
+- Fixed the browser's Back button reloading the page when going back through paged or filtered reviews on a site whose theme loads the WordPress 7.1 interactivity runtime
 - Fixed the license key of a deactivated addon being removed when the settings are saved
+- Fixed the personal data eraser skipping reviews when a person has more than 100 of them
+- Fixed the personal data exporter and eraser leaving out reviews that are pending or in the Trash
 - Fixed the review form not submitting on a site where another script has replaced the browser's `window.fetch`
+- Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
 - Fixed timeout issues affecting page load when the license server cannot be reached
+- Fixed "unique key" warnings in the browser console of the block editor
 - Improved how reviews load on a site where the REST API is blocked
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
-- Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
+- Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
 - Renamed the `Compatibility` PHP class to `Helpers\Hook`
 
 = 8.3.5 (2026-10-13) =
