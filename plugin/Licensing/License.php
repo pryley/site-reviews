@@ -14,6 +14,11 @@ class License
     // How long the last answer stands in for a server that cannot be reached.
     protected const LAST_ANSWER_FOR = 3 * \DAY_IN_SECONDS;
 
+    public function forgetAnswer(string $addonId): void
+    {
+        delete_option($this->lastAnswerKey($addonId));
+    }
+
     public function isPremium(): bool
     {
         return $this->status()['premium'];
