@@ -102,11 +102,14 @@ class Updater
             'body' => $body,
             'force' => $this->force,
             'max_retries' => 1,
+            'skip_when_down' => true,
             'timeout' => 15,
             'transient_key' => $action,
         ]);
         if ($response->failed()) {
-            glsr_log()->error($response);
+            if ($response->code > 0) {
+                glsr_log()->error($response);
+            }
             return [];
         }
         if (str_ends_with($action, '_license') && false === ($response->body['success'] ?? false)) {

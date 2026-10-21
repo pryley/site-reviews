@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Api;
+use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Response;
 
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
@@ -90,7 +91,8 @@ test('force asks again even when the answer is already cached', function () {
 
 test('a failed response is not cached', function () {
     // Caching a failure for a day would mean a site that was briefly offline stops being
-    // offered updates until tomorrow.
+    // offered updates until tomorrow. A host that is down is another matter: see "The host
+    // that is down" below.
     $requests = interceptHttp(httpReply(404));
 
     api()->get('check', ['transient_key' => 'check_license']);
@@ -185,6 +187,183 @@ test('a 429 and a 5xx are the only things worth asking again about', function ()
         ->and($response(404)->shouldRetry())->toBeFalse()
         ->and($response(401)->shouldRetry())->toBeFalse() // a bad licence key is not a hiccup
         ->and($response(200)->shouldRetry())->toBeFalse();
+});
+
+/*
+ * The host that is down.
+ *
+ * The licence check runs on every admin page and only a success is cached. Without the marker
+ * a licence server that accepts no connection costs every admin page the connect timeout once
+ * per licensed addon for as long as it is down: an admin that takes twenty to thirty seconds
+ * a page. The first failure marks the host and nothing asks it again for a window that doubles
+ * with each failure from fifteen minutes to six hours. `force` asks anyway and a success
+ * clears the marker.
+ *
+ * A caller asks for this with `skip_when_down`: the Updater and the Welcome and Premium pages,
+ * which talk to the plugin's servers. A third-party API is left alone since one hiccup from a
+ * captcha provider must not fail every review submitted for a quarter of an hour.
+ */
+
+/**
+ * The args of a caller that skips a host that is down.
+ */
+function skipping(array $args = []): array
+{
+    return $args + ['skip_when_down' => true];
+}
+
+/**
+ * A host that accepts no connection: wp_remote_request() hands back a WP_Error for any
+ * request nobody else has answered. The requests it refused are recorded.
+ */
+function transportFailure(): \ArrayObject
+{
+    $requests = new \ArrayObject();
+    add_filter('pre_http_request', function ($pre, $args, $url) use ($requests) {
+        if (false !== $pre) {
+            return $pre;
+        }
+        $requests->append(compact('args', 'url'));
+
+        return new WP_Error('http_request_failed', 'cURL error 28: Connection timed out after 10001 milliseconds');
+    }, 10, 3);
+
+    return $requests;
+}
+
+function unreachableMarker(): array
+{
+    return (array) (get_site_transient(api()->unreachableKey()) ?: []);
+}
+
+test('a host that cannot be reached is not asked again for fifteen minutes', function () {
+    $requests = transportFailure();
+
+    $first = api()->get('check', skipping(['transient_key' => 'check_license']));
+    $second = api()->get('version', skipping(['transient_key' => 'get_version'])); // another path, same host
+
+    expect($requests)->toHaveCount(1) // the second never left the building
+        ->and($first->failed())->toBeTrue()
+        ->and($second->failed())->toBeTrue()
+        ->and($second->message)->toContain('api.example.org is unreachable');
+    expect(unreachableMarker()['failures'])->toBe(1)
+        ->and(unreachableMarker()['until'] - time())->toBeGreaterThan(890)->toBeLessThanOrEqual(900);
+});
+
+test('a server error marks the host once the retries are spent', function () {
+    // A 503 is "not now". Once the retries are spent it counts as no connection: the host is
+    // not asked again for the window.
+    $requests = interceptHttp(httpReply(503));
+
+    api()->get('check', skipping(['transient_key' => 'check_license']));
+    api()->get('check', skipping(['transient_key' => 'check_license']));
+
+    expect($requests)->toHaveCount(1)
+        ->and(unreachableMarker()['failures'])->toBe(1);
+});
+
+test('a not-found is an answer, and does not mark the host', function () {
+    $requests = interceptHttp(httpReply(404));
+
+    api()->get('check', skipping(['transient_key' => 'check_license']));
+    api()->get('check', skipping(['transient_key' => 'check_license']));
+
+    expect($requests)->toHaveCount(2)
+        ->and(unreachableMarker())->toBe([]);
+});
+
+test('a host that is down says nothing about the others', function () {
+    $requests = transportFailure();
+
+    api('https://api.example.org/v1/')->get('check', skipping());
+    api('https://updates.example.org/')->get('check', skipping());
+
+    expect($requests)->toHaveCount(2);
+});
+
+test('a caller that has not asked to skip a host is answered by it every time', function () {
+    // The captcha check on the public review form, the geolocation lookup, the server IP on
+    // the System Info page. One failed request there is one failed request, not a quarter of
+    // an hour of them. Nothing is written for it.
+    $requests = transportFailure();
+
+    api()->get('check');
+    api()->get('check');
+
+    expect($requests)->toHaveCount(2)
+        ->and(unreachableMarker())->toBe([]);
+});
+
+test('force asks anyway, and a success clears the marker', function () {
+    // Somebody clicking Check on the License row or an update check that is due must reach
+    // the server if it is back whatever the marker says.
+    $requests = transportFailure();
+
+    api()->get('check', skipping(['transient_key' => 'check_license']));
+    api()->get('check', skipping(['transient_key' => 'check_license', 'force' => true]));
+    expect($requests)->toHaveCount(2)
+        ->and(unreachableMarker()['failures'])->toBe(2); // a forced failure counts too
+
+    add_filter('pre_http_request', fn () => httpReply(200, ['ok' => true]), 5); // the host is back
+    api()->get('check', skipping(['transient_key' => 'check_license', 'force' => true]));
+    expect(unreachableMarker())->toBe([]);
+
+    api()->get('version', skipping(['transient_key' => 'get_version']));
+    expect($requests)->toHaveCount(2); // answered by the host, not refused
+});
+
+test('the window doubles with each failure, up to six hours', function () {
+    // The marker outlives its window and keeps the failure count: a host that is still down
+    // when the window ends is asked less and less often.
+    transportFailure();
+
+    api()->get('check', skipping());
+    set_site_transient(api()->unreachableKey(), ['failures' => 1, 'until' => time() - 1], 60); // the window has passed
+    api()->get('check', skipping());
+    expect(unreachableMarker()['failures'])->toBe(2)
+        ->and(unreachableMarker()['until'] - time())->toBeGreaterThan(1790)->toBeLessThanOrEqual(1800);
+
+    set_site_transient(api()->unreachableKey(), ['failures' => 9, 'until' => time() - 1], 60);
+    api()->get('check', skipping());
+    expect(unreachableMarker()['failures'])->toBe(10)
+        ->and(unreachableMarker()['until'] - time())->toBeGreaterThan(21590)->toBeLessThanOrEqual(21600);
+});
+
+test('the marking is logged once, and the silence after it is not', function () {
+    // The console is dumped into support threads. One line saying the host is down and until
+    // when is useful; one line per admin page load for six hours is not.
+    transportFailure();
+
+    api()->get('check', skipping());
+    api()->get('check', skipping());
+    api()->get('check', skipping());
+
+    expect(substr_count(glsr(Console::class)->get(), 'not asking again until'))->toBe(1);
+});
+
+test('the connect timeout is capped at five seconds', function () {
+    // Api::send() sets connect_timeout through the `requests-requests.before_request` action
+    // for its request alone and takes the action off again afterwards. The action is fired
+    // here by hand with the by-reference signature Requests uses because the interceptor
+    // answers before Requests runs.
+    $options = [];
+    add_filter('pre_http_request', function ($pre) use (&$options) {
+        $url = '';
+        $headers = [];
+        $data = [];
+        $type = 'GET';
+        do_action_ref_array('requests-requests.before_request', [&$url, &$headers, &$data, &$type, &$options]);
+
+        return $pre;
+    }, 5);
+    interceptHttp(httpReply(200));
+
+    api()->get('check', ['timeout' => 15]);
+    expect($options['connect_timeout'] ?? null)->toBe(5)
+        ->and(has_action('requests-requests.before_request'))->toBeFalse();
+
+    api()->get('version', ['timeout' => 2]);
+    expect($options['connect_timeout'])->toBe(2); // never longer than the whole request
 });
 
 /*

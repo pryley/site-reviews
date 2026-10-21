@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Defaults\ApiDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
@@ -13,7 +14,10 @@ class Api
     protected const BACKOFF_MAX = 120.0;
     protected const BACKOFF_JITTER = 0.23;
     protected const BACKOFF_MULTIPLIER = 1.6;
+    protected const CONNECT_TIMEOUT = 5;
     protected const DEFAULT_BASE_URL = 'https://api.site-reviews.com/v1/';
+    protected const UNREACHABLE_INITIAL = 15 * \MINUTE_IN_SECONDS;
+    protected const UNREACHABLE_MAX = 6 * \HOUR_IN_SECONDS;
 
     public string $baseUrl;
 
@@ -72,6 +76,7 @@ class Api
         $args = $this->args($args);
         $body = glsr(Sanitizer::class)->sanitizeJson($args['body'] ?: []); // in case body is a JSON string
         $transientKey = $this->transientKey($path, $args['transient_key'], $body);
+        $url = $this->url($path);
         if ($args['force']) {
             $this->forget($transientKey);
         } else {
@@ -79,19 +84,28 @@ class Api
             if (!empty($result)) {
                 return new Response($result);
             }
+            $until = $args['skip_when_down'] ? $this->unreachableUntil() : 0;
+            if ($until > time()) {
+                return Response::unreachable($this->unreachableMessage($url, $until));
+            }
         }
         $maxRetries = max(0, $args['max_retries']);
-        $url = $this->url($path);
         $this->numRetries = 0;
         while (true) {
             $timeout = max($args['timeout'], $this->timeUntilDeadline());
-            $result = wp_remote_request($url, wp_parse_args(compact('timeout'), $args));
+            $result = $this->send($url, wp_parse_args(compact('timeout'), $args));
             $response = new Response($result);
             if ($response->successful()) {
                 $this->remember($transientKey, $result, $args['expiration']);
+                if ($args['skip_when_down']) {
+                    $this->markReachable();
+                }
                 return $response;
             }
             if (!$response->shouldRetry() || $this->numRetries >= $maxRetries) {
+                if ($args['skip_when_down'] && ($response->error || $response->shouldRetry())) {
+                    $this->markUnreachable($url); // no connection or "not now"; a 4xx is an answer
+                }
                 return $response; // "no" rather than "not now", or nothing left to try
             }
             $this->wait(); // increments numRetries
@@ -114,6 +128,12 @@ class Api
         return glsr()->prefix."api_{$key}";
     }
 
+    public function unreachableKey(): string
+    {
+        $host = (string) wp_parse_url($this->baseUrl, \PHP_URL_HOST);
+        return glsr()->prefix.'api_unreachable_'.Str::hash($host, 8);
+    }
+
     public function url(string $path): string
     {
         $path = ltrim($path, '/');
@@ -128,6 +148,25 @@ class Api
     {
         delete_site_transient($transientKey);
         $this->rememberAll(array_diff($this->remembered(), [$transientKey]));
+    }
+
+    protected function markReachable(): void
+    {
+        delete_site_transient($this->unreachableKey());
+    }
+
+    /**
+     * Stop asking the host for a window that doubles with each failure from fifteen minutes to six hours.
+     */
+    protected function markUnreachable(string $url): void
+    {
+        $marker = Arr::consolidate(get_site_transient($this->unreachableKey()));
+        $failures = max(0, Cast::toInt($marker['failures'] ?? 0)) + 1;
+        $window = min(static::UNREACHABLE_INITIAL * 2 ** ($failures - 1), static::UNREACHABLE_MAX);
+        $until = time() + $window;
+        // The marker outlives its window so the failure count survives it.
+        set_site_transient($this->unreachableKey(), compact('failures', 'until'), static::UNREACHABLE_MAX);
+        glsr_log()->warning($this->unreachableMessage($url, $until));
     }
 
     /**
@@ -197,10 +236,41 @@ class Api
         return glsr()->prefix.'api_transients';
     }
 
+    /**
+     * Send the request with the connect timeout capped at CONNECT_TIMEOUT seconds.
+     *
+     * @return array|\WP_Error
+     */
+    protected function send(string $url, array $args)
+    {
+        // WP_Http passes only `timeout` to Requests so connect_timeout keeps its 10 second default.
+        $connectTimeout = function (&$url, &$headers, &$data, &$type, &$options) use ($args) {
+            $options['connect_timeout'] = max(1, min((int) $args['timeout'], static::CONNECT_TIMEOUT));
+        };
+        add_action('requests-requests.before_request', $connectTimeout, 10, 5);
+        $result = wp_remote_request($url, $args);
+        remove_action('requests-requests.before_request', $connectTimeout);
+        return $result;
+    }
+
     protected function timeUntilDeadline(): float
     {
         $now = microtime(true);
         return max($this->deadline - $now, 0.0);
+    }
+
+    protected function unreachableMessage(string $url, int $until): string
+    {
+        return sprintf('%s is unreachable, not asking again until %s.',
+            wp_parse_url($url, \PHP_URL_HOST),
+            wp_date('Y-m-d H:i:s', $until)
+        );
+    }
+
+    protected function unreachableUntil(): int
+    {
+        $marker = Arr::consolidate(get_site_transient($this->unreachableKey()));
+        return Cast::toInt($marker['until'] ?? 0);
     }
 
     /**

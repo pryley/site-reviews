@@ -57,7 +57,7 @@ class WelcomeController extends AbstractController
      */
     public function renderPageCallback(): void
     {
-        $data = glsr(Api::class)->get('tutorials')->data();
+        $data = glsr(Api::class)->get('tutorials', ['skip_when_down' => true])->data();
         $data = glsr(TutorialDefaults::class)->restrict($data);
         $tabs = glsr()->filterArray('addon/welcome/tabs', [
             'getting-started' => _x('Getting Started', 'admin-text', 'site-reviews'),

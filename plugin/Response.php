@@ -80,6 +80,18 @@ class Response
     }
 
     /**
+     * Fail the request to a host that is being skipped without sending it.
+     */
+    public static function unreachable(string $message): Response
+    {
+        $response = new static();
+        $response->error = true;
+        $response->headers = new CaseInsensitiveDictionary([]);
+        $response->message = $message;
+        return $response;
+    }
+
+    /**
      * Some APIs send values as serialized PHP. The bytes arrive over the network, so
      * they must never restore an object: unserialize() runs its magic methods first.
      */

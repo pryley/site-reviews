@@ -152,7 +152,7 @@ class MenuController extends AbstractController
     public function renderPremiumMenuCallback(): void
     {
         $features = [];
-        $data = glsr(Api::class)->get('features')->data();
+        $data = glsr(Api::class)->get('features', ['skip_when_down' => true])->data();
         foreach ($data as $values) {
             $features[] = glsr(FeatureDefaults::class)->restrict($values);
         }
