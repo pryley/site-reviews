@@ -127,7 +127,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
      */
     public function get_items($request)
     {
-        $registered = $this->get_collection_params(); // @todo support (hold, spam, trash) post_status
+        $registered = $this->get_collection_params();
         $mappedKeys = [
             'after' => 'date_after', // string
             'before' => 'date_before', // string
