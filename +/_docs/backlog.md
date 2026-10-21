@@ -163,11 +163,14 @@ Features are subject to change and are sorted alphabetically, not by priority.
   earlier, or move the integration boot into something a test can drive — rather than
   one test per integration. **Revisit.**
 
-- [ ] **`Database\Tables\TableFields` is unreachable, and the `glsr_fields` table is
-  never created.** Every call site is commented out: `TableFields::class` in
-  `Tables::tables()` behind a `// @todo add the fields table`, and the `create()` +
+- [ ] **Decide the custom field values table (`Database\Tables\TableFields`, `glsr_fields`).**
+  The idea (Paul, 2026-10-20): a review's custom form field values stored in a table of
+  their own instead of postmeta rows, so reading them does not join the postmeta table
+  per key, which is likely slower. The class is unreachable: every call site is commented
+  out and marked parked, `TableFields::class` in `Tables::tables()` and the `create()` +
   `addForeignConstraints()` block in `Migrate_6_0_0`. Both files still `use` the class
-  without using it.
+  without using it. To decide: build it (a plugin change with a migration of the
+  `custom_*` meta rows) or delete the class and the two parked blocks.
 
   Because `tables()` drives `createTables()`, the constraint methods, `tablesExist()`,
   `Install::tables()` and `customTables()`, the consequence is total: the table is
@@ -176,9 +179,7 @@ Features are subject to change and are sorted alphabetically, not by priority.
   `database/tables` filter, but nothing does.
 
   **Deliberately left uncovered by the Pest suite** — a test would have to create the
-  table by hand and would then be testing a fixture, not the plugin. Either finish the
-  `@todo` (a plugin change, with a migration) or delete the class; leaving it is a trap
-  for the next person reading `Tables::tables()`. Found while working through the
+  table by hand and would then be testing a fixture, not the plugin. Found while working through the
   0%-coverage list.
 
 - [ ] **`ConvertTableEngine`'s result-0/result-1 branches cannot be tested without
@@ -570,3 +571,24 @@ Features are subject to change and are sorted alphabetically, not by priority.
     notice until every published review has a row.
   - Trace whether `_verified` meta can restore `is_verified`.
 
+
+- [ ] **The WooCommerce product reviews route takes no `status`.** WooCommerce's
+  `/products/reviews` lists approved, hold, spam, trash or all reviews through `status`;
+  `ProductReviewsController::get_items()` maps only the collection params it registers and
+  has none, so a client cannot list unapproved product reviews through it. Filed 2026-10-20
+  from a `@todo` on that line.
+
+- [ ] **A review's REST response runs through no `rest_prepare_*` filter.** Core's posts
+  controller passes every response through `rest_prepare_{$post_type}` with the post and
+  the request; `RestReviewController::prepare_item_for_response()` returns its response
+  unfiltered, so an integration cannot change a field except through the schema's
+  additional-fields path. A filter named in HOOKS.md, with the review, the response and
+  the request. Filed 2026-10-20 from a `@todo` on the return.
+
+- [ ] **MultilingualPress: what an emptied source assignment does to the related copy.**
+  `RelationSaveHelper::syncAssignedPosts()` and `syncAssignedUsers()` relay the source
+  review's assignments to the related copy; with an empty source list nothing runs, so a
+  copy keeps assignments the source no longer has. To decide on the MultilingualPress
+  multisite, with premium's PW38 and the Phase 13 passes: mirror, so an emptied source
+  empties the copy, or leave as it is. Filed 2026-10-20 from two `@todo` markers on those
+  methods.

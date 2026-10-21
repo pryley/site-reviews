@@ -180,7 +180,7 @@ class RestReviewController extends \WP_REST_Controller
         if ('edit' === $context) {
             $response->add_links($links->editLinks($review));
         }
-        return $response; // @todo filter this, i.e. "rest_prepare_{glsr()->post_type}"
+        return $response;
     }
 
     /**
