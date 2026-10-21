@@ -56,9 +56,6 @@ class RelationSaveHelper
         }
     }
 
-    /**
-     * @todo Should all assigned_posts be removed from remote if $sourcePostIds is empty?
-     */
     public function syncAssignedPosts(array $sourcePostIds, bool $force = false): void
     {
         if (!$this->canSync()) {
@@ -84,9 +81,6 @@ class RelationSaveHelper
         $helper->syncTaxonomyTerms($this->context);
     }
 
-    /**
-     * @todo Should all assigned_users be removed from remote if $sourceUserIds is empty?
-     */
     public function syncAssignedUsers(array $sourceUserIds, bool $force = false): void
     {
         if (!$this->canSync()) {

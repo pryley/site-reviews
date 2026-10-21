@@ -200,7 +200,7 @@ class Tables
             TableAssignedPosts::class,
             TableAssignedTerms::class,
             TableAssignedUsers::class,
-            // TableFields::class, // @todo add the fields table
+            // TableFields::class,
             TableRatings::class,
             TableStats::class,
             TableTmp::class,
