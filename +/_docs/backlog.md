@@ -591,4 +591,9 @@ Features are subject to change and are sorted alphabetically, not by priority.
   copy keeps assignments the source no longer has. To decide on the MultilingualPress
   multisite, with premium's PW38 and the Phase 13 passes: mirror, so an emptied source
   empties the copy, or leave as it is. Filed 2026-10-20 from two `@todo` markers on those
-  methods.
+  methods. The same decision covers the other meta rows: at creation the copy gets the
+  columns, the rating, the custom values and the assignments, and later edits relay the
+  content, the author, the geolocation, the rating, the response, the verification and
+  the assignments; no other row travels (the translation cache, `_duplicated_from`, a
+  snippet's rows). The empty `syncMeta()` placeholder for them is gone. Recommended:
+  none travels, since attachment ids and the translation cache belong to one site.
