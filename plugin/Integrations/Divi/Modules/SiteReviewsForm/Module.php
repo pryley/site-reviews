@@ -56,10 +56,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
                                     'declarationFunction' => StyleDeclarations::color(['--glsr-form-star-bg']),
-                                    'selector' => implode(',', [
-                                        "{$baseSelector} {$orderClass}.has-custom-color .glsr-form", // @todo remove in v8.1
-                                        "{$baseSelector} {$orderClass}.has-rating-color .glsr-form",
-                                    ]),
+                                    'selector' => "{$baseSelector} {$orderClass}.has-rating-color .glsr-form",
                                 ],
                             ],
                         ],
