@@ -164,7 +164,7 @@ class Conditions {
             this.elements.filter(el => el.dataset.conditions).forEach(triggerEl => {
                 triggerEl.conditions.observes.forEach(field => {
                     if (field.el.getAttribute('name') !== el.getAttribute('name')) return;
-                    // @todo check for existing triggerEl?
+                    if (el.conditions.triggers.includes(triggerEl)) return; // two conditions on one field share the trigger
                     el.conditions.triggers.push(triggerEl)
                 })
             })
