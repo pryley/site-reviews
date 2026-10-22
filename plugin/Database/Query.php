@@ -180,10 +180,11 @@ class Query
 
     protected function queryHasRevisions(int $reviewId): string
     {
+        // A revision with another status is still waiting to be applied.
         $sql = "
             SELECT COUNT(*)
             FROM table|posts
-            WHERE post_type = 'revision' AND post_parent = %d
+            WHERE post_type = 'revision' AND post_status = 'inherit' AND post_parent = %d
         ";
         return $this->sql($sql, $reviewId);
     }
