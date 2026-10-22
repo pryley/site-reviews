@@ -596,3 +596,21 @@ test('a custom field stored with an invalid name is not read', function () {
     expect($fresh->custom()->toArray())->toEqual(['field' => 'kept'])
         ->and(get_post_meta($review->ID, '_custom_<img src=x onerror=alert(1)>', true))->toBe('value');
 });
+
+test('an update names the responder when it carries response_by', function () {
+    // A response accepted on someone's behalf, such as a held frontend reply, keeps its
+    // writer; an update without the key still records whoever is logged in.
+    $review = createTestReview();
+    $responder = createUser();
+    $moderator = createUser();
+    wp_set_current_user($moderator);
+
+    glsr(ReviewManager::class)->update($review->ID, ['response' => 'On their behalf', 'response_by' => $responder]);
+    expect(get_post_meta($review->ID, '_response_by', true))->toBe((string) $responder);
+
+    glsr(ReviewManager::class)->update($review->ID, ['response' => 'By the moderator']);
+    expect(get_post_meta($review->ID, '_response_by', true))->toBe((string) $moderator);
+
+    glsr(ReviewManager::class)->update($review->ID, ['response' => 'Nobody', 'response_by' => 0]);
+    expect(get_post_meta($review->ID, '_response_by', true))->toBe((string) $moderator);
+});
