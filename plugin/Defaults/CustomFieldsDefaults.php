@@ -45,6 +45,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'is_pinned',
         'is_verified',
         'name',
+        'notice',
         'rating',
         'rating_id',
         'review_id',

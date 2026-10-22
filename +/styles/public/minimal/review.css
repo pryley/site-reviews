@@ -121,6 +121,12 @@
     flex: 1 0;
     white-space: nowrap;
 }
+:--namespace .glsr-review-notice {
+    border-left: 3px solid currentColor;
+    font-size: var(--glsr-text-sm);
+    padding: var(--glsr-gap-xs) var(--glsr-gap-lg);
+    width: 100%;
+}
 :--namespace .glsr-review-location {
     align-items: center;
     display: inline-flex;

@@ -90,6 +90,7 @@ class ReviewHtml extends \ArrayObject
             $tag = $this->normalizeTemplateTag($key);
             $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
         }
+        $templateTags['notice'] = $this->buildTemplateTag($review, 'notice', ''); // the message comes from the value filter
         return glsr()->filterArray('review/build/after', $templateTags, $review, $this);
     }
 

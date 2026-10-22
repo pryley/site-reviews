@@ -2,7 +2,9 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\PostMeta;
+use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewLocationTag;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewNoticeTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewResponseTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTitleTag;
 use GeminiLabs\SiteReviews\Review;
@@ -262,4 +264,34 @@ test('a tag written in the review content stays text', function () {
     ]);
 
     expect((string) $review->build())->toContain('Before {custom} and {{ email }} after.');
+});
+
+/*
+ * NOTICE is an empty slot. A feature puts a message for the viewer in it through the tag's value
+ * filter, the way any tag's value can be filtered.
+ */
+
+test('a review with nothing to say to its viewer prints no notice box', function () {
+    $review = createReview();
+
+    expect((new ReviewNoticeTag('notice'))->handleFor('review', '', $review))->toBe('')
+        ->and((string) $review->build())->not->toContain('glsr-review-notice');
+});
+
+test('a notice added through the value filter is printed above the content', function () {
+    $review = createReview();
+    add_filter('site-reviews/review/value/notice', fn (string $value) => $value.'<p>Your changes are awaiting moderation.</p>');
+
+    $html = (string) $review->build();
+
+    expect($html)->toContain('<div class="glsr-review-notice"><p>Your changes are awaiting moderation.</p></div>')
+        ->and(strpos($html, 'glsr-review-notice'))->toBeLessThan(strpos($html, 'glsr-review-content'));
+});
+
+test('a review form cannot name a custom field "notice"', function () {
+    // The tag would then print the field's value to everyone.
+    $custom = glsr(CustomFieldsDefaults::class)->merge(['dive_site' => 'Blue Hole', 'notice' => 'Read me']);
+
+    expect($custom)->toHaveKey('dive_site')
+        ->and($custom)->not->toHaveKey('notice');
 });

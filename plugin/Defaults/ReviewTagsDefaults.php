@@ -130,6 +130,13 @@ class ReviewTagsDefaults extends DefaultsAbstract
                 'display' => false,
                 'insert' => false,
             ],
+            'notice' => [
+                'description' => _x('A message for the person viewing the review.', 'admin-text', 'site-reviews'),
+                'display' => true,
+                'group' => 'default',
+                'insert' => true,
+                'label' => _x('Notice', 'admin-text', 'site-reviews'),
+            ],
             'rating' => [
                 'description' => _x('The star rating of the review.', 'admin-text', 'site-reviews'),
                 'display' => true,

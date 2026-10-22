@@ -220,6 +220,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
+- Added a `{{ notice }}` tag to the review template for a message to the person viewing the review
 - Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts

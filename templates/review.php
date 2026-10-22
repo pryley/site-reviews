@@ -1,12 +1,13 @@
 <?php defined('ABSPATH') || exit;
 /**
- * @version 1.1.0
+ * @version 1.2.0
  */
 ?>
 <div class="glsr-review" id="review-{{ review_id }}" data-assigned='{{ assigned_data }}'>
     {{ title }}
     {{ rating }} {{ date }}
     {{ assigned_links }}
+    {{ notice }}
     {{ content }}
     {{ avatar }}
     {{ author }} {{ verified }} {{ location }}
