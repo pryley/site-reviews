@@ -263,3 +263,26 @@ test('a diff for somebody else\'s post is handed straight back', function () {
 
     expect($diff)->toBe(['untouched']);
 });
+
+/*
+ * The is_modified tag.
+ */
+
+test('a pending revision does not mark the review as modified', function () {
+    // A held frontend change is stored as a revision with post_status pending until a moderator
+    // applies it; only an inherit revision, the kind WordPress writes on a save, is a change made.
+    $reviewId = createReview(['rating' => 5])->ID;
+    expect(glsr(ReviewManager::class)->get($reviewId, true)->is_modified)->toBeFalse();
+
+    wp_insert_post([
+        'post_content' => 'Not yet',
+        'post_parent' => $reviewId,
+        'post_status' => 'pending',
+        'post_title' => 'Not yet',
+        'post_type' => 'revision',
+    ]);
+    expect(glsr(ReviewManager::class)->get($reviewId, true)->is_modified)->toBeFalse();
+
+    revisionOf($reviewId);
+    expect(glsr(ReviewManager::class)->get($reviewId, true)->is_modified)->toBeTrue();
+});
