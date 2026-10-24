@@ -127,7 +127,7 @@ Search.prototype = {
 
     /** @return void */
     onDocumentClick_: function (ev) {
-        if (jQuery(ev.target).find(this.el).length && jQuery('body').hasClass('glsr-focus')) {
+        if (!this.el[0].contains(ev.target)) {
             this.clearResults_();
         }
     },
@@ -135,6 +135,7 @@ Search.prototype = {
     /** @return void */
     onDocumentKeydown_: function (ev) {
         if (jQuery.isEmptyObject(this.options.results)) return;
+        if (!this.el[0].contains(document.activeElement)) return; // another search on the page holds the focus
         if ('Escape' === ev.key) {
             this.clearResults_();
         }
