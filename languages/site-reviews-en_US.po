@@ -2439,6 +2439,7 @@ msgid "Enabling this option will persist field values entered into the review fo
 msgstr "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 
 #: plugin/Database.php:237
+#: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
