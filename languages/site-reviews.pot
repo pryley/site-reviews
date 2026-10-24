@@ -4479,6 +4479,7 @@ msgid "Upgrade Guide"
 msgstr ""
 
 #: plugin/Database.php:237
+#: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
