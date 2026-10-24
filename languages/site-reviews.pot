@@ -9338,22 +9338,22 @@ msgctxt "admin-text"
 msgid "Not Now"
 msgstr ""
 
-#: views/partials/page-header.php:15
+#: views/partials/page-header.php:18
 msgctxt "admin-text"
 msgid "Open the Screen Options"
 msgstr ""
 
-#: views/partials/page-header.php:15
+#: views/partials/page-header.php:19
 msgctxt "admin-text"
 msgid "Screen Options"
 msgstr ""
 
-#: views/partials/page-header.php:19
+#: views/partials/page-header.php:26
 msgctxt "admin-text"
 msgid "Open the Getting Started page"
 msgstr ""
 
-#: views/partials/page-header.php:19
+#: views/partials/page-header.php:27
 msgctxt "admin-text"
 msgid "Read the Getting Started Guide"
 msgstr ""

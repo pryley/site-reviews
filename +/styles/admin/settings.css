@@ -81,8 +81,10 @@
 @media screen and (max-width: 600px) {
   .glsr-page-header-wrap {
     padding-top: var(--wp-admin--admin-bar--height);
-/*    position: relative;*/
-/*    top: 0;*/
+  }
+  .glsr-page-header > div > div:not(:has(button)), /* hide the icon buttons */
+  .glsr-page-header > div > div > a { /* hide the help icon button */
+    display: none;
   }
   [class*="post-type-site-review"] #wpbody {
     padding-top: 0;
@@ -96,7 +98,7 @@
     margin-left: -28px;
     right: -16em;
   }
-  .glsr-page-header > div > a:not(.glsr-new-post) {
+  .glsr-page-header > div > a:not(.is-primary,[data-new]) {
     display: none;
   }
 }
