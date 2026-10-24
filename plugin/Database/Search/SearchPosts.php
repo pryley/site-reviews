@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database\Search;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SearchPosts extends AbstractSearch
@@ -20,10 +21,11 @@ class SearchPosts extends AbstractSearch
     public function render(): string
     {
         return array_reduce($this->posts(), function ($carry, $post) {
+            $title = Helper::ifEmpty(get_the_title($post->ID), _x('(no title)', 'admin-text', 'site-reviews'));
             return $carry.glsr()->build('partials/editor/search-result', [
                 'ID' => $post->ID,
                 'permalink' => esc_url((string) get_permalink($post->ID)),
-                'title' => esc_attr(get_the_title($post->ID)),
+                'title' => esc_attr($title),
             ]);
         }, '');
     }

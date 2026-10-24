@@ -70,6 +70,17 @@ test('a page can be searched for by title and by id', function () {
         ->and($byId['data']['items'])->toContain('A Findable Page'); // AbstractSearch::search() branches on is_numeric
 });
 
+test('an untitled page is listed as (no title) rather than as a blank row', function () {
+    $this->setUpAjax();
+    $postId = createPost(['post_title' => '']);
+
+    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchPostsAjax(
+        new Request(['search' => (string) $postId])
+    ));
+
+    expect($response['data']['items'])->toContain('(no title)');
+});
+
 test('a search with nothing to find says so rather than returning an empty box', function () {
     $this->setUpAjax();
 
