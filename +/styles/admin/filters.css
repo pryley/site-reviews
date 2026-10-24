@@ -15,6 +15,7 @@
 .glsr-filter {
   display: flex;
   float: left;
+  margin-left: 1px;
   margin-right: 6px;
   min-height: var(--filter-height);
   position: relative;
@@ -63,7 +64,7 @@
   line-height: 2;
   margin: 0;
   /*max-width: 25rem;*/
-  padding: var(--filter-padding-y) 24px var(--filter-padding-y) var(--filter-padding-x);
+  padding: var(--filter-padding-y) 24px var(--filter-padding-y) var(--filter-padding-x) !important;
   position: relative;
   vertical-align: middle;
   width: 100%;
@@ -72,7 +73,9 @@
 
 /* selected */
 .glsr-filter .glsr-filter__selected {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E);
+  background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E') no-repeat right 8px top 55%;
+  background-size: auto;
+  background-size: 16px 16px;
   cursor: pointer;
   height: var(--filter-height);
   min-height: var(--filter-height);
