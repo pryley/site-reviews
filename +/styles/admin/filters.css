@@ -1,6 +1,6 @@
 :root body {
   --filter-font-size: 14px;
-  --filter-height: 30px;
+  --filter-height: 32px;
   --filter-padding-y: 0px;
   --filter-padding-x: 8px;
 }
@@ -53,7 +53,7 @@
   background-repeat: no-repeat;
   background-position: right 5px top 55%;
   border: 1px solid #8c8f94;
-  border-radius: 3px;
+  border-radius: 2px;
   box-shadow: none;
   box-sizing: border-box;
   color: #2c3338;
@@ -92,7 +92,7 @@
 /* dropdown */
 .glsr-filter .glsr-filter__dropdown {
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 2px;
   border: 1px solid #7e8993;
   box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
   box-sizing: border-box;

@@ -34,7 +34,7 @@
   font-size: 24px;
 }
 .glsr-dashboard__item a.dashicons-before::before {
-  color: rgb(70, 70, 70);
+  color: #646970;
 }
 .glsr-dashboard__item a:not(.count-0).dashicons-calendar::before {
   color: #00a32a;
