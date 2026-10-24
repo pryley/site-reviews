@@ -224,7 +224,7 @@ class AdminController extends AbstractController
         }
         if (glsr()->can('create_posts') && in_array($screen->base, ['edit', 'post'])) {
             $buttons['new'] = [
-                'class' => 'components-button is-secondary glsr-new-post',
+                'class' => 'components-button is-secondary',
                 'data-new' => '',
                 'href' => admin_url("post-new.php?post_type={$screen->post_type}"),
                 'text' => Arr::get($post_type_object, 'labels.add_new'),
