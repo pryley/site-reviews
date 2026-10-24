@@ -18,7 +18,7 @@ class DashboardMetabox
         $id = glsr()->prefix.'dashboard_widget';
         $icon = Svg::get('assets/images/icon.svg', [
             'height' => 24,
-            'style' => 'display:flex; flex-shrink:0; margin: -4px 0;',
+            'style' => 'display:flex; flex-shrink:0; margin: -4px 0 -4px -4px;',
         ]);
         $title = glsr(Builder::class)->span([
             'style' => 'display: flex; align-items: center; gap: 1ex;',
