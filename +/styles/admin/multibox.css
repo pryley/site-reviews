@@ -138,7 +138,7 @@
     width: 100%;
   }
 }
-.glsr-search-multibox .glsr-search-results > span {
+.glsr-search-multibox .glsr-search-results > * {
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -154,6 +154,8 @@
   position: relative;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.glsr-search-multibox .glsr-search-results > span {
   &:hover,
   &:active,
   &:focus,
@@ -190,6 +192,7 @@
     padding: 8px 10px 8px 30px;
   }
   .glsr-search-multibox .glsr-search-input,
+  .glsr-search-multibox .glsr-search-results > div,
   .glsr-search-multibox .glsr-search-results > span {
     font-size: 16px;
     height: 40px;
