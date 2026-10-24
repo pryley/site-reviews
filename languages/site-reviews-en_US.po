@@ -5089,22 +5089,22 @@ msgctxt "admin-text"
 msgid "Click me!"
 msgstr "Click me!"
 
-#: views/partials/page-header.php:15
+#: views/partials/page-header.php:18
 msgctxt "admin-text"
 msgid "Open the Screen Options"
 msgstr "Open the Screen Options"
 
-#: views/partials/page-header.php:15
+#: views/partials/page-header.php:19
 msgctxt "admin-text"
 msgid "Screen Options"
 msgstr "Screen Options"
 
-#: views/partials/page-header.php:19
+#: views/partials/page-header.php:26
 msgctxt "admin-text"
 msgid "Open the Getting Started page"
 msgstr "Open the Getting Started page"
 
-#: views/partials/page-header.php:19
+#: views/partials/page-header.php:27
 msgctxt "admin-text"
 msgid "Read the Getting Started Guide"
 msgstr "Read the Getting Started Guide"
