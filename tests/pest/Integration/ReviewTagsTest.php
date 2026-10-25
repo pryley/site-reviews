@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\PostMeta;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewContentTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewLocationTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewResponseTag;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTitleTag;
@@ -161,16 +162,24 @@ test('a response is printed under the review, saying who it is from', function (
     $rendered = (new ReviewResponseTag('response'))
         ->handleFor('review', 'Thank you for the kind words!', $review);
 
-    expect($rendered)->toContain('glsr-review-response-inner')
-        ->toContain('Response from '.get_bloginfo('name'))
-        ->toContain('Thank you for the kind words!');
+    // The label precedes the value, so a label and a value share every tag's shape: notice, label, value.
+    expect($rendered)->toBe(
+        '<div class="glsr-review-response">'.
+        '<span class="glsr-tag-label">Response from '.get_bloginfo('name').'</span>'.
+        '<div class="glsr-tag-value" data-expanded="false"><p>Thank you for the kind words!</p></div>'.
+        '</div>'
+    );
 });
 
-test('a response curls its quotes as the review text does', function () {
+test('a response curls its quotes as the review text does, and so does its label', function () {
     // WordPress texturizes post titles and content; the review's content already curls through
-    // Text::normalize, so typed quotes read the same in every part of the review.
+    // Text::normalize, so typed quotes read the same in every part of the review. The site name
+    // is stored escaped, so only a name set through the filter can carry typed quotes.
+    add_filter('site-reviews/review/build/tag/response/by', fn () => 'Paul\'s "Shop" -- est. 1999');
+
     expect((new ReviewResponseTag('response'))->handleFor('review', 'We said "thanks" -- twice', createReview()))
-        ->toContain('We said &#8220;thanks&#8221; &#8212; twice');
+        ->toContain('We said &#8220;thanks&#8221; &#8212; twice')
+        ->toContain('Response from Paul&#8217;s &#8220;Shop&#8221; &#8212; est. 1999');
 });
 
 test('a title curls its quotes, and an empty title still reads "No Title"', function () {
@@ -262,4 +271,65 @@ test('a tag written in the review content stays text', function () {
     ]);
 
     expect((string) $review->build())->toContain('Before {custom} and {{ email }} after.');
+});
+
+/*
+ * THE LABEL AND NOTICE SLOTS. Every tag has both, empty until a feature fills them through the
+ * tag's label and notice filters; the response names its own label. The notice sits first in the
+ * tag, then the label, then the value, so a message about an edit stands with the content and one
+ * about a reply stands with the response.
+ */
+
+test('a label added through the label filter is printed before the value, and not without one', function () {
+    // The Forms addon labels a tag after the field it came from.
+    add_filter('site-reviews/review/label/content', fn () => 'Your experience');
+
+    $review = createReview();
+
+    expect((string) $review->build())->toContain(
+        '<div class="glsr-review-content"><span class="glsr-tag-label">Your experience</span><div class="glsr-tag-value" data-expanded="false">'
+    );
+    expect((new ReviewContentTag('content'))->handleFor('review', '', $review))->toBe('');
+});
+
+test('the label filter without a tag name runs first and sees the tag', function () {
+    // A plugin that labels many tags hooks the general filter once; the tag tells it which one.
+    add_filter('site-reviews/review/label', fn (string $label, $tag) => 'response' === $tag->tag ? 'They said' : $label, 10, 2);
+    add_filter('site-reviews/review/label/response', fn (string $label) => $label.':');
+
+    expect((new ReviewResponseTag('response'))->handleFor('review', 'Thanks!', createReview()))
+        ->toContain('<span class="glsr-tag-label">They said:</span>');
+});
+
+test('a review with nothing to say to its viewer prints no notice', function () {
+    expect((string) createReview()->build())->not->toContain('glsr-tag-notice');
+});
+
+test('a notice added through the notice filter is printed inside the tag, before its value', function () {
+    $review = createReview();
+    add_filter('site-reviews/review/notice/content', fn (string $notice) => $notice.'<p>Your changes are awaiting moderation.</p>');
+
+    expect((string) $review->build())->toContain(
+        '<div class="glsr-review-content">'.
+        '<div class="glsr-tag-notice"><p>Your changes are awaiting moderation.</p></div>'.
+        '<div class="glsr-tag-value" data-expanded="false">'
+    );
+});
+
+test('a notice is printed for a tag with no value, with no label', function () {
+    // A reply held for moderation is the case: the review has no response yet, but its sender
+    // must be told where their reply stands. The box holds the notice alone, since the label
+    // names a response that is not there.
+    add_filter('site-reviews/review/notice/response', fn () => '<p>Your reply is awaiting moderation.</p>');
+
+    expect((new ReviewResponseTag('response'))->handleFor('review', '', createReview()))
+        ->toBe('<div class="glsr-review-response"><div class="glsr-tag-notice"><p>Your reply is awaiting moderation.</p></div></div>');
+});
+
+test('a raw value carries no notice', function () {
+    // The Designer's previews read raw values, and a message for one viewer is not a value.
+    add_filter('site-reviews/review/notice/content', fn () => '<p>Your changes are awaiting moderation.</p>');
+
+    expect((new ReviewContentTag('content', ['raw' => true]))->handleFor('review', 'Lovely.', createReview()))
+        ->not->toContain('glsr-tag-notice');
 });

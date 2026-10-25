@@ -218,6 +218,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a confirmation popup to the Rollback Plugin tool
 - Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
+- Added a label slot and a notice slot to every review tag, filled through the `site-reviews/review/label/{tag}` and `site-reviews/review/notice/{tag}` filters: the label names the value, the notice is a message to the person viewing the review
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
 - Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
