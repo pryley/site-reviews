@@ -200,6 +200,7 @@ site-reviews/review/notice/<tag_or_field_key>               (string $notice, Con
 site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
 site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
 site-reviews/review/types                                   (array $types): array
+site-reviews/review/value                                   (string $value, Contracts\TagContract $tag): string
 site-reviews/review/value/<tag_or_field_key>                (string $value, Contracts\TagContract $tag): string
 site-reviews/review/wrap/<tag_or_field_key>                 (string $value, string $rawValue, Contracts\TagContract $tag): string
 site-reviews/review/wrapped                                 (string $value, string $rawValue, Contracts\TagContract $tag): string
