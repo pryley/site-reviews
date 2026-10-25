@@ -568,7 +568,7 @@ msgid "Load more"
 msgstr "Load more"
 
 #. translators: %s: the name of the site
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:11
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:14
 #: views/pages/documentation/faq/change-response-name.php:11
 #, php-format
 msgid "Response from %s"
