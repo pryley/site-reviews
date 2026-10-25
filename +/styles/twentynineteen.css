@@ -31,14 +31,6 @@
     font-style: normal;
     font-weight: 500;
 }
-:--namespace .glsr-review-response-inner p:first-of-type strong {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-family: var(--glsr-font);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-}
 :--namespace form.glsr-form .glsr-field-error {
     font-family: var(--glsr-font);
 }
