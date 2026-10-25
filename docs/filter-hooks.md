@@ -193,6 +193,10 @@ site-reviews/review/build/tag/response/by                   (string $responseBy,
 site-reviews/review/call/<methodName>                       (Review $review, ...$args): void|mixed
 site-reviews/review/create/post_data                        (array $values, Commands\CreateReview $createReview): array
 site-reviews/review/html/<property>                         (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
+site-reviews/review/label                                   (string $label, Contracts\TagContract $tag): string
+site-reviews/review/label/<tag_or_field_key>                (string $label, Contracts\TagContract $tag): string
+site-reviews/review/notice                                  (string $notice, Contracts\TagContract $tag): string
+site-reviews/review/notice/<tag_or_field_key>               (string $notice, Contracts\TagContract $tag): string
 site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
 site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
 site-reviews/review/types                                   (array $types): array

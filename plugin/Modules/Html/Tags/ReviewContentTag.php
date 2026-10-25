@@ -17,6 +17,9 @@ class ReviewContentTag extends ReviewTag
 
     protected function value(): string
     {
+        if ('' === $this->value) {
+            return ''; // an excerpt of nothing is an empty paragraph
+        }
         $useExcerpts = glsr_get_option('reviews.excerpts', false, 'bool');
         if ($this->isRaw() || !$useExcerpts) {
             return Text::text($this->value);
