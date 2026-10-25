@@ -29,35 +29,25 @@
     justify-content: center;
 }
 :root .glsr-review-response {
+    background-color: color-mix(in srgb,currentColor 10%,transparent);
+    border-radius: var(--glsr-radius);
     padding: var(--glsr-py) var(--glsr-px);
     position: relative;
     width: 100%;
-    &::before {
-        border-color: currentColor transparent;
-        border-style: solid;
-        border-bottom-width: calc(var(--glsr-text-md) * 1.5);
-        border-left-width: 0;
-        border-right-width: calc(var(--glsr-text-md) * 2);
-        border-top-width: 0;
-        content: '';
-        height: 0;
-        opacity: .1;
-        position: absolute;
-        right: calc(var(--glsr-text-md) * 1.5);
-        top: calc(-1 * calc(var(--glsr-text-md) * 1.5));
-        width: 0;
-    }
-    &::after {
-        background-color: currentColor;
-        border-radius: var(--glsr-radius);
-        content: '';
-        height: 100%;
-        left: 0;
-        opacity: .1;
-        position: absolute;
-        top: 0;
-        width: 100%;
-    }
+}
+:root .glsr-review-response::before {
+    border-color: color-mix(in srgb,currentColor 10%,transparent) transparent;
+    border-style: solid;
+    border-bottom-width: calc(var(--glsr-text-md) * 1.5);
+    border-left-width: 0;
+    border-right-width: calc(var(--glsr-text-md) * 2);
+    border-top-width: 0;
+    content: '';
+    height: 0;
+    position: absolute;
+    right: calc(var(--glsr-text-md) * 1.5);
+    top: calc(-1 * calc(var(--glsr-text-md) * 1.5));
+    width: 0;
 }
 :root .glsr-rtl .glsr-review-response::before {
     border-left-width: calc(var(--glsr-text-md) * 2);
@@ -67,10 +57,6 @@
 }
 :root .glsr-review-type :is(a,svg) {
     display: block;
-}
-:root .glsr-review-response-inner {
-    position: relative;
-    z-index: 1;
 }
 
 :--namespace .glsr-review {
@@ -109,7 +95,7 @@
     object-fit: cover;
 }
 :--namespace .glsr-review-content,
-:--namespace .glsr-review-response-inner {
+:--namespace .glsr-review-response {
     overflow-wrap: anywhere;
 }
 :--namespace .glsr-review-content {
