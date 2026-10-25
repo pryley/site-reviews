@@ -2502,7 +2502,7 @@ msgid "Review Notifications"
 msgstr ""
 
 #: helpers.php:281
-#: plugin/Licensing/LicenseRow.php:165
+#: plugin/Licensing/LicenseRow.php:166
 #: views/partials/settings/premium-license.php:4
 msgctxt "admin-text"
 msgid "Site Reviews Premium"
@@ -2541,7 +2541,7 @@ msgstr ""
 
 #: plugin/Addons/UpdateNotice.php:78
 #: plugin/Licensing/Commands/ValidateLicenseKeys.php:64
-#: plugin/Licensing/LicenseRow.php:297
+#: plugin/Licensing/LicenseRow.php:298
 msgctxt "admin-text"
 msgid "contact support"
 msgstr ""
@@ -2606,7 +2606,7 @@ msgstr ""
 
 #. translators: %s: link to the License Keys page
 #: plugin/Application.php:176
-#: plugin/Licensing/LicenseRow.php:116
+#: plugin/Licensing/LicenseRow.php:117
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
@@ -6277,7 +6277,7 @@ msgstr ""
 
 #: plugin/Licensing/Commands/ValidateLicenseKeys.php:126
 #: plugin/Licensing/Commands/Verify.php:142
-#: plugin/Licensing/LicenseRow.php:280
+#: plugin/Licensing/LicenseRow.php:281
 msgctxt "admin-text"
 msgid "The license server could not be reached. Please try again later."
 msgstr ""
@@ -6309,7 +6309,7 @@ msgid "Renew your license"
 msgstr ""
 
 #: plugin/Licensing/Commands/Verify.php:126
-#: plugin/Licensing/LicenseRow.php:299
+#: plugin/Licensing/LicenseRow.php:300
 msgctxt "admin-text"
 msgid "This appears to be an invalid license key for Site Reviews Premium."
 msgstr ""
@@ -6334,23 +6334,23 @@ msgstr ""
 msgid "You must be logged in to do this."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:112
+#: plugin/Licensing/LicenseRow.php:113
 msgctxt "admin-text"
 msgid "License Key"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:114
+#: plugin/Licensing/LicenseRow.php:115
 msgctxt "admin-text"
 msgid "Paste license key"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:139
+#: plugin/Licensing/LicenseRow.php:140
 msgctxt "admin-text"
 msgid "Already purchased? Enter your license key to enable Site Reviews Premium."
 msgstr ""
 
 #. translators: %s: the names of the active addons
-#: plugin/Licensing/LicenseRow.php:161
+#: plugin/Licensing/LicenseRow.php:162
 #, php-format
 msgctxt "admin-text"
 msgid "It replaces %s with one plugin and imports its settings."
@@ -6358,52 +6358,52 @@ msgid_plural "It replaces %s with one plugin and imports their settings."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Licensing/LicenseRow.php:168
+#: plugin/Licensing/LicenseRow.php:169
 msgctxt "admin-text"
 msgid "Site Reviews Premium is installed but not active. Activate it to unlock all features."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:169
+#: plugin/Licensing/LicenseRow.php:170
 msgctxt "admin-text"
 msgid "Your license is active. Install Site Reviews Premium to unlock all features."
 msgstr ""
 
 #. translators: %s: link to the Nifty Plugins account page
-#: plugin/Licensing/LicenseRow.php:172
+#: plugin/Licensing/LicenseRow.php:173
 #, php-format
 msgctxt "admin-text"
 msgid "Your license is active. Download Site Reviews Premium from %s and upload it on the Plugins screen."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:173
+#: plugin/Licensing/LicenseRow.php:174
 msgctxt "admin-text"
 msgid "your account"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:176
+#: plugin/Licensing/LicenseRow.php:177
 msgctxt "admin-text"
 msgid "Site Reviews Premium is not receiving updates because it has no valid license key. Verify your license key to receive updates again."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:178
+#: plugin/Licensing/LicenseRow.php:179
 msgctxt "admin-text"
 msgid "Site Reviews Premium cannot be installed until a valid license key is verified."
 msgstr ""
 
 #. translators: %s: the names of the active addons
-#: plugin/Licensing/LicenseRow.php:180
+#: plugin/Licensing/LicenseRow.php:181
 #, php-format
 msgctxt "admin-text"
 msgid "You are using %s, which it replaces."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:182
+#: plugin/Licensing/LicenseRow.php:183
 msgctxt "admin-text"
 msgid "Your license includes Site Reviews Premium. Verify your license key to install it."
 msgstr ""
 
 #. translators: %s: the names of the active addons
-#: plugin/Licensing/LicenseRow.php:185
+#: plugin/Licensing/LicenseRow.php:186
 #, php-format
 msgctxt "admin-text"
 msgid "You are using %s, and your license includes Site Reviews Premium, which replaces it. Verify your license key to install it."
@@ -6412,7 +6412,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$s: the names of the active addons, %2$s: link with the text "Site Reviews Premium"
-#: plugin/Licensing/LicenseRow.php:190
+#: plugin/Licensing/LicenseRow.php:191
 #, php-format
 msgctxt "admin-text"
 msgid "You are using %1$s. Site Reviews Premium replaces it and adds more features: consider upgrading to %2$s."
@@ -6421,94 +6421,94 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: link with the text "Site Reviews Premium"
-#: plugin/Licensing/LicenseRow.php:196
+#: plugin/Licensing/LicenseRow.php:197
 #, php-format
 msgctxt "admin-text"
 msgid "You are using the free Site Reviews plugin. To unlock more features, consider upgrading to %s."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:260
+#: plugin/Licensing/LicenseRow.php:261
 msgctxt "admin-text"
 msgid "License key never expires."
 msgstr ""
 
 #. translators: %s: the expiry date
-#: plugin/Licensing/LicenseRow.php:263
+#: plugin/Licensing/LicenseRow.php:264
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key expires on %s."
 msgstr ""
 
 #. translators: %1$s: the expiry date, %2$s: the renewal link's opening tag, %3$s: its closing tag
-#: plugin/Licensing/LicenseRow.php:283
+#: plugin/Licensing/LicenseRow.php:284
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key expired on %1$s. Please %2$srenew it%3$s."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:288
+#: plugin/Licensing/LicenseRow.php:289
 msgctxt "admin-text"
 msgid "Your license key is not active for this website. Click Verify License Key to activate it."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Licensing/LicenseRow.php:291
+#: plugin/Licensing/LicenseRow.php:292
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "Your license key has reached its activation limit. Please visit the %s page of your Nifty Plugins account and click \"Manage Sites\"."
 msgstr ""
 
 #. translators: %s: link with the text "contact support"
-#: plugin/Licensing/LicenseRow.php:296
+#: plugin/Licensing/LicenseRow.php:297
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key has been disabled. Please %s for more information."
 msgstr ""
 
 #. translators: %s: the expiry date
-#: plugin/Licensing/LicenseRow.php:301
+#: plugin/Licensing/LicenseRow.php:302
 #, php-format
 msgctxt "admin-text"
 msgid "Your license key expires soon! It expires on %s."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:343
+#: plugin/Licensing/LicenseRow.php:344
 msgctxt "admin-text"
 msgid "Your license subscription is active and will automatically renew."
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:346
+#: plugin/Licensing/LicenseRow.php:347
 msgctxt "subscription status (admin-text)"
 msgid "cancelled"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:347
+#: plugin/Licensing/LicenseRow.php:348
 msgctxt "subscription status (admin-text)"
 msgid "completed"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:348
+#: plugin/Licensing/LicenseRow.php:349
 msgctxt "subscription status (admin-text)"
 msgid "expired"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:349
+#: plugin/Licensing/LicenseRow.php:350
 msgctxt "subscription status (admin-text)"
 msgid "failing"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:350
+#: plugin/Licensing/LicenseRow.php:351
 msgctxt "subscription status (admin-text)"
 msgid "pending"
 msgstr ""
 
-#: plugin/Licensing/LicenseRow.php:351
+#: plugin/Licensing/LicenseRow.php:352
 msgctxt "subscription status (admin-text)"
 msgid "trialling"
 msgstr ""
 
 #. translators: %s: the subscription status
-#: plugin/Licensing/LicenseRow.php:354
+#: plugin/Licensing/LicenseRow.php:355
 #, php-format
 msgctxt "admin-text"
 msgid "Your license subscription is %s and will not automatically renew."
@@ -6870,7 +6870,7 @@ msgid "Submit Review"
 msgstr ""
 
 #. translators: %s: the name of the site
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:21
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:11
 #: views/pages/documentation/faq/change-response-name.php:11
 #, php-format
 msgid "Response from %s"

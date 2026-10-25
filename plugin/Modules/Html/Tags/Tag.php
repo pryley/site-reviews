@@ -66,11 +66,15 @@ abstract class Tag implements TagContract
             if (!empty($wrapWith)) {
                 $value = $this->wrapValue($wrapWith, $value);
             }
+            $value = $this->slot('label', 'span', $this->label()).$value;
             $value = glsr()->filterString("{$this->for}/wrapped", $value, $rawValue, $this);
-            if (!$this->isRaw()) {
+        }
+        if (!$this->isRaw()) {
+            $notice = $this->slot('notice', 'div');
+            if ('' !== $notice || Helper::isNotEmpty($value)) {
                 $value = glsr(Builder::class)->div([
                     'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
-                    'text' => $value,
+                    'text' => $notice.$value,
                 ]);
             }
         }
@@ -85,6 +89,27 @@ abstract class Tag implements TagContract
     protected function hideOption(): string
     {
         return $this->tag;
+    }
+
+    protected function label(): string
+    {
+        return '';
+    }
+
+    /**
+     * Fill the label or the notice slot of the tag.
+     */
+    protected function slot(string $slot, string $wrapWith, string $default = ''): string
+    {
+        $text = glsr()->filterString("{$this->for}/{$slot}", $default, $this);
+        $text = glsr()->filterString("{$this->for}/{$slot}/{$this->tag}", $text, $this);
+        if (!Helper::isNotEmpty($text)) {
+            return '';
+        }
+        return glsr(Builder::class)->$wrapWith([
+            'class' => "glsr-tag-{$slot}",
+            'text' => $text,
+        ]);
     }
 
     /**

@@ -72,6 +72,10 @@
 :--namespace .glsr-tag-label {
     font-weight: var(--glsr-tag-label-weight);
 }
+:--namespace .glsr-tag-notice {
+    border-left: 3px solid currentColor;
+    font-size: var(--glsr-text-sm);
+}
 :--namespace .glsr-review-assigned_links,
 :--namespace .glsr-review-assigned_posts,
 :--namespace .glsr-review-assigned_terms,
@@ -96,7 +100,16 @@
 }
 :--namespace .glsr-review-content,
 :--namespace .glsr-review-response {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--glsr-gap-sm);
     overflow-wrap: anywhere;
+}
+:--namespace .glsr-review-content > .glsr-tag-label,
+:--namespace .glsr-review-content > .glsr-tag-value,
+:--namespace .glsr-review-response > .glsr-tag-label,
+:--namespace .glsr-review-response > .glsr-tag-value {
+    flex-basis: 100%;
 }
 :--namespace .glsr-review-content {
     width: 100%;
@@ -126,6 +139,9 @@
 }
 :--namespace .glsr-review-response {
     width: 100%;
+}
+:--namespace .glsr-review-response > .glsr-tag-notice {
+    order: 1; /* display notice below the response text */
 }
 :--namespace .glsr-review-title {
     width: 100%;
