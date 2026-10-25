@@ -62,23 +62,34 @@ abstract class Tag implements TagContract
     {
         $rawValue = $value;
         $value = glsr()->filterString("{$this->for}/value/{$this->tag}", $value, $this);
-        if (Helper::isNotEmpty($value)) { // space characters are considered empty
-            if (!empty($wrapWith)) {
-                $value = $this->wrapValue($wrapWith, $value);
-            }
-            $value = $this->slot('label', 'span', $this->label()).$value;
-            $value = glsr()->filterString("{$this->for}/wrapped", $value, $rawValue, $this);
+        $content = $this->content($value, $wrapWith);
+        if ('' === $content) {
+            return '';
         }
+        $wrapped = glsr()->filterString("{$this->for}/wrapped", $content, $rawValue, $this); // the content that is wrapped
         if (!$this->isRaw()) {
-            $notice = $this->slot('notice', 'div');
-            if ('' !== $notice || Helper::isNotEmpty($value)) {
-                $value = glsr(Builder::class)->div([
-                    'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
-                    'text' => $notice.$value,
-                ]);
-            }
+            $wrapped = glsr(Builder::class)->div([
+                'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
+                'text' => $wrapped,
+            ]);
         }
-        return glsr()->filterString("{$this->for}/wrap/{$this->tag}", $value, $rawValue, $this);
+        return glsr()->filterString("{$this->for}/wrap/{$this->tag}", $wrapped, $rawValue, $this);
+    }
+
+    /**
+     * Return the tag's unwrapped content
+     */
+    protected function content(string $value, ?string $wrapWith): string
+    {
+        $notice = $this->isRaw() ? '' : $this->slot('notice', 'div');
+        if (Helper::isEmpty($value)) {
+            return $notice; // value is empty but a notice need showing
+        }
+        $label = $this->slot('label', 'span', $this->label());
+        if (!empty($wrapWith)) {
+            $value = $this->wrapValue($wrapWith, $value);
+        }
+        return $notice.$label.$value;
     }
 
     protected function handle(): string
@@ -103,7 +114,7 @@ abstract class Tag implements TagContract
     {
         $text = glsr()->filterString("{$this->for}/{$slot}", $default, $this);
         $text = glsr()->filterString("{$this->for}/{$slot}/{$this->tag}", $text, $this);
-        if (!Helper::isNotEmpty($text)) {
+        if (Helper::isEmpty($text)) {
             return '';
         }
         return glsr(Builder::class)->$wrapWith([
