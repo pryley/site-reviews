@@ -47,11 +47,31 @@ const AjaxFormTokenField = (props: ControlProps) => {
         }),
     });
 
+    // The token field keys its rows and tokens by the value, so the id is in it.
     const transformItem = (item: Item): TransformedItem => ({
         id: String(item.id),
         title: item.title,
-        value: !isNaN(parseFloat(item.id)) ? `${item.id}: ${item.title}` : item.title,
+        value: `${item.id}: ${item.title}`,
     });
+
+    // The titles that more than one suggested or selected item carries.
+    const sharedTitles = useMemo(() => {
+        const idsByTitle = new Map<string, Set<string>>();
+        [...suggestedValues, ...selectedValues].forEach((item) => {
+            idsByTitle.set(item.title, (idsByTitle.get(item.title) || new Set()).add(item.id));
+        });
+        return new Set([...idsByTitle].filter(([, ids]) => ids.size > 1).map(([title]) => title));
+    }, [selectedValues, suggestedValues]);
+
+    // A token shows its id when the id is a number or when another item has the same title.
+    const displayTransform = (value: string): string => {
+        const [id, ...rest] = value.split(': ');
+        const title = rest.join(': ');
+        if (!rest.length || !isNaN(parseFloat(id)) || sharedTitles.has(title)) {
+            return value;
+        }
+        return title;
+    };
 
     const initValues = async () => {
         if (hasFetchedData.current) return;
@@ -195,6 +215,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
                         __nextHasNoMarginBottom
                         className={className}
                         disabled={isLoading}
+                        displayTransform={displayTransform}
                         help=""
                         label={label || ''}
                         onChange={handleValueChange}
