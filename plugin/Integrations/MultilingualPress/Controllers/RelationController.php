@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\ReviewCopier;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\SettingsCopier;
@@ -191,7 +190,7 @@ class RelationController extends AbstractController
         if (glsr()->post_type !== $context->sourcePost()->post_type) {
             return;
         }
-        $author = Cast::toInt($request->bodyValue('post_author_override'));
+        $author = $request->bodyValue('post_author_override');
         $sourceData = Arr::consolidate($request->bodyValue(glsr()->id));
         $sourcePostIds = Arr::consolidate($request->bodyValue('post_ids'));
         $sourceUserIds = Arr::consolidate($request->bodyValue('user_ids'));
@@ -199,7 +198,10 @@ class RelationController extends AbstractController
         $helper->syncRating($sourceData); // do this first in case it's a new review
         $helper->syncAssignedPosts($sourcePostIds);
         $helper->syncAssignedUsers($sourceUserIds);
-        $helper->syncAuthor($author);
+        // A user who can't edit others' reviews has no Author box
+        if (is_numeric($author)) {
+            $helper->syncAuthor((int) $author);
+        }
     }
 
     /**
