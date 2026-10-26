@@ -138,6 +138,12 @@ class RelationSaveHelper
         $this->maybeRestoreSite($originalSiteId);
     }
 
+    public function syncMetadata(): void
+    {
+        $helper = new PostRelationSaveHelper($this->contentRelations);
+        $helper->syncMetadata($this->context, resolve(ServerRequest::class));
+    }
+
     public function syncRating(array $sourceData): void
     {
         if (!$this->canSync()) {
