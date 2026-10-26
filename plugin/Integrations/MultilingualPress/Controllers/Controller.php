@@ -10,36 +10,9 @@ use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Notices\NetworkNotice;
 use Inpsyde\MultilingualPress\Core\PostTypeRepository;
 use Inpsyde\MultilingualPress\Core\TaxonomyRepository;
 use Inpsyde\MultilingualPress\TranslationUi\Post;
-use function Inpsyde\MultilingualPress\resolve;
 
 class Controller extends AbstractController
 {
-    /**
-     * @action multilingualpress.update_plugin_settings
-     */
-    public function enforceEntitySupport(): void
-    {
-        if (!is_admin()) {
-            return;
-        }
-        $enforcedTypes = get_post_types(['show_in_menu' => true]);
-        $enforcedTypes = array_filter($enforcedTypes, fn ($type) => str_starts_with($type, glsr()->post_type));
-        $postTypes = get_network_option(0, PostTypeRepository::OPTION);
-        $taxonomies = get_network_option(0, TaxonomyRepository::OPTION);
-        foreach ($enforcedTypes as $key => $type) {
-            $postTypes[$key] = [
-                PostTypeRepository::FIELD_ACTIVE => true,
-                PostTypeRepository::FIELD_PERMALINK => false,
-            ];
-        }
-        $taxonomies[glsr()->taxonomy] = [
-            TaxonomyRepository::FIELD_ACTIVE => true,
-            TaxonomyRepository::FIELD_SKIN => '',
-        ];
-        resolve(PostTypeRepository::class)->supportPostTypes($postTypes);
-        resolve(TaxonomyRepository::class)->supportTaxonomies($taxonomies);
-    }
-
     /**
      * @filter site-reviews/enqueue/admin/inline-styles
      */
@@ -171,6 +144,43 @@ class Controller extends AbstractController
     {
         unset($config['settings.general.multilingual']);
         return $config;
+    }
+
+    /**
+     * Report every review post type as supported, so none waits on a save of MultilingualPress's settings.
+     * Settings > Post Types hides them (Hooks::onPluginsLoaded).
+     *
+     * @filter multilingualpress.supported_post_types
+     *
+     * @filter-location \Inpsyde\MultilingualPress\Core\PostTypeRepository
+     */
+    public function filterSupportedPostTypes(array $types): array
+    {
+        foreach (get_post_types(['show_in_menu' => true]) as $type) {
+            if (str_starts_with($type, glsr()->post_type)) {
+                $types[$type] = [
+                    PostTypeRepository::FIELD_ACTIVE => true,
+                    PostTypeRepository::FIELD_PERMALINK => false,
+                ];
+            }
+        }
+        return $types;
+    }
+
+    /**
+     * Report the review category as supported, as filterSupportedPostTypes does the review post types.
+     *
+     * @filter multilingualpress.supported_taxonomies
+     *
+     * @filter-location \Inpsyde\MultilingualPress\Core\TaxonomyRepository
+     */
+    public function filterSupportedTaxonomies(array $taxonomies): array
+    {
+        $taxonomies[glsr()->taxonomy] = [
+            TaxonomyRepository::FIELD_ACTIVE => true,
+            TaxonomyRepository::FIELD_SKIN => '',
+        ];
+        return $taxonomies;
     }
 
     /**

@@ -25,7 +25,6 @@ class ServiceProvider implements ModuleServiceProvider
     public function activateModule(Container $container): void
     {
         glsr(Hooks::class)->hook(Controller::class, [
-            ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
             ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'],
             ['filterForceCreateRelations', 'multilingualpress.force_create_post_relations'],
@@ -35,6 +34,8 @@ class ServiceProvider implements ModuleServiceProvider
             ['filterNotices', 'site-reviews/notices'],
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'],
             ['filterSettingForm', 'site-reviews/setting-form/config'],
+            ['filterSupportedPostTypes', 'multilingualpress.supported_post_types'],
+            ['filterSupportedTaxonomies', 'multilingualpress.supported_taxonomies'],
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
         ]);
         glsr(Hooks::class)->hook(RelationController::class, [
