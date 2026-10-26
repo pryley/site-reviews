@@ -50,6 +50,7 @@ class ReviewCopier
                 ]);
                 $helper = new RelationSaveHelper($context);
                 $helper->relateReviews();
+                $helper->syncMetadata();
                 $helper->syncAssignedPosts($review->assigned_posts, true);
                 $helper->syncAssignedUsers($review->assigned_users, true);
                 $helper->syncAssignedTerms();
