@@ -46,6 +46,9 @@ const review = (reviewId, values = {}) => send({
 const ROUTES = { 'submit-review': 'submissions' };
 
 const submit = (formData) => {
+    if (!config.request?.ajax?.url) {
+        return Promise.resolve(_unconfigured());
+    }
     const action = formData.get(`${config.nameprefix}[_action]`) || 'submit-review';
     const path = (config.request?.routes || ROUTES)[action];
     if (path) {
@@ -63,6 +66,12 @@ const _notice = (reason) => {
         console.info(`Site Reviews is using the admin-ajax fallback (${reason}).`);
         noticeShown = true;
     }
+}
+
+// the inline script did not run: an optimisation plugin moved it, or a filter removed the request config
+const _unconfigured = () => {
+    console.error('Site Reviews: the request config is missing.')
+    return { data: { message: 'The request was not sent: the Site Reviews config is missing.' }, status: 0, success: false };
 }
 
 const _query = (params, search = new URLSearchParams()) => {
@@ -161,6 +170,9 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
 
 // REST first, admin-ajax on any sign that the REST API itself is unavailable
 const send = async ({ body, method = 'GET', params, path }) => {
+    if (!config.request?.ajax?.url) {
+        return _unconfigured();
+    }
     const start = Date.now();
     let result;
     let transport = 'REST';
