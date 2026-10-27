@@ -4,13 +4,13 @@
 // old XMLHttpRequest module and always posts to admin-ajax, so actions that only the
 // Router knows about keep working. The plugin's own requests use request.js instead.
 import { legacyData, legacyPost } from '@/public/request.js';
+import xhr from '@/public/xhr.js';
 
 const data = (action, values = {}) => legacyData(action, values);
 
 const get = (url, callback, headers) => {
-    fetch(url, { headers: Object.assign({}, headers, { 'X-Requested-With': 'XMLHttpRequest' }) })
-        .then(response => response.text())
-        .then(text => callback(text))
+    xhr(url, { headers, method: 'GET' })
+        .then(({ text }) => callback(text))
         .catch(e => callback(e.message))
 }
 

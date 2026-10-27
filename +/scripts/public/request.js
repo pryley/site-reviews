@@ -1,5 +1,7 @@
 /** global: FormData, GLSR */
 
+import xhr from '@/public/xhr.js';
+
 // REST error codes that mean the REST API itself is unavailable (security plugin,
 // stale nonce, removed routes) rather than a final answer from a Site Reviews route.
 const FALLBACK_CODES = ['rest_cookie_invalid_nonce', 'rest_disabled', 'rest_forbidden', 'rest_no_route', 'rest_not_logged_in'];
@@ -19,12 +21,8 @@ export const legacyData = (action, values = {}) => {
 
 export const legacyPost = async (formOrData, headers = {}) => {
     try {
-        const response = await fetch(GLSR.ajax_url, {
-            body: _legacyBody(formOrData),
-            headers: Object.assign({}, headers, { 'X-Requested-With': 'XMLHttpRequest' }),
-            method: 'POST',
-        });
-        const json = await response.json();
+        const { text } = await xhr(GLSR.ajax_url, { body: _legacyBody(formOrData), headers });
+        const json = JSON.parse(text);
         return { data: json.data, success: json.success };
     } catch (e) {
         return { data: { message: e.message }, success: false };
@@ -97,6 +95,9 @@ const _rest = async (method, path, params, body) => {
         headers['X-WP-Nonce'] = GLSR.rest_nonce;
     }
     const response = await fetch(_restUrl(path, params), { body, headers, method });
+    if ('function' !== typeof response?.json) {
+        throw new FallbackError('window.fetch has been replaced by another script and returned no Response');
+    }
     if (!(response.headers.get('content-type') || '').includes('application/json')) {
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
     }
