@@ -2,13 +2,20 @@
 
 import xhr from '@/public/xhr.js';
 
-// REST error codes that mean the REST API itself is unavailable (security plugin,
-// stale nonce, removed routes) rather than a final answer from a Site Reviews route.
-const FALLBACK_CODES = ['rest_cookie_invalid_nonce', 'rest_disabled', 'rest_forbidden', 'rest_no_route', 'rest_not_logged_in'];
+// codes that send only this request to admin-ajax (a stale nonce, a removed route)
+const FALLBACK_CODES = ['rest_cookie_invalid_nonce', 'rest_no_route'];
+
+// codes that say the REST API is unavailable (security plugin, login requirement, etc.)
+const REST_UNAVAILABLE_CODES = ['rest_disabled', 'rest_forbidden', 'rest_not_logged_in'];
 
 let noticeShown = false;
+let restUnavailable = null;
 
+// this request goes to admin-ajax
 class FallbackError extends Error {}
+
+// this request and the rest of the page go to admin-ajax
+class RestUnavailableError extends FallbackError {}
 
 export const legacyData = (action, values = {}) => {
     let data = {};
@@ -87,8 +94,11 @@ const _notice = (reason) => {
 }
 
 const _rest = async (method, path, params, body) => {
+    if (restUnavailable) {
+        throw restUnavailable;
+    }
     if (!GLSR.rest_url) {
-        throw new FallbackError('no REST URL');
+        throw new RestUnavailableError('no REST URL');
     }
     const headers = { 'X-Requested-With': 'XMLHttpRequest' };
     if (GLSR.rest_nonce) {
@@ -96,7 +106,7 @@ const _rest = async (method, path, params, body) => {
     }
     const response = await fetch(_restUrl(path, params), { body, headers, method });
     if ('function' !== typeof response?.json) {
-        throw new FallbackError('window.fetch has been replaced by another script and returned no Response');
+        throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
     if (!(response.headers.get('content-type') || '').includes('application/json')) {
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
@@ -105,8 +115,11 @@ const _rest = async (method, path, params, body) => {
     if (response.ok) {
         return { data: json, success: true };
     }
-    if ([401, 403].includes(response.status) || FALLBACK_CODES.includes(json.code)) {
-        throw new FallbackError(json.code || `HTTP ${response.status}`);
+    if (FALLBACK_CODES.includes(json.code)) {
+        throw new FallbackError(json.code);
+    }
+    if ([401, 403].includes(response.status) || REST_UNAVAILABLE_CODES.includes(json.code)) {
+        throw new RestUnavailableError(json.code || `HTTP ${response.status}`);
     }
     return { data: json, success: false }; // a final error from a Site Reviews route
 }
@@ -140,6 +153,9 @@ const send = async ({ body, legacy, method, params, path }) => {
         return await _rest(method, path, params, body);
     } catch (e) {
         _notice(e.message);
+        if (e instanceof RestUnavailableError) {
+            restUnavailable = e;
+        }
         return legacyPost(legacy());
     }
 }
