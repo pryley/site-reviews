@@ -45,6 +45,9 @@ const review = (reviewId, values = {}) => send({
 // for a config without routes: the admin script, and a page cached before 8.4.0
 const ROUTES = { 'submit-review': 'submissions' };
 
+// for a page cached before 8.4.0, whose config has no rest action
+const REST_ACTION = 'glsr_rest_request';
+
 const submit = (formData) => {
     if (!config.request?.ajax?.url) {
         return Promise.resolve(_unconfigured());
@@ -148,7 +151,7 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
     } else {
         Object.entries(body || {}).forEach(([key, value]) => data.append(key, value))
     }
-    data.append('action', config.request.ajax.rest)
+    data.append('action', config.request.ajax.rest || REST_ACTION)
     data.append('_rest_method', method)
     data.append('_rest_path', path)
     data.append('_rest_query', _query(params).toString())

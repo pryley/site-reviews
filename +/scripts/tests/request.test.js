@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
-const { loadAdmin, loadPublic, publicConfig } = require('./harness.js');
+const { PUBLIC_INLINE_83, loadAdmin, loadPublic, publicConfig } = require('./harness.js');
 
 const AJAX_URL = 'https://example.org/wp-admin/admin-ajax.php';
 const REST_URL = 'https://example.org/wp-json/site-reviews/v1/';
@@ -478,3 +478,11 @@ test('without the inline config, a request is not sent and the answer says why',
     assert.equal(errors.length, 3)
 });
 
+test('a page cached before 8.4.0 sends the rest action its config does not have', async () => {
+    const { window } = loadPublic({ inline: PUBLIC_INLINE_83 });
+    fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
+    const sent = fakeXhr(window, [{ json: { reviews: '<div></div>' } }]);
+    const result = await window.GLSR.Request.send({ path: 'render/reviews' });
+    assert.equal(fields(sent[0]).action, 'glsr_rest_request')
+    assert.deepEqual(plain(result), { data: { reviews: '<div></div>' }, status: 200, success: true })
+});
