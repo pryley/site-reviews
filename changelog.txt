@@ -1,5 +1,30 @@
 == Changelog ==
 
+= 8.3.6 (2026-10-27) =
+
+- Fixed a deactivated addon losing its settings and license key when other settings were saved
+- Fixed a general error being shown instead of a clear one when a license key is entered in the wrong addon's field
+- Fixed a security issue in the star rating color setting of the Site Reviews blocks
+- Fixed a security issue in the SureCart Product Rating block
+- Fixed admin pages loading slowly when the license server could not be reached
+- Fixed checkboxes and radio buttons that cannot be changed in the review details box being shaded grey
+- Fixed IP address detection with the Forwarded proxy HTTP header when the address is in quotes
+- Fixed PHP warnings for users who cannot open any Site Reviews page, such as subscribers and shop customers
+- Fixed plugin updates and rollbacks overwriting the plugin folder when it is a Git repository
+- Fixed review excerpts being cut short when a review contains curly quotes
+- Fixed reviews loading slowly on sites where a security plugin blocks the WordPress REST API
+- Fixed reviews not submitting on sites where a theme or another plugin breaks how the browser sends requests
+- Fixed Site Reviews notices not showing in the Network Admin of a multisite
+- Fixed the browser's Back button reloading the page when going back through pages of reviews on some WordPress 7.1 themes
+- Fixed the MultilingualPress integration changing the author of a translated review when it was saved by someone who cannot change authors
+- Fixed the MultilingualPress integration not making addon review types translatable until the MultilingualPress settings were saved
+- Fixed the NitroPack cache not being cleared for the page a review was added to
+- Fixed the personal data eraser missing reviews when a person had written more than 100 of them
+- Fixed the personal data exporter and eraser leaving out reviews that are pending or in the Trash
+- Fixed the Rollback tool briefly offering the older version as an available update
+- Fixed the upgrade notices coming back, and the expired license notice going away, while the license server could not be reached
+- Fixed warnings in the browser console when editing Site Reviews blocks
+
 = 8.3.5 (2026-10-13) =
 
 - Fixed a security issue where a visitor could fake their IP address when a proxy HTTP header was selected

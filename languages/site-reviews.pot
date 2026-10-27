@@ -2,7 +2,7 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Reviews 8.3.5\n"
+"Project-Id-Version: Site Reviews 8.3.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-reviews\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
@@ -4288,81 +4288,81 @@ msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:103
+#: plugin/Controllers/ToolsController.php:118
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:125
+#: plugin/Controllers/ToolsController.php:140
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:147
+#: plugin/Controllers/ToolsController.php:162
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:170
+#: plugin/Controllers/ToolsController.php:185
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:177
+#: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:192
+#: plugin/Controllers/ToolsController.php:207
 msgctxt "admin-text"
 msgid "Your user role does not have permission to view the system info."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:234
+#: plugin/Controllers/ToolsController.php:249
 msgctxt "admin-text"
 msgid "You do not have permission to remove location data from reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:235
+#: plugin/Controllers/ToolsController.php:250
 msgctxt "admin-text"
 msgid "You do not have permission to geolocate reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:256
+#: plugin/Controllers/ToolsController.php:271
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:283
+#: plugin/Controllers/ToolsController.php:298
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:351
+#: plugin/Controllers/ToolsController.php:366
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/ToolsController.php:356
+#: plugin/Controllers/ToolsController.php:371
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/ToolsController.php:412
+#: plugin/Controllers/ToolsController.php:427
 #, php-format
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:431
+#: plugin/Controllers/ToolsController.php:446
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:436
+#: plugin/Controllers/ToolsController.php:451
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
 msgid "Rollback is unavailable because the Site Reviews folder is a git repository."
@@ -5232,11 +5232,11 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: plugin/Helpers/Text.php:167
+#: plugin/Helpers/Text.php:198
 msgid "Show less"
 msgstr ""
 
-#: plugin/Helpers/Text.php:168
+#: plugin/Helpers/Text.php:199
 msgid "Show more"
 msgstr ""
 
@@ -5915,27 +5915,27 @@ msgctxt "(loyalty-program-for-woocommerce) admin-text"
 msgid "View Product"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:97
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:70
 msgctxt "multilingualpress text (admin-text)"
 msgid "Overwrite the content of the translated review with the content of the source review."
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:98
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:71
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Slug:"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:99
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:72
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Status:"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:100
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:73
 msgctxt "multilingualpress text (admin-text)"
 msgid "Review Title:"
 msgstr ""
 
-#: plugin/Integrations/MultilingualPress/ServiceProvider.php:94
+#: plugin/Integrations/MultilingualPress/ServiceProvider.php:95
 msgctxt "admin-text"
 msgid "Enable Site Reviews Support for MultilingualPress."
 msgstr ""
@@ -6533,7 +6533,7 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
 
-#: plugin/Modules/Paginate.php:72
+#: plugin/Modules/Paginate.php:69
 msgid "&hellip;"
 msgstr ""
 
@@ -6828,7 +6828,7 @@ msgctxt "admin-text"
 msgid "async"
 msgstr ""
 
-#: plugin/Rollback.php:13
+#: plugin/Rollback.php:24
 msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr ""
