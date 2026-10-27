@@ -18,9 +18,8 @@ if (!$displayEmpty && $ratings->average <= 0) {
     return '';
 }
 
-$textTemplate = str_contains($attributes['text'], '{num}')
-    ? $attributes['text']
-    : '{num}';
+$textTemplate = sanitize_text_field($attributes['text']);
+$textTemplate = str_contains($textTemplate, '{num}') ? $textTemplate : '{num}';
 
 $context = [
     'reviewCount' => $ratings->reviews,
@@ -51,7 +50,7 @@ $blockAttributes = get_block_wrapper_attributes([
 
 ?>
 <div <?php echo wp_kses_data($blockAttributes); ?>
-    data-wp-context='<?php echo (wp_json_encode($context) ?: '{}'); ?>'
+    <?php echo wp_interactivity_data_wp_context($context); ?>
     data-wp-init="callbacks.init"
     data-wp-interactive="site-reviews/surecart-product-rating"
     data-wp-key="surecart-product-rating-<?php echo (int) $product->id; ?>"
