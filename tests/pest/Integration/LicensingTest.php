@@ -251,6 +251,70 @@ test('a licence that could not be checked is not reported as invalid', function 
     expect(glsr(License::class)->status()['invalid'])->toBeFalse();
 });
 
+/*
+ * The answer that outlives an outage.
+ *
+ * The daily cache holds only a success. Once it expires while the licence server is down,
+ * nothing would say the site is premium and the upgrade pitches would come back until the
+ * server answers again. So License::status() keeps the last answer the server gave for three
+ * days and uses it while the server cannot be reached.
+ */
+
+/**
+ * The licence server goes down: the daily cache is emptied and every request is refused.
+ */
+function licenseServerDown(): void
+{
+    glsr(GeminiLabs\SiteReviews\Api::class, ['url' => (new GeminiLabs\SiteReviews\Addons\Updater(addonId()))->apiUrl])->flushAll('check_license');
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 0]));
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+}
+
+function lastAnswerKey(string $addonId): string
+{
+    return glsr()->prefix.'license_answer_'.$addonId;
+}
+
+function ageLastAnswer(string $addonId, int $seconds): void
+{
+    $stored = (array) get_option(lastAnswerKey($addonId));
+    update_option(lastAnswerKey($addonId), array_replace($stored, ['time' => time() - $seconds]));
+}
+
+test('the last answer stands in for three days while the licence server cannot be reached', function () {
+    licensedAddon('a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    expect(glsr(License::class)->status()['premium'])->toBeTrue();
+
+    licenseServerDown();
+    expect(glsr(License::class)->status()['premium'])->toBeTrue()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse();
+
+    ageLastAnswer(addonId(), 4 * DAY_IN_SECONDS);
+    expect(glsr(License::class)->status()['premium'])->toBeFalse()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse(); // nothing is known again
+});
+
+test('an expired answer stands in too, so the renewal banner stays', function () {
+    licensedAddon('an-expired-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59']]);
+    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+
+    licenseServerDown();
+    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+});
+
+test('a key changed during the outage does not inherit the answer of the old one', function () {
+    licensedAddon('an-old-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    glsr(License::class)->status();
+
+    licenseServerDown();
+    licensedAddon('a-new-key');
+    expect(glsr(License::class)->status()['premium'])->toBeFalse()
+        ->and(glsr(License::class)->status()['invalid'])->toBeFalse();
+});
+
 test('an EXPIRED licence is kept, and the person is told to renew it', function () {
     // Deliberately not thrown away, and this is the one that would be easy to get wrong. An
     // expired licence is a real licence — it stops updates, it does not stop the addon working —

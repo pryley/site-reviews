@@ -3,9 +3,16 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class License
 {
+    // How long the last answer stands in for a server that cannot be reached.
+    protected const LAST_ANSWER_FOR = 3 * \DAY_IN_SECONDS;
+
     public function isPremium(): bool
     {
         return $this->status()['premium'];
@@ -29,7 +36,7 @@ class License
                 'force' => false, // cached once per day
                 'license' => $license,
             ]);
-            $check = $updater->checkLicense();
+            $check = $this->answerOrLast($addonId, $license, $updater->checkLicense());
             if ('expired' === $check['license']) {
                 $status['expired'] = true;
             }
@@ -41,5 +48,39 @@ class License
             }
         }
         return $status;
+    }
+
+    /**
+     * Use the last answer for three days while the licence server cannot be reached.
+     */
+    protected function answerOrLast(string $addonId, string $license, array $check): array
+    {
+        if ('unknown' !== $check['license']) {
+            $this->rememberAnswer($addonId, $license, $check);
+            return $check;
+        }
+        $stored = Arr::consolidate(get_option($this->lastAnswerKey($addonId)));
+        $age = time() - Cast::toInt($stored['time'] ?? 0);
+        if ($age < static::LAST_ANSWER_FOR && Str::hash($license, 8) === ($stored['key'] ?? '')) {
+            return glsr(CheckLicenseDefaults::class)->restrict(Arr::consolidate($stored['check'] ?? []));
+        }
+        return $check;
+    }
+
+    protected function lastAnswerKey(string $addonId): string
+    {
+        return glsr()->prefix.'license_answer_'.$addonId;
+    }
+
+    protected function rememberAnswer(string $addonId, string $license, array $check): void
+    {
+        $key = $this->lastAnswerKey($addonId);
+        $stored = Arr::consolidate(get_option($key));
+        $hash = Str::hash($license, 8);
+        $unchanged = ($stored['check'] ?? null) === $check && ($stored['key'] ?? null) === $hash;
+        if ($unchanged && time() - Cast::toInt($stored['time'] ?? 0) < \HOUR_IN_SECONDS) {
+            return; // status() runs several times a page; one write an hour is enough
+        }
+        update_option($key, ['check' => $check, 'key' => $hash, 'time' => time()]);
     }
 }
