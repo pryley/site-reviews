@@ -39,6 +39,9 @@ const get = (url, callback, headers) => {
 }
 
 const post = (formOrData, callback, headers) => {
+    if (!window.GLSR.config.request?.ajax?.url) { // the inline script did not run
+        return callback({ message: 'The request was not sent: the Site Reviews config is missing.' }, false);
+    }
     xhr(window.GLSR.config.request.ajax.url, { body: body(formOrData), headers })
         .then(({ text }) => JSON.parse(text))
         .then(json => callback(json.data, json.success))
