@@ -58,7 +58,7 @@ $blockAttributes = get_block_wrapper_attributes([
     <?php echo glsr_star_rating($ratings->average, $ratings->reviews, compact('theme')); ?>
     <?php if ($attributes['has_text']) { ?>
         <?php if ($attributes['is_link']) { ?>
-            <a href="<?php echo esc_attr($attributes['link_url']); ?>"
+            <a href="<?php echo esc_url($attributes['link_url']); ?>"
                 data-wp-on--click="actions.scroll"
                 data-wp-text="state.formattedText"
             ></a>
