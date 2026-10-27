@@ -82,8 +82,8 @@ const _refreshNonce = async () => {
     try {
         const url = new URL(config.request.ajax.url);
         url.searchParams.set('action', 'rest-nonce');
-        const response = await fetch(url);
-        nonce = response.ok ? await response.text() : false;
+        const { ok, text } = await xhr(url, { method: 'GET' });
+        nonce = ok ? text : false;
     } catch (e) {
         nonce = false;
     }
@@ -107,7 +107,7 @@ const _rest = async (method, path, params, body, isRetry = false) => {
     const json = await response.json();
     if (isInvalidNonce(json) && !isRetry) {
         await _refreshNonce()
-        return _rest(method, path, params, body, true);
+        return _rest(method, path, params, body, true); // once more, with the fresh nonce
     }
     if (!response.ok && !isFinal(json)) {
         if ('rest_no_route' === json.code) {
@@ -151,7 +151,7 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
         const json = JSON.parse(text);
         if (isInvalidNonce(json) && !isRetry) {
             await _refreshNonce()
-            return _tunnel(method, path, params, body, true);
+            return _tunnel(method, path, params, body, true); // once more, with the fresh nonce
         }
         return { data: json, status, success: ok };
     } catch (e) {
