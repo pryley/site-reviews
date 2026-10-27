@@ -24,68 +24,72 @@ class ReviewCopier
 
     public function copy(): void
     {
-        $review = glsr_get_review($this->sourcePostId);
-        $data = $review->toArray([
-            'assigned_posts', // exclude
-            'assigned_terms', // exclude
-        ]);
-        if (empty($data['terms'])) {
-            unset($data['terms']); // see ReviewManager::duplicate()
-        }
-        $siteIds = assignedLanguageTags();
-        foreach ($siteIds as $remoteSiteId => $tag) {
-            if ($this->sourceSiteId === $remoteSiteId) {
-                continue;
+        glsr(SyncState::class)->during(function () {
+            $review = glsr_get_review($this->sourcePostId);
+            $data = $review->toArray([
+                'assigned_posts', // exclude
+                'assigned_terms', // exclude
+            ]);
+            if (empty($data['terms'])) {
+                unset($data['terms']); // see ReviewManager::duplicate()
             }
-            if ($this->relationExists($remoteSiteId)) {
-                continue;
+            $siteIds = assignedLanguageTags();
+            foreach ($siteIds as $remoteSiteId => $tag) {
+                if ($this->sourceSiteId === $remoteSiteId) {
+                    continue;
+                }
+                if ($this->relationExists($remoteSiteId)) {
+                    continue;
+                }
+                $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
+                if ($remoteReview = glsr_create_review($data)) {
+                    $context = new RelationshipContext([
+                        RelationshipContext::REMOTE_POST_ID => $remoteReview->ID,
+                        RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
+                        RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
+                        RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
+                    ]);
+                    $helper = new RelationSaveHelper($context);
+                    $helper->relateReviews();
+                    $helper->syncMetadata();
+                    $helper->syncAssignedPosts($review->assigned_posts, true);
+                    $helper->syncAssignedUsers($review->assigned_users, true);
+                    $helper->syncAssignedTerms();
+                } else {
+                    glsr_log()->error('MLP: unable to copy remote review')
+                      ->debug($data);
+                }
+                $this->maybeRestoreSite($originalSiteId);
             }
-            $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
-            if ($remoteReview = glsr_create_review($data)) {
-                $context = new RelationshipContext([
-                    RelationshipContext::REMOTE_POST_ID => $remoteReview->ID,
-                    RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
-                    RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
-                    RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
-                ]);
-                $helper = new RelationSaveHelper($context);
-                $helper->relateReviews();
-                $helper->syncMetadata();
-                $helper->syncAssignedPosts($review->assigned_posts, true);
-                $helper->syncAssignedUsers($review->assigned_users, true);
-                $helper->syncAssignedTerms();
-            } else {
-                glsr_log()->error('MLP: unable to copy remote review')
-                  ->debug($data);
-            }
-            $this->maybeRestoreSite($originalSiteId);
-        }
+        });
     }
 
     public function run(\Closure $func): void
     {
-        $translations = translationIds(
-            $this->sourcePostId,
-            ContentRelations::CONTENT_TYPE_POST,
-            $this->sourceSiteId
-        );
-        foreach ($translations as $remoteSiteId => $remotePostId) {
-            if ($this->sourceSiteId === $remoteSiteId) {
-                continue;
+        glsr(SyncState::class)->during(function () use ($func) {
+            $translations = translationIds(
+                $this->sourcePostId,
+                ContentRelations::CONTENT_TYPE_POST,
+                $this->sourceSiteId
+            );
+            foreach ($translations as $remoteSiteId => $remotePostId) {
+                if ($this->sourceSiteId === $remoteSiteId) {
+                    continue;
+                }
+                if (!$remotePostId > 0) {
+                    continue;
+                }
+                $context = new RelationshipContext([
+                    RelationshipContext::REMOTE_POST_ID => $remotePostId,
+                    RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
+                    RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
+                    RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
+                ]);
+                $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
+                call_user_func($func, $context);
+                $this->maybeRestoreSite($originalSiteId);
             }
-            if (!$remotePostId > 0) {
-                continue;
-            }
-            $context = new RelationshipContext([
-                RelationshipContext::REMOTE_POST_ID => $remotePostId,
-                RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
-                RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
-                RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
-            ]);
-            $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
-            call_user_func($func, $context);
-            $this->maybeRestoreSite($originalSiteId);
-        }
+        });
     }
 
     public function sync(): void
