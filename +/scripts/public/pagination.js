@@ -1,5 +1,6 @@
 import Button from '@/public/button.js';
 import Request from '@/public/request.js';
+import { historyState } from '@/public/helpers.js';
 
 const classNames = {
     hide: 'glsr-hide',
@@ -62,7 +63,7 @@ class Pagination {
             const data = this._data(current);
             const nextLink = current.nextElementSibling;
             if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.url_parameter) { // window loaded page 1
-                window.history.replaceState(data, '', window.location)
+                window.history.replaceState(historyState(data), '', window.location)
             }
         }
     }
@@ -129,7 +130,7 @@ class Pagination {
         }
         this._paginate(response)
         if (GLSR.url_parameter) {
-            window.history.pushState(request, '', linkEl.href) // add a new entry to browser History
+            window.history.pushState(historyState(request), '', linkEl.href) // add a new entry to browser History
         }
     }
 

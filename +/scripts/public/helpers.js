@@ -56,6 +56,12 @@ export const extend = () => {
   return result
 };
 
+export const historyState = (state = {}) => {
+  // WordPress 7.1 reloads the page on popstate when the entry's state lacks the id.
+  const { wpInteractivityId } = window.history.state || {};
+  return wpInteractivityId ? { ...state, wpInteractivityId } : state;
+};
+
 export const isEmpty = (obj) => {
   return [Object, Array].includes((obj || {}).constructor) && !Object.entries((obj || {})).length;
 };

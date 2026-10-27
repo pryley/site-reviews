@@ -7,7 +7,7 @@ import Request from '@/public/request.js';
 import Session from '@/public/session.js';
 import StarRating from '@/public/starrating.js';
 import Validation from '@/public/validation.js';
-import { addRemoveClass, classListSelector } from '@/public/helpers.js';
+import { addRemoveClass, classListSelector, historyState } from '@/public/helpers.js';
 
 class Form {
     constructor (formEl, buttonEl) {
@@ -109,7 +109,7 @@ class Form {
                 if (GLSR.url_parameter) {
                     let url = new URL(location.href);
                     url.searchParams.delete(GLSR.url_parameter);
-                    window.history.replaceState({}, '', url.toString());
+                    window.history.replaceState(historyState(), '', url.toString());
                 }
             }
             if (this.summaryEl && response.summary) {

@@ -6,7 +6,7 @@ import Form from '@/public/form.js';
 import Modal from '@/public/modal.js';
 import Pagination from '@/public/pagination.js';
 import dom from '@/public/dom.js';
-import { debounce, fadeIn, fadeOut, isEmpty, parseJson, throttle } from '@/public/helpers.js';
+import { debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, throttle } from '@/public/helpers.js';
 
 const events = {
     blockForm: 'block:site-reviews/form',
@@ -106,7 +106,7 @@ const initReview = () => {
     const requestKeys = ['form', 'review_id', 'theme', 'verified'];
     const request = Object.fromEntries(requestKeys.filter(k => k in params).map(k => [k, params[k]]));
     requestKeys.forEach(k => url.searchParams.delete(k));
-    history.replaceState({}, '', url);
+    history.replaceState(historyState(), '', url);
     Request.review(params.review_id, request).then(({ data: response, success }) => {
         if (!success) {
             return console.error({ request, response })
