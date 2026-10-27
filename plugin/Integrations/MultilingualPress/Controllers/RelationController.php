@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\ReviewCopier;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\SettingsCopier;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\SyncState;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
@@ -194,14 +195,16 @@ class RelationController extends AbstractController
         $sourceData = Arr::consolidate($request->bodyValue(glsr()->id));
         $sourcePostIds = Arr::consolidate($request->bodyValue('post_ids'));
         $sourceUserIds = Arr::consolidate($request->bodyValue('user_ids'));
-        $helper = new RelationSaveHelper($context);
-        $helper->syncRating($sourceData); // do this first in case it's a new review
-        $helper->syncAssignedPosts($sourcePostIds);
-        $helper->syncAssignedUsers($sourceUserIds);
-        // A user who can't edit others' reviews has no Author box
-        if (is_numeric($author)) {
-            $helper->syncAuthor((int) $author);
-        }
+        glsr(SyncState::class)->during(function () use ($author, $context, $sourceData, $sourcePostIds, $sourceUserIds) {
+            $helper = new RelationSaveHelper($context);
+            $helper->syncRating($sourceData); // do this first in case it's a new review
+            $helper->syncAssignedPosts($sourcePostIds);
+            $helper->syncAssignedUsers($sourceUserIds);
+            // A user who can't edit others' reviews has no Author box
+            if (is_numeric($author)) {
+                $helper->syncAuthor((int) $author);
+            }
+        });
     }
 
     /**
