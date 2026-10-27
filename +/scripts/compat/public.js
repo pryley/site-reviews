@@ -1,6 +1,7 @@
 /** global: FormData, GLSR */
 
 import Ajax from '@/public/ajax.js';
+import xhr from '@/public/xhr.js';
 import events from '@/compat/events.js';
 import { KEYS, PATHS } from '@/compat/keys.js';
 import deprecated, { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
@@ -54,9 +55,9 @@ const postToRouter = async (formData, action) => {
     body.append('action', ajax.action)
     body.append('_ajax_request', true)
     try {
-        const response = await fetch(ajax.url, { body, headers: { 'X-Requested-With': 'XMLHttpRequest' }, method: 'POST' });
-        const json = await response.json();
-        return { data: json.data, status: response.status, success: true === json.success };
+        const { status, text } = await xhr(ajax.url, { body });
+        const json = JSON.parse(text);
+        return { data: json.data, status, success: true === json.success };
     } catch (e) {
         return { data: { message: e.message }, status: 0, success: false };
     }
