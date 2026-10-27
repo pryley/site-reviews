@@ -458,3 +458,23 @@ test('GLSR.ajax.get requests a URL with XMLHttpRequest and calls back with the t
     assert.equal(await get('https://example.org/page'), 'network error')
 });
 
+test('without the inline config, a request is not sent and the answer says why', async () => {
+    // an optimisation plugin moved the inline script, or a filter removed the request config
+    const { window } = loadPublic({ inline: '' });
+    const errors = [];
+    window.console.error = (...args) => errors.push(args.join(' '));
+    const calls = fakeFetch(window, []);
+    const sent = fakeXhr(window, []);
+    const failed = { data: { message: 'The request was not sent: the Site Reviews config is missing.' }, status: 0, success: false };
+    assert.deepEqual(plain(await window.GLSR.Request.send({ path: 'render/reviews' })), failed)
+    assert.deepEqual(plain(await window.GLSR.Request.submit(formOf(window, 'submit-review'))), failed)
+    assert.deepEqual(plain(await window.GLSR.Request.submit(formOf(window, 'update-review'))), failed)
+    const posted = await new Promise((resolve) => {
+        window.GLSR.ajax.post({ 'site-reviews[_action]': 'my-action' }, (...args) => resolve(args))
+    });
+    assert.deepEqual(plain(posted), [failed.data, false])
+    assert.equal(calls.length, 0)
+    assert.equal(sent.length, 0)
+    assert.equal(errors.length, 3)
+});
+
