@@ -368,6 +368,40 @@ test('a custom rating colour is used as given', function () {
         ->toContain('--glsr-review-star-bg:#ff9900');
 });
 
+test('a theme colour given as a var() is kept', function () {
+    // The custom attribute holds the palette entry's raw value, and a theme.json palette can
+    // point a colour at a custom property, so the check must not ask for a parseable colour.
+    $review = createReview();
+
+    $html = reviewBlock([
+        'post_id' => $review->ID,
+        'style_rating_color_custom' => 'var(--wp--custom--color--rating)',
+    ]);
+
+    expect($html)->toContain('--glsr-review-star-bg:var(--wp--custom--color--rating)');
+});
+
+test('a rating colour cannot add a declaration of its own to the wrapper', function () {
+    // Both attributes are written into the post, so anybody who can edit a post can write them.
+    // safecss_filter_attr() splits the style on ; and keeps every declaration it allows, so a
+    // colour of 'red;position:fixed' would cover the page.
+    $review = createReview();
+
+    $custom = reviewBlock([
+        'post_id' => $review->ID,
+        'style_rating_color_custom' => 'red;position:fixed;inset:0',
+    ]);
+    $preset = reviewBlock([
+        'post_id' => $review->ID,
+        'style_rating_color' => 'x);position:fixed;inset:0;--y:(',
+    ]);
+
+    expect($custom)->not->toContain('position:fixed')
+        ->and($custom)->not->toContain('--glsr-review-star-bg')
+        ->and($preset)->not->toContain('position:fixed')
+        ->and($preset)->toContain('--glsr-review-star-bg:var(--wp--preset--color--xpositionfixedinset0--y, currentColor)');
+});
+
 test('no rating colour means no class and no custom property', function () {
     // array_filter() on the styles, and an empty $classes. A block that emitted an empty
     // `--glsr-review-star-bg:` would override the stylesheet's default with nothing.

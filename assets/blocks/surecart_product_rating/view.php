@@ -26,21 +26,25 @@ $context = [
     'textTemplate' => $textTemplate,
 ];
 
+$ratingColor = sanitize_key($attributes['style_rating_color'] ?? '');
+$ratingColorCustom = (string) ($attributes['style_rating_color_custom'] ?? '');
+// A ; would start a second declaration.
+$ratingColorCustom = preg_match('/[;{}\\\\<>"\']/', $ratingColorCustom) ? '' : $ratingColorCustom;
+
 $blockClassAttr = '';
-if (!empty($attributes['style_rating_color']) || !empty($attributes['style_rating_color_custom'])) {
+if (!empty($ratingColor) || !empty($ratingColorCustom)) {
     $blockClassAttr = 'has-rating-color';
 }
 
 $blockStyleAttr = '';
-if (!empty($attributes['style_rating_color'])) {
+if (!empty($ratingColor)) {
     // A theme preset variable is undefined once the theme that provided it is no
     // longer active. Without a fallback the declaration is invalid at computed-value
     // time and the stars become transparent.
-    $fallback = $attributes['style_rating_color_custom'] ?? '';
-    $fallback = $fallback ?: 'currentColor';
-    $blockStyleAttr = "--glsr-review-star-bg: var(--wp--preset--color--{$attributes['style_rating_color']}, {$fallback});";
-} elseif (!empty($attributes['style_rating_color_custom'])) {
-    $blockStyleAttr = "--glsr-review-star-bg: {$attributes['style_rating_color_custom']};";
+    $fallback = $ratingColorCustom ?: 'currentColor';
+    $blockStyleAttr = "--glsr-review-star-bg: var(--wp--preset--color--{$ratingColor}, {$fallback});";
+} elseif (!empty($ratingColorCustom)) {
+    $blockStyleAttr = "--glsr-review-star-bg: {$ratingColorCustom};";
 }
 
 $blockAttributes = get_block_wrapper_attributes([

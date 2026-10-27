@@ -100,11 +100,14 @@ abstract class Block implements BlockContract
      */
     protected function resolveColor(array $attributes, string $presetKey, string $customKey, string $fallback = 'currentColor'): string
     {
-        $custom = $attributes[$customKey] ?? '';
-        if (empty($attributes[$presetKey])) {
+        $custom = (string) ($attributes[$customKey] ?? '');
+        // A ; would start a second declaration.
+        $custom = preg_match('/[;{}\\\\<>"\']/', $custom) ? '' : $custom;
+        $preset = sanitize_key($attributes[$presetKey] ?? '');
+        if (empty($preset)) {
             return $custom;
         }
-        return "var(--wp--preset--color--{$attributes[$presetKey]}, ".($custom ?: $fallback).')';
+        return "var(--wp--preset--color--{$preset}, ".($custom ?: $fallback).')';
     }
 
     protected function wrapperAttributes(array $args): array
