@@ -38,4 +38,11 @@
     <rule ref="PHPCompatibility.FunctionUse.NewFunctions.str_ends_withFound">
         <severity>0</severity>
     </rule>
+    <!-- The bundled libraries are updated from upstream, never edited. -->
+    <rule ref="PHPCompatibility.ParameterValues.RemovedProprietaryCSVEscaping">
+        <exclude-pattern>*/vendors/*</exclude-pattern>
+    </rule>
+    <rule ref="PHPCompatibility.ParameterValues.RemovedTriggerErrorLevel">
+        <exclude-pattern>*/vendors/*</exclude-pattern>
+    </rule>
 </ruleset>
