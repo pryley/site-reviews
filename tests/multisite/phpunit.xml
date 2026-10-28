@@ -31,7 +31,6 @@
             <directory suffix=".php">../../plugin/Integrations/GamiPress</directory>
             <directory suffix=".php">../../plugin/Integrations/JetWooBuilder</directory>
             <directory suffix=".php">../../plugin/Integrations/LPFW</directory>
-            <directory suffix=".php">../../plugin/Integrations/MultilingualPress</directory>
             <directory suffix=".php">../../plugin/Integrations/MyCred</directory>
             <directory suffix=".php">../../plugin/Integrations/ProfilePress</directory>
             <directory suffix=".php">../../plugin/Integrations/RankMath</directory>

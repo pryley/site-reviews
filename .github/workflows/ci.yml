@@ -158,6 +158,8 @@ jobs:
           --health-retries=10
 
     env:
+      MULTILINGUALPRESS_REF: 'v5.0.1' # the release tests/stubs/multilingualpress.php is generated from
+      MULTILINGUALPRESS_REPOSITORY: pryley/multilingualpress
       XDEBUG_MODE: 'off'
 
     steps:
@@ -166,6 +168,24 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+      # MultilingualPress is proprietary, so it comes from a private copy of the release
+      # that a read-only deploy key opens. A fork has no key and its tests skip.
+      - name: Look for the MultilingualPress deploy key
+        id: multilingualpress
+        env:
+          DEPLOY_KEY: ${{ secrets.MULTILINGUALPRESS_DEPLOY_KEY }}
+        run: echo "available=$([ -n "$DEPLOY_KEY" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out MultilingualPress
+        if: steps.multilingualpress.outputs.available == 'true'
+        uses: actions/checkout@v5
+        with:
+          path: tests/bin/plugins/multilingualpress
+          persist-credentials: false
+          ref: ${{ env.MULTILINGUALPRESS_REF }}
+          repository: ${{ env.MULTILINGUALPRESS_REPOSITORY }}
+          ssh-key: ${{ secrets.MULTILINGUALPRESS_DEPLOY_KEY }}
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -196,6 +216,12 @@ jobs:
           ln -s "$GITHUB_WORKSPACE" "$WP_ROOT/wp-content/plugins/site-reviews"
           wp core multisite-convert --path="$WP_ROOT" --title='Site Reviews Network'
           wp plugin activate site-reviews --network --path="$WP_ROOT" --url=localhost:8892
+
+      - name: Set up MultilingualPress on the network
+        if: steps.multilingualpress.outputs.available == 'true'
+        run: |
+          ln -s "$GITHUB_WORKSPACE/tests/bin/plugins/multilingualpress" "$WP_ROOT/wp-content/plugins/multilingualpress"
+          bash tests/multisite/setup-multilingualpress.sh --path="$WP_ROOT" --url=localhost:8892
 
       - name: Run the multisite suite with coverage
         run: |
