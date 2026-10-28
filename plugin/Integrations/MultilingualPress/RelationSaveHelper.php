@@ -82,10 +82,20 @@ class RelationSaveHelper
         }
     }
 
+    /**
+     * Assign the remote review the categories related to the source review's.
+     */
     public function syncAssignedTerms(): void
     {
-        $helper = new PostRelationSaveHelper($this->contentRelations);
-        $helper->syncTaxonomyTerms($this->context);
+        // Not PostRelationSaveHelper::syncTaxonomyTerms(): it skips a taxonomy the current user cannot assign terms in.
+        // A visitor who submits a review can assign none.
+        if (!$this->canSync()) {
+            return;
+        }
+        $termIds = $this->remoteAssignedTerms();
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        wp_set_object_terms($this->context->remotePostId(), $termIds, glsr()->taxonomy);
+        $this->maybeRestoreSite($originalSiteId);
     }
 
     public function syncAssignedUsers(array $sourceUserIds, bool $force = false): void
@@ -307,6 +317,38 @@ class RelationSaveHelper
             $postIds[] = $remotePostId;
         }
         return $postIds;
+    }
+
+    /**
+     * Return the remote term ids related to the source review's categories.
+     */
+    protected function remoteAssignedTerms(): array
+    {
+        $remoteSiteId = $this->context->remoteSiteId();
+        $sourceSiteId = $this->context->sourceSiteId();
+        $originalSiteId = $this->maybeSwitchSite($sourceSiteId);
+        $sourceTerms = wp_get_object_terms($this->context->sourcePostId(), glsr()->taxonomy);
+        $this->maybeRestoreSite($originalSiteId);
+        if (!is_array($sourceTerms)) {
+            return [];
+        }
+        $termIds = [];
+        $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
+        foreach ($sourceTerms as $sourceTerm) {
+            // MultilingualPress relates terms by their term_taxonomy_id.
+            $remoteTermTaxonomyId = $this->contentRelations->contentIdForSite(
+                $sourceSiteId,
+                (int) $sourceTerm->term_taxonomy_id,
+                ContentRelations::CONTENT_TYPE_TERM,
+                $remoteSiteId
+            );
+            $remoteTerm = $remoteTermTaxonomyId ? get_term_by('term_taxonomy_id', $remoteTermTaxonomyId, glsr()->taxonomy) : null;
+            if ($remoteTerm instanceof \WP_Term) {
+                $termIds[] = (int) $remoteTerm->term_id;
+            }
+        }
+        $this->maybeRestoreSite($originalSiteId);
+        return $termIds;
     }
 
     protected function remoteAssignedUsers(array $sourceUserIds): array
