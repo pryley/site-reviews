@@ -321,7 +321,7 @@ test('the notice tells the person what to do about it, and offers to do it', fun
         'not-a-plugin/not-a-plugin.php' => [
             'minimum_version' => '1.0.0',
             'name' => 'Not A Plugin',
-            'plugin_uri' => 'https://example.org/not-a-plugin',
+            'plugin_uri' => 'https://wordpress.org/plugins/not-a-plugin/',
             'untested_version' => '2.0.0',
         ],
     ]))->allows();
@@ -329,11 +329,30 @@ test('the notice tells the person what to do about it, and offers to do it', fun
     $notice = renderNotice(new GatekeeperNotice());
 
     expect($notice)->toContain('Not A Plugin')
-        ->toContain('https://example.org/not-a-plugin')
+        ->toContain('https://wordpress.org/plugins/not-a-plugin/')
         ->toContain('Install Not A Plugin')     // the button, for an admin who may install
         ->toContain('button button-primary')
+        ->toContain('action=install-plugin&#038;plugin=not-a-plugin&#038;') // the slug WordPress installs
         ->toContain('_wpnonce')                 // and it is nonced, because it acts
         ->toContain('trigger=notice');          // which is how NoticeController knows it is ours
+});
+
+test('a plugin from outside wordpress.org is linked to its page with no Install button', function () {
+    // WordPress can only install a plugin from wordpress.org, so a plugin sold elsewhere,
+    // such as WPML, has nothing to install from.
+    set_current_screen('plugins');
+    (new Gatekeeper([
+        'not-a-plugin/not-a-plugin.php' => [
+            'minimum_version' => '1.0.0',
+            'name' => 'Not A Plugin',
+            'plugin_uri' => 'https://example.org/not-a-plugin',
+            'untested_version' => '2.0.0',
+        ],
+    ]))->allows();
+
+    expect(renderNotice(new GatekeeperNotice()))
+        ->toContain('https://example.org/not-a-plugin')
+        ->not->toContain('Install Not A Plugin');
 });
 
 test('the notice is not shown to somebody who cannot do anything about it', function () {
@@ -342,7 +361,7 @@ test('the notice is not shown to somebody who cannot do anything about it', func
         'not-a-plugin/not-a-plugin.php' => [
             'minimum_version' => '1.0.0',
             'name' => 'Not A Plugin',
-            'plugin_uri' => 'https://example.org/',
+            'plugin_uri' => 'https://wordpress.org/plugins/not-a-plugin/',
             'untested_version' => '2.0.0',
         ],
     ]))->allows();
