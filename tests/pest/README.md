@@ -137,9 +137,11 @@ upstream releases, driven by `tests/bin/stubs-manifest.php` (which slug comes
 from where, which symbols a curated stub keeps, and why each exclusion exists).
 Premium sources are local zips dropped into `tests/bin/zips/` (gitignored);
 entries whose zip is absent are skipped. `make stubs` shows the manifest
-and what is currently available. Three files in `tests/stubs` are NOT generated
-and must never be: `akismet.php`, `polylang.php` and `wp-cli.php` are working
-fakes the tests read back — the generator refuses to touch them.
+and what is currently available. Two files in `tests/stubs` are NOT generated
+and must never be: `akismet.php` and `wp-cli.php` are working fakes the tests
+read back — the generator refuses to touch them. Polylang's working fake is
+`Support/polylang-functions.php`, which the mu-plugin loads in place of the
+generated `polylang.php`; that stub and `wpml.php` are for phpstan only.
 
 ### What the stubs can and cannot test
 

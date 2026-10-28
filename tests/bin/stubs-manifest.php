@@ -6,9 +6,9 @@
  * One entry per generated stub: tests/stubs/<slug>.php. The slugs the mu-plugin
  * and phpstan.neon load are the keys here — renaming one means updating both.
  *
- * NOT in this manifest, on purpose: akismet.php, polylang.php and wp-cli.php are
- * WORKING FAKES (hand-written, with behaviour the tests read back), not generated
- * stubs. The generator refuses to touch them.
+ * NOT in this manifest, on purpose: akismet.php and wp-cli.php are WORKING FAKES
+ * (hand-written, with behaviour the tests read back), not generated stubs. The
+ * generator refuses to touch them.
  *
  * Entry options:
  *
@@ -222,6 +222,23 @@ return [
             'nitropack_invalidate',
         ],
     ],
+    /*
+     * Loaded only by phpstan (the mu-plugin's $excludedStubs): the suite loads
+     * the working fake, tests/pest/Support/polylang-functions.php.
+     */
+    'polylang' => [
+        'source' => 'https://downloads.wordpress.org/plugin/polylang.latest-stable.zip',
+        'symbols' => [
+            'pll_get_post',
+            'pll_get_post_translations',
+            'pll_get_term',
+            'pll_get_term_translations',
+            'pll_is_translated_post_type',
+            'pll_is_translated_taxonomy',
+            'POLYLANG_BASENAME',
+            'POLYLANG_VERSION',
+        ],
+    ],
     'profilepress' => [
         'source' => 'https://downloads.wordpress.org/plugin/wp-user-avatar.latest-stable.zip',
         // ElementorDisplayCondition extends an Elementor Pro class, and the
@@ -415,6 +432,17 @@ return [
             'vc_add_shortcode_param',
             'vc_map',
             'WPB_VC_VERSION',
+        ],
+    ],
+    /*
+     * Loaded only by phpstan (the mu-plugin's $excludedStubs): WpmlTest defines
+     * ICL_SITEPRESS_VERSION, and the Integration suite expects WPML to be absent.
+     */
+    'wpml' => [
+        'source' => 'tests/bin/zips/wpml.zip', // premium: wpml.org
+        'symbols' => [
+            'ICL_SITEPRESS_VERSION',
+            'WPML_PLUGIN_BASENAME',
         ],
     ],
 ];
