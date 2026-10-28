@@ -55,7 +55,7 @@ class ExperimentsController implements ControllerContract
             return $data;
         }
         if (!$this->canTranslateQuery($vars)) {
-            glsr_log()->debug('The wp_comments experiment left a comment query to WordPress because its query vars have no faithful translation.')
+            glsr_log()->debug('A product comment query was not filtered because its query vars do not match.')
                 ->debug($query->query_vars);
             return $data;
         }
