@@ -512,7 +512,7 @@ function gatekeeperError(string $error, string $name, string $plugin, string $te
     return [$plugin => [
         'error' => $error,
         'name' => $name,
-        'plugin_uri' => "https://example.org/{$textdomain}",
+        'plugin_uri' => "https://wordpress.org/plugins/{$textdomain}/",
         'textdomain' => $textdomain,
     ]];
 }
