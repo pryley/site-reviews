@@ -3,6 +3,9 @@
     "config": {
         "EMPTY_TRASH_DAYS": 0
     },
+    "mappings": {
+        "wp-content/plugins/multilingualpress": "../bin/plugins/multilingualpress"
+    },
     "phpVersion": "8.3",
     "plugins": [
         "../.."

@@ -1,5 +1,6 @@
 ## v2.1.0
 COMPOSER ?= COMPOSER_PROCESS_TIMEOUT=0 composer
+MULTILINGUALPRESS_SOURCE ?= $(HOME)/Local Sites/test-multilingualpress/app/public/wp-content/plugins/multilingualpress
 PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.bin/wp-env' || printf 'npx @wordpress/env')
@@ -279,6 +280,10 @@ multisite-env: docker-check
 	@printf 'Preparing the multisite wp-env instance (port 8892)…\n'
 	@log=$$(mktemp); trap 'rm -f "$$log"' EXIT; \
 	quietly() { "$$@" >"$$log" 2>&1 || { cat "$$log"; exit 1; }; }; \
+	mkdir -p tests/bin/plugins/multilingualpress; \
+	if [ -f "$(MULTILINGUALPRESS_SOURCE)/multilingualpress.php" ]; then \
+		rsync -a --delete "$(MULTILINGUALPRESS_SOURCE)/" tests/bin/plugins/multilingualpress/; \
+	fi; \
 	cd tests/multisite; \
 	quietly env WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage; \
 	npx @wordpress/env run cli wp core is-installed --network >/dev/null 2>&1 \
@@ -289,7 +294,8 @@ multisite-env: docker-check
 		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
 		wp config set PATH_CURRENT_SITE / --type=constant && \
 		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
-		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"
+		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"; \
+	quietly npx @wordpress/env run cli bash wp-content/plugins/site-reviews/tests/multisite/setup-multilingualpress.sh
 
 .PHONY: woocommerce-env
 woocommerce-env: docker-check
