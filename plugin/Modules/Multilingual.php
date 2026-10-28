@@ -2,51 +2,62 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Contracts\MultilingualContract;
 
-class Multilingual
+class Multilingual implements MultilingualContract
 {
-    protected $integration;
+    protected ?MultilingualContract $integration = null;
 
-    /**
-     * @return mixed
-     */
-    public function __call(string $method, array $args = [])
+    public function getPost(int $postId): ?\WP_Post
     {
-        if ($this->isIntegrated() && method_exists($this->integration, $method)) {
-            return call_user_func_array([$this->integration, $method], $args);
+        if ($this->integration) {
+            return $this->integration->getPost($postId);
         }
-        return Arr::get($args, 0, false);
+        $post = get_post($postId);
+        return $post instanceof \WP_Post ? $post : null;
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Contracts\MultilingualContract|false
-     */
-    public function getIntegration(string $integration = '')
+    public function getPostId(int $postId): int
     {
-        if (empty($integration)) {
-            $integration = glsr(OptionManager::class)->get('settings.general.multilingual');
-        }
-        if (!empty($integration)) {
-            $integrationClass = 'GeminiLabs\SiteReviews\Modules\Multilingual\\'.ucfirst($integration);
-            if (class_exists($integrationClass)) {
-                return glsr($integrationClass);
-            }
-            glsr_log()->error($integrationClass.' does not exist');
-        }
-        return false;
+        return $this->integration?->getPostId($postId) ?? $postId;
     }
 
-    public function isIntegrated(): bool
+    public function getPostIds(array $postIds): array
     {
-        if (!empty($this->integration)) {
-            return true;
+        return $this->integration?->getPostIds($postIds) ?? $postIds;
+    }
+
+    public function getPostIdsForAllLanguages(array $postIds): array
+    {
+        return $this->integration?->getPostIdsForAllLanguages($postIds) ?? $postIds;
+    }
+
+    public function getTerm(int $termId): ?\WP_Term
+    {
+        if ($this->integration) {
+            return $this->integration->getTerm($termId);
         }
-        if ($integration = $this->getIntegration()) {
-            $this->integration = $integration;
-            return true;
-        }
-        return false;
+        $term = get_term($termId, glsr()->taxonomy);
+        return $term instanceof \WP_Term ? $term : null;
+    }
+
+    public function getTermId(int $termId): int
+    {
+        return $this->integration?->getTermId($termId) ?? $termId;
+    }
+
+    public function getTermIds(array $termIds): array
+    {
+        return $this->integration?->getTermIds($termIds) ?? $termIds;
+    }
+
+    public function getTermIdsForAllLanguages(array $termIds): array
+    {
+        return $this->integration?->getTermIdsForAllLanguages($termIds) ?? $termIds;
+    }
+
+    public function register(MultilingualContract $integration): void
+    {
+        $this->integration = $integration;
     }
 }

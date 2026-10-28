@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -207,39 +208,86 @@ test('an emptied verification message is restored to the default', function () {
 });
 
 /*
- * The multilingual integration, which is the one setting that can be wrong in a way
- * the plugin can see.
+ * The multilingual integrations, which refuse a fresh choice of a plugin that cannot run.
+ * The fixture stands in for Polylang at the path its fake reports, POLYLANG_BASENAME.
  */
 
-test('a multilingual integration whose plugin is installed is kept', function () {
-    // The stubs define POLYLANG_VERSION as 2.3, which is the supported version, so
-    // Polylang reads as installed and supported here.
-    $options = postedSettings([
-        'general' => ['multilingual' => 'polylang'],
-    ]);
+function stagePolylang(string $version): Closure
+{
+    $dir = WP_PLUGIN_DIR.'/'.dirname(POLYLANG_BASENAME);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    file_put_contents(WP_PLUGIN_DIR.'/'.POLYLANG_BASENAME, implode("\n", [
+        '<?php',
+        '/**',
+        ' * Plugin Name: Polylang',
+        " * Version: {$version}",
+        ' */',
+    ]));
+    $activate = fn ($plugins) => array_merge((array) $plugins, [POLYLANG_BASENAME]);
+    add_filter('option_active_plugins', $activate);
+    return function () use ($activate, $dir) {
+        remove_filter('option_active_plugins', $activate);
+        @unlink(WP_PLUGIN_DIR.'/'.POLYLANG_BASENAME);
+        @rmdir($dir);
+    };
+}
 
-    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('polylang');
-    expect(glsr(Notice::class)->get())->toBe('');
+test('a multilingual integration whose plugin is installed is kept', function () {
+    delete_transient(glsr()->prefix.'gatekeeper');
+    $unstage = stagePolylang('3.9.1');
+    try {
+        $options = postedSettings([
+            'general' => ['multilingual' => 'polylang'],
+        ]);
+    } finally {
+        $unstage();
+    }
+
+    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('polylang')
+        ->and(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
 });
 
 test('a multilingual integration whose plugin is not installed is refused, and said so', function () {
     // Saving it would leave the setting claiming an integration that cannot run, and
     // reviews would silently stop being assigned across languages.
+    delete_transient(glsr()->prefix.'gatekeeper');
+
     $options = postedSettings([
         'general' => ['multilingual' => 'wpml'],
     ]);
 
-    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('');
-    expect(glsr(Notice::class)->get())->toContain('install/activate the WPML plugin');
+    $errors = get_transient(glsr()->prefix.'gatekeeper');
+    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('')
+        ->and($errors['sitepress-multilingual-cms/sitepress.php']['error'])->toBe(Gatekeeper::ERROR_NOT_INSTALLED);
 });
 
-test('a multilingual integration nobody has ever heard of is refused', function () {
+test('a multilingual integration that is installed but too old is refused', function () {
+    delete_transient(glsr()->prefix.'gatekeeper');
+    $unstage = stagePolylang('2.2');
+    try {
+        $options = postedSettings([
+            'general' => ['multilingual' => 'polylang'],
+        ]);
+    } finally {
+        $unstage();
+    }
+
+    $errors = get_transient(glsr()->prefix.'gatekeeper');
+    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('')
+        ->and($errors[POLYLANG_BASENAME]['error'])->toBe(Gatekeeper::ERROR_NOT_SUPPORTED);
+});
+
+test('a saved multilingual integration is kept while its plugin is missing', function () {
+    // A plugin switched off for a while, to debug a conflict, keeps the choice for when it is back.
+    glsr(OptionManager::class)->set('settings.general.multilingual', 'wpml');
+
     $options = postedSettings([
-        'general' => ['multilingual' => 'esperanto'],
+        'general' => ['multilingual' => 'wpml'],
     ]);
 
-    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('');
-    expect(glsr(Console::class)->get())->toContain('Multilingual\Esperanto does not exist');
+    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('wpml');
 });
 
 /*
@@ -356,24 +404,5 @@ test('saving from the settings screen announces success', function () {
         expect(glsr(Notice::class)->get())->toContain('Settings updated');
     } finally {
         unset($_POST['option_page']);
-    }
-});
-
-test('a multilingual integration that is installed but too old is refused with the version named', function () {
-    // Polylang is installed (the stubs) at exactly its supported version; a fake
-    // that demands more stands in for a site running an outdated copy.
-    $tooOld = new class extends \GeminiLabs\SiteReviews\Modules\Multilingual\Polylang {
-        public $supportedVersion = '99.0';
-    };
-    $original = glsr(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class);
-    glsr()->alias(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class, $tooOld);
-    try {
-        $options = postedSettings(['general' => ['multilingual' => 'polylang']]);
-
-        expect(Arr::get($options, 'settings.general.multilingual'))->toBe('');
-        expect(glsr(Notice::class)->get())->toContain('update the Polylang plugin')
-            ->and(glsr(Notice::class)->get())->toContain('99.0');
-    } finally {
-        glsr()->alias(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class, $original);
     }
 });

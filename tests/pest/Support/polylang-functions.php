@@ -130,5 +130,6 @@ namespace {
     }
 }
 namespace {
+    \define('POLYLANG_BASENAME', 'polylang/polylang.php');
     \define('POLYLANG_VERSION', '2.3');
 }

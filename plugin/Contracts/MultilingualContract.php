@@ -43,19 +43,4 @@ interface MultilingualContract
      * Get the translated Term IDs for all languages.
      */
     public function getTermIdsForAllLanguages(array $termIds): array;
-
-    /**
-     * Check if the multilingual plugin is activated.
-     */
-    public function isActive(): bool;
-
-    /**
-     * Check if the multilingual plugin integration is enabled.
-     */
-    public function isEnabled(): bool;
-
-    /**
-     * Check if the multilingual plugin version is supported.
-     */
-    public function isSupported(): bool;
 }
