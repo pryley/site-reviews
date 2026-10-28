@@ -3,7 +3,7 @@
 Real responses from the EDD Software Licensing endpoint (niftyplugins.com),
 captured live on 2026-07-17 for the `site-reviews-alerts` addon at
 1.0.0-beta1. These are the CONTRACT the update filters are tested against
-(see +/_docs/backlog.md, "addon-update filters").
+(see .claude/_docs/backlog.md, "addon-update filters").
 
 - `get-version-valid.json` — a valid, activated licence key.
 - `get-version-no-licence.json` — an EMPTY licence key: the server answers the
