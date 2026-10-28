@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationCo
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
+use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
 use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
 use Inpsyde\MultilingualPress\Framework\Url\Url;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
@@ -159,6 +160,53 @@ test('a submitted review is copied to the related site with its author, text and
     $hash = get_post_meta($review->ID, '_submitted_hash', true);
     expect($hash)->not->toBe('') // a meta row MultilingualPress is told to sync (RelationController::filterSyncedMetaKeys)
         ->and(mlpOnSecondSite(fn () => get_post_meta($copy->ID, '_submitted_hash', true)))->toBe($hash);
+});
+
+test('a visitor\'s review reaches its translation with the related category, and an edit moves it', function () {
+    $relations = Inpsyde\MultilingualPress\resolve(ContentRelations::class);
+    $relate = function (int $sourceTermId, int $remoteTermId) use ($relations): void {
+        // MultilingualPress relates terms by their term_taxonomy_id.
+        $ids = [
+            1 => (int) get_term($sourceTermId)->term_taxonomy_id,
+            mlpSecondSiteId() => (int) mlpOnSecondSite(fn () => get_term($remoteTermId)->term_taxonomy_id),
+        ];
+        $relationshipId = $relations->relationshipId($ids, ContentRelations::CONTENT_TYPE_TERM, true);
+        foreach ($ids as $siteId => $id) {
+            $relations->saveRelation($relationshipId, $siteId, $id);
+        }
+    };
+    $terms = [];
+    $terms[1] = [
+        wp_insert_term('Service', glsr()->taxonomy)['term_id'],
+        wp_insert_term('Delivery', glsr()->taxonomy)['term_id'],
+    ];
+    $terms[2] = mlpOnSecondSite(fn () => [
+        wp_insert_term('Leerstelle', glsr()->taxonomy)['term_id'], // so the two sites' ids differ
+        wp_insert_term('Kundendienst', glsr()->taxonomy)['term_id'],
+        wp_insert_term('Lieferung', glsr()->taxonomy)['term_id'],
+    ]);
+    try {
+        $relate($terms[1][0], $terms[2][1]);
+        $relate($terms[1][1], $terms[2][2]);
+        wp_set_current_user(0);
+
+        $review = mlpSubmitReview(['assigned_terms' => [$terms[1][0]]]);
+        $copyId = mlpCopyId($review);
+        $copyTerms = fn () => mlpOnSecondSite(fn () => wp_get_object_terms($copyId, glsr()->taxonomy, ['fields' => 'ids']));
+        expect($copyTerms())->toBe([$terms[2][1]]);
+
+        glsr(ReviewManager::class)->update($review->ID, ['assigned_terms' => [$terms[1][1]]]);
+        expect($copyTerms())->toBe([$terms[2][2]]);
+    } finally {
+        foreach ($terms[1] as $termId) {
+            wp_delete_term($termId, glsr()->taxonomy);
+        }
+        mlpOnSecondSite(function () use ($terms) {
+            foreach ($terms[2] as $termId) {
+                wp_delete_term($termId, glsr()->taxonomy);
+            }
+        });
+    }
 });
 
 test('a front-end edit moves the rating and leaves the translation\'s title, content and custom field values', function () {

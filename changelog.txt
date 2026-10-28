@@ -23,6 +23,7 @@
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
+- Fixed MultilingualPress leaving out the categories of a review submitted by a visitor when it is copied to the review's translations
 - Fixed MultilingualPress overwriting the custom field values of a review's translations when the review is edited
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
