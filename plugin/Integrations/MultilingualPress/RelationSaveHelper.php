@@ -36,6 +36,14 @@ class RelationSaveHelper
         $this->context = $context;
     }
 
+    /**
+     * Return true for a remote review without a rating row: a translation MultilingualPress has just created.
+     */
+    public function isNewRemoteReview(): bool
+    {
+        return $this->canSync() && !$this->remoteReview()->isValid();
+    }
+
     public function relateReviews(): void
     {
         $siteToPostIdMap = [
@@ -109,6 +117,20 @@ class RelationSaveHelper
             ['post_author' => $userId],
             ['ID' => $this->context->remotePostId()]
         );
+        $this->maybeRestoreSite($originalSiteId);
+    }
+
+    /**
+     * Write the source review's custom field values on the remote review.
+     */
+    public function syncCustomFields(): void
+    {
+        if (!$this->canSync()) {
+            return;
+        }
+        $values = $this->sourceReview()->custom()->toArray();
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        glsr(ReviewManager::class)->updateCustom($this->context->remotePostId(), $values);
         $this->maybeRestoreSite($originalSiteId);
     }
 

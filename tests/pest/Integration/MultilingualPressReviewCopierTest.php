@@ -1,7 +1,9 @@
 <?php
 
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\ReviewCopier;
+use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -12,7 +14,9 @@ uses()->group('plugin');
 beforeEach(fn () => resetPluginState());
 
 /*
- * What a front-end edit sends to a review's translations (ReviewCopier::sync).
+ * What travels to a review's translations: everything once, when the copy is made (ReviewCopier::copy
+ * on a submission, RelationSaveHelper::syncCustomFields from the translation box), and on a front-end
+ * edit (ReviewCopier::sync) the review's facts but no custom field value.
  *
  * The copier flattens the custom field values to the top level of the data, so the guard's
  * "custom" entry alone never met them: every value reached glsr_update_review() on the copy,
@@ -20,7 +24,7 @@ beforeEach(fn () => resetPluginState());
  * guarded on the source site, before the copier switches, so that a listener on
  * site-reviews/defaults/sync-review can read the review's form there and release a value.
  *
- * sync() itself is not run here: translationIds() is a stub with no body.
+ * copy() and sync() themselves are not run here: translationIds() is a stub with no body.
  */
 
 function syncDataOf(array $values = []): array
@@ -28,6 +32,98 @@ function syncDataOf(array $values = []): array
     $review = createReview($values);
     return (new ReviewCopier($review->ID, get_current_blog_id()))->syncData($review);
 }
+
+/*
+ * The helper for a relation between two posts of this one site: the context answers from its
+ * own ids, since the stub's constructor stores nothing, and the helper skips the container and
+ * the site switch, since the stub's resolve() returns nothing and the switch has no other site.
+ */
+function relationHelper(int $sourcePostId, int $remotePostId): RelationSaveHelper
+{
+    $context = new class() extends RelationshipContext {
+        public int $remote = 0;
+        public int $source = 0;
+
+        public function hasRemotePost(): bool
+        {
+            return $this->remote > 0;
+        }
+
+        public function remotePost(): ?\WP_Post
+        {
+            return get_post($this->remote);
+        }
+
+        public function remotePostId(): int
+        {
+            return $this->remote;
+        }
+
+        public function remoteSiteId(): int
+        {
+            return 2;
+        }
+
+        public function sourcePost(): \WP_Post
+        {
+            return get_post($this->source);
+        }
+
+        public function sourcePostId(): int
+        {
+            return $this->source;
+        }
+
+        public function sourceSiteId(): int
+        {
+            return 1;
+        }
+    };
+    $context->remote = $remotePostId;
+    $context->source = $sourcePostId;
+    return new class($context) extends RelationSaveHelper {
+        public function __construct(RelationshipContext $context)
+        {
+            $this->context = $context;
+        }
+
+        protected function maybeSwitchSite(int $targetSiteId): int
+        {
+            return get_current_blog_id();
+        }
+
+        protected function maybeRestoreSite(int $originalSiteId): bool
+        {
+            return true;
+        }
+    };
+}
+
+test('a submission\'s copy is created with the custom field values', function () {
+    $review = createReview(['note' => 'their words', 'pick' => 'yes']);
+    $data = (new ReviewCopier($review->ID, get_current_blog_id()))->copyData($review);
+    expect($data['note'])->toBe('their words')
+        ->and($data['pick'])->toBe('yes');
+    $copy = glsr_create_review($data); // what copy() runs on the remote site
+    expect($copy->ID)->not->toBe($review->ID)
+        ->and($copy->custom()->toArray())->toBe(['note' => 'their words', 'pick' => 'yes']);
+});
+
+test('a translation created from the box is new until it has a rating row, and starts with the custom field values', function () {
+    $source = createReview(['note' => 'their words', 'pick' => 'yes']);
+    $remoteId = wp_insert_post([
+        'post_status' => 'publish',
+        'post_title' => 'The translation',
+        'post_type' => glsr()->post_type,
+    ]);
+    $helper = relationHelper($source->ID, $remoteId);
+    expect($helper->isNewRemoteReview())->toBeTrue();
+    $helper->syncCustomFields();
+    expect(get_post_meta($remoteId, '_custom_note', true))->toBe('their words')
+        ->and(get_post_meta($remoteId, '_custom_pick', true))->toBe('yes');
+    $existing = createReview();
+    expect(relationHelper($source->ID, $existing->ID)->isNewRemoteReview())->toBeFalse();
+});
 
 test('a front-end edit sends no custom field value to a translation', function () {
     $data = syncDataOf(['note' => 'their words', 'pick' => 'yes']);
