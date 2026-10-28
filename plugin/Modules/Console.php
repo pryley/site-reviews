@@ -138,7 +138,7 @@ class Console
         $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
         if (!empty($origin)) {
             $places = [static::CODE_SNIPPET, "{$origin['file']}:{$origin['line']}"];
-            $caller = $this->caller($frames);
+            $caller = glsr(Backtrace::class)->caller($frames);
             if (!empty($caller) && $caller['file'] !== $origin['file']) {
                 $places[] = "{$caller['file']}:{$caller['line']}";
             }
@@ -221,32 +221,6 @@ class Console
             $backtraceLine,
             esc_html($message)
         );
-    }
-
-    /**
-     * @param array<int, array<string, mixed>> $frames
-     *
-     * @return array{file: string, line: int}|array{}
-     */
-    protected function caller(array $frames): array
-    {
-        $passThrough = [ // the files that only pass a log call on
-            __FILE__,
-            dirname(__DIR__).'/BlackHole.php',
-            dirname(__DIR__).'/HookProxy.php',
-            dirname(__DIR__, 2).'/helpers.php',
-        ];
-        foreach ($frames as $frame) {
-            $file = Cast::toString($frame['file'] ?? '');
-            if ('' === $file || in_array($file, $passThrough, true)) {
-                continue;
-            }
-            return [
-                'file' => $file,
-                'line' => Cast::toInt($frame['line'] ?? 0),
-            ];
-        }
-        return [];
     }
 
     protected function canLogEntry(int $level, string $backtraceLine): bool
