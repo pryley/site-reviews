@@ -225,6 +225,24 @@ runs both suites and then the merge; both clovers must come from the same code,
 or the merge invents phantom uncovered lines where the numbering skewed. The
 coverage GATE stays on the main suite alone.
 
+#### MultilingualPress on the network
+
+The multisite suite runs the real MultilingualPress, since the integration's behaviour is what happens across two sites and a stub can reach none of it. `tests/multisite/MultilingualPressTest.php` submits a review on site 1 and reads what reached the second site: the copy, a front-end edit, a response and a delete. Without the plugin those tests skip, so a fork and a machine without the plugin still pass. Trash and restore are not covered: `EMPTY_TRASH_DAYS` is 0 in this env, so a trash is a delete on both sites.
+
+The plugin is mapped into the env from `tests/bin/plugins/multilingualpress` (gitignored). `make multisite-env` copies it there from `MULTILINGUALPRESS_SOURCE`, which defaults to the plugin in the `test-multilingualpress` Local site, and runs `tests/multisite/setup-multilingualpress.sh`: it network-activates the plugin, creates the second site, activates the Site Reviews module, gives the sites en-US and de-DE and relates them. To use another copy:
+
+    make test:multisite MULTILINGUALPRESS_SOURCE=/path/to/multilingualpress
+
+CI checks the plugin out of a private repository that holds the release as it ships, `vendor/` included, tagged by version. The repository and the tag are the `MULTILINGUALPRESS_REPOSITORY` and `MULTILINGUALPRESS_REF` values of the `multisite` job in `.github/workflows/ci.yml`. To set it up:
+
+1. Create the private repository `pryley/multilingualpress`, commit the unzipped release (the folder that holds `multilingualpress.php`) and tag the commit `v5.0.1`.
+2. Make a key pair with no passphrase: `ssh-keygen -t ed25519 -N '' -C 'site-reviews CI' -f multilingualpress-deploy-key`.
+3. In the plugin repository's Settings > Deploy keys, add `multilingualpress-deploy-key.pub` with write access off.
+4. In the site-reviews repository's Settings > Secrets and variables > Actions, add a secret named `MULTILINGUALPRESS_DEPLOY_KEY` holding the contents of `multilingualpress-deploy-key`.
+5. Delete both key files.
+
+To move to a new release, commit and tag it in the plugin repository, change `MULTILINGUALPRESS_REF` in the workflow and regenerate the stub from the same zip with `make stubs:update`.
+
 ### The WooCommerce suite
 
 `tests/woocommerce/` runs the half of the WooCommerce integration the stubs
