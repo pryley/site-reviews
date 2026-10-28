@@ -1,17 +1,12 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Multilingual;
+namespace GeminiLabs\SiteReviews\Integrations\Polylang;
 
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Wpml implements MultilingualContract
+class Translations implements MultilingualContract
 {
-    public $pluginName = 'WPML';
-    public $supportedVersion = '3.3.5';
-
     /**
      * Get the translated Post for the current language.
      */
@@ -25,19 +20,16 @@ class Wpml implements MultilingualContract
      */
     public function getPostId(int $postId): int
     {
-        if (!$this->isEnabled()) {
-            return $postId;
-        }
         $postType = get_post_type($postId);
         if (empty($postType)) {
             return $postId;
         }
-        if (!apply_filters('wpml_is_translated_post_type', false, $postType)) {
+        if (!pll_is_translated_post_type($postType)) {
             return $postId;
         }
-        $wpmlPostId = apply_filters('wpml_object_id', $postId, $postType, true);
-        if (!empty($wpmlPostId)) {
-            $postId = $wpmlPostId;
+        $polylangPostId = pll_get_post($postId);
+        if (!empty($polylangPostId)) {
+            $postId = $polylangPostId;
         }
         return intval($postId);
     }
@@ -59,27 +51,19 @@ class Wpml implements MultilingualContract
      */
     public function getPostIdsForAllLanguages(array $postIds): array
     {
-        if (!$this->isEnabled()) {
-            return $postIds;
-        }
         $newPostIds = [];
         foreach (Arr::uniqueInt($postIds) as $postId) {
             $postType = get_post_type($postId);
             if (!$postType) {
                 continue;
             }
-            if (!apply_filters('wpml_is_translated_post_type', false, $postType)) {
+            if (!pll_is_translated_post_type($postType)) {
                 $newPostIds[] = $postId;
                 continue;
             }
-            $elementType = "post_{$postType}";
-            $trid = apply_filters('wpml_element_trid', null, $postId, $elementType);
-            $translations = apply_filters('wpml_get_element_translations', null, $trid, $elementType);
-            if (!is_array($translations)) {
-                $translations = [];
-            }
-            $translatedPostIds = array_values(wp_list_pluck($translations, 'element_id'));
-            $newPostIds = array_merge($newPostIds, $translatedPostIds);
+            $newPostIds = array_merge($newPostIds,
+                array_values(pll_get_post_translations($postId))
+            );
         }
         return Arr::uniqueInt($newPostIds);
     }
@@ -101,18 +85,15 @@ class Wpml implements MultilingualContract
      */
     public function getTermId(int $termId): int
     {
-        if (!$this->isEnabled()) {
-            return $termId;
-        }
-        if (!apply_filters('wpml_is_translated_taxonomy', false, glsr()->taxonomy)) {
+        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
             return $termId;
         }
         $term = get_term($termId, glsr()->taxonomy);
         if (is_a($term, '\WP_Term')) {
-            $wpmlTermId = apply_filters('wpml_object_id', $termId, glsr()->taxonomy, true);
+            $polylangTermId = pll_get_term($termId);
         }
-        if (!empty($wpmlTermId)) {
-            $termId = $wpmlTermId;
+        if (!empty($polylangTermId)) {
+            $termId = $polylangTermId;
         }
         return intval($termId);
     }
@@ -134,10 +115,7 @@ class Wpml implements MultilingualContract
      */
     public function getTermIdsForAllLanguages(array $termIds): array
     {
-        if (!$this->isEnabled()) {
-            return $termIds;
-        }
-        if (!apply_filters('wpml_is_translated_taxonomy', false, glsr()->taxonomy)) {
+        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
             return $termIds;
         }
         $newTermIds = [];
@@ -146,32 +124,10 @@ class Wpml implements MultilingualContract
             if (!is_a($term, '\WP_Term')) {
                 continue;
             }
-            $elementType = 'tax_'.glsr()->taxonomy;
-            $trid = apply_filters('wpml_element_trid', null, $termId, $elementType);
-            $translations = apply_filters('wpml_get_element_translations', null, $trid, $elementType);
-            if (!is_array($translations)) {
-                $translations = [];
-            }
-            $translatedTermIds = array_values(wp_list_pluck($translations, 'element_id'));
-            $newTermIds = array_merge($newTermIds, $translatedTermIds);
+            $newTermIds = array_merge($newTermIds,
+                array_values(pll_get_term_translations($termId))
+            );
         }
         return Arr::uniqueInt($newTermIds);
-    }
-
-    public function isActive(): bool
-    {
-        return defined('ICL_SITEPRESS_VERSION');
-    }
-
-    public function isEnabled(): bool
-    {
-        return $this->isActive()
-            && 'wpml' === glsr(OptionManager::class)->get('settings.general.multilingual');
-    }
-
-    public function isSupported(): bool
-    {
-        return $this->isActive()
-            && Helper::isGreaterThanOrEqual(\ICL_SITEPRESS_VERSION, $this->supportedVersion);
     }
 }
