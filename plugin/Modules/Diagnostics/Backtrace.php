@@ -2,19 +2,51 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Diagnostics;
 
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Backtrace
 {
+    /**
+     * @param array<int, array<string, mixed>> $backtrace debug_backtrace() frames, innermost first
+     */
     public function buildLine(array $backtrace): string
     {
-        return sprintf('%s:%s', $this->getClassName($backtrace), $this->getLineNumber($backtrace));
+        $caller = $this->caller($backtrace);
+        if (empty($caller)) {
+            return '';
+        }
+        return sprintf('%s:%s', $caller['class'] ?: $caller['file'], $caller['line']);
+    }
+
+    /**
+     * Find the frame of the logged call.
+     *
+     * @param array<int, array<string, mixed>> $frames debug_backtrace() frames, innermost first
+     *
+     * @return array{class: string, file: string, line: int}|array{}
+     */
+    public function caller(array $frames): array
+    {
+        $frames = array_values($frames);
+        foreach ($frames as $index => $frame) {
+            $file = Cast::toString($frame['file'] ?? '');
+            if ('' === $file || $this->isPassThrough($file)) {
+                continue; // a function that call_user_func_array invoked has no file
+            }
+            // The class of the call site is in the next frame.
+            // A frame's file and line say where its function was called from.
+            return [
+                'class' => Cast::toString($frames[$index + 1]['class'] ?? ''),
+                'file' => $file,
+                'line' => Cast::toInt($frame['line'] ?? 0),
+            ];
+        }
+        return [];
     }
 
     public function line(int $limit = 10): string
     {
-        return $this->buildLine(array_slice($this->trace($limit), 4));
+        return $this->buildLine($this->trace($limit));
     }
 
     /**
@@ -55,35 +87,18 @@ class Backtrace
         return $trace;
     }
 
-    protected function getClassName(array $backtrace): string
+    /**
+     * Tell whether the file only passes a log call on.
+     */
+    protected function isPassThrough(string $file): bool
     {
-        $file = Arr::get($backtrace, '0.file');
-        $class = Arr::get($backtrace, '1.class');
-        $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
-        if (false !== $search) {
-            $class = Arr::get($search, 'class', Arr::get($search, 'file'));
-        } elseif (str_ends_with($file, 'helpers.php')) {
-            $file = Arr::get($backtrace, '1.file');
-            $class = Arr::get($backtrace, '2.class');
-        } elseif (str_ends_with($file, 'BlackHole.php') && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
-            $class = Arr::get($backtrace, '2.class');
-        }
-        return Helper::ifEmpty($class, $file);
-    }
-
-    protected function getLineNumber(array $backtrace): string
-    {
-        $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
-        if (false !== $search) {
-            return Arr::get($search, 'line');
-        }
-        $file = Arr::get($backtrace, '0.file');
-        $line = Arr::get($backtrace, '0.line');
-        if (str_ends_with($file, 'helpers.php')) {
-            return Arr::get($backtrace, '1.line');
-        } elseif (str_ends_with($file, 'BlackHole.php') && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
-            return Arr::get($backtrace, '1.line');
-        }
-        return $line;
+        $files = [
+            __FILE__,
+            dirname(__DIR__).'/Console.php',
+            dirname(__DIR__, 2).'/BlackHole.php',
+            dirname(__DIR__, 2).'/HookProxy.php',
+            dirname(__DIR__, 3).'/helpers.php',
+        ];
+        return in_array($file, $files, true);
     }
 }
