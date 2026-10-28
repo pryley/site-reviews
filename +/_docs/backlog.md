@@ -459,7 +459,7 @@ Features are subject to change and are sorted alphabetically, not by priority.
   Options when this is picked up: map REST `author` to `author_id` and `post_author` behind
   the edit-others check, or make `author` read-only on write.
 
-- [ ] **`release.sh` creates the wordpress.org SVN tag and no git tag.** Raised 2026-10-08
+- [x] **`release.sh` creates the wordpress.org SVN tag and no git tag.** Raised 2026-10-08
   (Paul: "I normally manually add the tag but sometimes I forget so it should be done
   automatically in the release script"). The script copies trunk to `tags/{version}` and
   commits to SVN (`release.sh:128`, `:143`); it runs no `git tag` and no `git push`. `origin`
@@ -468,6 +468,10 @@ Features are subject to change and are sorted alphabetically, not by priority.
   To build: after the SVN commit succeeds, create `v{version}` on the commit the release was
   built from and push it, only when that tag exists neither locally nor on `origin`. The tags
   from `v8.3.2` on are annotated.
+
+  BUILT 2026-10-28: after the SVN commit the script tags the commit it archived as an annotated
+  `v{version}` with an empty message, as `v8.3.6` is, and pushes it. A tag already on `origin`
+  is left alone; one that exists only locally is reported with the push command, not pushed.
 
 - [ ] **The deactivation report cannot show why a site reads as local, and `isLocalServer()`
   was wrong on about one public site in five.** Measured 2026-10-13 on an export of the
