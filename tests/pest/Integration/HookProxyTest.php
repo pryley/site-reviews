@@ -87,3 +87,31 @@ test('the logged line is tagged when the throwable came out of the site owner\'s
         ->and($lines[0] ?? '')->toContain('ERROR [CODE SNIPPET] [\mu-plugins\fixtures\code-origin.php:')
         ->and($lines[0] ?? '')->toEndWith('thrown in a snippet');
 });
+
+/**
+ * A hook callback that logs, run through HookProxy::proxy().
+ */
+class LoggingSubject
+{
+    use HookProxy;
+
+    public int $line = 0;
+
+    public function filterSomething($value)
+    {
+        $this->line = __LINE__ + 1;
+        glsr_log()->error('logged from a proxied callback');
+        return $value;
+    }
+}
+
+test('a log call made in a proxied callback is located at its own line', function () {
+    // The proxy invokes the callback with call_user_func_array, so the callback's frame has no file.
+    glsr(GeminiLabs\SiteReviews\Modules\Console::class)->clear();
+    $subject = new LoggingSubject();
+
+    $subject->proxy('filterSomething')('anything');
+
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->getRaw())
+        ->toContain("ERROR [LoggingSubject:{$subject->line}] logged from a proxied callback");
+});
