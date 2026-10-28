@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDefaults;
+use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
 use Inpsyde\MultilingualPress\Framework\SwitchSiteTrait;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
@@ -94,12 +96,24 @@ class ReviewCopier
 
     public function sync(): void
     {
-        $review = glsr_get_review($this->sourcePostId);
-        $data = wp_parse_args($review->toArray(), $review->custom()->toArray());
+        $data = $this->syncData(glsr_get_review($this->sourcePostId));
         $this->run(function ($context) use ($data) {
             $helper = new RelationSaveHelper($context);
             $helper->syncUpdate($data, true);
         });
+    }
+
+    /**
+     * Return the values a front-end edit writes on the related copies.
+     */
+    public function syncData(Review $review): array
+    {
+        $data = wp_parse_args($review->toArray(), $review->custom()->toArray());
+        // Guarded on the source site: the site-reviews/defaults/sync-review filter reads the review's form here.
+        $data = glsr(SyncReviewDefaults::class)->merge($data);
+        $data['assigned_posts'] = $review->assigned_posts; // the source ids mapped by syncUpdate() on each remote site
+        $data['assigned_users'] = $review->assigned_users;
+        return $data;
     }
 
     protected function relationExists(int $remoteSiteId): bool
