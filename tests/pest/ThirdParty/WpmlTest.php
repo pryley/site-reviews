@@ -1,7 +1,9 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\Multilingual\Wpml;
+use GeminiLabs\SiteReviews\Integrations\WPML\Hooks;
+use GeminiLabs\SiteReviews\Integrations\WPML\Translations;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
@@ -26,7 +28,6 @@ beforeEach(function () {
     if (!defined('ICL_SITEPRESS_VERSION')) {
         define('ICL_SITEPRESS_VERSION', '4.6.5');
     }
-    glsr(OptionManager::class)->set('settings.general.multilingual', 'wpml');
     $GLOBALS['glsr_wpml'] = [
         'translated_post_types' => ['page', 'post'],
         'translated_taxonomies' => [glsr()->taxonomy],
@@ -48,9 +49,9 @@ afterEach(function () {
     unset($GLOBALS['glsr_wpml']);
 });
 
-function wpml(): Wpml
+function wpml(): Translations
 {
-    return glsr(Wpml::class);
+    return glsr(Translations::class);
 }
 
 /**
@@ -70,17 +71,22 @@ function wpmlTranslatedPages(): array
 }
 
 test('wpml is only used when the site has chosen it', function () {
-    expect(wpml()->isActive())->toBeTrue()
-        ->and(wpml()->isEnabled())->toBeTrue()
-        ->and(wpml()->isSupported())->toBeTrue();
+    [$english, $french] = wpmlTranslatedPages();
+    $module = new Multilingual();
+    $original = glsr(Multilingual::class);
+    glsr()->alias(Multilingual::class, $module);
+    try {
+        glsr(OptionManager::class)->set('settings.general.multilingual', '');
+        glsr(Hooks::class)->run();
+        expect($module->getPostId($english))->toBe($english)
+            ->and($module->getPostIdsForAllLanguages([$english]))->toBe([$english]);
 
-    glsr(OptionManager::class)->set('settings.general.multilingual', '');
-    [$english] = wpmlTranslatedPages();
-    expect(wpml()->isEnabled())->toBeFalse()
-        ->and(wpml()->getPostId($english))->toBe($english)
-        ->and(wpml()->getPostIdsForAllLanguages([$english]))->toBe([$english])
-        ->and(wpml()->getTermId(123))->toBe(123)
-        ->and(wpml()->getTermIdsForAllLanguages([123]))->toBe([123]);
+        glsr(OptionManager::class)->set('settings.general.multilingual', 'wpml');
+        glsr(Hooks::class)->run();
+        expect($module->getPostId($english))->toBe($french);
+    } finally {
+        glsr()->alias(Multilingual::class, $original);
+    }
 });
 
 test('an assigned page is shown in the visitor language', function () {

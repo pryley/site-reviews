@@ -1,7 +1,9 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\Multilingual\Polylang;
+use GeminiLabs\SiteReviews\Integrations\Polylang\Hooks;
+use GeminiLabs\SiteReviews\Integrations\Polylang\Translations;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Tests\PolylangFake;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
@@ -30,7 +32,6 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 beforeEach(function () {
     resetPluginState();
     PolylangFake::reset();
-    glsr(OptionManager::class)->set('settings.general.multilingual', 'polylang');
     PolylangFake::$translatedPostTypes = ['page', 'post'];
     PolylangFake::$translatedTaxonomies = [glsr()->taxonomy];
 });
@@ -39,9 +40,9 @@ afterEach(function () {
     PolylangFake::reset();
 });
 
-function polylang(): Polylang
+function polylang(): Translations
 {
-    return glsr(Polylang::class);
+    return glsr(Translations::class);
 }
 
 /**
@@ -63,17 +64,23 @@ function translatedPages(): array
  */
 
 test('polylang is only used when the site has chosen it', function () {
-    expect(polylang()->isActive())->toBeTrue()   // the plugin is installed
-        ->and(polylang()->isEnabled())->toBeTrue()
-        ->and(polylang()->isSupported())->toBeTrue();
-
-    glsr(OptionManager::class)->set('settings.general.multilingual', '');
-    expect(polylang()->isEnabled())->toBeFalse();
-
-    // …and a site with Polylang installed but not selected is left completely alone
+    // The fake defines POLYLANG_VERSION, so Polylang reads as installed here.
     [$english, $french] = translatedPages();
-    expect(polylang()->getPostId($english))->toBe($english)
-        ->and(polylang()->getPostIdsForAllLanguages([$english]))->toBe([$english]);
+    PolylangFake::$currentLanguage = 'fr';
+    $module = new Multilingual();
+    $original = glsr(Multilingual::class);
+    glsr()->alias(Multilingual::class, $module);
+    try {
+        glsr(OptionManager::class)->set('settings.general.multilingual', '');
+        glsr(Hooks::class)->run();
+        expect($module->getPostId($english))->toBe($english); // left completely alone
+
+        glsr(OptionManager::class)->set('settings.general.multilingual', 'polylang');
+        glsr(Hooks::class)->run();
+        expect($module->getPostId($english))->toBe($french);
+    } finally {
+        glsr()->alias(Multilingual::class, $original);
+    }
 });
 
 /*
@@ -195,15 +202,8 @@ test('terms are translated one by one, deduplicated', function () {
 
 test('terms polylang does not manage are left exactly alone', function () {
     $term = createTerm(['taxonomy' => glsr()->taxonomy]);
-
-    // integration off: nothing is touched
-    glsr(OptionManager::class)->set('settings.general.multilingual', '');
-    expect(polylang()->getTermId($term))->toBe($term)
-        ->and(polylang()->getTermIdsForAllLanguages([$term]))->toBe([$term]);
-
-    // integration on, but the review taxonomy is not translated
-    glsr(OptionManager::class)->set('settings.general.multilingual', 'polylang');
     PolylangFake::$translatedTaxonomies = [];
+
     expect(polylang()->getTermId($term))->toBe($term)
         ->and(polylang()->getTermIdsForAllLanguages([$term]))->toBe([$term]);
 });
@@ -221,17 +221,15 @@ test('a deleted term contributes nothing to the all-languages list', function ()
  * The Multilingual module, which is the only thing the rest of the plugin talks to.
  */
 
-test('the multilingual module dispatches to the chosen integration, or answers with the input', function () {
+test('the multilingual module answers through the registered integration, or with the input', function () {
     [$english, $french] = translatedPages();
     PolylangFake::$currentLanguage = 'fr';
 
-    $module = new \GeminiLabs\SiteReviews\Modules\Multilingual();
-    expect($module->isIntegrated())->toBeTrue()
-        ->and($module->isIntegrated())->toBeTrue() // the second ask is answered from the memo
-        ->and($module->getPostId($english))->toBe($french); // __call forwards to Polylang
+    $module = new Multilingual();
+    expect($module->getPostId($english))->toBe($english) // nothing registered: the id, untouched
+        ->and($module->getPostIdsForAllLanguages([$english]))->toBe([$english])
+        ->and($module->getTermIds([123]))->toBe([123]);
 
-    glsr(OptionManager::class)->set('settings.general.multilingual', '');
-    $unintegrated = new \GeminiLabs\SiteReviews\Modules\Multilingual();
-    expect($unintegrated->isIntegrated())->toBeFalse()
-        ->and($unintegrated->getPostId($english))->toBe($english); // the first argument, untouched
+    $module->register(polylang());
+    expect($module->getPostId($english))->toBe($french);
 });

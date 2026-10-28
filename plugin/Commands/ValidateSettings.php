@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
@@ -24,37 +23,10 @@ class ValidateSettings extends AbstractCommand
 
     public function handle(): void
     {
-        $this->normalizeIntegrations();
         $this->normalizeMessageFallbacks();
         $this->normalizeMultiValues();
         $this->sanitizeSettings();
         $this->sanitizeStrings();
-    }
-
-    protected function hasMultilingualIntegration(string $option): bool
-    {
-        $integration = glsr(Multilingual::class)->getIntegration($option);
-        if (!$integration) {
-            return false;
-        }
-        if (!$integration->isActive()) {
-            glsr(Notice::class)->addError(sprintf(
-                /* translators: %s: plugin name */
-                _x('Please install/activate the %s plugin to enable the integration.', 'admin-text', 'site-reviews'),
-                $integration->pluginName
-            ));
-            return false;
-        }
-        if (!$integration->isSupported()) {
-            glsr(Notice::class)->addError(sprintf(
-                /* translators: %1$s: plugin name, %2$s: version number */
-                _x('Please update the %1$s plugin to v%2$s or greater to enable the integration.', 'admin-text', 'site-reviews'),
-                $integration->pluginName,
-                $integration->supportedVersion
-            ));
-            return false;
-        }
-        return true;
     }
 
     protected function missingPlaceholders(array $string): array
@@ -70,20 +42,6 @@ class ValidateSettings extends AbstractCommand
             }
         }
         return $missing;
-    }
-
-    /**
-     * Clear the multilingual integration when its plugin is missing, inactive or unsupported.
-     */
-    protected function normalizeIntegrations(): void
-    {
-        $general = $this->posted('settings.general');
-        if (empty($general)) {
-            return;
-        }
-        if (!$this->hasMultilingualIntegration($general['multilingual'] ?? '')) {
-            $this->options['settings']['general']['multilingual'] = '';
-        }
     }
 
     /**
