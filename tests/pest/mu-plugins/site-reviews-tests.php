@@ -61,6 +61,12 @@ add_action('muplugins_loaded', function () {
      *                   which declares `abstract class ActionScheduler`; so does the stub, and
      *                   redeclaring it is fatal. Can never be loaded.
      *
+     * polylang          Generated for phpstan. The suite loads Polylang's working fake instead,
+     *                   tests/pest/Support/polylang-functions.php, after the stubs.
+     *
+     * wpml              Generated for phpstan. WpmlTest defines ICL_SITEPRESS_VERSION, and
+     *                   the Integration suite expects WPML to be absent.
+     *
      * Two stubs that load cleanly only because the integration was hardened:
      *
      * lpfw              LPFW() returns null from a stub; LPFW\Hooks::isEnabled() reads the option
@@ -73,6 +79,8 @@ add_action('muplugins_loaded', function () {
      */
     $excludedStubs = [
         'action-scheduler.php',
+        'polylang.php',
+        'wpml.php',
     ];
     // A suite may name more, from its bootstrap (defined before wp-load, so before this
     // runs). The WooCommerce suite does: with a real WooCommerce, an integration whose OWN
@@ -135,6 +143,7 @@ add_action('muplugins_loaded', function () {
     foreach (glob("{$stubsDir}/*.php") ?: [] as $stubFile) {
         $requireStub(basename($stubFile));
     }
+    require_once dirname($stubsDir).'/pest/Support/polylang-functions.php';
     remove_action('admin_init', '_maybe_update_core');
     remove_action('admin_init', '_maybe_update_plugins');
     remove_action('admin_init', '_maybe_update_themes');

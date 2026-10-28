@@ -25,6 +25,3 @@ if (!defined('WPINC')) {
 if (!defined('BSF_AIOSRS_PRO_CACHE_KEY')) {
     define('BSF_AIOSRS_PRO_CACHE_KEY', 'wp_schema_pro_optimized_structured_data');
 }
-if (!defined('ICL_SITEPRESS_VERSION')) {
-    define('ICL_SITEPRESS_VERSION', '3.3.5');
-}
