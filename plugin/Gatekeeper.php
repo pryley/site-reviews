@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Defaults\DependencyDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Gatekeeper
 {
@@ -103,6 +104,16 @@ class Gatekeeper
         return $this->catchError($plugin, $isVersionValid, static::ERROR_NOT_TESTED);
     }
 
+    protected function activePlugins(): array
+    {
+        $plugins = Arr::consolidate(get_option('active_plugins'));
+        if (is_multisite()) {
+            $sitewide = Arr::consolidate(get_site_option('active_sitewide_plugins'));
+            $plugins = array_merge($plugins, array_keys($sitewide));
+        }
+        return array_unique(array_filter($plugins, 'is_string'));
+    }
+
     protected function catchError(string $plugin, bool $isValid, string $errorType): bool
     {
         if (!$isValid) {
@@ -124,6 +135,7 @@ class Gatekeeper
             if (count($data) !== count(array_filter($data))) {
                 continue; // incomplete data
             }
+            $plugin = $this->pluginFile((string) $plugin, $data['name']);
             $results[$plugin] = wp_parse_args($data, [
                 'installed_version' => '',
                 'is_installed' => false,
@@ -136,6 +148,32 @@ class Gatekeeper
             }
         }
         $this->dependencies = $results;
+    }
+
+    /**
+     * Find the plugin under a renamed folder when the dependency's path is missing.
+     */
+    protected function pluginFile(string $plugin, string $name): string
+    {
+        if (0 !== validate_file($plugin) || file_exists(\WP_PLUGIN_DIR.'/'.$plugin)) {
+            return $plugin;
+        }
+        $filename = basename($plugin);
+        // An active plugin is found without reading the headers of every installed plugin.
+        foreach ($this->activePlugins() as $file) {
+            if ($filename === basename($file) && $name === ($this->pluginHeaders($file)['name'] ?? '')) {
+                return $file;
+            }
+        }
+        if (!function_exists('get_plugins')) {
+            require_once \ABSPATH.'wp-admin/includes/plugin.php';
+        }
+        foreach (get_plugins() as $file => $headers) {
+            if ($filename === basename($file) && $name === ($headers['Name'] ?? '')) {
+                return $file;
+            }
+        }
+        return $plugin;
     }
 
     protected function pluginHeaders(string $plugin): array

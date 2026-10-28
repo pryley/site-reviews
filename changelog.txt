@@ -27,6 +27,7 @@
 - Fixed MultilingualPress overwriting the custom field values of a review's translations when the review is edited
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
+- Fixed the plugin requirement notice not finding a plugin whose folder was renamed
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
