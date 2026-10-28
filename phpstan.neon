@@ -34,6 +34,7 @@ parameters:
     - tests/stubs/wp-rocket.php
     - tests/stubs/wp-super-cache.php
     - tests/stubs/wpbakery.php
+    - tests/stubs/wpml.php
     - helpers.php
     - autoload.php
   ignoreErrors:

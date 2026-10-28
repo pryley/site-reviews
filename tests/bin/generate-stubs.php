@@ -9,6 +9,11 @@
  *   php tests/bin/generate-stubs.php woocommerce elementor
  *   php tests/bin/generate-stubs.php --list      show the manifest and each source's availability
  *
+ * Another plugin generates its own stubs from its own manifest:
+ *   php ../site-reviews/tests/bin/generate-stubs.php --manifest=tests/bin/stubs-manifest.php --out=tests/stubs
+ * Its sources, append fragments and --out resolve from the directory the command runs in, and its
+ * load order is the stub-load-order.php beside its manifest, when it has one.
+ *
  * Entries sourced from a local zip that is absent are skipped with a notice —
  * unless the slug was requested explicitly, which makes the absence an error.
  *
@@ -30,13 +35,26 @@ use StubsGenerator\StubsGenerator;
 
 error_reporting(E_ALL);
 
+$args = array_slice($argv, 1);
+$option = function (string $name) use ($args): string {
+    foreach ($args as $arg) {
+        if (str_starts_with($arg, "--{$name}=")) {
+            return substr($arg, strlen("--{$name}="));
+        }
+    }
+    return '';
+};
+
 define('REPO_ROOT', dirname(__DIR__, 2));
-define('STUBS_DIR', REPO_ROOT.'/tests/stubs');
-define('MANIFEST', __DIR__.'/stubs-manifest.php');
+define('PROJECT_ROOT', $option('manifest') ? (string) getcwd() : REPO_ROOT);
+$fromProject = fn (string $path): string => str_starts_with($path, '/') ? $path : PROJECT_ROOT.'/'.$path;
+define('MANIFEST', $option('manifest') ? $fromProject($option('manifest')) : __DIR__.'/stubs-manifest.php');
+define('STUBS_DIR', $fromProject($option('out') ?: 'tests/stubs'));
+define('LOAD_ORDER', dirname(MANIFEST).'/stub-load-order.php');
 define('DEFAULT_EXCLUDES', ['vendor', 'vendors', 'node_modules', 'tests', 'Tests', 'test', 'Test', 'build', 'dist']);
 
 // The hand-written working fakes. Never generated, never overwritten.
-define('PROTECTED_STUBS', ['akismet', 'polylang', 'wp-cli']);
+define('PROTECTED_STUBS', ['akismet', 'wp-cli']);
 
 // Polyfills of these are guarded by function_exists() upstream; the generator
 // strips the guard, and phpstan's own phar already declares them — a fatal
@@ -50,7 +68,6 @@ if (!is_file(REPO_ROOT.'/vendor/php-stubs/generator/src/StubsGenerator.php')) {
 }
 require REPO_ROOT.'/vendor/autoload.php';
 
-$args = array_slice($argv, 1);
 $list = in_array('--list', $args, true);
 $requested = array_values(array_filter($args, fn ($arg) => !str_starts_with($arg, '--')));
 
@@ -160,14 +177,14 @@ function resolveSource(string $source, string $slug, string $workdir, int $index
 {
     $type = sourceType($source);
     if ('dir' === $type) {
-        $dir = REPO_ROOT.'/'.$source;
+        $dir = PROJECT_ROOT.'/'.$source;
         if (!is_dir($dir)) {
             return "error: source directory not found: {$source}";
         }
         return ['dir' => $dir, 'label' => $source];
     }
     if ('zip' === $type && !preg_match('{^https?://}', $source)) {
-        $zipfile = REPO_ROOT.'/'.$source;
+        $zipfile = PROJECT_ROOT.'/'.$source;
         if (!is_file($zipfile)) {
             return "skip: local zip not found: {$source}";
         }
@@ -852,7 +869,7 @@ if ($list) {
         $notes = [];
         foreach (sourcesOf($entry) as $source) {
             $type = sourceType($source);
-            if ('zip' === $type && !is_file(REPO_ROOT.'/'.$source)) {
+            if ('zip' === $type && !is_file(PROJECT_ROOT.'/'.$source)) {
                 $notes[] = "{$source} (MISSING — entry is skipped)";
             } else {
                 $notes[] = $source;
@@ -954,7 +971,7 @@ foreach ($slugs as $slug) {
     $code = (new Standard())->prettyPrintFile($stmts);
     $code = preg_replace('/^<\?php/', "<?php\n\n{$header}", $code, 1)."\n";
     if (isset($entry['append'])) {
-        $fragment = REPO_ROOT.'/'.$entry['append'];
+        $fragment = PROJECT_ROOT.'/'.$entry['append'];
         if (!is_file($fragment)) {
             fwrite(STDERR, "  append fragment not found: {$entry['append']}\n");
             $failures[] = $slug;
@@ -965,9 +982,13 @@ foreach ($slugs as $slug) {
 
     $outfile = STUBS_DIR."/{$slug}.php";
     $changed = !is_file($outfile) || md5_file($outfile) !== md5($code);
-    file_put_contents($outfile, $code);
+    if ((!is_dir(STUBS_DIR) && !mkdir(STUBS_DIR, 0777, true)) || false === file_put_contents($outfile, $code)) {
+        fwrite(STDERR, "  could not write {$outfile}\n");
+        $failures[] = $slug;
+        continue;
+    }
     $written[] = $slug;
-    printf("  wrote %s (%s lines, %s)\n", "tests/stubs/{$slug}.php", number_format(substr_count($code, "\n")), $changed ? 'CHANGED' : 'unchanged');
+    printf("  wrote %s (%s lines, %s)\n", str_replace(PROJECT_ROOT.'/', '', $outfile), number_format(substr_count($code, "\n")), $changed ? 'CHANGED' : 'unchanged');
 }
 
 // Cross-stub duplicate scan: the suite loads these files together, so the same
@@ -992,7 +1013,7 @@ if ($duplicates) {
 // map does not know about is a "class not found" fatal at boot on whichever filesystem
 // hands the files over in the wrong order — it fails in CI and not on a laptop, so it is
 // caught here instead.
-$loadOrder = require __DIR__.'/stub-load-order.php';
+$loadOrder = is_file(LOAD_ORDER) ? require LOAD_ORDER : [];
 $unmapped = [];
 foreach (glob(STUBS_DIR.'/*.php') as $file) {
     $stub = basename($file);
