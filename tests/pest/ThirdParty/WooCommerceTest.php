@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller as Wo
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\OrderReviewsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
+use GeminiLabs\SiteReviews\Modules\Console;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -158,13 +159,18 @@ function wooProductReview(int $productId, array $overrides = []): \GeminiLabs\Si
     ], $overrides));
 }
 
-test('a comment query with no faithful translation is left to wordpress', function () {
+test('a comment query with no faithful translation is left to wordpress, and its vars are logged', function () {
+    update_option(Console::LOG_LEVEL_KEY, Console::DEBUG);
+    glsr(Console::class)->clear();
     $query = wooCommentQuery([
         'meta_query' => [['key' => '_review_order_id', 'value' => 123]],
         'type' => 'review',
     ]);
 
-    expect(glsr(ExperimentsController::class)->filterProductCommentsQuery(null, $query))->toBeNull();
+    expect(glsr(ExperimentsController::class)->filterProductCommentsQuery(null, $query))->toBeNull()
+        ->and(glsr(Console::class)->getRaw())->toContain('[key] => _review_order_id');
+
+    delete_option(Console::LOG_LEVEL_KEY);
 });
 
 test('a comment query scoped by author email answers with matching reviews', function () {
