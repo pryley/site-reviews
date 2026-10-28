@@ -132,6 +132,9 @@ class Controller extends AbstractController
      */
     public function renderNotice(): void
     {
+        if (wp_doing_ajax()) {
+            return;
+        }
         if (glsr_get_option('integrations.ultimatemember.enabled', false, 'bool')) {
             $this->gatekeeper()->allows(); // this renders any error notices
         }
