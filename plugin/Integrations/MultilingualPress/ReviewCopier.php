@@ -28,13 +28,7 @@ class ReviewCopier
     {
         glsr(SyncState::class)->during(function () {
             $review = glsr_get_review($this->sourcePostId);
-            $data = $review->toArray([
-                'assigned_posts', // exclude
-                'assigned_terms', // exclude
-            ]);
-            if (empty($data['terms'])) {
-                unset($data['terms']); // see ReviewManager::duplicate()
-            }
+            $data = $this->copyData($review);
             $siteIds = assignedLanguageTags();
             foreach ($siteIds as $remoteSiteId => $tag) {
                 if ($this->sourceSiteId === $remoteSiteId) {
@@ -64,6 +58,22 @@ class ReviewCopier
                 $this->maybeRestoreSite($originalSiteId);
             }
         });
+    }
+
+    /**
+     * Return the values a submission's copy is created from.
+     */
+    public function copyData(Review $review): array
+    {
+        $data = $review->toArray([
+            'assigned_posts', // exclude
+            'assigned_terms', // exclude
+        ]);
+        if (empty($data['terms'])) {
+            unset($data['terms']); // see ReviewManager::duplicate()
+        }
+        // The custom field values under their own keys: CreateReview reads the top level and guards "custom".
+        return wp_parse_args($data, $review->custom()->toArray());
     }
 
     public function run(\Closure $func): void

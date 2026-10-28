@@ -197,7 +197,11 @@ class RelationController extends AbstractController
         $sourceUserIds = Arr::consolidate($request->bodyValue('user_ids'));
         glsr(SyncState::class)->during(function () use ($author, $context, $sourceData, $sourcePostIds, $sourceUserIds) {
             $helper = new RelationSaveHelper($context);
+            $isNewReview = $helper->isNewRemoteReview(); // before syncRating() gives it a rating row
             $helper->syncRating($sourceData); // do this first in case it's a new review
+            if ($isNewReview) {
+                $helper->syncCustomFields();
+            }
             $helper->syncAssignedPosts($sourcePostIds);
             $helper->syncAssignedUsers($sourceUserIds);
             // A user who can't edit others' reviews has no Author box
