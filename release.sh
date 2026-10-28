@@ -1,7 +1,7 @@
 #!/bin/sh
 # By Paul Ryley, based on work by Mike Jolley
 # License: GPLv3
-# Version: 2.1.0
+# Version: 2.2.0
 
 # ----- START EDITING HERE -----
 
@@ -90,7 +90,8 @@ git fetch origin
 # Switch Branch
 echo "Switching to main branch"
 mkdir -p $ROOT_PATH$TEMP_GITHUB_REPO
-git archive $GIT_BRANCH | tar -x -f - -C $ROOT_PATH$TEMP_GITHUB_REPO || { echo "Unable to archive/copy branch."; exit 1; }
+RELEASE_COMMIT=`git rev-parse $GIT_BRANCH`
+git archive $RELEASE_COMMIT | tar -x -f - -C $ROOT_PATH$TEMP_GITHUB_REPO || { echo "Unable to archive/copy branch."; exit 1; }
 
 echo ""
 read -p "PRESS [ENTER] TO DEPLOY BRANCH "$GIT_BRANCH
@@ -141,6 +142,19 @@ echo ""
 echo ""
 echo "Committing to WordPress.org...this may take a while."
 svn commit -m "Release "${PLUGIN_VERSION}", see readme.txt for the changelog." --config-option servers:global:http-timeout=7200 || { echo "Unable to commit."; exit 1; }
+
+# TAG THE RELEASE ON GITHUB
+cd $ROOT_PATH
+GIT_TAG="v${PLUGIN_VERSION}"
+if git ls-remote --exit-code --tags origin "refs/tags/${GIT_TAG}" >/dev/null; then
+	echo "The ${GIT_TAG} tag is already on GitHub."
+elif git rev-parse -q --verify "refs/tags/${GIT_TAG}" >/dev/null; then
+	echo "The ${GIT_TAG} tag exists here but not on GitHub. Check it and push it with: git push origin ${GIT_TAG}"
+else
+	echo "Tagging ${RELEASE_COMMIT} as ${GIT_TAG}"
+	git tag -a "$GIT_TAG" "$RELEASE_COMMIT" -m "" || { echo "Unable to create the git tag."; exit 1; }
+	git push origin "refs/tags/${GIT_TAG}" || { echo "Unable to push the git tag."; exit 1; }
+fi
 
 # REMOVE THE TEMP DIRS
 echo "CLEANING UP"
