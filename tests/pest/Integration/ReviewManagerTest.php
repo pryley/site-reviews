@@ -287,8 +287,8 @@ test('unassign user', function () {
  * from being duplicated at all. The terms toggle is exactly such a value.
  *
  * MultilingualPress\ReviewCopier::copy() does the same thing, and carries the same
- * guard for the same reason. It is NOT executed by this suite (its stub is
- * deliberately not loaded and it needs multisite) — these tests cover the
+ * guard for the same reason. It is NOT executed by this suite (it needs multisite
+ * and the real plugin; the stub's functions return nothing) — these tests cover the
  * mechanism it depends on, not the call site itself.
  */
 
