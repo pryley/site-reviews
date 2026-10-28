@@ -23,7 +23,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * Get the first wrong and a French visitor sees no reviews; the second, and they see the reviews
  * with a link to the English page.
  *
- * Polylang is faked (tests/stubs/polylang.php + Support/PolylangFake) with its documented semantics —
+ * Polylang is faked (Support/polylang-functions.php + Support/PolylangFake) with its documented semantics —
  * notably that pll_get_post($id, $lang) defaults $lang to the CURRENT language.
  */
 
