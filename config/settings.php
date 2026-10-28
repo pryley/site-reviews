@@ -160,8 +160,6 @@ return [ // order is intentional
         'label' => _x('Multilingual', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('No Integration', 'admin-text', 'site-reviews'),
-            'polylang' => _x('Integrate with Polylang', 'admin-text', 'site-reviews'),
-            'wpml' => _x('Integrate with WPML', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
         'tooltip' => _x('If you are assigning reviews to your pages, this integration will tell Site Reviews to assign reviews to all languages of the assigned page instead of only the page the review was submitted on.', 'admin-text', 'site-reviews'),
