@@ -1,6 +1,11 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Gatekeeper;
+use GeminiLabs\SiteReviews\Integrations\ProfilePress\Controllers\Controller as ProfilePressController;
+use GeminiLabs\SiteReviews\Integrations\SureCart\Controllers\Controller as SureCartController;
+use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\Controller as UltimateMemberController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller as WooCommerceController;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
@@ -181,6 +186,127 @@ test('only the first thing wrong with a plugin is reported', function () {
     expect($gatekeeper->errors['not-a-plugin/not-a-plugin.php']['error'])
         ->toBe(Gatekeeper::ERROR_NOT_INSTALLED);
 });
+
+/*
+ * A plugin whose folder was renamed, which somebody may do to switch it off while debugging.
+ * The fixture is staged in the container's plugin directory and removed in finally.
+ */
+
+const RENAMED_FIXTURE = 'glsr-gatekeeper-renamed/glsr-gatekeeper-fixture.php';
+
+function stageRenamedFixture(string $name): void
+{
+    $dir = WP_PLUGIN_DIR.'/'.dirname(RENAMED_FIXTURE);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    file_put_contents(WP_PLUGIN_DIR.'/'.RENAMED_FIXTURE, implode("\n", [
+        '<?php',
+        '/**',
+        " * Plugin Name: {$name}",
+        ' * Version: 1.0.0',
+        ' */',
+    ]));
+    wp_cache_delete('plugins', 'plugins'); // get_plugins() keeps its answer for the request
+}
+
+function unstageRenamedFixture(): void
+{
+    @unlink(WP_PLUGIN_DIR.'/'.RENAMED_FIXTURE);
+    @rmdir(WP_PLUGIN_DIR.'/'.dirname(RENAMED_FIXTURE));
+    wp_cache_delete('plugins', 'plugins');
+}
+
+/**
+ * A dependency on the fixture at the folder it was installed in.
+ */
+function dependencyOnFixture(): array
+{
+    return [
+        'glsr-gatekeeper-fixture/glsr-gatekeeper-fixture.php' => [
+            'minimum_version' => '1.0.0',
+            'name' => 'Gatekeeper Fixture',
+            'plugin_uri' => 'https://example.org/',
+            'untested_version' => '2.0.0',
+        ],
+    ];
+}
+
+test('a plugin whose folder was renamed is found there and asked to be activated', function () {
+    stageRenamedFixture('Gatekeeper Fixture');
+    try {
+        $gatekeeper = new Gatekeeper(dependencyOnFixture());
+
+        // So the notice offers to activate the renamed copy, not to install a second one.
+        expect($gatekeeper->allows())->toBeFalse()
+            ->and(array_keys($gatekeeper->errors))->toBe([RENAMED_FIXTURE])
+            ->and($gatekeeper->errors[RENAMED_FIXTURE]['error'])->toBe(Gatekeeper::ERROR_NOT_ACTIVATED);
+    } finally {
+        unstageRenamedFixture();
+    }
+});
+
+test('an active plugin whose folder was renamed is let through without reading every plugin', function () {
+    stageRenamedFixture('Gatekeeper Fixture');
+    $activate = fn ($plugins) => array_merge((array) $plugins, [RENAMED_FIXTURE]);
+    add_filter('option_active_plugins', $activate);
+    try {
+        $gatekeeper = new Gatekeeper(dependencyOnFixture());
+
+        expect($gatekeeper->allows())->toBeTrue()
+            ->and(wp_cache_get('plugins', 'plugins'))->toBeFalse(); // get_plugins() never ran
+    } finally {
+        remove_filter('option_active_plugins', $activate);
+        unstageRenamedFixture();
+    }
+});
+
+test('another plugin with the same file name is not taken for it', function () {
+    stageRenamedFixture('Some Other Plugin');
+    try {
+        $gatekeeper = new Gatekeeper(dependencyOnFixture());
+        $gatekeeper->allows();
+
+        expect($gatekeeper->errors['glsr-gatekeeper-fixture/glsr-gatekeeper-fixture.php']['error'])
+            ->toBe(Gatekeeper::ERROR_NOT_INSTALLED);
+    } finally {
+        unstageRenamedFixture();
+    }
+});
+
+/*
+ * The integrations that check their plugin on admin_init, while they are enabled.
+ * None of the four plugins is installed in this env, so each check stores a notice.
+ */
+
+dataset('gated integrations', [
+    'ProfilePress' => [ProfilePressController::class, 'profilepress'],
+    'SureCart' => [SureCartController::class, 'surecart'],
+    'Ultimate Member' => [UltimateMemberController::class, 'ultimatemember'],
+    'WooCommerce' => [WooCommerceController::class, 'woocommerce'],
+]);
+
+test('an enabled integration checks its plugin on an admin page load', function (string $controller, string $key) {
+    glsr(OptionManager::class)->set("settings.integrations.{$key}.enabled", 'yes');
+
+    glsr($controller)->renderNotice();
+
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->not->toBeFalse();
+})->with('gated integrations');
+
+test('an enabled integration does not check its plugin during an ajax request', function (string $controller, string $key) {
+    // A missing plugin costs a scan of every installed plugin, and admin_init also runs for the
+    // Heartbeat and for a visitor's admin-ajax requests.
+    glsr(OptionManager::class)->set("settings.integrations.{$key}.enabled", 'yes');
+    add_filter('wp_doing_ajax', '__return_true');
+    try {
+        glsr($controller)->renderNotice();
+    } finally {
+        remove_filter('wp_doing_ajax', '__return_true');
+    }
+
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
+})->with('gated integrations');
 
 /*
  * And what the person is shown.
