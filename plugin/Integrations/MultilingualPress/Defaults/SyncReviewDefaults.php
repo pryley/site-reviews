@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults;
 
+use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
 
 class SyncReviewDefaults extends UpdateReviewDefaults
@@ -38,4 +39,14 @@ class SyncReviewDefaults extends UpdateReviewDefaults
     public array $mapped = [
         'author' => 'name',
     ];
+
+    /**
+     * Normalize provided values, this always runs first.
+     */
+    protected function normalize(array $values = []): array
+    {
+        $customKeys = array_keys(glsr(CustomFieldsDefaults::class)->call('merge', $values));
+        $this->guarded = array_values(array_unique(array_merge($this->guarded, $customKeys))); // guard all custom keys
+        return parent::normalize($values);
+    }
 }

@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDefaults;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
 use GeminiLabs\SiteReviews\Modules\Date;
@@ -200,22 +199,29 @@ class RelationSaveHelper
         $this->maybeRestoreSite($originalSiteId);
     }
 
+    /**
+     * Write the values on the remote review with the assigned posts and users mapped to the remote site.
+     *
+     * @param array $data The guarded values (ReviewCopier::syncData) with the source site's assigned ids
+     */
     public function syncUpdate(array $data, bool $force = false): void
     {
         if (!$this->canSync()) {
             return;
         }
-        $guarded = glsr(SyncReviewDefaults::class)->merge($data);
+        // Not merged here as this runs on the remote site.
+        $values = $data;
+        unset($values['assigned_posts'], $values['assigned_users']);
         if ($force || $this->canSyncAssignment(AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS)) {
             $sourcePostIds = Arr::consolidate($data['assigned_posts'] ?? []);
-            $guarded['assigned_posts'] = $this->remoteAssignedPosts($sourcePostIds);
+            $values['assigned_posts'] = $this->remoteAssignedPosts($sourcePostIds);
         }
         if ($force || $this->canSyncAssignment(AssignedUsersField::FIELD_COPY_ASSIGNED_USERS)) {
             $sourceUserIds = Arr::consolidate($data['assigned_users'] ?? []);
-            $guarded['assigned_users'] = $this->remoteAssignedUsers($sourceUserIds);
+            $values['assigned_users'] = $this->remoteAssignedUsers($sourceUserIds);
         }
         $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
-        glsr_update_review($this->context->remotePostId(), $guarded);
+        glsr_update_review($this->context->remotePostId(), $values);
         $this->syncAssignedTerms();
         $this->maybeRestoreSite($originalSiteId);
     }
