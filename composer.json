@@ -47,7 +47,8 @@
         "phpstan/phpstan": "^2.1.28",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "symfony/deprecation-contracts": "^3.0.0",
-        "szepeviktor/phpstan-wordpress": "^2.0.2"
+        "szepeviktor/phpstan-wordpress": "^2.0.2",
+        "pryley/wp-plugin-tooling": "^1.0"
     },
     "autoload-dev": {
         "psr-4": {
@@ -71,5 +72,10 @@
         "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
         "test:thirdparty": "pest --test-directory=tests/pest --testsuite=ThirdParty",
         "test:unit": "pest --test-directory=tests/pest --testsuite=Unit"
-    }
+    },
+    "repositories": [{
+        "name": "wp-plugin-tooling",
+        "type": "vcs",
+        "url": "https://github.com/pryley/wp-plugin-tooling"
+    }]
 }

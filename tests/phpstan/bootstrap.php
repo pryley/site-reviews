@@ -1,26 +1,9 @@
 <?php
 
-if (!defined('DB_HOST')) {
-    define('DB_HOST', 'localhost');
-}
-if (!defined('DB_NAME')) {
-    define('DB_NAME', 'wptests');
-}
-if (!defined('WP_CONTENT_DIR')) {
-    define('WP_CONTENT_DIR', '.');
-}
-if (!defined('WP_CONTENT_URL')) {
-    define('WP_CONTENT_URL', 'http://example.org/wp-content');
-}
-if (!defined('WP_MEMORY_LIMIT')) {
-    define('WP_MEMORY_LIMIT', '1G');
-}
-if (!defined('WP_PLUGIN_DIR')) {
-    define('WP_PLUGIN_DIR', '.');
-}
-if (!defined('WPINC')) {
-    define('WPINC', 'wp-includes');
-}
+/*
+ * The third-party constants phpstan needs defined. The WordPress ones come from
+ * pryley/wp-plugin-tooling's phpstan/bootstrap.php.
+ */
 
 if (!defined('BSF_AIOSRS_PRO_CACHE_KEY')) {
     define('BSF_AIOSRS_PRO_CACHE_KEY', 'wp_schema_pro_optimized_structured_data');
