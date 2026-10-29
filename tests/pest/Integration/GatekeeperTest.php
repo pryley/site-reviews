@@ -2,10 +2,12 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Gatekeeper;
+use GeminiLabs\SiteReviews\Integrations\Polylang\Controllers\Controller as PolylangController;
 use GeminiLabs\SiteReviews\Integrations\ProfilePress\Controllers\Controller as ProfilePressController;
 use GeminiLabs\SiteReviews\Integrations\SureCart\Controllers\Controller as SureCartController;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\Controller as UltimateMemberController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller as WooCommerceController;
+use GeminiLabs\SiteReviews\Integrations\WPML\Controllers\Controller as WPMLController;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
@@ -307,6 +309,44 @@ test('an enabled integration does not check its plugin during an ajax request', 
 
     expect(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
 })->with('gated integrations');
+
+/*
+ * The multilingual integrations, which check their plugin while the Multilingual setting names them.
+ * Neither plugin's files are in this env, so each check stores a notice.
+ */
+
+dataset('multilingual integrations', [
+    'Polylang' => [PolylangController::class, 'polylang'],
+    'WPML' => [WPMLController::class, 'wpml'],
+]);
+
+test('a chosen multilingual integration checks its plugin on an admin page load', function (string $controller, string $key) {
+    glsr(OptionManager::class)->set('settings.general.multilingual', $key);
+
+    glsr($controller)->renderNotice();
+
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->not->toBeFalse();
+})->with('multilingual integrations');
+
+test('a multilingual integration that is not chosen does not check its plugin', function (string $controller) {
+    glsr(OptionManager::class)->set('settings.general.multilingual', '');
+
+    glsr($controller)->renderNotice();
+
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
+})->with('multilingual integrations');
+
+test('a chosen multilingual integration does not check its plugin during an ajax request', function (string $controller, string $key) {
+    glsr(OptionManager::class)->set('settings.general.multilingual', $key);
+    add_filter('wp_doing_ajax', '__return_true');
+    try {
+        glsr($controller)->renderNotice();
+    } finally {
+        remove_filter('wp_doing_ajax', '__return_true');
+    }
+
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
+})->with('multilingual integrations');
 
 /*
  * And what the person is shown.

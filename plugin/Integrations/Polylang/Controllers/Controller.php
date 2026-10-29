@@ -41,6 +41,19 @@ class Controller extends AbstractController
         return $settings;
     }
 
+    /**
+     * @action admin_init
+     */
+    public function renderNotice(): void
+    {
+        if (wp_doing_ajax()) {
+            return;
+        }
+        if ('polylang' === glsr_get_option('general.multilingual')) {
+            $this->gatekeeper()->allows(); // this renders any error notices
+        }
+    }
+
     protected function gatekeeper(): Gatekeeper
     {
         $plugin = defined('POLYLANG_BASENAME') ? (string) \POLYLANG_BASENAME : 'polylang/polylang.php';
