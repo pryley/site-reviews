@@ -10,6 +10,7 @@
 - Added a label slot and a notice slot to every review tag, filled through the `site-reviews/review/label/{tag}` and `site-reviews/review/notice/{tag}` filters: the label names the value, the notice is a message to the person viewing the review
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
+- Added a notice when the chosen multilingual plugin is missing, inactive, or out of date
 - Added a review's custom field values to the translation MultilingualPress creates for it
 - Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Added an "Advanced" tab to the settings

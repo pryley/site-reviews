@@ -13,6 +13,7 @@ class Hooks extends IntegrationHooks
         $this->hook(Controller::class, [
             ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
+            ['renderNotice', 'admin_init'],
         ]);
         if ($this->isEnabled()) {
             glsr(Multilingual::class)->register(glsr(Translations::class));

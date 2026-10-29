@@ -41,6 +41,19 @@ class Controller extends AbstractController
         return $settings;
     }
 
+    /**
+     * @action admin_init
+     */
+    public function renderNotice(): void
+    {
+        if (wp_doing_ajax()) {
+            return;
+        }
+        if ('wpml' === glsr_get_option('general.multilingual')) {
+            $this->gatekeeper()->allows(); // this renders any error notices
+        }
+    }
+
     protected function gatekeeper(): Gatekeeper
     {
         $plugin = defined('WPML_PLUGIN_BASENAME') ? (string) \WPML_PLUGIN_BASENAME : 'sitepress-multilingual-cms/sitepress.php';
