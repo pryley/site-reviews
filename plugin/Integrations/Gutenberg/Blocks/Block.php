@@ -77,7 +77,10 @@ abstract class Block implements BlockContract
     {
         $block = (new \ReflectionClass($this))->getShortName();
         $block = str_replace('_block', '', Str::snakeCase($block));
-        return $this->app()->path("assets/blocks/{$block}");
+        // the collection is keyed by the plugins-folder path
+        $path = $this->app()->path("assets/blocks/{$block}", false);
+        // a plugin outside the plugins folder, such as a test fixture, has no path there
+        return is_dir($path) ? $path : $this->app()->path("assets/blocks/{$block}");
     }
 
     protected function resolveAlign(array $attributes, string $presetKey): string
