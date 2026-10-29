@@ -126,7 +126,7 @@ function purgeCommittedRows(): void
             OR option_name = 'glsr_api_transients'"
     );
 
-    forgetTableEngines();
+    forgetDerivedOptions();
 
     // A declared test can leave a migration pending, and the next test to reach runMigrations()
     // would run it as DDL without declaring the commit. The schema is current, so every migration
@@ -142,14 +142,16 @@ function purgeCommittedRows(): void
 }
 
 /**
- * Delete the cached table engines, which Tables::tableEngine() writes again on demand.
+ * Delete the options that are written again on demand: the engine cache Tables::tableEngine() fills
+ * and the flag WordPress sets when a post is published or deleted.
  */
-function forgetTableEngines(): void
+function forgetDerivedOptions(): void
 {
     global $wpdb;
     $options = $wpdb->get_col($wpdb->prepare(
         "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", glsr()->prefix.'engine\\_%'
     ));
+    $options[] = 'wp_calendar_block_has_published_posts';
     array_map('delete_option', $options);
 }
 
