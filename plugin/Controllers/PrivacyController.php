@@ -151,6 +151,6 @@ class PrivacyController extends AbstractController
             LIMIT %d OFFSET %d
         ", $email, glsr()->post_type, $this->perPage, ($page - 1) * $this->perPage);
         $reviewIds = glsr(Database::class)->dbGetCol($sql);
-        return empty($reviewIds) ? [] : glsr(Query::class)->reviews([], $reviewIds);
+        return empty($reviewIds) ? [] : glsr(Query::class)->reviews(['order' => 'asc', 'orderby' => 'id'], $reviewIds);
     }
 }
