@@ -13,7 +13,6 @@
  * breaks (constraints, tables, options) it restores.
  */
 
-define('GLSR_UNIT_TESTS', true);
 define('WP_HTTP_BLOCK_EXTERNAL', true);
 define('WP_ACCESSIBLE_HOSTS', '');
 
