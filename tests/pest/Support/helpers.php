@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use Pryley\WpPluginTooling\Pest;
 
 /*
  * The pieces of a WordPress test harness the suite needs: content factories and
@@ -31,28 +32,6 @@ function resetPluginState(): void
     // validation writes `form_invalid`, and ValidatorAbstract::validate() then SKIPS validation
     // entirely, so one failing submission leaves every validation test after it passing blind.
     glsr()->sessionClear();
-}
-
-/**
- * Declares that this test WILL commit the per-test transaction, expected rather than a bug.
- *
- * Two things end a transaction: DDL (MySQL commits implicitly on CREATE/ALTER/DROP TABLE —
- * TableTmp is created and dropped by every CSV import) and an explicit START TRANSACTION
- * (Database::beginTransaction() on InnoDB, which finishTransaction() then COMMITs). Pest.php
- * catches an undeclared commit with a sentinel row and fails the test, since the damage lands
- * elsewhere: the leaked user breaks the NEXT run with "Sorry, that username already exists".
- *
- * Thirteen call sites commit legitimately (the README maps them; the grep is the authority):
- * the Import suite (no import without TableTmp's DDL), the tests reaching Migrate::runAll()
- * (ExportImportTest, ToolsControllerTest's alt re-run, CliTest) — where MigrateReviews wraps
- * each pass in a real START TRANSACTION/COMMIT and Migrate_6_2_1 may run DDL to repair a
- * PRIMARY index — and the TRUNCATE/repair tools (MaintenanceTest, PrivacyCommandsTest,
- * ToolsAjaxTest's remove-location, InstallTest). A declared test is purged afterwards
- * (purgeCommittedRows()) instead of failed; the declaration is per-test and Pest.php clears it.
- */
-function commitsTransaction(): void
-{
-    commitWasDeclared(true);
 }
 
 /**
@@ -108,53 +87,10 @@ function storageSnapshot(?array $set = null): array
 }
 
 /**
- * Declares that this test WILL cause WP_IMPORTING to be defined.
- *
- * define() cannot be undone, and the plugin reads WP_IMPORTING in eighteen places to mean "this
- * review did not come from a form". Once defined, every later test in the process gets no avatar,
- * no verification email, no recalculated counts, no cache flush, and is_pinned / is_verified /
- * ip_address stop being protected. Only the Import suite may do it, and phpunit.xml declares that
- * suite LAST; Pest.php fails any undeclared test that defines the constant. Declared rather than
- * detected because Pest compiles each file into an eval()'d class, leaving no reliable path.
- */
-function definesWpImporting(): void
-{
-    wpImportingWasDeclared(true);
-}
-
-/**
- * The flag definesWpImporting() sets, which Pest.php reads and then clears. Not for use in a
- * test: a test says definesWpImporting(), and says it plainly.
- */
-function wpImportingWasDeclared(?bool $set = null): bool
-{
-    static $declared = false;
-    if (null !== $set) {
-        $declared = $set;
-    }
-
-    return $declared;
-}
-
-/**
- * The flag commitsTransaction() sets, which Pest.php reads and then clears. Not for use in a
- * test: a test says commitsTransaction(), and says it plainly.
- */
-function commitWasDeclared(?bool $set = null): bool
-{
-    static $declared = false;
-    if (null !== $set) {
-        $declared = $set;
-    }
-    return $declared;
-}
-
-/**
- * Undoes by hand what the rollback could not, for a test that ran DDL. Only rows written BEFORE
- * the DDL are permanent — autocommit is off, so MySQL opens a fresh transaction at the implicit
- * commit and everything after rolls back. In practice that is the user a beforeEach created
- * (user_login is unique; review posts are not). Reviews go too, because they are counted; the
- * three assignment tables and the ratings table cascade from the review posts.
+ * Delete the rows a declared test committed and did not delete.
+ * The user a beforeEach created is the one that matters, because user_login is unique. Reviews go
+ * too, because they are counted; the three assignment tables and the ratings table cascade from
+ * the review posts.
  */
 function purgeCommittedRows(): void
 {
@@ -162,6 +98,11 @@ function purgeCommittedRows(): void
     $wpdb->query($wpdb->prepare(
         "DELETE FROM {$wpdb->posts} WHERE post_type = %s", glsr()->post_type
     ));
+    $wpdb->query(
+        "DELETE r FROM {$wpdb->posts} r
+         LEFT JOIN {$wpdb->posts} p ON (p.ID = r.post_parent)
+         WHERE r.post_type = 'revision' AND p.ID IS NULL"
+    );
     $wpdb->query(
         "DELETE pm FROM {$wpdb->postmeta} pm
          LEFT JOIN {$wpdb->posts} p ON (p.ID = pm.post_id)
@@ -174,12 +115,8 @@ function purgeCommittedRows(): void
          WHERE u.ID IS NULL"
     );
 
-    // The plugin's TRANSIENTS are options too, so they commit like anything else. Learned the
-    // hard way: two tests committed (TableStats::empty() runs TRUNCATE) before anyone declared
-    // it, and what stuck was Api's cached response for an IP — every geolocation test afterwards
-    // was served that cached success instead of making a request, including the one asserting a
-    // FAILED lookup stores nothing. Transients are disposable, so all of the plugin's go; the
-    // settings, migration record and db version are options, not transients, and stay.
+    // The plugin's transients are options, so they commit too. They are disposable; the settings,
+    // the migration record and the db version stay.
     $wpdb->query(
         "DELETE FROM {$wpdb->options}
          WHERE option_name LIKE '\\_transient\\_glsr\\_%'
@@ -189,16 +126,11 @@ function purgeCommittedRows(): void
             OR option_name = 'glsr_api_transients'"
     );
 
-    // The MIGRATION RECORD, the subtle casualty of a committed migration run. A test that
-    // reaches Migrate::runAll() (CliTest, the Tools re-run) commits its DDL, but the FINAL
-    // updateMigrationStatus() write lands in the post-DDL transaction the harness rolls
-    // back — so the committed database ends the test with glsr_migrations MISSING, and every
-    // later test that so much as touches runMigrations() finds all of them pending and
-    // re-runs them: DDL, an undeclared commit, and the tripwire fires two files away. The
-    // schema itself is current — the DDL committed — so the honest repair is the record
-    // bootstrap's own runAll() writes: every migration in the tree, marked run. Raw SQL like
-    // everything else here: the object cache still holds the pre-rollback copy at this point
-    // (it is flushed AFTER the purge), so get_option()/update_option() would no-op.
+    forgetTableEngines();
+
+    // A declared test can leave a migration pending, and the next test to reach runMigrations()
+    // would run it as DDL without declaring the commit. The schema is current, so every migration
+    // is marked run. Raw SQL: the object cache still holds the old copy until the flush after the purge.
     $migrations = (new \ReflectionProperty(\GeminiLabs\SiteReviews\Modules\Migrate::class, 'migrations'))
         ->getValue(glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)); // from the filesystem, cache-free
     $wpdb->query($wpdb->prepare(
@@ -207,6 +139,18 @@ function purgeCommittedRows(): void
         glsr()->prefix.'migrations',
         serialize(array_fill_keys($migrations, true))
     ));
+}
+
+/**
+ * Delete the cached table engines, which Tables::tableEngine() writes again on demand.
+ */
+function forgetTableEngines(): void
+{
+    global $wpdb;
+    $options = $wpdb->get_col($wpdb->prepare(
+        "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", glsr()->prefix.'engine\\_%'
+    ));
+    array_map('delete_option', $options);
 }
 
 /**
@@ -359,74 +303,6 @@ function createUsers(int $count, array $args = []): array
 }
 
 /**
- * Snapshot of the hook globals, taken before each test and restored after, so a filter a test
- * adds cannot leak into the next — without it, `add_filter('site-reviews/validators', …)` in one
- * test changes the outcome of every test after it.
- */
-function hookBackup(): \ArrayObject
-{
-    static $backup;
-    return $backup ??= new \ArrayObject([]);
-}
-
-/**
- * The hook globals from wp-includes/plugin.php:
- *
- *     WP_Hook[] $wp_filter          the callbacks, one WP_Hook per hook
- *     int[]     $wp_actions         did_action counts
- *     int[]     $wp_filters         did_filter counts (6.1+)
- *     string[]  $wp_current_filter  the hook stack
- *
- * $wp_filter holds objects, so each is cloned rather than copied by reference; the rest are plain
- * arrays. Only globals that are set are touched.
- */
-const HOOK_GLOBALS = ['wp_actions', 'wp_filters', 'wp_current_filter'];
-
-function backupHooks(): void
-{
-    $backup = ['wp_filter' => []];
-    foreach (HOOK_GLOBALS as $key) {
-        if (isset($GLOBALS[$key])) {
-            $backup[$key] = $GLOBALS[$key];
-        }
-    }
-    foreach ($GLOBALS['wp_filter'] as $hookName => $hook) {
-        $backup['wp_filter'][$hookName] = clone $hook;
-    }
-    hookBackup()->exchangeArray($backup);
-}
-
-function restoreHooks(): void
-{
-    $backup = hookBackup()->getArrayCopy();
-    if (empty($backup)) {
-        return;
-    }
-    foreach (HOOK_GLOBALS as $key) {
-        if (array_key_exists($key, $backup)) {
-            $GLOBALS[$key] = $backup[$key];
-        }
-    }
-    $GLOBALS['wp_filter'] = [];
-    foreach ($backup['wp_filter'] as $hookName => $hook) {
-        $GLOBALS['wp_filter'][$hookName] = clone $hook;
-    }
-}
-
-/**
- * The rest of the per-request state reset between tests: the logged-in user and the request
- * superglobals.
- */
-function resetRequestState(): void
-{
-    wp_set_current_user(0);
-    $_GET = [];
-    $_POST = [];
-    $_REQUEST = [];
-    $_FILES = [];
-}
-
-/**
  * Everything a database transaction CANNOT roll back: globals, the DI container, an in-memory
  * session, static properties. A test that runs after one which left the right state behind would
  * otherwise pass for the wrong reason — `make test:random` shuffled the order and 39 tests fell
@@ -512,108 +388,6 @@ function resetGlobalState(): void
     if (class_exists('\WP_CLI')) {
         \WP_CLI::reset();
     }
-}
-
-/**
- * The mail the suite has "sent". There is no mail transport in the test container, so wp_mail()
- * would return false; `pre_wp_mail` short-circuits it the same way and records what would have
- * gone out. Registered once in bootstrap.php, emptied before each test by Pest.php.
- */
-function mailbox(): \ArrayObject
-{
-    static $mailbox;
-    return $mailbox ??= new \ArrayObject([]);
-}
-
-function interceptMail(): void
-{
-    add_filter('pre_wp_mail', function ($shortCircuit, $atts) {
-        mailbox()->append($atts);
-        return true; // what wp_mail() returns on success
-    }, 10, 2);
-}
-
-/**
- * @return array[] one entry per wp_mail() call: to, subject, message, headers…
- */
-function sentMail(): array
-{
-    return mailbox()->getArrayCopy();
-}
-
-/**
- * The recipients of one email, as a list. array_values() matters: EmailDefaults::finalize() drops
- * empty `recipients` entries with Arr::removeEmptyValues(), which preserves keys — so a list with
- * a blank in the middle comes out with a hole. wp_mail() does not care; a list assertion would.
- *
- * @return string[]
- */
-function sentTo(int $index = 0): array
-{
-    $mail = sentMail();
-
-    return array_values((array) ($mail[$index]['to'] ?? []));
-}
-
-function emptyMailbox(): void
-{
-    mailbox()->exchangeArray([]);
-}
-
-/**
- * Nothing may leave the test container over HTTP. `pre_http_request` is WordPress's own
- * short-circuit and runs before the URL is validated, catching every request whatever the
- * transport. Registered LAST (priority 999), it speaks only when nothing else has: a test making
- * a request on purpose intercepts at the default priority with interceptHttp(), and this returns
- * whatever that returned. Otherwise a loud WP_Error — a test that reaches the network is slow,
- * flaky, and may be POSTing a fixture to a real webhook. Registered once in bootstrap.php.
- */
-function blockHttpRequests(): void
-{
-    add_filter('pre_http_request', function ($response, $args, $url) {
-        if (false !== $response) {
-            return $response; // a test is intercepting this one on purpose
-        }
-        return new \WP_Error('http_request_failed', sprintf(
-            'The test suite does not make HTTP requests, and something tried to reach %s. '.
-            'If the code under test is meant to, intercept it with interceptHttp().',
-            $url
-        ));
-    }, 999, 3);
-}
-
-/**
- * Every HTTP request the code under test makes, and a 200 in reply to each.
- *
- * @return \ArrayObject<int, array{url:string, args:array}>
- */
-function interceptHttp(array $response = []): \ArrayObject
-{
-    $requests = new \ArrayObject();
-    add_filter('pre_http_request', function ($pre, $args, $url) use ($requests, $response) {
-        $requests->append(compact('args', 'url'));
-
-        return array_replace([
-            'body' => '',
-            'cookies' => [],
-            'filename' => null,
-            'headers' => [],
-            'http_response' => null,
-            'response' => ['code' => 200, 'message' => 'OK'],
-        ], $response);
-    }, 10, 3);
-
-    return $requests;
-}
-
-/**
- * The body of an intercepted request, decoded.
- */
-function sentJson(\ArrayObject $requests, int $index = 0): array
-{
-    $body = $requests[$index]['args']['body'] ?? '';
-
-    return json_decode((string) $body, true) ?? [];
 }
 
 /**
@@ -900,3 +674,63 @@ function withTablesAnswering(array $answers, callable $callback)
         glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $original);
     }
 }
+
+/*
+ * The harness helpers come from pryley/wp-plugin-tooling. These keep the names the tests import.
+ */
+
+function blockHttpRequests(): void
+{
+    Pest\blockHttpRequests();
+}
+
+function commitsTransaction(): void
+{
+    Pest\commitsTransaction();
+}
+
+function definesWpImporting(): void
+{
+    Pest\definesWpImporting();
+}
+
+function emptyMailbox(): void
+{
+    Pest\emptyMailbox();
+}
+
+function interceptHttp(array $response = []): \ArrayObject
+{
+    return Pest\interceptHttp($response);
+}
+
+function interceptMail(): void
+{
+    Pest\interceptMail();
+}
+
+function resetRequestState(): void
+{
+    Pest\resetRequestState();
+}
+
+function restoreHooks(): void
+{
+    Pest\restoreHooks();
+}
+
+function sentJson(\ArrayObject $requests, int $index = 0): array
+{
+    return Pest\sentJson($requests, $index);
+}
+
+function sentMail(): array
+{
+    return Pest\sentMail();
+}
+
+function sentTo(int $index = 0): array
+{
+    return Pest\sentTo($index);
+}
+
