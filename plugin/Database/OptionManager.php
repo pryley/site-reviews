@@ -240,6 +240,7 @@ class OptionManager
             $defaults = glsr()->defaults();
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
+            $settings = $this->withoutEmptiedSubtrees($settings, $defaults);
             $settings = wp_parse_args($settings, $defaults);
             $settings = Arr::unflatten($settings);
         }
@@ -445,6 +446,7 @@ class OptionManager
             // its stored values key-by-key
             $savedTree = Arr::flatten(Arr::getAs('array', $saved, "settings.{$slug}"));
             $defaultTree = Arr::flatten(Arr::getAs('array', $defaults, "settings.{$slug}"));
+            $savedTree = $this->withoutEmptiedSubtrees($savedTree, $defaultTree);
             foreach (array_diff_key($savedTree, $defaultTree) as $path => $value) {
                 $settings = Arr::set($settings, "settings.{$slug}.{$path}", $value);
             }
@@ -457,6 +459,27 @@ class OptionManager
         foreach (Arr::get($saved, 'settings.licenses', []) as $addon => $value) {
             if (!isset($defaults['settings']['licenses'][$addon])) {
                 $settings['settings']['licenses'][$addon] = $value;
+            }
+        }
+        return $settings;
+    }
+
+    /**
+     * Drop a settings subtree saved as an empty array.
+     */
+    protected function withoutEmptiedSubtrees(array $settings, array $defaults): array
+    {
+        $parents = [];
+        foreach (array_keys($defaults) as $key) {
+            while (false !== ($pos = strrpos($key, '.'))) {
+                $key = substr($key, 0, $pos);
+                $parents[$key] = true;
+            }
+        }
+        foreach ($settings as $key => $value) {
+            // only remove an empty array when the defaults have settings under it
+            if ([] === $value && isset($parents[$key])) {
+                unset($settings[$key]);
             }
         }
         return $settings;

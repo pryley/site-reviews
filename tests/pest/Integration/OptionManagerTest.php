@@ -65,6 +65,20 @@ test('previous() finds the settings a site was running before this version', fun
     expect($previous)->toHaveKey('settings');
 });
 
+test('normalize() fills the defaults of a subtree saved as an empty array, and keeps an empty list', function () {
+    // A fresh premium install saves each feature's settings as an empty array. Arr::flatten() turns
+    // it into one key with an empty value, and wp_parse_args() then skips every default under that key.
+    $normalized = glsr(OptionManager::class)->normalize([
+        'settings' => [
+            'forms' => ['required' => []],
+            'general' => [],
+        ],
+    ]);
+
+    expect($normalized['settings']['general'])->toBe(glsr()->defaults()['settings']['general'])
+        ->and($normalized['settings']['forms']['required'])->toBe([]);
+});
+
 test('mergeDefaults folds a newly introduced setting into what is already saved', function () {
     // The update path: a new plugin version ships a setting the saved options have never seen, and it
     // has to appear with its default rather than read as empty forever.
