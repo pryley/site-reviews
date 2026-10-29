@@ -26,6 +26,7 @@
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed MultilingualPress leaving out the categories of a review submitted by a visitor when it is copied to the review's translations
 - Fixed MultilingualPress overwriting the custom field values of a review's translations when the review is edited
+- Fixed the default settings of an addon not applying until its settings are saved
 - Fixed the Install button in the plugin requirement notice
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
