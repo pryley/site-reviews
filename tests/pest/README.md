@@ -58,14 +58,18 @@ straight after and the rest of the test still rolls back — the leak is always
 that username already exists", because the leaked user is still there and
 `user_login` is unique.
 
-`Pest.php` catches this. Every test writes a sentinel row inside its transaction
-and checks, after the `ROLLBACK`, whether the row survived. If it did, the test
-committed, and it is failed by name. `bootstrap.php` also purges before the first
-test, so a run that crashes out cannot poison the next one.
+The package's `Isolation` (`Support/isolation.php`) catches this. Every test
+writes a sentinel row inside its transaction and checks, after the `ROLLBACK`,
+whether the row survived. If it did, the test committed, and it is failed by
+name. `bootstrap.php` also purges before the first test, so a run that crashes
+out cannot poison the next one.
 
-Thirteen call sites do it legitimately and say so with `commitsTransaction()`,
-which purges the leaked rows instead of failing. The enumeration below is a map,
-not the authority — `grep -rn "commitsTransaction();" tests/pest` is:
+Thirteen call sites do it legitimately and say so with `commitsTransaction()`.
+A declared test ends with a `COMMIT` instead, so the cleanup it wrote after its
+last DDL stays; then `purgeCommittedRows()` runs, and the test fails if it
+changed the number of rows in the options, posts or terms tables. The
+enumeration below is a map, not the authority —
+`grep -rn "commitsTransaction();" tests/pest` is:
 
 - all of `Import/` (one declaration, in `CsvImportTest`'s `beforeEach`) —
   `TableTmp::create()`/`drop()` are DDL, and an import cannot happen without
