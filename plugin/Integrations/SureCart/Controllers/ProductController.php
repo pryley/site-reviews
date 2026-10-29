@@ -315,8 +315,9 @@ class ProductController implements ControllerContract
      */
     public function registerBlocks(): void
     {
-        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_rating'));
-        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_reviews'));
+        // the collection is keyed by the plugins-folder path
+        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_rating', false));
+        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_reviews', false));
     }
 
     /**
