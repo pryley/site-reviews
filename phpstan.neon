@@ -1,6 +1,5 @@
 includes:
-    - phar://phpstan.phar/conf/bleedingEdge.neon
-    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - vendor/pryley/wp-plugin-tooling/phpstan/base.neon
 parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
@@ -38,10 +37,6 @@ parameters:
     - helpers.php
     - autoload.php
   ignoreErrors:
-    # Mostly "sealed array shape" complaints about dynamically-built arrays passed to
-    # WordPress functions (16 errors at the last count) — run without it to re-census
-    -
-      identifier: argument.type
     -
       identifier: staticMethod.internal
     # These are ArrayObject classes
@@ -57,19 +52,16 @@ parameters:
     - '#invalid return type Breakdance\\Elements\\ElementDependenciesAndConditions#'
     - '#should return array but returns Breakdance\\Elements\\Control#'
     - '#PHPDoc tag @method for method GeminiLabs\\SiteReviews\\Modules\\Schema\\(.+)#'
-  level: 5
   paths:
     - assets/breakdance
     - config
     - plugin
-  reportUnmatchedIgnoredErrors: true
   scanFiles:
     - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
     - vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php
     - vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php
     - vendor/php-stubs/wp-cli-stubs/wp-cli-tools-stubs.php
     - vendors/woocommerce/action-scheduler/functions.php
-  treatPhpDocTypesAsCertain: false
   universalObjectCratesClasses:
     - GeminiLabs\SiteReviews\Arguments
     - GeminiLabs\SiteReviews\Modules\Html\Field
