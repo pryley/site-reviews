@@ -1,8 +1,8 @@
 <?php
 
 /*
- * Appended to the generated stub by tests/bin/generate-stubs.php — symbols the
- * generator cannot reach in the myCRED source:
+ * Appended to the generated stub, for the symbols the generator cannot reach
+ * in the myCRED source:
  *
  * - myCRED_Hook_WooCommerce_Reviews is declared INSIDE mycred_load_woocommerce_hook()
  *   (includes/hooks/external/mycred-hook-woocommerce.php), so no stub generator

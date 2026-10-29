@@ -1,56 +1,17 @@
 <?php
 
 /**
- * Manifest for tests/bin/generate-stubs.php (run it with `make stubs:update`).
+ * Manifest for pryley/wp-plugin-tooling's bin/generate-stubs (run it with `make stubs:update`).
  *
  * One entry per generated stub: tests/stubs/<slug>.php. The slugs the mu-plugin
  * and phpstan.neon load are the keys here — renaming one means updating both.
  *
- * NOT in this manifest, on purpose: akismet.php and wp-cli.php are WORKING FAKES
- * (hand-written, with behaviour the tests read back), not generated stubs. The
- * generator refuses to touch them.
+ * Not in this manifest: akismet.php and wp-cli.php are working fakes, hand-written with
+ * behaviour the tests read back. The generator refuses to touch a file without its header.
  *
- * Entry options:
- *
- *   source    Where the plugin/theme source comes from. A string or (to merge
- *             several sources into one stub) an array of strings:
- *               - "https://…/foo.zip"        remote zip. Use wp.org's
- *                                            /plugin/<slug>.latest-stable.zip:
- *                                            the bare <slug>.zip serves TRUNK,
- *                                            which for WooCommerce is a beta
- *               - "github:owner/repo"        source zipball of the latest GitHub
- *                                            release tag
- *               - "tests/bin/zips/foo.zip"   local zip, relative to the repo root
- *                                            (premium plugins/themes — drop the
- *                                            zip there and rerun; the directory
- *                                            is gitignored). Entry is SKIPPED
- *                                            with a notice while the zip is
- *                                            absent.
- *               - "vendors/foo"              local directory, relative to the
- *                                            repo root
- *
- *   symbols   Optional allowlist. When present, the stub keeps ONLY these
- *             classes/interfaces/traits/functions/constants (fully-qualified,
- *             case-insensitive) — plus every parent class, interface and trait
- *             a kept class needs to be declarable, pulled in automatically.
- *             When absent, the whole source (minus `exclude`) is stubbed.
- *
- *             The allowlist is the contract between plugin/Integrations/<X> and
- *             the third party: it is what the integration actually references.
- *             When an integration starts using a new upstream symbol, add it
- *             here and rerun. Deliberate omissions are commented inline.
- *
- *   exclude   Directories — or, when the entry ends in ".php", single files —
- *             (relative to the source root) pruned before generation. REPLACES
- *             the default list when present:
- *             vendor, vendors, node_modules, tests, Tests, test, Test, build, dist.
- *             A bare name matches a directory at any depth; a name with a
- *             slash matches that relative path at any depth. Case-sensitive.
- *
- *   append    A hand-maintained fragment (tests/bin/fragments/<slug>.php)
- *             concatenated onto the generated stub — for symbols no generator
- *             can reach, e.g. a class declared inside a function. The fragment
- *             says why each symbol is there; keep its namespaces braced.
+ * The generator's header describes the entry options: source, symbols, exclude and append.
+ * A symbols list is what plugin/Integrations/<X> references of the third party, so a new
+ * upstream call means a new symbol here and a rerun. A left-out symbol is commented inline.
  */
 return [
     /*

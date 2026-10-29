@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2366b2f0c9434640d1d67b5d11d8adbd",
+    "content-hash": "468827474314274e052dd48b56a58429",
     "packages": [],
     "packages-dev": [
         {
@@ -2288,6 +2288,73 @@
                 }
             ],
             "time": "2026-07-28T13:58:09+00:00"
+        },
+        {
+            "name": "pryley/wp-plugin-tooling",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pryley/wp-plugin-tooling.git",
+                "reference": "5e5ff44b3d66617e3a95c89fec36d1032b8cc7f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pryley/wp-plugin-tooling/zipball/5e5ff44b3d66617e3a95c89fec36d1032b8cc7f9",
+                "reference": "5e5ff44b3d66617e3a95c89fec36d1032b8cc7f9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3",
+                "php-stubs/generator": "^0.9",
+                "php-stubs/wordpress-stubs": "^6.0 || ^7.0",
+                "phpstan/phpstan": "^2.1",
+                "szepeviktor/phpstan-wordpress": "^2.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pryley\\WpPluginTooling\\": "src/"
+                },
+                "files": [
+                    "src/Pest/functions.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Pryley\\WpPluginTooling\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "analyse": [
+                    "phpstan analyse --memory-limit 1G"
+                ],
+                "test": [
+                    "pest"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Ryley",
+                    "email": "paul@geminilabs.io"
+                }
+            ],
+            "description": "Development tooling for WordPress plugins: Makefile targets for wp-env, a Pest isolation harness, a third-party stub generator, phpstan and phpcs bases, and release checks.",
+            "support": {
+                "source": "https://github.com/pryley/wp-plugin-tooling/tree/v1.0.0",
+                "issues": "https://github.com/pryley/wp-plugin-tooling/issues"
+            },
+            "time": "2026-10-29T11:31:09+00:00"
         },
         {
             "name": "psr/container",

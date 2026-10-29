@@ -4,7 +4,6 @@
     <arg name="colors"/>
     <arg name="extensions" value="php" />
     <arg value="sp"/>
-    <config name="installed_paths" value="+/tools/phpcs/vendor/phpcompatibility/php-compatibility" />
     <config name="testVersion" value="8.1-"/>
     <description>Coding Standards for PHP CodeSniffer</description>
     <exclude-pattern>*/vendors/symfony/*</exclude-pattern>
@@ -21,22 +20,7 @@
     <file>./site-reviews.php</file>
     <file>./uninstall.php</file>
     <ini name="memory_limit" value="512M"/>
-    <rule ref="PHPCompatibility">
-        <!-- PHP 8.6 adds the form feed to trim()'s default characters, which changes nothing the plugin trims. -->
-        <exclude name="PHPCompatibility.ParameterValues.NewTrimCharactersDefault"/>
-    </rule>
-    <rule ref="PHPCompatibility.Attributes.NewAttributes.Found">
-        <severity>0</severity>
-    </rule>
-    <rule ref="PHPCompatibility.FunctionUse.NewFunctions.str_containsFound">
-        <severity>0</severity>
-    </rule>
-    <rule ref="PHPCompatibility.FunctionUse.NewFunctions.str_starts_withFound">
-        <severity>0</severity>
-    </rule>
-    <rule ref="PHPCompatibility.FunctionUse.NewFunctions.str_ends_withFound">
-        <severity>0</severity>
-    </rule>
+    <rule ref="vendor/pryley/wp-plugin-tooling/rulesets/compat.xml"/>
     <!-- The bundled libraries are updated from upstream, never edited. -->
     <rule ref="PHPCompatibility.ParameterValues.RemovedProprietaryCSVEscaping">
         <exclude-pattern>*/vendors/*</exclude-pattern>
