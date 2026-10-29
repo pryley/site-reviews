@@ -1,27 +1,49 @@
-## v2.1.0
-COMPOSER ?= COMPOSER_PROCESS_TIMEOUT=0 composer
-MULTILINGUALPRESS_SOURCE ?= $(HOME)/Local Sites/test-multilingualpress/app/public/wp-content/plugins/multilingualpress
-PLUGIN ?= $(notdir $(CURDIR))
-VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
-WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.bin/wp-env' || printf 'npx @wordpress/env')
-WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
-WPENV_START ?= WP_ENV_PORT=8890 $(WPENV_BIN) start
+## v3.0.0
+# The shared targets come from pryley/wp-plugin-tooling's make/plugin.mk, included below;
+# `make help` lists them with the targets below. PHP tooling that loads vendor/ runs inside
+# the wp-env cli container, where `make test:install` installs the composer dependencies.
 
-.PHONY: analyse
-analyse: env-check ## Run the phpstan analyser (inside wp-env)
-	$(WPENV) env XDEBUG_MODE=off vendor/bin/phpstan analyse --memory-limit 2G
+PLUGIN := site-reviews
+TEST_DIR := tests/pest
+WP_ENV_PORT := 8890
+MULTISITE_PORT := 8892
+MULTISITE_TITLE := Site Reviews Network
+WOOCOMMERCE_PORT := 8894
+COVERAGE_CLOVERS := tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/woocommerce.xml
+WPENV_CONFIGS := .wp-env.json tests/multisite/.wp-env.json tests/woocommerce/.wp-env.json
+I18N_EXCLUDE := +,node_modules,tests,vendor,vendors
+I18N_HEADERS := {"Last-Translator":"Paul Ryley <paul@geminilabs.io>","Language-Team":"Gemini Labs <support@geminilabs.io>"}
+MULTILINGUALPRESS_SOURCE ?= $(HOME)/Local Sites/test-multilingualpress/app/public/wp-content/plugins/multilingualpress
+TEST_JS = npm run test:js
+TEST_ALL_EXTRA = test:woocommerce
+COVERAGE_ALL_EXTRA = coverage:woocommerce
+ENV_UPDATE_AFTER = (cd tests/woocommerce && env WP_ENV_PORT=$(WOOCOMMERCE_PORT) npx @wordpress/env start --update) && $(MAKE) --no-print-directory woocommerce-env
+# MultilingualPress is proprietary: the multisite instance maps a local copy of it from tests/bin/plugins.
+MULTISITE_PREPARE = mkdir -p tests/bin/plugins/multilingualpress; \
+	if [ -f "$(MULTILINGUALPRESS_SOURCE)/multilingualpress.php" ]; then \
+		rsync -a --delete "$(MULTILINGUALPRESS_SOURCE)/" tests/bin/plugins/multilingualpress/; \
+	fi
+MULTISITE_SETUP = quietly npx @wordpress/env run cli bash wp-content/plugins/site-reviews/tests/multisite/setup-multilingualpress.sh
+
+TOOLING_MK := vendor/pryley/wp-plugin-tooling/make/plugin.mk
+ifneq ($(wildcard $(TOOLING_MK)),)
+include $(TOOLING_MK)
+else
+.DEFAULT:
+	@printf '\nRun `make test:install` first.\n\n'
+endif
 
 .PHONY: build
 build: ## Build the languages and assets
-	make build:i18n
-	make build:assets
+	@$(MAKE) --no-print-directory build:i18n
+	@$(MAKE) --no-print-directory build:assets
 
 .PHONY: build\:all
 build\:all: ## Build everything: languages, assets, blocks, and Divi elements
-	make build:i18n
-	make build:blocks
-	make build:divi
-	make build:assets
+	@$(MAKE) --no-print-directory build:i18n
+	@$(MAKE) --no-print-directory build:blocks
+	@$(MAKE) --no-print-directory build:divi
+	@$(MAKE) --no-print-directory build:assets
 
 .PHONY: build\:assets
 build\:assets: ## Build the frontend assets with Rollup
@@ -36,62 +58,6 @@ build\:blocks: ## Check the node/npm engines and build the Gutenberg blocks
 build\:divi: ## Build the Divi elements
 	npm run divi
 
-.PHONY: build\:i18n
-build\:i18n: env-check ## Build the language files: text-domain audit, then pot -> po -> mo (wp i18n)
-	@test -f '+/tools/wpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/wpcs' update
-	XDEBUG_MODE=off '+/tools/wpcs/vendor/bin/phpcs' --standard=phpcs-i18n.xml
-	$(WPENV) wp --require='+/tools/i18n-schema.php' i18n make-pot . languages/site-reviews.pot --slug=site-reviews --domain=site-reviews \
-		--exclude=+,node_modules,tests,vendor,vendors \
-		--headers='{"Last-Translator":"Paul Ryley <paul@geminilabs.io>","Language-Team":"Gemini Labs <support@geminilabs.io>"}'
-	@perl -i -ne 'print unless /^"POT-Creation-Date:/' languages/site-reviews.pot
-	$(WPENV) wp i18n update-po languages/site-reviews.pot
-	$(WPENV) wp i18n make-mo languages/
-
-.PHONY: bump
-bump: ## Bump the version: patch by default (TYPE=minor|major|beta, DRY=1 to preview)
-	XDEBUG_MODE=off php '+/tools/bump.php' $(if $(TYPE),$(TYPE),patch) $(if $(DRY),--dry-run,)
-
-.PHONY: compat
-compat: ## Check PHP compatibility (8.1, phpcs) and WP compatibility (the declared floor, wp-since)
-	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
-	@test -f '+/tools/wp-since/vendor/bin/wp-since' || composer --working-dir='+/tools/wp-since' update
-	@status=0; \
-	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml || status=1; \
-	XDEBUG_MODE=off php -d memory_limit=2G '+/tools/wp-since/vendor/bin/wp-since' check || status=1; \
-	exit $$status
-
-.PHONY: coverage
-coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
-	$(WPENV_START) --xdebug=coverage
-	$(WPENV) env XDEBUG_MODE=coverage $(COMPOSER) test:coverage
-
-.PHONY: coverage\:all
-coverage\:all: ## The full coverage picture: main, multisite and WooCommerce suites, then the merged table
-	make coverage
-	make coverage:multisite
-	make coverage:woocommerce
-	make coverage:merge
-
-.PHONY: coverage\:merge
-coverage\:merge: ## Merge all clovers into tests/coverage/merged.xml, and print the merged table
-	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make coverage` first.\n\n'; exit 1; }
-	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make coverage:multisite` first.\n\n'; exit 1; }
-	@test -f tests/coverage/woocommerce.xml || { printf '\nNo tests/coverage/woocommerce.xml — run `make coverage:woocommerce` first.\n\n'; exit 1; }
-	@find plugin -name '*.php' -newer tests/coverage/clover.xml | head -1 | grep -q . && \
-		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/clover.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage`.\n' || true
-	@find plugin -name '*.php' -newer tests/coverage/multisite.xml | head -1 | grep -q . && \
-		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/multisite.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage:multisite`.\n' || true
-	@find plugin -name '*.php' -newer tests/coverage/woocommerce.xml | head -1 | grep -q . && \
-		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/woocommerce.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage:woocommerce`.\n' || true
-	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/woocommerce.xml tests/coverage/merged.xml
-
-.PHONY: coverage\:multisite
-coverage\:multisite: multisite-env ## Run the multisite suite with coverage (its clover feeds coverage:merge)
-	@cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
-		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
-		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
-		--coverage-clover=tests/coverage/multisite.xml
-
 .PHONY: coverage\:woocommerce
 coverage\:woocommerce: woocommerce-env ## Run the WooCommerce suite with coverage (its clover feeds coverage:merge)
 	@cd tests/woocommerce && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
@@ -99,144 +65,25 @@ coverage\:woocommerce: woocommerce-env ## Run the WooCommerce suite with coverag
 		--test-directory=tests/woocommerce -c tests/woocommerce/phpunit.xml --colors=always \
 		--coverage-clover=tests/coverage/woocommerce.xml
 
-.PHONY: env
-env: env-check ## What the suite is actually running against
-	@printf '\nWordPress  '
-	@$(WPENV) wp core version 2>/dev/null | tr -d '\r'
-	@printf 'PHP        '
-	@$(WPENV) php -r 'echo PHP_VERSION, PHP_EOL;' 2>/dev/null | tr -d '\r'
-	@printf 'Tested to  %s (readme.txt)\n\n' "$$(perl -lne 'm{Tested up to: *(.+)} and print $$1' readme.txt)"
-
-.PHONY: env\:update
-env\:update: docker-check ## Update the pinned WordPress version in all three wp-env instances to the latest release
-	@latest="$$(curl -fsS https://api.wordpress.org/core/version-check/1.7/ | perl -lne 'm{"current":"([^"]+)"} and print $$1 and exit')"; \
-	test -n "$$latest" || { printf '\nCould not reach wordpress.org to ask what the latest release is.\n\n'; exit 1; }; \
-	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
-	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json tests/multisite/.wp-env.json tests/woocommerce/.wp-env.json
-	$(WPENV_START) --update
-	@cd tests/multisite && env WP_ENV_PORT=8892 npx @wordpress/env start --update
-	@cd tests/woocommerce && env WP_ENV_PORT=8894 npx @wordpress/env start --update
-	@$(MAKE) --no-print-directory multisite-env
-	@$(MAKE) --no-print-directory woocommerce-env
-	@$(MAKE) --no-print-directory env
-	@printf 'Commit .wp-env.json, tests/multisite/.wp-env.json and tests/woocommerce/.wp-env.json to pin this for everybody; CI reads the pin from them.\n\n'
-
-.PHONY: help
-help: ## Display this help
-	@awk '/^[^\t#].*?:.*?##/ { \
-		n = index($$0, "##"); \
-		t = substr($$0, 1, n - 1); \
-		gsub(/\\:/, SUBSEP, t); \
-		sub(/:.*/, "", t); \
-		gsub(SUBSEP, ":", t); \
-		d = substr($$0, n + 2); \
-		sub(/^[ \t]+/, "", d); \
-		printf "\033[36m%-30s\033[0m %s\n", t, d \
-	}' $(MAKEFILE_LIST) | sort
-
 .PHONY: release
 release: ## Release a new version
 	sh ./release.sh
 
-.PHONY: stubs
-stubs: ## List the stub manifest: what is generated from where, and what is missing
-	@XDEBUG_MODE=off php tests/bin/generate-stubs.php --list
-
-# Regenerates tests/stubs from the latest upstream releases. Premium sources are
-# local zips dropped into tests/bin/zips (gitignored) — absent ones are skipped.
-#   make stubs:update                          all entries with an available source
-#   make stubs:update SLUGS='woocommerce elementor'
-.PHONY: stubs\:update
-stubs\:update: ## Regenerate the third-party stubs from tests/bin/stubs-manifest.php (SLUGS=… for a subset)
-	@test -f vendor/php-stubs/generator/src/StubsGenerator.php || { \
-		printf '\nphp-stubs/generator is not installed. Run:\n\n    make test:install\n\n'; \
-		exit 1; \
-	}
-	XDEBUG_MODE=off php -d memory_limit=4G tests/bin/generate-stubs.php $(SLUGS)
-
-.PHONY: test
-test: env-check ## Run the JavaScript suite, then the four main Pest suites inside wp-env (see tests/pest/README.md)
-	npm run test:js
-	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test
-
-.PHONY: test\:all
-test\:all: ## Run the main, multisite and WooCommerce suites
-	make test
-	make test:multisite
-	make test:woocommerce
-
-# Run one test file.  Make sure to run `make test` before committing.
-#   make test:file FILE=tests/pest/Integration/EmailTest.php [NAME='plain text']
-.PHONY: test\:file
-test\:file: env-check ## Run one test file (FILE=…), or the tests in it matching NAME=…
-	@test -n '$(FILE)' || { printf '\nUsage: make test:file FILE=tests/pest/Integration/EmailTest.php [NAME="part of the test name"]\n\n'; exit 1; }
-	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always '$(FILE)' $(if $(NAME),--filter='$(NAME)',)
-
-# Run several files together to bisect a leak. Make sure to run `make test` before committing.
-#   make test:files FILES="tests/pest/Integration/A.php tests/pest/Integration/B.php"
-.PHONY: test\:files
-test\:files: env-check ## Run several test files together (FILES="a.php b.php") — for bisecting a leak
-	@test -n '$(FILES)' || { printf '\nUsage: make test:files FILES="tests/pest/Integration/A.php tests/pest/Integration/B.php"\n\n'; exit 1; }
-	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always $(FILES)
-
-.PHONY: test\:import
-test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
-	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:import
-
 .PHONY: test\:install
 test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
+	@test ! -d vendor/pryley/wp-plugin-tooling/.git || test -z "$$(git -C vendor/pryley/wp-plugin-tooling status --porcelain)" || { \
+		printf '\nvendor/pryley/wp-plugin-tooling has uncommitted changes. Commit or discard them first.\n\n'; \
+		exit 1; \
+	}
 	rm -rf vendor
-	$(WPENV_START)
-	$(WPENV) composer update
-
-.PHONY: test\:integration
-test\:integration: env-check ## Run only the Integration suite inside wp-env
-	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:integration
-
-.PHONY: test\:multisite
-test\:multisite: multisite-env ## Run the multisite suite in its own wp-env instance
-	@cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
-		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
-		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always
-
-.PHONY: test\:profile
-test\:profile: env-check ## Show the slowest tests in the suite
-	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always --profile
-
-# Shuffle tests WITHIN each suite. The seed is shared and reproducible.
-#   make test:random SEED=1234
-.PHONY: test\:random
-test\:random: env-check ## Run each suite with its tests shuffled, to find tests that leak state
-	@seed="$(if $(SEED),$(SEED),$$(od -An -N2 -tu2 < /dev/urandom | tr -d ' '))"; \
-	printf '\nRandom order seed: %s   (reproduce with: make test:random SEED=%s)\n' "$$seed" "$$seed"; \
-	for suite in Unit Integration ThirdParty Import; do \
-		printf '\n─── %s ───\n' "$$suite"; \
-		$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always \
-			--testsuite="$$suite" --order-by=random --random-order-seed="$$seed" || exit 1; \
-	done
-
-.PHONY: test\:thirdparty
-test\:thirdparty: env-check ## Run only the ThirdParty suite inside wp-env (the integrations)
-	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:thirdparty
-
-.PHONY: test\:unit
-test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
-	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:unit
+	WP_ENV_PORT=$(WP_ENV_PORT) $(or $(WPENV_BIN),npx @wordpress/env) start
+	$(or $(WPENV),npx @wordpress/env run cli --env-cwd=wp-content/plugins/$(PLUGIN)) composer install
 
 .PHONY: test\:woocommerce
 test\:woocommerce: woocommerce-env ## Run the WooCommerce suite in its own wp-env instance (a real WooCommerce)
 	@cd tests/woocommerce && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
 		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/woocommerce -c tests/woocommerce/phpunit.xml --colors=always
-
-.PHONY: update
-update: env-check ## Update the Composer dependencies (inside wp-env) and check the NPM ones
-	$(WPENV) composer update
-	npm-check -u
-
-.PHONY: watch
-watch: ## Watch and rebuild the frontend assets with Rollup
-	npm run rollup:watch
 
 .PHONY: zip
 zip: ## Create a zip archive of Site Reviews from HEAD
@@ -263,47 +110,13 @@ docker-check:
 		exit 1; \
 	}
 
-.PHONY: env-check
-env-check: docker-check
-	@test -f vendor/bin/pest || { \
-		printf '\nThe test environment has not been set up yet. Run:\n\n'; \
-		printf '    make test:install\n\n'; \
-		exit 1; \
-	}
-	@docker ps --format '{{.Names}}' | grep -Eq 'wp-env-$(PLUGIN)-[0-9a-f]+-cli' || { \
-		printf '\nwp-env is not running — starting it…\n\n'; \
-		$(WPENV_START); \
-	}
-
-.PHONY: multisite-env
-multisite-env: docker-check
-	@printf 'Preparing the multisite wp-env instance (port 8892)…\n'
-	@log=$$(mktemp); trap 'rm -f "$$log"' EXIT; \
-	quietly() { "$$@" >"$$log" 2>&1 || { cat "$$log"; exit 1; }; }; \
-	mkdir -p tests/bin/plugins/multilingualpress; \
-	if [ -f "$(MULTILINGUALPRESS_SOURCE)/multilingualpress.php" ]; then \
-		rsync -a --delete "$(MULTILINGUALPRESS_SOURCE)/" tests/bin/plugins/multilingualpress/; \
-	fi; \
-	cd tests/multisite; \
-	quietly env WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage; \
-	npx @wordpress/env run cli wp core is-installed --network >/dev/null 2>&1 \
-		|| quietly npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network'; \
-	quietly npx @wordpress/env run cli bash -c "\
-		wp config set MULTISITE true --raw --type=constant && \
-		wp config set SUBDOMAIN_INSTALL false --raw --type=constant && \
-		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
-		wp config set PATH_CURRENT_SITE / --type=constant && \
-		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
-		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"; \
-	quietly npx @wordpress/env run cli bash wp-content/plugins/site-reviews/tests/multisite/setup-multilingualpress.sh
-
 .PHONY: woocommerce-env
 woocommerce-env: docker-check
-	@printf 'Preparing the WooCommerce wp-env instance (port 8894)…\n'
+	@printf 'Preparing the WooCommerce wp-env instance (port %s)…\n' '$(WOOCOMMERCE_PORT)'
 	@log=$$(mktemp); trap 'rm -f "$$log"' EXIT; \
 	quietly() { "$$@" >"$$log" 2>&1 || { cat "$$log"; exit 1; }; }; \
 	cd tests/woocommerce; \
-	quietly env WP_ENV_PORT=8894 npx @wordpress/env start --xdebug=coverage; \
+	quietly env WP_ENV_PORT=$(WOOCOMMERCE_PORT) npx @wordpress/env start --xdebug=coverage; \
 	quietly npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews wp eval \
 		'glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set("settings.integrations.woocommerce.enabled", "yes");'; \
 	quietly npx @wordpress/env run cli wp option update woocommerce_enable_reviews yes

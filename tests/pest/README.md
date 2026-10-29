@@ -11,16 +11,10 @@ things it needs from core's framework live in `Support/`: the post/term/user
 factories and the admin-ajax harness. Isolation comes from a DB transaction per
 test instead of core's rollback.
 
-Two lint-only tools live in their own composer projects, installed on first
-use by the target that needs them:
-
-- `+/tools/wp-since` (`make compat`) — it pins an older toolchain than Pest.
-- `+/tools/phpcs` (`make compat`) — PHPCompatibility is required as a git
-  branch (`dev-develop`), and the wp-env container has no git, so Composer
-  cannot install it there. It runs on the host instead.
-
-That leaves the root `composer.json` with only stable, dist-installable
-packages, so it installs cleanly inside the container.
+The shared tooling is `pryley/wp-plugin-tooling` (see its README): the make
+targets, the isolation harness, the stub generator, the phpstan and phpcs bases,
+and the phpcs, WordPressCS and wp-since installs, which `make compat` and
+`make build:i18n` install on first use.
 
 ## Layout
 
