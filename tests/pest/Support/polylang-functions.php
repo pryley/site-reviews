@@ -1,15 +1,14 @@
 <?php
 
 /*
- * Polylang, as a WORKING fake rather than a signature-only stub — because Site Reviews does not
- * merely check that Polylang is there, it calls into it and reads the answers back. A stub
- * returning null proves only that the call compiles.
+ * Polylang as a working fake, not a signature-only stub: Site Reviews calls into Polylang and
+ * reads the answers back, and a stub returning null proves only that the call compiles.
  *
  * Every function below delegates to GeminiLabs\SiteReviews\Tests\PolylangFake, which holds the
  * state a test sets up: which post types are translated, what language a thing is in, and what
- * its translations are. The semantics are Polylang's own, from its documented API — in
- * particular that `$lang` DEFAULTS TO THE CURRENT LANGUAGE, which is the entire purpose of
- * pll_get_post() and pll_get_term(), and which Site Reviews does not use.
+ * its translations are. The semantics follow Polylang's documented API. In pll_get_post() and
+ * pll_get_term() `$lang` defaults to the current language, and Site Reviews relies on that:
+ * Translations.php calls both without a language.
  */
 
 namespace {
@@ -44,7 +43,7 @@ namespace {
      * represented by $lang.
      *
      * @param int    $post_id Post id.
-     * @param string $lang    Optional language code, DEFAULTS TO THE CURRENT LANGUAGE.
+     * @param string $lang    Optional language code, defaults to the current language.
      *
      * @return int|false|null Post id of the translation if it exists, false otherwise.
      */
@@ -68,7 +67,7 @@ namespace {
     }
 
     /**
-     * Returns the post language. NOT the current language — the language the post is in.
+     * Returns the post language.
      *
      * @param int    $post_id Post id.
      * @param string $field   Optional, the language field to return, defaults to 'slug'.
@@ -81,7 +80,7 @@ namespace {
     }
 
     /**
-     * Returns the term language. NOT the current language.
+     * Returns the term language.
      *
      * @param int    $term_id Term ID.
      * @param string $field   Optional, the language field to return, defaults to 'slug'.
