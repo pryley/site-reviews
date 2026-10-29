@@ -110,6 +110,7 @@ test('the post a review was assigned to becomes an assignment row', function () 
 
     expect(assignedPosts($review))->toBe([['post_id' => (string) $assignedTo, 'is_published' => '1']])
         ->and(assignedPosts($unassigned))->toBe([]); // 0 is not an assignment
+    wp_delete_post($assignedTo, true); // the pass committed it, and the purge removes reviews only
 });
 
 test('the categories a review was in become assignment rows', function () {

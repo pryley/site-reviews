@@ -268,22 +268,30 @@ test('a database with NO recorded version is not mistaken for an ancient one', f
     //
     // A missing version means "we do not know", and the only safe answer to that is to leave the
     // data alone. A genuinely pre-1.1 database HAS a version recorded — the migrations write it.
+    $version = get_option(glsr()->prefix.'db_version');
     delete_option(glsr()->prefix.'db_version');
-
-    expect(glsr(RatingDefaults::class)->defaults())->toHaveKey('terms');
+    try {
+        expect(glsr(RatingDefaults::class)->defaults())->toHaveKey('terms');
+    } finally {
+        update_option(glsr()->prefix.'db_version', $version); // this file commits
+    }
 });
 
 test('and a review created without a recorded version still records the truth', function () {
     // End to end, on the row rather than the model — the model would report `true` from
     // ReviewDefaults whether the column was written or not, which is what hid this for so long.
     global $wpdb;
+    $version = get_option(glsr()->prefix.'db_version');
     delete_option(glsr()->prefix.'db_version');
+    try {
+        $review = createReview();
 
-    $review = createReview();
-
-    expect($wpdb->get_var($wpdb->prepare(
-        "SELECT terms FROM {$wpdb->prefix}glsr_ratings WHERE review_id = %d", $review->ID
-    )))->toBe('0');
+        expect($wpdb->get_var($wpdb->prepare(
+            "SELECT terms FROM {$wpdb->prefix}glsr_ratings WHERE review_id = %d", $review->ID
+        )))->toBe('0');
+    } finally {
+        update_option(glsr()->prefix.'db_version', $version);
+    }
 });
 
 test('a review created on a current database stores the terms it was actually given', function () {

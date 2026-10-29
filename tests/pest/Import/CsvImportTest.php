@@ -90,6 +90,11 @@ function purgeEverythingThisSuiteCreates(): void
         "DELETE FROM {$wpdb->posts} WHERE post_type = %s", glsr()->post_type
     ));
     $wpdb->query(
+        "DELETE r FROM {$wpdb->posts} r
+         LEFT JOIN {$wpdb->posts} p ON (p.ID = r.post_parent)
+         WHERE r.post_type = 'revision' AND p.ID IS NULL"
+    );
+    $wpdb->query(
         "DELETE pm FROM {$wpdb->postmeta} pm
          LEFT JOIN {$wpdb->posts} p ON (p.ID = pm.post_id)
          WHERE p.ID IS NULL"
