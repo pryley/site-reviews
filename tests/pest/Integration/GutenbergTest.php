@@ -175,8 +175,10 @@ test('a block resolves its metadata directory from the plugin it belongs to', fu
 
     // assets/blocks/{block} is the one shape a block ever asks for; a hosted
     // module's copy of that same string is slug-mapped by Addon::hostedFile().
+    // A plugin in the plugins folder gets the plugins-folder path, which the metadata collection is
+    // keyed by, and the fixture addon outside it gets its resolved path.
     expect($bind(glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock::class)))
-        ->toBe(glsr()->path('assets/blocks/site_reviews'))
+        ->toBe(glsr()->path('assets/blocks/site_reviews', false))
         ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\AddonBlock::class)))
         ->toBe($addon->path('assets/blocks/addon'));
 });
