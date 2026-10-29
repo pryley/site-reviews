@@ -107,6 +107,11 @@ test('registerBlocks registers the metadata collection and all four blocks', fun
     foreach ($blocks as $block) {
         expect($registry->is_registered($block))->toBeTrue();
     }
+    // The collection is keyed by the plugins-folder path, and a symlinked plugin folder resolves to
+    // another one, so a block registered under the resolved path misses its manifest entry.
+    foreach (['site_review', 'site_reviews', 'site_reviews_form', 'site_reviews_summary'] as $dir) {
+        expect(WP_Block_Metadata_Registry::has_metadata(glsr()->path("assets/blocks/{$dir}", false)))->toBeTrue();
+    }
 });
 
 test('the editor loads the public assets', function () {
