@@ -28,8 +28,7 @@ php vendor/pryley/wp-plugin-tooling/bin/release-check \
 	--ask="Updated the 'What's New' page for major/minor version updates?" \
 	--ask="Updated the readme.txt changelog and prepended it to changelog.txt?" \
 	--ask="Verified that all addons work correctly with the update?" \
-	--ask="Committed all changes to the ${GIT_BRANCH} branch on GitHub?" \
-	--ask="Scrutinizer has passed all inspections?"
+	--ask="Committed all changes to the ${GIT_BRANCH} branch on GitHub?"
 clear
 
 # DELETE OLD TEMP DIRS
