@@ -113,6 +113,16 @@ test('a category is looked for in every language too', function () {
         ->toEqualCanonicalizing([$english, $french]);
 });
 
+test('a term of another taxonomy is looked for in every language when the taxonomy is named', function () {
+    $english = createTerm(['taxonomy' => 'category']);
+    $french = createTerm(['taxonomy' => 'category']);
+    PolylangFake::$translatedTaxonomies = [glsr()->taxonomy, 'category'];
+    PolylangFake::linkTerms(['en' => $english, 'fr' => $french]);
+
+    expect(polylang()->getTermIdsForAllLanguages([$english], 'category'))->toEqualCanonicalizing([$english, $french])
+        ->and(polylang()->getTermIdsForAllLanguages([$english]))->toBe([]); // not a review category
+});
+
 /*
  * Displaying: the assigned page should be the one the visitor is reading.
  */
