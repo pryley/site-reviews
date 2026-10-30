@@ -236,6 +236,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
 - Fixed the location shown on Console entries logged from a hook callback
+- Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing

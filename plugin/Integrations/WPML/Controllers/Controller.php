@@ -5,9 +5,23 @@ namespace GeminiLabs\SiteReviews\Integrations\WPML\Controllers;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Controller extends AbstractController
 {
+    /**
+     * @filter site-reviews/assets/config
+     */
+    public function filterConfig(array $config, string $bundle): array
+    {
+        $language = Cast::toString(apply_filters('wpml_current_language', ''));
+        // "all" is WPML's admin language filter
+        if ('public' === $bundle && '' !== $language && 'all' !== $language) {
+            $config['request']['language'] = $language;
+        }
+        return $config;
+    }
+
     /**
      * Add WPML to the Multilingual choices.
      *

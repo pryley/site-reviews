@@ -486,3 +486,14 @@ test('a page cached before 8.4.0 sends the rest action its config does not have'
     assert.equal(fields(sent[0]).action, 'glsr_rest_request')
     assert.deepEqual(plain(result), { data: { reviews: '<div></div>' }, status: 200, success: true })
 });
+
+test('under Polylang or WPML, a request carries the language of the page, over admin-ajax too', async () => {
+    const { window } = loadPublic({ config: { request: request({ language: 'de' }) } });
+    const calls = fakeFetch(window, [{ json: {} }, { status: 404, json: { code: 'rest_no_route' } }]);
+    const sent = fakeXhr(window, [{ json: {} }]);
+    await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })
+    assert.equal(calls[0].url, `${REST_URL}render/reviews?lang=de&page=2`)
+    await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })
+    assert.equal(fields(sent[0]).lang, 'de')
+    assert.equal(fields(sent[0])._rest_query, 'page=2')
+});

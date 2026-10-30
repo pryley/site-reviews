@@ -138,6 +138,9 @@ const _restUrl = (path, params) => {
     } else {
         url.pathname = url.pathname.replace(/\/$/, '') + '/' + path;
     }
+    if (config.request.language) {
+        url.searchParams.set('lang', config.request.language) // Polylang and WPML read lang
+    }
     _query(params, url.searchParams)
     return url;
 }
@@ -154,6 +157,10 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
     data.append('_rest_method', method)
     data.append('_rest_path', path)
     data.append('_rest_query', _query(params).toString())
+    if (config.request.language) {
+        // Polylang and WPML read lang here, not in _rest_query
+        data.append('lang', config.request.language)
+    }
     if (nonce) {
         data.append('_rest_nonce', nonce)
     }

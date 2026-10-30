@@ -5,9 +5,22 @@ namespace GeminiLabs\SiteReviews\Integrations\Polylang\Controllers;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Controller extends AbstractController
 {
+    /**
+     * @filter site-reviews/assets/config
+     */
+    public function filterConfig(array $config, string $bundle): array
+    {
+        $language = Cast::toString(pll_current_language());
+        if ('public' === $bundle && '' !== $language) {
+            $config['request']['language'] = $language;
+        }
+        return $config;
+    }
+
     /**
      * Add Polylang to the Multilingual choices.
      *
