@@ -190,6 +190,7 @@ return [
     'polylang' => [
         'source' => 'https://downloads.wordpress.org/plugin/polylang.latest-stable.zip',
         'symbols' => [
+            'pll_current_language',
             'pll_get_post',
             'pll_get_post_translations',
             'pll_get_term',
