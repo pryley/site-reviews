@@ -32,28 +32,28 @@ class Multilingual implements MultilingualContract
         return $this->integration?->getPostIdsForAllLanguages($postIds) ?? $postIds;
     }
 
-    public function getTerm(int $termId): ?\WP_Term
+    public function getTerm(int $termId, string $taxonomy = ''): ?\WP_Term
     {
         if ($this->integration) {
-            return $this->integration->getTerm($termId);
+            return $this->integration->getTerm($termId, $taxonomy);
         }
-        $term = get_term($termId, glsr()->taxonomy);
+        $term = get_term($termId, '' !== $taxonomy ? $taxonomy : glsr()->taxonomy);
         return $term instanceof \WP_Term ? $term : null;
     }
 
-    public function getTermId(int $termId): int
+    public function getTermId(int $termId, string $taxonomy = ''): int
     {
-        return $this->integration?->getTermId($termId) ?? $termId;
+        return $this->integration?->getTermId($termId, $taxonomy) ?? $termId;
     }
 
-    public function getTermIds(array $termIds): array
+    public function getTermIds(array $termIds, string $taxonomy = ''): array
     {
-        return $this->integration?->getTermIds($termIds) ?? $termIds;
+        return $this->integration?->getTermIds($termIds, $taxonomy) ?? $termIds;
     }
 
-    public function getTermIdsForAllLanguages(array $termIds): array
+    public function getTermIdsForAllLanguages(array $termIds, string $taxonomy = ''): array
     {
-        return $this->integration?->getTermIdsForAllLanguages($termIds) ?? $termIds;
+        return $this->integration?->getTermIdsForAllLanguages($termIds, $taxonomy) ?? $termIds;
     }
 
     public function register(MultilingualContract $integration): void
