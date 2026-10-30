@@ -127,6 +127,18 @@ test('an assigned category is translated the same two ways', function () {
         ->and(wpml()->getTermIdsForAllLanguages([$english]))->toBe([$english, $french]);
 });
 
+test('a term of another taxonomy is translated when the taxonomy is named', function () {
+    $english = createTerm(['taxonomy' => 'category']);
+    $french = createTerm(['taxonomy' => 'category']);
+    $GLOBALS['glsr_wpml']['translated_taxonomies'][] = 'category';
+    $GLOBALS['glsr_wpml']['objects'][$english] = $french;
+    $GLOBALS['glsr_wpml']['translations'][$english] = [$english, $french];
+
+    expect(wpml()->getTermId($english, 'category'))->toBe($french)
+        ->and(wpml()->getTermIdsForAllLanguages([$english], 'category'))->toBe([$english, $french])
+        ->and(wpml()->getTermIdsForAllLanguages([$english]))->toBe([]); // not a review category
+});
+
 test('a term wpml does not manage is left exactly alone', function () {
     $term = createTerm(['taxonomy' => glsr()->taxonomy]);
 

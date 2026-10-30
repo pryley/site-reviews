@@ -71,9 +71,10 @@ class Translations implements MultilingualContract
     /**
      * Get the translated Term for the current language.
      */
-    public function getTerm(int $termId): ?\WP_Term
+    public function getTerm(int $termId, string $taxonomy = ''): ?\WP_Term
     {
-        $term = get_term($this->getTermId($termId), glsr()->taxonomy, \OBJECT);
+        $taxonomy = $this->taxonomy($taxonomy);
+        $term = get_term($this->getTermId($termId, $taxonomy), $taxonomy, \OBJECT);
         if (!is_a($term, '\WP_Term')) {
             return null;
         }
@@ -83,12 +84,13 @@ class Translations implements MultilingualContract
     /**
      * Get the translated Term ID for the current language.
      */
-    public function getTermId(int $termId): int
+    public function getTermId(int $termId, string $taxonomy = ''): int
     {
-        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
+        $taxonomy = $this->taxonomy($taxonomy);
+        if (!pll_is_translated_taxonomy($taxonomy)) {
             return $termId;
         }
-        $term = get_term($termId, glsr()->taxonomy);
+        $term = get_term($termId, $taxonomy);
         if (is_a($term, '\WP_Term')) {
             $polylangTermId = pll_get_term($termId);
         }
@@ -101,11 +103,11 @@ class Translations implements MultilingualContract
     /**
      * Get the translated Term IDs for the current language.
      */
-    public function getTermIds(array $termIds): array
+    public function getTermIds(array $termIds, string $taxonomy = ''): array
     {
         $newTermIds = [];
         foreach (Arr::uniqueInt($termIds) as $termId) {
-            $newTermIds[] = $this->getTermId($termId);
+            $newTermIds[] = $this->getTermId($termId, $taxonomy);
         }
         return Arr::uniqueInt($newTermIds);
     }
@@ -113,14 +115,15 @@ class Translations implements MultilingualContract
     /**
      * Get the translated Term IDs for all languages.
      */
-    public function getTermIdsForAllLanguages(array $termIds): array
+    public function getTermIdsForAllLanguages(array $termIds, string $taxonomy = ''): array
     {
-        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
+        $taxonomy = $this->taxonomy($taxonomy);
+        if (!pll_is_translated_taxonomy($taxonomy)) {
             return $termIds;
         }
         $newTermIds = [];
         foreach (Arr::uniqueInt($termIds) as $termId) {
-            $term = get_term($termId, glsr()->taxonomy);
+            $term = get_term($termId, $taxonomy);
             if (!is_a($term, '\WP_Term')) {
                 continue;
             }
@@ -129,5 +132,10 @@ class Translations implements MultilingualContract
             );
         }
         return Arr::uniqueInt($newTermIds);
+    }
+
+    protected function taxonomy(string $taxonomy): string
+    {
+        return '' !== $taxonomy ? $taxonomy : glsr()->taxonomy;
     }
 }
