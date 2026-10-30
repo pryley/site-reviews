@@ -11,6 +11,7 @@ class Hooks extends IntegrationHooks
     public function run(): void
     {
         $this->hook(Controller::class, [
+            ['filterConfig', 'site-reviews/assets/config', 10, 2],
             ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
             ['renderNotice', 'admin_init'],

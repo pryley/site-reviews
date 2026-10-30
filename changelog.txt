@@ -30,6 +30,7 @@
 - Fixed the Install button in the plugin requirement notice
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
+- Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Fixed the plugin requirement notice not finding a plugin whose folder was renamed
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
