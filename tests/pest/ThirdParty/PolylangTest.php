@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Integrations\Polylang\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\Polylang\Hooks;
 use GeminiLabs\SiteReviews\Integrations\Polylang\Translations;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
@@ -242,4 +243,12 @@ test('the multilingual module answers through the registered integration, or wit
 
     $module->register(polylang());
     expect($module->getPostId($english))->toBe($french);
+});
+
+test('the public script is told the language of the page, which its requests send on', function () {
+    PolylangFake::$currentLanguage = 'fr';
+    expect(glsr(Controller::class)->filterConfig(['request' => []], 'public'))->toBe(['request' => ['language' => 'fr']])
+        ->and(glsr(Controller::class)->filterConfig(['request' => []], 'admin'))->toBe(['request' => []]);
+    PolylangFake::$currentLanguage = '';
+    expect(glsr(Controller::class)->filterConfig(['request' => []], 'public'))->toBe(['request' => []]);
 });

@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Integrations\WPML\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\WPML\Hooks;
 use GeminiLabs\SiteReviews\Integrations\WPML\Translations;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
@@ -169,4 +170,17 @@ test('a deleted term contributes nothing to the all-languages list', function ()
     $GLOBALS['glsr_wpml']['translations'][$english] = [$english, $french];
 
     expect(wpml()->getTermIdsForAllLanguages([$english, 999999001]))->toBe([$english, $french]);
+});
+
+test('the public script is told the language of the page, and nothing for the admin filter "all"', function () {
+    $language = 'fr';
+    $filter = function () use (&$language) {
+        return $language;
+    };
+    add_filter('wpml_current_language', $filter);
+    expect(glsr(Controller::class)->filterConfig(['request' => []], 'public'))->toBe(['request' => ['language' => 'fr']])
+        ->and(glsr(Controller::class)->filterConfig(['request' => []], 'admin'))->toBe(['request' => []]);
+    $language = 'all';
+    expect(glsr(Controller::class)->filterConfig(['request' => []], 'public'))->toBe(['request' => []]);
+    remove_filter('wpml_current_language', $filter);
 });
