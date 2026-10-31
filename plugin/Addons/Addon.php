@@ -356,7 +356,6 @@ abstract class Addon implements PluginContract
             'assets/images/',
             'assets/integrations/',
             'assets/js/',
-            'assets/npm/',
         ] as $shared) {
             if (str_starts_with($file, $shared)) {
                 return $file;
