@@ -38,11 +38,12 @@ test('escapeShortcodes encodes everything when the pattern fails', function () {
     $limit = ini_get('pcre.backtrack_limit');
     $jit = ini_get('pcre.jit');
     ini_set('pcre.jit', '0');
-    ini_set('pcre.backtrack_limit', '1');
-    $result = Text::escapeShortcodes('<script>var a = [1];</script>[c]');
+    ini_set('pcre.backtrack_limit', '1000'); // low enough for this script but not for the query the log runs
+    $script = str_repeat('x', 5000);
+    $result = Text::escapeShortcodes("<script>{$script}[1];</script>[c]");
     ini_set('pcre.backtrack_limit', $limit);
     ini_set('pcre.jit', $jit);
-    expect($result)->toBe('<script>var a = &#091;1&#093;;</script>&#091;c&#093;')
+    expect($result)->toBe("<script>{$script}&#091;1&#093;;</script>&#091;c&#093;")
         ->and(glsr(Console::class)->get())->toContain('Text::escapeShortcodes');
 });
 
