@@ -7,6 +7,30 @@ use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 
 class Text
 {
+    /**
+     * Encode the square brackets of rendered HTML.
+     */
+    public static function escapeShortcodes(string $html): string
+    {
+        $entities = [ // do_shortcode() turns &#91; back into a bracket but leaves &#091; alone
+            '&#91;' => '&#091;',
+            '&#93;' => '&#093;',
+            '[' => '&#091;',
+            ']' => '&#093;',
+        ];
+        // skip script and style elements because browsers don't decode entities in them
+        $result = preg_replace_callback(
+            '~<(script|style)\b.*?</\1\s*>|&#9[13];|[\[\]]~is',
+            fn ($matches) => empty($matches[1]) ? $entities[$matches[0]] : $matches[0],
+            $html
+        );
+        if (null === $result) {
+            glsr_log()->warning('Text::escapeShortcodes: '.preg_last_error_msg());
+            return strtr($html, $entities);
+        }
+        return $result;
+    }
+
     public static function excerpt(?string $text, int $limit = 55, bool $splitWords = true): string
     {
         [$text, $map] = static::replaceTags(static::normalize($text));

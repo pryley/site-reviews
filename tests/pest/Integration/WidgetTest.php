@@ -140,10 +140,19 @@ test('the summary widget renders the summary', function () {
         ->toContain('4.0 out of 5 stars (based on 2 reviews)');
 });
 
+test('a widget shows its brackets as text', function () {
+    add_shortcode('probe', fn () => 'PROBE-RAN');
+    createReview(['title' => '[probe]']);
+    $html = do_shortcode(renderedWidget(new SiteReviewsWidget(), []));
+    remove_shortcode('probe');
+    expect($html)->toContain('&#091;probe&#093;')
+        ->not->toContain('PROBE-RAN');
+});
+
 test('the form widget renders the form', function () {
     expect(renderedWidget(new SiteReviewsFormWidget(), []))
         ->toContain('<form')
-        ->toContain('name="site-reviews[rating]"');
+        ->toContain('name="site-reviews&#091;rating&#093;"');
 });
 
 test('a widget passes what it was configured with to the shortcode', function () {

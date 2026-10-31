@@ -192,17 +192,11 @@ abstract class BricksElement extends \Bricks\Element
             $classes[] = $buttonSize;
         }
         $classes = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
-        $dom = new \DOMDocument();
-        $dom->loadHTML('<?xml encoding="utf-8"?>'.$html,
-            \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD | \LIBXML_NOERROR | \LIBXML_NOWARNING
-        );
-        $xpath = new \DOMXPath($dom);
-        foreach ($xpath->query('//button[contains(concat(" ", normalize-space(@class), " "), " glsr-button ")]') as $button) {
-            if ($button instanceof \DOMElement) {
-                $button->setAttribute('class', $classes);
-            }
+        $processor = new \WP_HTML_Tag_Processor($html);
+        while ($processor->next_tag(['class_name' => 'glsr-button', 'tag_name' => 'button'])) {
+            $processor->set_attribute('class', $classes);
         }
-        return $dom->saveHTML();
+        return $processor->get_updated_html();
     }
 
     protected function setCheckboxControl(string $key, array $args): void

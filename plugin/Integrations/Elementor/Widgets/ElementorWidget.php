@@ -206,17 +206,12 @@ abstract class ElementorWidget extends Widget_Base
             'class="glsr-fallback" style="display:none;">',
             $html
         );
-        $dom = new \DOMDocument();
-        $dom->loadHTML('<?xml encoding="utf-8"?>'.$html,
-            \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD | \LIBXML_NOERROR | \LIBXML_NOWARNING
-        );
-        $xpath = new \DOMXPath($dom);
-        $node = $xpath->query('//div[1]')->item(0);
-        if ($node instanceof \DOMElement) {
-            $class = trim(sprintf('glsr-elementor-%s %s', $this->get_id(), $node->getAttribute('class')));
-            $node->setAttribute('class', $class);
+        $processor = new \WP_HTML_Tag_Processor($html);
+        if ($processor->next_tag('div')) {
+            $class = trim(sprintf('glsr-elementor-%s %s', $this->get_id(), $processor->get_attribute('class')));
+            $processor->set_attribute('class', $class);
         }
-        echo $dom->saveHTML();
+        echo $processor->get_updated_html();
     }
 
     protected function settingsConfig(): array

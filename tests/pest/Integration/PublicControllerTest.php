@@ -258,6 +258,35 @@ test('a visitor cannot choose who wrote the review or answer it as the owner ove
         ->and($review->is_verified)->toBeFalse();
 });
 
+test('the rendered form submits through the field names a browser reads from it', function () {
+    wp_set_current_user(0);
+    $html = do_shortcode('[site_reviews_form]');
+    $processor = new WP_HTML_Tag_Processor($html);
+    $values = [];
+    while ($processor->next_tag()) {
+        $name = (string) $processor->get_attribute('name');
+        if (!str_starts_with($name, glsr()->id.'[') || 'INPUT' !== $processor->get_tag()) {
+            continue;
+        }
+        if (!in_array($processor->get_attribute('type'), ['checkbox', 'radio'])) {
+            $values[substr($name, strlen(glsr()->id) + 1, -1)] = (string) $processor->get_attribute('value');
+        }
+    }
+    expect($html)->not->toContain('name="site-reviews[')
+        ->and($values)->toHaveKeys(['_action', 'form_id', 'form_signature']);
+
+    $response = $this->assertJsonSuccess(array_replace($values, [
+        'content' => 'A rendered form, read like a browser reads it.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'Through the rendered names',
+    ]));
+
+    expect(glsr_get_review((int) $response->data->review->ID)->title)->toBe('Through the rendered names');
+});
+
 /**
  * A submission built the way the redirect test above explains: signed, with an
  * empty honeypot field, so no validator refuses it.

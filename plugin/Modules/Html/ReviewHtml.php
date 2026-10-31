@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -39,11 +40,11 @@ class ReviewHtml extends \ArrayObject
         if (empty($this->context)) {
             return '';
         }
-        return glsr(Template::class)->build('templates/review', [
+        return Text::escapeShortcodes(glsr(Template::class)->build('templates/review', [
             'args' => $this->args,
             'context' => $this->context,
             'review' => $this->review,
-        ]);
+        ]));
     }
 
     public function attributes(): array

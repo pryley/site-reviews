@@ -2,8 +2,49 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Text;
+use GeminiLabs\SiteReviews\Modules\Console;
 
 uses()->group('plugin');
+
+test('escapeShortcodes encodes square brackets', function () {
+    expect(Text::escapeShortcodes('<h4>[probe x=1]</h4>'))->toBe('<h4>&#091;probe x=1&#093;</h4>');
+    expect(Text::escapeShortcodes('<a href="/?a=[b]" data-c=\'[1,2]\'>d</a>'))->toBe('<a href="/?a=&#091;b&#093;" data-c=\'&#091;1,2&#093;\'>d</a>');
+});
+
+test('escapeShortcodes encodes the entities do_shortcode decodes', function () {
+    expect(Text::escapeShortcodes('&#91;probe&#93;'))->toBe('&#091;probe&#093;');
+    expect(Text::escapeShortcodes('&#091;probe&#093;'))->toBe('&#091;probe&#093;');
+    expect(Text::escapeShortcodes('&amp;#91;probe'))->toBe('&amp;#91;probe');
+});
+
+test('escapeShortcodes leaves script and style elements alone', function () {
+    $html = '<script>var a = [1];</script><STYLE>a[b]{}</STYLE>';
+    expect(Text::escapeShortcodes($html.'[c]'))->toBe($html.'&#091;c&#093;');
+    expect(Text::escapeShortcodes('<script type="module">[1]</script>[c]'))->toBe('<script type="module">[1]</script>&#091;c&#093;');
+});
+
+test('escapeShortcodes encodes everything outside a complete script element', function () {
+    expect(Text::escapeShortcodes('<script>[1]'))->toBe('<script>&#091;1&#093;');
+    expect(Text::escapeShortcodes('< script>[1]</script>'))->toBe('< script>&#091;1&#093;</script>');
+    expect(Text::escapeShortcodes('<scripted>[1]</scripted>'))->toBe('<scripted>&#091;1&#093;</scripted>');
+});
+
+test('escapeShortcodes is idempotent', function () {
+    $once = Text::escapeShortcodes('<a href="[b]">[c] &#91;d&#93;</a><script>[1]</script>');
+    expect(Text::escapeShortcodes($once))->toBe($once);
+});
+
+test('escapeShortcodes encodes everything when the pattern fails', function () {
+    $limit = ini_get('pcre.backtrack_limit');
+    $jit = ini_get('pcre.jit');
+    ini_set('pcre.jit', '0');
+    ini_set('pcre.backtrack_limit', '1');
+    $result = Text::escapeShortcodes('<script>var a = [1];</script>[c]');
+    ini_set('pcre.backtrack_limit', $limit);
+    ini_set('pcre.jit', $jit);
+    expect($result)->toBe('<script>var a = &#091;1&#093;;</script>&#091;c&#093;')
+        ->and(glsr(Console::class)->get())->toContain('Text::escapeShortcodes');
+});
 
 test('initials', function () {
     expect(Text::initials((string) null, ' '))->toEqual('');

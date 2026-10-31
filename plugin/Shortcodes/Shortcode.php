@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -65,9 +66,9 @@ abstract class Shortcode implements ShortcodeContract
         $html = glsr(Builder::class)->div($template, $attributes);
         $rendered = $this->debug.$html;
         if ($isWrapped) {
-            return $this->wrap($rendered, $args); // pass the original $args here
+            $rendered = $this->wrap($rendered, $args); // pass the original $args here
         }
-        return $rendered;
+        return Text::escapeShortcodes($rendered);
     }
 
     public function buildCallback(array $args = []): string

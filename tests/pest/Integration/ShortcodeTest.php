@@ -182,21 +182,21 @@ test('renders the review form', function () {
     $html = do_shortcode('[site_reviews_form]');
     expect($html)->toContain('<form')
         ->toContain('glsr-form-wrap')
-        ->toContain('name="site-reviews[content]"')
-        ->toContain('name="site-reviews[rating]"')
+        ->toContain('name="site-reviews&#091;content&#093;"')
+        ->toContain('name="site-reviews&#091;rating&#093;"')
         // hidden fields, from ReviewForm::configHidden()
-        ->toContain('name="site-reviews[_action]"')
-        ->toContain('name="site-reviews[_nonce]"')
-        ->toContain('name="site-reviews[form_id]"');
+        ->toContain('name="site-reviews&#091;_action&#093;"')
+        ->toContain('name="site-reviews&#091;_nonce&#093;"')
+        ->toContain('name="site-reviews&#091;form_id&#093;"');
 });
 
 test('hides the review form fields it is told to hide', function () {
     // hide options: rating, title, content, name, email, terms
     // (SiteReviewsFormShortcode::hideOptions)
     $html = do_shortcode('[site_reviews_form hide=title,email]');
-    expect($html)->toContain('name="site-reviews[content]"')
-        ->not->toContain('name="site-reviews[title]"')
-        ->not->toContain('name="site-reviews[email]"');
+    expect($html)->toContain('name="site-reviews&#091;content&#093;"')
+        ->not->toContain('name="site-reviews&#091;title&#093;"')
+        ->not->toContain('name="site-reviews&#091;email&#093;"');
 });
 
 test('renders the review form honeypot', function () {
