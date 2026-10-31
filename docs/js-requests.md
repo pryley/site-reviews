@@ -53,6 +53,17 @@ GLSR.Request.review(id, values)           // fetches a review to show in the mod
 GLSR.Request.pagedReviews(values)         // fetches a page of reviews: { atts, page, schema, url }
 ```
 
+## Logging a failed request
+
+`GLSR.Request.log` writes a failed request to the browser console at the level of what happened. A 4xx status is the server saying no (an invalid form, an expired session) and logs a warning. Any other status is a fault (a server error, a lost connection) and logs an error.
+
+```js
+const { data, status, success } = await GLSR.Request.send({ path: 'my-addon/route' })
+if (!success) {
+    GLSR.Request.log(status, data)
+}
+```
+
 ## The route of a form
 
 A form that Site Reviews sets up (`GLSR.Form`) is submitted by Site Reviews. `GLSR.Request.submit` reads the form's `site-reviews[_action]` field and posts the form to the route that `GLSR.config.request.routes` names for that action. The review form's action is `submit-review`, and its route is `submissions`.

@@ -30,6 +30,9 @@ const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith
 
 const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
 
+// a 4xx is the server saying no, any other status is a fault
+const log = (status, details) => console[400 <= status && 500 > status ? 'warn' : 'error'](details);
+
 const pagedReviews = (values) => send({
     method: 'GET',
     params: { atts: values.atts, page: values.page, schema: values.schema, url: values.url },
@@ -199,4 +202,4 @@ const send = async ({ body, method = 'GET', params, path }) => {
     return result;
 }
 
-export default { pagedReviews, review, send, submit }
+export default { log, pagedReviews, review, send, submit }
