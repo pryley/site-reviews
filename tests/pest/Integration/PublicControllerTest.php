@@ -287,6 +287,30 @@ test('the rendered form submits through the field names a browser reads from it'
     expect(glsr_get_review((int) $response->data->review->ID)->title)->toBe('Through the rendered names');
 });
 
+test('a visitor cannot choose the avatar or date of the review over admin-ajax', function () {
+    wp_set_current_user(0);
+    $values = $this->request([
+        'avatar' => 'https://example.org/avatar.png',
+        'content' => 'Submitted without a form.',
+        'date' => '2001-01-01 00:00:00',
+        'date_gmt' => '2001-01-01 00:00:00',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = $this->assertJsonSuccess($values);
+
+    $reviewId = (int) $response->data->review->ID;
+    expect(glsr_get_review($reviewId)->avatar)->not->toBe('https://example.org/avatar.png')
+        ->and(get_post_field('post_date', $reviewId))->not->toStartWith('2001')
+        ->and(get_post_field('post_date_gmt', $reviewId))->not->toStartWith('2001');
+});
+
 /**
  * A submission built the way the redirect test above explains: signed, with an
  * empty honeypot field, so no validator refuses it.

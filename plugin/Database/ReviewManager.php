@@ -107,7 +107,7 @@ class ReviewManager
         glsr()->action('review/create', $postId, $command);
         // CreateReview::normalize() resets these values as it does for a public submission.
         // The data comes from an existing review, so the review row keeps its values.
-        $this->updateRating($postId, Arr::restrictKeys($data, ['ip_address', 'is_pinned', 'is_verified']));
+        $this->updateRating($postId, Arr::restrictKeys($data, ['avatar', 'ip_address', 'is_pinned', 'is_verified']));
         return $this->create($command, $postId);
     }
 

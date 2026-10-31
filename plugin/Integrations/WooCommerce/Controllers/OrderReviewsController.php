@@ -78,6 +78,8 @@ class OrderReviewsController extends AbstractController
         ];
         $values = array_map('trim', $values);
         $command = new CreateReview(new Request($values));
+        $command->date = $values['date']; // because CreateReview resets the date of a form submission
+        $command->date_gmt = $values['date_gmt'];
         if (glsr(ReviewManager::class)->create($command)) {
             // verifyProductOwner recomputes "verified" on "review/created"
             update_comment_meta($commentId, 'imported', 1);

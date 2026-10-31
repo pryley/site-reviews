@@ -88,6 +88,24 @@ test('a submitted review-order comment becomes a review and is marked imported',
     expect(get_comment_meta($commentId, 'imported', true))->toBe('1');
 });
 
+test('a converted review-order comment keeps its date', function () {
+    $commentId = convertedComment();
+    wp_update_comment([
+        'comment_ID' => $commentId,
+        'comment_date' => '2024-02-03 04:05:06',
+        'comment_date_gmt' => '2024-02-03 04:05:06',
+    ]);
+    $comment = get_comment($commentId);
+
+    glsr(OrderReviewsController::class)->convertSubmittedReviews(new \WC_Order(), [
+        ['comment_id' => $commentId, 'status' => 'ok'],
+    ]);
+
+    $reviews = glsr_get_reviews(['assigned_posts' => $comment->comment_post_ID]);
+    expect(get_post_field('post_date', $reviews->reviews[0]->ID))->toBe('2024-02-03 04:05:06')
+        ->and(get_post_field('post_date_gmt', $reviews->reviews[0]->ID))->toBe('2024-02-03 04:05:06');
+});
+
 test('an edited review-order comment is not converted twice', function () {
     $commentId = convertedComment();
     $comment = get_comment($commentId);

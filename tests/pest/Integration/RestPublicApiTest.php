@@ -169,6 +169,31 @@ test('a visitor cannot choose who wrote the review or answer it as the owner', f
         ->and($review->is_verified)->toBeFalse();
 });
 
+test('a visitor cannot choose the avatar or date of the review', function () {
+    releaseMutexLock();
+    $values = $this->request([
+        'avatar' => 'https://example.org/avatar.png',
+        'content' => 'Submitted without a form.',
+        'date' => '2001-01-01 00:00:00',
+        'date_gmt' => '2001-01-01 00:00:00',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = restRequest('POST', '/site-reviews/v1/submissions', [glsr()->id => $values]);
+
+    expect($response->get_status())->toBe(201);
+    $reviewId = $response->get_data()['review']['ID'];
+    expect(glsr_get_review($reviewId)->avatar)->not->toBe('https://example.org/avatar.png')
+        ->and(get_post_field('post_date', $reviewId))->not->toStartWith('2001')
+        ->and(get_post_field('post_date_gmt', $reviewId))->not->toStartWith('2001');
+});
+
 test('the captcha token rides the submission, exactly as it does over admin-ajax', function () {
     // Request::inputPost() copies the widget's top-level token field into _captcha; the
     // REST controller must do the same, or every captcha-protected submission is refused.

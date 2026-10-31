@@ -235,6 +235,9 @@ class CreateReview extends AbstractCommand
         if ($isFormSubmission) {
             // is_approved is set when the review is created
             $request->set('author_id', get_current_user_id());
+            $request->set('avatar', '');
+            $request->set('date', '');
+            $request->set('date_gmt', '');
             $request->set('is_pinned', false);
             $request->set('is_verified', false);
             $request->set('response', '');
