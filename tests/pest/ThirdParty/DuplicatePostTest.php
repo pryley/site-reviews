@@ -78,6 +78,18 @@ test('a copied review keeps its avatar, its pin, its verification and its ip add
         ->and($copy->is_verified)->toBeTrue();
 });
 
+test('a copied review keeps its type', function () {
+    $types = glsr()->retrieveAs('array', 'review_types');
+    glsr()->store('review_types', $types + ['google' => 'Google']);
+    $review = createReview(['type' => 'google']);
+    $copyId = copiedReviewPost($review->ID);
+
+    do_action('duplicate_post_post_copy', $copyId, get_post($review->ID));
+    glsr()->store('review_types', $types);
+
+    expect(glsr_get_review($copyId)->type)->toBe('google');
+});
+
 test('a copied review remembers what it was copied from', function () {
     $review = createReview();
     $copyId = copiedReviewPost($review->ID);

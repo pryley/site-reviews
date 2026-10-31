@@ -8,8 +8,8 @@ use function GeminiLabs\SiteReviews\Tests\wooCompletedOrder;
 use function GeminiLabs\SiteReviews\Tests\wooProduct;
 
 /*
- * Converting a review-order comment with a real WooCommerce. CreateReview resets the date of a
- * form submission, and the conversion counts as one, so the review has to keep the comment's date.
+ * Converting a review-order comment with a real WooCommerce. CreateReview resets the date and type
+ * of a form submission, and the conversion counts as one, so the review has to keep the comment's date.
  */
 
 beforeEach(function () {
@@ -17,7 +17,7 @@ beforeEach(function () {
     enableWooCommerceIntegration();
 });
 
-test('a converted review-order comment keeps its date', function () {
+test('a converted review-order comment keeps its date and is a local review', function () {
     $product = wooProduct();
     $commentId = wp_insert_comment([
         'comment_approved' => '1',
@@ -38,6 +38,7 @@ test('a converted review-order comment keeps its date', function () {
 
     $review = glsr_get_reviews(['assigned_posts' => $product->get_id()])->reviews[0];
     expect($review->rating)->toBe(4)
+        ->and($review->type)->toBe('local')
         ->and(get_post_field('post_date', $review->ID))->toBe('2024-02-03 04:05:06')
         ->and(get_post_field('post_date_gmt', $review->ID))->toBe('2024-02-03 04:05:06');
 });

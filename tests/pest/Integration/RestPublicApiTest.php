@@ -194,6 +194,29 @@ test('a visitor cannot choose the avatar or date of the review', function () {
         ->and(get_post_field('post_date_gmt', $reviewId))->not->toStartWith('2001');
 });
 
+test('a visitor cannot choose the type of the review', function () {
+    releaseMutexLock();
+    $types = glsr()->retrieveAs('array', 'review_types');
+    glsr()->store('review_types', $types + ['google' => 'Google']);
+    $values = $this->request([
+        'content' => 'Submitted without a form.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+        'type' => 'google',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = restRequest('POST', '/site-reviews/v1/submissions', [glsr()->id => $values]);
+    glsr()->store('review_types', $types);
+
+    expect($response->get_status())->toBe(201)
+        ->and(glsr_get_review($response->get_data()['review']['ID'])->type)->toBe('local');
+});
+
 test('the captcha token rides the submission, exactly as it does over admin-ajax', function () {
     // Request::inputPost() copies the widget's top-level token field into _captcha; the
     // REST controller must do the same, or every captcha-protected submission is refused.

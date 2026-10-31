@@ -15,7 +15,8 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
  * - is_pinned
  * - is_verified
  * - response
- * - response_by.
+ * - response_by
+ * - type.
  */
 class CreateReviewDefaults extends DefaultsAbstract
 {

@@ -242,6 +242,7 @@ class CreateReview extends AbstractCommand
             $request->set('is_verified', false);
             $request->set('response', '');
             $request->set('response_by', 0);
+            $request->set('type', 'local');
         }
         glsr()->action('review/request', $request);
         return $request;

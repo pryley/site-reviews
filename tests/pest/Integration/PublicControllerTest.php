@@ -311,6 +311,28 @@ test('a visitor cannot choose the avatar or date of the review over admin-ajax',
         ->and(get_post_field('post_date_gmt', $reviewId))->not->toStartWith('2001');
 });
 
+test('a visitor cannot choose the type of the review over admin-ajax', function () {
+    wp_set_current_user(0);
+    $types = glsr()->retrieveAs('array', 'review_types');
+    glsr()->store('review_types', $types + ['google' => 'Google']);
+    $values = $this->request([
+        'content' => 'Submitted without a form.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+        'type' => 'google',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = $this->assertJsonSuccess($values);
+    glsr()->store('review_types', $types);
+
+    expect(glsr_get_review((int) $response->data->review->ID)->type)->toBe('local');
+});
+
 /**
  * A submission built the way the redirect test above explains: signed, with an
  * empty honeypot field, so no validator refuses it.
