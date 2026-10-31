@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.3.6
+Stable tag: 8.3.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,11 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.3.7 (2026-10-31) =
+
+- Fixed a security issue where submitted form data could set a review's avatar, date or type
+- Fixed a security issue with how text is displayed in the Site Reviews shortcodes and blocks
 
 = 8.3.6 (2026-10-27) =
 

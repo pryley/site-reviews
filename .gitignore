@@ -20,5 +20,6 @@ npm-debug.log*
 !.github
 coverage
 node_modules
+tests/bin/plugins
 tests/bin/zips
 vendor

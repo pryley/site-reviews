@@ -213,11 +213,11 @@ msgstr "The review could not be submitted because this browser is too old. Pleas
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:198
+#: plugin/Helpers/Text.php:222
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Helpers/Text.php:199
+#: plugin/Helpers/Text.php:223
 msgid "Show more"
 msgstr "Show more"
 
