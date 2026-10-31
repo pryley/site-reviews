@@ -88,9 +88,9 @@ module.excerpts = {
     init: (el) => new Excerpts(el).init(),
 };
 
-module.open = (id, values = {}) => Request.review(id, values).then(({ data: response, success }) => {
+module.open = (id, values = {}) => Request.review(id, values).then(({ data: response, status, success }) => {
     if (!success) {
-        return console.error({ values, response })
+        return Request.log(status, { values, response })
     }
     Modal.open(`glsr-modal-${values.verified ? 'verified' : 'approved'}`, {
         onOpen: (modal) => {

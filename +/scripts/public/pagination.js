@@ -139,11 +139,11 @@ class Pagination {
         }
     }
 
-    _handlePopstate (request, response, success) {
+    _handlePopstate (request, response, success, status) {
         if (success) {
             this._paginate(response)
         } else {
-            console.error(response)
+            Request.log(status, response)
         }
     }
 
@@ -184,7 +184,7 @@ class Pagination {
     _onPopstate (ev) {
         if (ev.state && 'fetch-paged-reviews' === ev.state._action) {
             this._loading()
-            Request.pagedReviews(ev.state).then(result => this._handlePopstate(ev.state, result.data, result.success))
+            Request.pagedReviews(ev.state).then(result => this._handlePopstate(ev.state, result.data, result.success, result.status))
         }
     }
 

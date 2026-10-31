@@ -63,10 +63,21 @@ const parseErrorMessage = (window, text) => {
 
 const request = (overrides = {}) => ({ ...publicConfig().request, ...overrides });
 
-test('Request has four members, in both scripts', () => {
-    assert.deepEqual(Object.keys(loadPublic().window.GLSR.Request).sort(), ['pagedReviews', 'review', 'send', 'submit'])
-    assert.deepEqual(Object.keys(loadAdmin().window.GLSR.Request).sort(), ['pagedReviews', 'review', 'send', 'submit'])
+test('Request has five members, in both scripts', () => {
+    assert.deepEqual(Object.keys(loadPublic().window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
+    assert.deepEqual(Object.keys(loadAdmin().window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
 });
+
+for (const [status, level] of [[0, 'error'], [400, 'warn'], [403, 'warn'], [429, 'warn'], [499, 'warn'], [500, 'error'], [503, 'error']]) {
+    test(`Request.log logs a status of ${status} with console.${level}`, () => {
+        const { window } = loadPublic();
+        const lines = [];
+        window.console.error = (details) => lines.push(['error', details]);
+        window.console.warn = (details) => lines.push(['warn', details]);
+        window.GLSR.Request.log(status, 'the details')
+        assert.deepEqual(lines, [[level, 'the details']])
+    });
+}
 
 test('a request goes to the REST API, with its params in the query', async () => {
     const { window } = loadPublic();

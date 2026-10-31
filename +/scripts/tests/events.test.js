@@ -183,6 +183,23 @@ test('a page change fires review/paginated and then review/initialized for that 
     assert.deepEqual(names(fired).length, 2)
 });
 
+for (const [status, level] of [[404, 'warn'], [500, 'error']]) {
+    test(`a ${status} answer to a review or a back to a page logs with console.${level}`, async () => {
+        const { window } = load({ compat: false });
+        await settle(25)
+        window.GLSR_init()
+        const lines = [];
+        window.console.error = () => lines.push('error');
+        window.console.warn = () => lines.push('warn');
+        answer(window, { code: 'glsr_review_not_found', message: 'That review was not found.' }, status)
+        await window.GLSR.Review.open(1)
+        assert.deepEqual(lines, [level])
+        window.dispatchEvent(new window.PopStateEvent('popstate', { state: { _action: 'fetch-paged-reviews', page: 2 } }))
+        await settle()
+        assert.deepEqual(lines, [level, level])
+    });
+}
+
 test('a page change keeps the interactivity runtime\'s id on the history entry', async () => {
     const { window } = load({ compat: false });
     await settle(25)

@@ -127,13 +127,13 @@ summary.update(html)  // replaces the content and triggers site-reviews/summary/
 ```js
 GLSR.Modal    // { init, open, close, get }
 GLSR.Event    // { on, off, once, trigger }
-GLSR.Request  // { send, submit, review, pagedReviews }
+GLSR.Request  // { send, submit, review, pagedReviews, log }
 GLSR.Util     // { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle }
 ```
 
 - `GLSR.Modal` is described in [js-modal.md](js-modal.md).
 - `GLSR.Event` and the events Site Reviews triggers are described in [js-events.md](js-events.md).
-- `GLSR.Request` is described in [js-requests.md](js-requests.md). `send` uses the REST API, and sends the same request over admin-ajax when the REST API is unavailable; `submit`, `review` and `pagedReviews` are the requests Site Reviews makes with it.
+- `GLSR.Request` is described in [js-requests.md](js-requests.md). `send` uses the REST API, and sends the same request over admin-ajax when the REST API is unavailable; `submit`, `review` and `pagedReviews` are the requests Site Reviews makes with it; `log` writes a failed request to the browser console.
 - `GLSR.Util` holds helper functions that know nothing about Site Reviews. Both scripts carry the same ten. `GLSR.Util.feature` is described under [Reviews, forms and summaries](#reviews-forms-and-summaries). `GLSR.Util.historyState(state)` is the state to write with `history.pushState` or `replaceState` on the front end: it keeps the id WordPress 7.1's interactivity runtime stamps on the current entry, without which the runtime reloads the page when the visitor goes back to that entry.
 
 ## The admin script
