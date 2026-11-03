@@ -232,6 +232,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed a template tag that has no value being printed as text in a custom template
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the license key of a deactivated addon being removed when the settings are saved

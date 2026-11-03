@@ -40,6 +40,7 @@ class Template implements TemplateContract
         if (empty(trim($text))) {
             return '';
         }
+        $text = $this->removeUnknownTags($text, $context); // do this before a value can bring its own braces
         $replacements = [];
         foreach ($context as $key => $value) {
             $replacements['{'.$key.'}'] = $value;
@@ -90,5 +91,17 @@ class Template implements TemplateContract
         $context = Arr::flatten($context);
         $context = array_filter($context, fn ($value) => !is_array($value) && !is_object($value));
         return array_map(fn ($value) => (string) $value, $context);
+    }
+
+    protected function removeUnknownTags(string $text, array $context): string
+    {
+        if (empty($context)) {
+            return $text; // the editors build a template with no context to read its tags
+        }
+        return (string) preg_replace_callback(
+            '/(?<!\{)\{\{\s*([a-z0-9_]+)\s*\}\}(?!\})/', // not a triple-brace underscore tag
+            fn (array $matches) => array_key_exists($matches[1], $context) ? $matches[0] : '',
+            $text
+        );
     }
 }
