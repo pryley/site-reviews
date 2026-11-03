@@ -14,6 +14,7 @@
         ); ?>
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
+            <li>Select either the "Site Reviews (default)" or Site Reviews (minimal)" Plugin Style in the plugin settings.</li>
             <li>Create a folder in your child theme called "site-reviews".</li>
             <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder, keeping the subdirectories the same.</li>
             <li>Open the template files that you copied over in a text editor and make your changes.</li>

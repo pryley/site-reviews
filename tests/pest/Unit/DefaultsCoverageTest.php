@@ -109,6 +109,11 @@ test('a concatenated key concatenates strings and leaves everything else alone',
     $merged = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->merge(['form' => 'my-form']);
     expect($merged['form'])->toBe(trim($defaults['form'].' my-form'));
 
+    add_filter('site-reviews/defaults/style-classes/defaults', fn (array $defaults) => $defaults + ['added' => 'base-class']);
+    $added = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->merge(['added' => 'my-class']);
+    remove_all_filters('site-reviews/defaults/style-classes/defaults');
+    expect($added['added'])->toBe('base-class my-class');
+
     // a non-string skips concatenation, and the attr-class sanitizer then scrubs it
     $merged = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->merge(['form' => 123]);
     expect($merged['form'])->toBe('');
