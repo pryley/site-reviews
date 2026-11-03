@@ -60,20 +60,6 @@ const cssBundles = [
     namespacedCss('styles/twentytwentyone', '.glsr-twentytwentyone'),
     namespacedCss('styles/twentytwentytwo', '.glsr-twentytwentytwo'),
     namespacedCss('styles/wpforms', '.glsr-wpforms'),
-    // Block styles
-    namespacedCss('styles/bootstrap-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/contact_form_7-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/default-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/minimal-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/ninja_forms-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentyfifteen-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentysixteen-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentyseventeen-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentynineteen-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentytwenty-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentytwentyone-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/twentytwentytwo-blocks', '.wp-block', 'assets/styles/blocks'),
-    namespacedCss('styles/wpforms-blocks', '.wp-block', 'assets/styles/blocks'),
 ];
 
 // ------------------------------------------------------------------
