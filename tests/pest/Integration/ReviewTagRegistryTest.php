@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Defaults\ReviewTagDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewTags;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 /*
  * The review tag registry: the one description of what a template tag is
@@ -162,24 +163,19 @@ it('survives a filter that asks for the tags while the review is being built', f
 it('removes a tag the template still holds but nothing produces', function () {
     // A template written while a feature was active outlives it. The tag
     // is removed before interpolation rather than after, so a reviewer's
-    // own braces — by then part of the template — survive.
-    add_filter('site-reviews/review/build/after', function (array $tags): array {
-        $tags['live_tag'] = 'I am here';
-        return $tags;
-    });
-    $template = 'a:{{ live_tag }} b:{{ retired_tag }} c:{{ another_one }}';
-    $filtered = glsr()->filterString('build/template/review', $template, [
-        'context' => ['live_tag' => 'I am here'],
+    // own braces survive.
+    $template = 'a:{{ live_tag }} b:{{ retired_tag }} c:{{ another_one }} d:{{tight}} e:{{  padded  }}';
+    $text = glsr(Template::class)->interpolate($template, 'review', [
+        'context' => ['live_tag' => '{{ retired_tag }} is mine'],
     ]);
 
-    expect($filtered)->toBe('a:{{ live_tag }} b: c:');
+    expect($text)->toBe('a:{{ retired_tag }} is mine b: c: d: e:');
 });
 
 it('leaves alone what is not a tag', function () {
-    $template = '{{ data.title }} {{ NOT-A-TAG }} {{ }}';
+    $template = '{{ data.title }} {{ NOT-A-TAG }} {{ }} {{{ triple }}} {single}';
 
-    expect(glsr()->filterString('build/template/review', $template, ['context' => []]))
-        ->toBe($template);
+    expect(glsr(Template::class)->interpolateContext($template, ['live_tag' => 'x']))->toBe($template);
 });
 
 it('names every displayable tag and describes every insertable one', function () {
