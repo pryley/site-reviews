@@ -48,6 +48,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  */
 class Field extends \ArrayObject implements FieldContract
 {
+    protected ?FieldElementContract $element = null;
     protected string $tag = '';
 
     public function __construct(array $args = [])
@@ -149,19 +150,7 @@ class Field extends \ArrayObject implements FieldContract
 
     public function fieldElement(): FieldElementContract
     {
-        $className = Helper::buildClassName($this->original_type, __NAMESPACE__.'\FieldElements');
-        $className = glsr()->filterString("field/element/{$this->original_type}", $className, $this);
-        if (!class_exists($className)) {
-            return new UnknownElement($this);
-        }
-        if (!(new \ReflectionClass($className))->isInstantiable()) {
-            return new UnknownElement($this);
-        }
-        if (!(new \ReflectionClass($className))->implementsInterface(FieldElementContract::class)) {
-            glsr_log()->error("Field Elements must implement FieldElementContract [{$className}]");
-            return new UnknownElement($this);
-        }
-        return new $className($this);
+        return $this->element ??= $this->resolveFieldElement();
     }
 
     public function isChoiceField(): bool
@@ -243,6 +232,24 @@ class Field extends \ArrayObject implements FieldContract
         // The field type may also be modified here.
         $this->fieldElement()->merge();
         glsr()->action("field/{$this->original_type}", $this);
+    }
+
+    protected function resolveFieldElement(): FieldElementContract
+    {
+        $className = Helper::buildClassName($this->original_type, __NAMESPACE__.'\FieldElements');
+        $className = glsr()->filterString("field/element/{$this->original_type}", $className, $this);
+        if (!class_exists($className)) {
+            return new UnknownElement($this);
+        }
+        $reflection = new \ReflectionClass($className);
+        if (!$reflection->isInstantiable()) {
+            return new UnknownElement($this);
+        }
+        if (!$reflection->implementsInterface(FieldElementContract::class)) {
+            glsr_log()->error("Field Elements must implement FieldElementContract [{$className}]");
+            return new UnknownElement($this);
+        }
+        return new $className($this);
     }
 
     protected function validate(): bool
