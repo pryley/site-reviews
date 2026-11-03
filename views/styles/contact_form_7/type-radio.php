@@ -4,7 +4,7 @@
     <span class="wpcf7-form-control wpcf7-radio {{ class }}">
         <span class="wpcf7-list-item">
             {{ input }}
-            <label for="{{ id }}" class="wpcf7-list-item-label">
+            <label for="{{ id }}" class="{{ label_class }}">
                 {{ text }}
             </label>
         </span>

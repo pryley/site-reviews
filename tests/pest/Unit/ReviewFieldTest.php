@@ -20,7 +20,7 @@ test('build checkbox', function () {
                             '<input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foobar</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foobar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.
@@ -47,7 +47,7 @@ test('build checkboxes', function () {
                             '<input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foo</label>'.
                 '</span>'.
                 '<span class="glsr-field-checkbox">'.
                     '<span>'.
@@ -55,7 +55,7 @@ test('build checkboxes', function () {
                             '<input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '<label class="" for="site-reviews-foobar-2">Bar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.
@@ -82,7 +82,7 @@ test('build checkboxes with descriptions', function () {
                             '<input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">'.
+                    '<label class="" for="site-reviews-foobar-1">'.
                         '<span data-type="label">Foo</span>'.
                         '<span data-type="description">this is foo</span>'.
                     '</label>'.
@@ -93,7 +93,7 @@ test('build checkboxes with descriptions', function () {
                             '<input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">'.
+                    '<label class="" for="site-reviews-foobar-2">'.
                         '<span data-type="label">Bar</span>'.
                         '<span data-type="description">this is bar</span>'.
                     '</label>'.
@@ -197,7 +197,7 @@ test('build radio', function () {
                             '<input type="radio" class="glsr-input-radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foobar</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foobar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.
@@ -224,7 +224,7 @@ test('build radios', function () {
                             '<input type="radio" class="glsr-input-radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="foo" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foo</label>'.
                 '</span>'.
                 '<span class="glsr-field-radio">'.
                     '<span>'.
@@ -232,7 +232,7 @@ test('build radios', function () {
                             '<input type="radio" class="glsr-input-radio" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="bar" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '<label class="" for="site-reviews-foobar-2">Bar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.
@@ -259,7 +259,7 @@ test('build range', function () {
                             '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foo</label>'.
                 '</span>'.
                 '<span class="glsr-field-range">'.
                     '<span>'.
@@ -267,7 +267,7 @@ test('build range', function () {
                             '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '<label class="" for="site-reviews-foobar-2">Bar</label>'.
                 '</span>'.
             '</span>'.
             '<div class="glsr-field-error"></div>'.
@@ -304,7 +304,7 @@ test('build range with labels', function () {
                             '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foo</label>'.
                 '</span>'.
                 '<span class="glsr-field-range">'.
                     '<span>'.
@@ -312,7 +312,7 @@ test('build range with labels', function () {
                             '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '<label class="" for="site-reviews-foobar-2">Bar</label>'.
                 '</span>'.
             '</span>'.
             '<div class="glsr-field-error"></div>'.
@@ -409,7 +409,7 @@ test('build toggle', function () {
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foobar</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foobar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.
@@ -437,7 +437,7 @@ test('build toggles', function () {
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '<label class="" for="site-reviews-foobar-1">Foo</label>'.
                 '</span>'.
                 '<span class="glsr-field-toggle">'.
                     '<span>'.
@@ -446,7 +446,7 @@ test('build toggles', function () {
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.
-                    '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '<label class="" for="site-reviews-foobar-2">Bar</label>'.
                 '</span>'.
             '</div>'.
             '<div class="glsr-field-error"></div>'.

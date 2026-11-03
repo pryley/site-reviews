@@ -6,6 +6,8 @@ return [
         'input' => 'ninja-forms-field nf-element',
         'input_checkbox' => 'ninja-forms-field nf-element',
         'input_radio' => 'ninja-forms-field nf-element',
+        'label_checkbox' => 'nf-checked-label',
+        'label_radio' => 'nf-checked-label',
         'select' => 'ninja-forms-field nf-element',
         'textarea' => 'ninja-forms-field nf-element',
     ],

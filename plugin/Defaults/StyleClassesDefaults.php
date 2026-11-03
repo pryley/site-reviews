@@ -5,54 +5,8 @@ namespace GeminiLabs\SiteReviews\Defaults;
 class StyleClassesDefaults extends DefaultsAbstract
 {
     /**
-     * The values that should be concatenated.
-     *
-     * @var string[]
+     * Return the base classes, a style's classes are added to them.
      */
-    public array $concatenated = [
-        'button',
-        'description',
-        'field',
-        'fieldset',
-        'form',
-        'input',
-        'input_checkbox',
-        'input_radio',
-        'input_range',
-        'input_toggle',
-        'label',
-        'label_checkbox',
-        'label_radio',
-        'label_range',
-        'label_toggle',
-        'select',
-        'textarea',
-    ];
-
-    /**
-     * The values that should be sanitized.
-     * This is done after $casts and before $enums.
-     */
-    public array $sanitize = [
-        'button' => 'attr-class',
-        'description' => 'attr-class',
-        'field' => 'attr-class',
-        'fieldset' => 'attr-class',
-        'form' => 'attr-class',
-        'input' => 'attr-class',
-        'input_checkbox' => 'attr-class',
-        'input_radio' => 'attr-class',
-        'input_range' => 'attr-class',
-        'input_toggle' => 'attr-class',
-        'label' => 'attr-class',
-        'label_checkbox' => 'attr-class',
-        'label_radio' => 'attr-class',
-        'label_range' => 'attr-class',
-        'label_toggle' => 'attr-class',
-        'select' => 'attr-class',
-        'textarea' => 'attr-class',
-    ];
-
     protected function defaults(): array
     {
         return [
@@ -64,13 +18,7 @@ class StyleClassesDefaults extends DefaultsAbstract
             'input' => '',
             'input_checkbox' => '',
             'input_radio' => '',
-            'input_range' => '',
-            'input_toggle' => '',
             'label' => 'glsr-label',
-            'label_checkbox' => '',
-            'label_radio' => '',
-            'label_range' => '',
-            'label_toggle' => '',
             'select' => '',
             'textarea' => '',
         ];
@@ -84,6 +32,17 @@ class StyleClassesDefaults extends DefaultsAbstract
         if ('glsr-button' === ($values['button'] ?? '')) {
             $values['button'] .= ' wp-block-button__link wp-element-button'; // fallback to block styling!
         }
+        return $values;
+    }
+
+    /**
+     * Concatenate and sanitize every slot, including one a config adds for a field type.
+     */
+    protected function normalize(array $values = []): array
+    {
+        $keys = array_keys($this->defaults + $values);
+        $this->concatenated = $keys;
+        $this->sanitize = array_fill_keys($keys, 'attr-class');
         return $values;
     }
 }

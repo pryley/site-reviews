@@ -66,6 +66,7 @@ class Checkbox extends AbstractFieldElement
                 'class' => glsr(Style::class)->defaultClasses('field')."-{$type}", // only use the default class here!
                 'id' => $input['id'],
                 'input' => $this->buildInput($input),
+                'label_class' => glsr(Style::class)->fieldElementLabelClass($this->field),
                 'text' => $args->options[$value],
             ],
             'field' => $this->field,

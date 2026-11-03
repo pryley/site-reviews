@@ -2,13 +2,11 @@
 
 return [
     'classes' => [
-        'button' => 'wpforms-submit wp-block-button__link',
+        'button' => 'wpforms-submit wp-block-button__link wp-element-button',
         'description' => 'wpforms-field-description',
         'field' => 'wpforms-field',
         'form' => 'wpforms-form',
         'input' => 'wpforms-field-large',
-        'input_checkbox' => '',
-        'input_radio' => '',
         'label' => 'wpforms-field-label',
         'label_checkbox' => 'wpforms-field-label-inline',
         'label_radio' => 'wpforms-field-label-inline',

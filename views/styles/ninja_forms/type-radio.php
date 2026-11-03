@@ -2,5 +2,5 @@
 
 <li class="{{ class }}">
     {{ input }}
-    <label for="{{ id }}" class="nf-checked-label">{{ text }}</label>
+    <label for="{{ id }}" class="{{ label_class }}">{{ text }}</label>
 </li>

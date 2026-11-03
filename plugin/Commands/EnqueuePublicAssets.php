@@ -64,6 +64,13 @@ class EnqueuePublicAssets extends AbstractCommand
         ];
     }
 
+    public function enqueueButtonStyles(): void
+    {
+        if (glsr(Style::class)->usesBlockButton()) {
+            wp_enqueue_style('wp-block-button');
+        }
+    }
+
     public function enqueueScripts(): void
     {
         if (!glsr()->filterBool('assets/js', true)) {
