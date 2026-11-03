@@ -77,6 +77,20 @@ test('a substituted value is not scanned for tags', function () {
     expect($text)->toBe('{secret} and {{ secret }} / expanded');
 });
 
+test('a tag no value fills is removed, unless the template has no context at all', function () {
+    expect(glsr(Template::class)->interpolateContext('{{ known }}|{{ unknown }}', ['known' => 'x']))->toBe('x|')
+        ->and(glsr(Template::class)->interpolateContext('{{ known }}|{{ unknown }}'))->toBe('{{ known }}|{{ unknown }}');
+});
+
+test('a template built without a tag it holds doesn\'t print the tag', function () {
+    $html = glsr(Template::class)->build('templates/form/type-checkbox', [
+        'context' => ['class' => 'a', 'id' => 'b', 'input' => '<input />', 'text' => 'c'],
+    ]);
+
+    expect($html)->not->toContain('{{')
+        ->and($html)->toContain('<label class="" for="b">');
+});
+
 test('source() answers the text of the plugin\'s template', function () {
     expect((new Style())->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')))
         ->and((new Style())->source('templates/not-a-template'))->toBe('');
