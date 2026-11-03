@@ -3,37 +3,40 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
-use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
+/**
+ * The classes, stylesheet, and templates of a plugin style.
+ */
 class Style
 {
-    public array $classes;
-    public string $style;
-    public array $pagination;
-    public array $validation;
+    public readonly array $classes;
+    public readonly string $name;
+    public readonly array $validation;
 
-    protected string $styleableViews = '';
+    /** @var array<string, int>|null */
+    protected ?array $styleableViews = null;
+    /** @var array<string, array{button: string, wrapper: string}> */
+    protected array $themeButtonClasses = [];
 
-    public function __construct()
+    public function __construct(string $name = '')
     {
-        $styleName = glsr_get_option('general.style', 'default');
-        $config = shortcode_atts(
-            array_fill_keys(['classes', 'pagination', 'validation'], []),
-            glsr()->config("styles/{$styleName}")
-        );
-        $this->style = $styleName;
-        $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
-        $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
-        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
+        $name = $name ?: glsr_get_option('general.style', 'default', 'string');
+        $config = glsr()->config("styles/{$name}");
+        $this->name = $name;
+        $this->classes = glsr(StyleClassesDefaults::class)->merge($config['classes'] ?? []);
+        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation'] ?? []);
     }
 
-    public function classes(string $key): string
+    public function classes(string $key, string $additionalClasses = ''): string
     {
-        return $this->classes[$key] ?? '';
+        $classes = match ($key) {
+            'button', 'button_wrapper' => $this->buttonClasses($key, $additionalClasses),
+            default => [$this->classes[$key] ?? '', $additionalClasses],
+        };
+        return glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
     }
 
     public function defaultClasses(string $key): string
@@ -49,44 +52,63 @@ class Style
     public function fieldElementClass(FieldContract $field): string
     {
         $tag = $field->tag();
-        if (!array_key_exists($tag, $this->classes)) {
-            return $field->class;
-        }
-        $specific = "{$tag}_{$field->type}";
-        $fallback = $this->classes[$tag] ?? '';
-        $custom = Arr::getAs('string', $this->classes, $specific, $fallback);
-        return trim("{$custom} {$field->class}");
+        return $this->classes["{$tag}_{$field->original_type}"]
+            ?? $this->classes["{$tag}_{$field->type}"]
+            ?? $this->classes[$tag]
+            ?? '';
     }
 
     /**
-     * This allows us to override the pagination config in /config/styles instead of using a filter hook.
+     * Get the classes of the label beside a checkbox, radio, range or toggle input.
      */
-    public function paginationArgs(array $args): array
+    public function fieldElementLabelClass(FieldContract $field): string
     {
-        return wp_parse_args($args, $this->pagination);
+        return $this->classes["label_{$field->original_type}"]
+            ?? $this->classes["label_{$field->type}"]
+            ?? '';
+    }
+
+    /**
+     * Return the HTML source of a view located in the plugin (i.e. ignore theme overrides).
+     */
+    public function source(string $view): string
+    {
+        $candidates = $this->isStyleable($view) ? $this->possibleViews($view) : [$view];
+        foreach ($candidates as $candidate) {
+            foreach ([ // order is intentional
+                glsr()->path("{$candidate}.php"),
+                glsr()->path("views/{$candidate}.php"),
+            ] as $file) {
+                if (file_exists($file)) {
+                    return (string) file_get_contents($file);
+                }
+            }
+        }
+        return '';
     }
 
     public function styleClasses(string $additional = ''): string
     {
-        $style = glsr()->filterString('style', "glsr-{$this->style}");
-        $classes = ['glsr', $style, $additional];
-        return glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
+        $style = glsr()->filterString('style', "glsr-{$this->name}");
+        return glsr(Sanitizer::class)->sanitizeAttrClass(
+            "glsr {$style} {$additional}"
+        );
     }
 
-    public function stylesheetUrl(?string $suffix = ''): string
+    public function stylesheetUrl(): string
     {
-        if ($suffix) {
-            $format = 'assets/styles/%1$s/%2$s-%1$s.css';
-            $path = sprintf($format, $suffix, $this->style);
-            $fallback = sprintf($format, $suffix, 'default');
-        } else {
-            $format = 'assets/styles/%s.css';
-            $path = sprintf($format, $this->style);
-            $fallback = sprintf($format, 'default');
+        $name = file_exists(glsr()->path("assets/styles/{$this->name}.css"))
+            ? $this->name
+            : 'default';
+        return glsr()->url("assets/styles/{$name}.css");
+    }
+
+    public function usesBlockButton(): bool
+    {
+        if (!glsr()->filterBool('assets/css', true)) {
+            return false;
         }
-        return file_exists(glsr()->path($path))
-            ? glsr()->url($path)
-            : glsr()->url($fallback);
+        return str_contains($this->classes['button'], 'wp-block-button');
     }
 
     public function validation(string $key): string
@@ -96,22 +118,7 @@ class Style
 
     public function view(string $view): string
     {
-        if ('' === $this->styleableViews) {
-            $allowed = glsr()->filterArray('style/templates', [
-                'templates/form/field',
-                'templates/form/response',
-                'templates/form/submit-button',
-                'templates/form/type-checkbox',
-                'templates/form/type-radio',
-                'templates/form/type-range',
-                'templates/form/type-toggle',
-                'templates/load-more-button',
-                'templates/pagination',
-                'templates/reviews-form',
-            ]);
-            $this->styleableViews = '~('.implode('|', $allowed).')~';
-        }
-        if (!preg_match($this->styleableViews, $view)) {
+        if (!$this->isStyleable($view)) {
             return $view;
         }
         foreach ($this->possibleViews($view) as $candidate) {
@@ -122,18 +129,91 @@ class Style
         return $view;
     }
 
-    protected function possibleViews(string $view): array
+    protected function baseView(string $view): string
     {
         $filename = basename($view);
-        $dirname = dirname($view).'/';
-        $shortName = strstr($filename, '_', true) ?: $filename; // before first _ or full
-        $styledPath = "views/styles/{$this->style}/";
-        $candidates = [
-            $styledPath.$filename, // styled exact
-            $styledPath.$shortName, // styled base
-            $view, // default exact
-            $dirname.$shortName, // default base
+        $shortName = strstr($filename, '_', true) ?: $filename; // drop _{type} suffix
+        return dirname($view).'/'.$shortName;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function buttonClasses(string $key, string $additionalClasses): array
+    {
+        $additional = explode(' ', glsr(Sanitizer::class)->sanitizeAttrClass($additionalClasses));
+        $blockStyles = preg_grep('/^is-style-/', $additional);
+        $themeClasses = [
+            'button' => '',
+            'wrapper' => '',
+        ];
+        if ($this->usesBlockButton() && \WP_Block_Type_Registry::get_instance()->is_registered('core/button')) {
+            $className = implode(' ', preg_grep('/^glsr-/', $additional, PREG_GREP_INVERT)); // exclude glsr-* classes
+            $themeClasses = $this->themeButtonClasses[$className] ??= $this->renderedBlockButtonClasses($className);
+        }
+        if ('button_wrapper' === $key) {
+            return [$themeClasses['wrapper'], ...$blockStyles];
+        }
+        return [$this->classes['button'], $themeClasses['button'], ...array_diff($additional, $blockStyles)];
+    }
+
+    protected function isStyleable(string $view): bool
+    {
+        $this->styleableViews ??= array_flip(glsr()->filterArray('style/templates', [
+            'templates/form/field',
+            'templates/form/field-description',
+            'templates/form/field-errors',
+            'templates/form/field-label',
+            'templates/form/response',
+            'templates/form/submit-button',
+            'templates/form/type-checkbox',
+            'templates/form/type-radio',
+            'templates/form/type-range',
+            'templates/form/type-toggle',
+            'templates/load-more-button',
+            'templates/pagination',
+            'templates/reviews-form',
+        ]));
+        return isset($this->styleableViews[$this->baseView($view)]);
+    }
+
+    protected function possibleViews(string $view): array
+    {
+        $baseView = $this->baseView($view);
+        $styledPath = "views/styles/{$this->name}/";
+        $candidates = [ // order is intentional
+            $styledPath.basename($view),
+            $styledPath.basename($baseView),
+            $view,
+            $baseView,
         ];
         return array_filter(glsr()->filterArray('style/views', $candidates, $view));
+    }
+
+    protected function renderedBlockButtonClasses(string $className): array
+    {
+        $classes = [
+            'button' => '',
+            'wrapper' => '',
+        ];
+        $blocks = parse_blocks(sprintf(
+            // <a> because a theme's filter may look for one (Bootscore) and text because WordPress renders nothing for an empty button
+            '<!-- wp:buttons --><div class="wp-block-buttons"><!-- wp:button %s --><div class="%s"><a class="wp-block-button__link wp-element-button">x</a></div><!-- /wp:button --></div><!-- /wp:buttons -->',
+            $className ? wp_json_encode(['className' => $className]) : '',
+            trim("wp-block-button {$className}")
+        ));
+        $tags = new \WP_HTML_Tag_Processor(render_block($blocks[0]));
+        if ($tags->next_tag([
+            'class_name' => 'wp-block-button',
+            'tag_name' => 'div',
+        ])) {
+            $wrapper = array_diff(iterator_to_array($tags->class_list(), false), ['wp-block-button'], explode(' ', $className));
+            $classes['wrapper'] = implode(' ', $wrapper);
+        }
+        if ($tags->next_tag('a')) {
+            $button = array_diff(iterator_to_array($tags->class_list(), false), ['wp-block-button__link', 'wp-element-button']);
+            $classes['button'] = implode(' ', $button);
+        }
+        return $classes;
     }
 }

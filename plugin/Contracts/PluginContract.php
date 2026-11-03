@@ -81,8 +81,6 @@ interface PluginContract
      */
     public function runIf(string $className, ...$args);
 
-    public function source(string $view, array $data = []): string;
-
     public function themePath(string $file = ''): string;
 
     public function url(string $path = ''): string;

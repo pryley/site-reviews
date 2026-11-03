@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Contracts\FormContract;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
@@ -175,7 +176,7 @@ class Form extends \ArrayObject implements FormContract
     /**
      * An array of field names that can be overridden in the hiddenConfig array
      * by fields with the same name in the config array.
-     * 
+     *
      * @return string[]
      */
     protected function allowedHiddenFieldOverrides(): array
@@ -239,6 +240,7 @@ class Form extends \ArrayObject implements FormContract
 
     protected function buildSubmitButton(): string
     {
+        glsr(EnqueuePublicAssets::class)->enqueueButtonStyles();
         $captcha = glsr(Captcha::class)->container();
         $rendered = glsr(Template::class)->build('templates/form/submit-button', [
             'context' => [
@@ -246,6 +248,7 @@ class Form extends \ArrayObject implements FormContract
                 'loading_text' => $this->args->button_text_loading,
                 'text' => $this->args->button_text,
             ],
+            'form' => $this,
         ]);
         $rendered = $this->app()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
         if ('above' === glsr(Captcha::class)->position()) {

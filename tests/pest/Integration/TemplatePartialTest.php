@@ -78,30 +78,49 @@ test('a substituted value is not scanned for tags', function () {
 });
 
 test('source() answers the text of the plugin\'s template', function () {
-    expect(glsr()->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')))
-        ->and(glsr()->source('templates/not-a-template'))->toBe('');
+    expect((new Style())->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')))
+        ->and((new Style())->source('templates/not-a-template'))->toBe('');
 });
 
-test('source() follows the plugin style, name by name', function () {
-    // Through PublicController's render/view filter, Style::view() resolves each
-    // name on its own: a styled file where the style has one, the style's base
-    // file for a field_* wrapper, the plugin's file otherwise.
-    glsr(OptionManager::class)->set('settings.general.style', 'contact_form_7');
-    glsr()->bind(Style::class, null, true); // the style is read once per request: a fresh instance reads the option
-    $filter = fn (string $view) => glsr(Style::class)->view($view);
-    add_filter('site-reviews/render/view', $filter);
-    $field = glsr()->source('templates/form/field');
-    $checkbox = glsr()->source('templates/form/field_checkbox');
-    $toggle = glsr()->source('templates/form/field_toggle');
-    $label = glsr()->source('templates/form/field-label');
-    remove_filter('site-reviews/render/view', $filter);
-    glsr(OptionManager::class)->set('settings.general.style', 'default');
-    glsr()->bind(Style::class, null, true);
+test('source() follows the style, name by name', function () {
+    // Each name resolves on its own: a styled file where the style has one, the
+    // style's base file for a field_* wrapper, the plugin's file otherwise.
+    $style = new Style('contact_form_7');
 
-    expect($field)->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field.php')))
-        ->and($checkbox)->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field_checkbox.php')))
-        ->and($toggle)->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field_toggle.php')))
-        ->and($label)->toBe(file_get_contents(glsr()->path('templates/form/field-label.php')));
+    expect($style->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field.php')))
+        ->and($style->source('templates/form/field_checkbox'))->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field_checkbox.php')))
+        ->and($style->source('templates/form/field_toggle'))->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field_toggle.php')))
+        ->and($style->source('templates/form/field-label'))->toBe(file_get_contents(glsr()->path('templates/form/field-label.php')));
+});
+
+test('source() is the style\'s, whatever the site\'s style is', function () {
+    glsr(OptionManager::class)->set('settings.general.style', 'contact_form_7');
+
+    expect((new Style('default'))->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')));
+});
+
+test('source() finds a candidate a filter gives without the views folder', function () {
+    add_filter('site-reviews/style/views', fn () => ['styles/contact_form_7/field']);
+
+    expect((new Style())->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('views/styles/contact_form_7/field.php')));
+});
+
+test('source() reads the base file where a theme has a copy of a field variant', function () {
+    // view() counts the theme's copy, which has no file in the plugin.
+    $dir = glsr()->themePath('form');
+    $file = "{$dir}/field_email.php";
+    $created = !is_dir($dir);
+    wp_mkdir_p($dir);
+    file_put_contents($file, '<div class="override">{{ field }}</div>');
+    try {
+        expect((new Style())->source('templates/form/field_email'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')));
+    } finally {
+        unlink($file);
+        if ($created) {
+            rmdir($dir);
+            @rmdir(dirname($dir));
+        }
+    }
 });
 
 test('source() reads the plugin\'s file where render() would include a theme override', function () {
@@ -113,7 +132,7 @@ test('source() reads the plugin\'s file where render() would include a theme ove
     wp_mkdir_p($dir);
     file_put_contents($file, '<div class="override">{{ field }}</div>');
     try {
-        expect(glsr()->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')))
+        expect((new Style())->source('templates/form/field'))->toBe(file_get_contents(glsr()->path('templates/form/field.php')))
             ->and(glsr(Template::class)->build('templates/form/field', ['context' => ['field' => '<input />']]))->toBe('<div class="override"><input /></div>');
     } finally {
         unlink($file);

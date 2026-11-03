@@ -2,5 +2,5 @@
 
 <li class="{{ class }}">
     {{ input }}
-    <label class="wpforms-field-label-inline" for="{{ id }}">{{ text }}</label>
+    <label class="{{ label_class }}" for="{{ id }}">{{ text }}</label>
 </li>

@@ -97,6 +97,7 @@ class ReviewField extends Field
     protected function classAttrElement(): string
     {
         $classes = [
+            $this->class, // already merged with fieldElement on construct
             glsr(Style::class)->fieldElementClass($this),
         ];
         if ('yes_no' === $this->original_type) {

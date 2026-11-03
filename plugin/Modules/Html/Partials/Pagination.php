@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
+use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
+use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -29,9 +31,10 @@ class Pagination implements PartialContract
         if ($this->args['total'] <= $this->args['current']) {
             return '';
         }
+        glsr(EnqueuePublicAssets::class)->enqueueButtonStyles();
         return glsr(Template::class)->build('templates/load-more-button', [
             'context' => [
-                'class' => sprintf('glsr-button-loadmore %s', glsr(Style::class)->classes('button')),
+                'class' => glsr(Style::class)->classes('button', 'glsr-button-loadmore'),
                 'loading_text' => __('Loading, please wait...', 'site-reviews'),
                 'page' => $this->args['current'] + 1,
                 'screen_reader_text' => _x('Load more reviews', 'screen reader text', 'site-reviews'),
@@ -66,6 +69,6 @@ class Pagination implements PartialContract
             'current' => Helper::getPageNumber(),
             'total' => 1,
         ]);
-        return glsr(Style::class)->paginationArgs($args);
+        return glsr(PaginationDefaults::class)->merge($args);
     }
 }

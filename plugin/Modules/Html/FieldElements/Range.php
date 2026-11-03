@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Style;
 
 class Range extends Radio
 {

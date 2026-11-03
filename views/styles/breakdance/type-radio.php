@@ -6,5 +6,5 @@
             {{ input }}
         </span>
     </span>
-    <label for="{{ id }}" class="breakdance-form-radio__text">{{ text }}</label>
+    <label for="{{ id }}" class="{{ label_class }}">{{ text }}</label>
 </span>

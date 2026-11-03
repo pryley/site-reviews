@@ -2,5 +2,5 @@
 
 <div class="form-check {{ class }}">
     {{ input }}
-    <label class="form-check-label" for="{{ id }}">{{ text }}</label>
+    <label class="{{ label_class }}" for="{{ id }}">{{ text }}</label>
 </div>

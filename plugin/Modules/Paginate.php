@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 class Paginate
 {
     public $args;
-    public $style;
 
     public function __construct(array $args = [])
     {
@@ -37,7 +36,6 @@ class Paginate
             $args['add_args'] = array_merge($args['add_args'], (array) urlencode_deep($urlQueryArgs));
         }
         $this->args = glsr()->args($args);
-        $this->style = glsr_get_option('general.style');
     }
 
     public function linkPage(int $page): array

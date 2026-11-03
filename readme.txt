@@ -221,7 +221,6 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a label slot and a notice slot to every review tag, filled through the `site-reviews/review/label/{tag}` and `site-reviews/review/notice/{tag}` filters: the label names the value, the notice is a message to the person viewing the review
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
-- Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
@@ -234,10 +233,12 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
+- Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
 - Fixed the location shown on Console entries logged from a hook callback
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
+- Fixed the submit and load more button block styles
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
