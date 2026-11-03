@@ -190,6 +190,9 @@ class Style
         return array_filter(glsr()->filterArray('style/views', $candidates, $view));
     }
 
+    /**
+     * @return array{button: string, wrapper: string}
+     */
     protected function renderedBlockButtonClasses(string $className): array
     {
         $classes = [
