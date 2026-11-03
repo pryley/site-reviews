@@ -132,3 +132,31 @@ test('a long run of pages is elided to dots around the current page', function (
     expect($dots)->toHaveCount(2) // one gap each side of the current page
         ->and($dots[0]['link'])->toContain('&hellip;');
 });
+
+test('an end size of 0 draws only the pages around the current page', function () {
+    $links = (new \GeminiLabs\SiteReviews\Modules\Paginate([
+        'current' => 10,
+        'end_size' => 0,
+        'mid_size' => 2,
+        'total' => 20,
+    ]))->links();
+    $html = implode('', array_column($links, 'link'));
+
+    // pages 8 to 12, with no first or last page and no dots
+    expect(array_column($links, 'type'))->toBe(['prev', 'page', 'page', 'current', 'page', 'page', 'next'])
+        ->and($html)->not->toContain('data-page="1"')
+        ->and($html)->not->toContain('data-page="20"');
+});
+
+test('the pagination defaults keep an end size of 0 and clamp the current page to the last', function () {
+    $args = glsr(\GeminiLabs\SiteReviews\Defaults\PaginationDefaults::class)->restrict([
+        'current' => 9, // past the last page
+        'end_size' => 0,
+        'mid_size' => 0,
+        'total' => 3,
+    ]);
+
+    expect($args['current'])->toBe(3)
+        ->and($args['end_size'])->toBe(0)
+        ->and($args['mid_size'])->toBe(1);
+});
