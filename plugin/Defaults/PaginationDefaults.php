@@ -24,7 +24,7 @@ class PaginationDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'current' => 'min:1',
-        'end_size' => 'min:1',
+        'end_size' => 'min:0',
         'mid_size' => 'min:1',
         'total' => 'min:0',
     ];
@@ -46,12 +46,9 @@ class PaginationDefaults extends DefaultsAbstract
         ];
     }
 
-    protected function sanitize(array $values = []): array
+    protected function finalize(array $values = []): array
     {
-        $values = parent::sanitize($values);
         $values['current'] = max(1, min($values['current'], $values['total']));
-        $values['end_size'] = max(0, $values['end_size']);
-        $values['mid_size'] = max(1, $values['mid_size']);
         return $values;
     }
 }
