@@ -66,7 +66,7 @@ const cssBundles = [
 ];
 
 // ------------------------------------------------------------------
-//  Plugin styles: the base per component, each style's components, and the whole sheets
+//  Plugin styles: the base per component, and each style's own components
 // ------------------------------------------------------------------
 
 // A style's selectors; the base's (`:--base`) compile under `.glsr`, Divi's under its own.
@@ -104,12 +104,9 @@ const baseComponents = styleComponents('minimal').map(({ component }) => compone
 
 const styleBundles = [
     ...baseComponents.map((component) => componentCss(`styles/public/base/${component}`, 'assets/styles/base', { base: '.glsr', namespace: '.glsr' })),
-    ...Object.entries(NAMESPACES).flatMap(([style, namespace]) => [
-        componentCss(`styles/${style}`, 'assets/styles', { base: baseNamespace(style), namespace }),
-        ...styleComponents(style)
-            .filter(({ dir }) => dir === style)
-            .map(({ component }) => componentCss(`styles/public/${style}/${component}`, `assets/styles/${style}`, { base: baseNamespace(style), namespace })),
-    ]),
+    ...Object.entries(NAMESPACES).flatMap(([style, namespace]) => styleComponents(style)
+        .filter(({ dir }) => dir === style)
+        .map(({ component }) => componentCss(`styles/public/${style}/${component}`, `assets/styles/${style}`, { base: baseNamespace(style), namespace }))),
 ];
 
 // What the renderer reads: per style and component, the file to print, in the order the page needs them.

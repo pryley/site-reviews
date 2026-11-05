@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -57,6 +58,7 @@ class EnqueuePublicAssets extends AbstractCommand
                 ]),
                 'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
             ],
+            'styles' => glsr(Stylesheets::class)->urls(),
             'text' => [
                 'closeModal' => __('Close Modal', 'site-reviews'),
             ],
@@ -129,41 +131,14 @@ class EnqueuePublicAssets extends AbstractCommand
         wp_add_inline_script($last, glsr()->filterString('enqueue/public/inline-script/after', ''));
     }
 
-    public function enqueueStyles(): void
-    {
-        if (!glsr()->filterBool('assets/css', true)) {
-            return;
-        }
-        wp_register_style(glsr()->id, glsr(Style::class)->stylesheetUrl(), [], glsr()->version);
-        wp_enqueue_style(glsr()->id);
-        wp_add_inline_style(glsr()->id, $this->inlineStyles());
-    }
-
     public function handle(): void
     {
-        $this->enqueueStyles();
         $this->enqueueScripts();
     }
 
     public function inlineScript(): string
     {
         return glsr(InlineScript::class)->build('public', $this->config());
-    }
-
-    public function inlineStyles(): string
-    {
-        $inlineStylesheetPath = glsr()->path('assets/styles/inline-styles.css');
-        if (!file_exists($inlineStylesheetPath)) {
-            glsr_log()->error("Inline stylesheet is missing: {$inlineStylesheetPath}");
-            return '';
-        }
-        $inlineConfig = glsr()->config('inline-styles');
-        $inlineCss = str_replace(
-            array_keys($inlineConfig),
-            array_values($inlineConfig),
-            file_get_contents($inlineStylesheetPath)
-        );
-        return glsr()->filterString('enqueue/public/inline-styles', $inlineCss, $inlineConfig);
     }
 
     protected function captcha(): array

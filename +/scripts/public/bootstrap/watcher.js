@@ -3,7 +3,7 @@
  * on the first scan and whenever one arrives later.
  */
 
-import { Event, direction, load, setup as setupModule } from '@/public/core/index.js';
+import { Event, declaredStyles, direction, load, setup as setupModule, STYLES_SELECTOR } from '@/public/core/index.js';
 
 const SELECTOR = '[data-glsr-modules]';
 
@@ -45,6 +45,7 @@ export const pending = () => latest
  * Set up every root inside an element, or the page.
  */
 export const scan = (root = document, force = false) => {
+    declaredStyles(root)
     directions(root)
     latest = Promise.all(roots(root).map(el => setup(el, force))).then(() => {
         Event.trigger('site-reviews/initialized', { root }) // this goes last!
@@ -60,6 +61,7 @@ export const watch = () => {
                 if (roots(node).length) {
                     scan(node)
                 } else {
+                    declaredStyles(node) // a rating on its own names its stylesheet
                     directions(node) // a wrapper with no module, such as a WooCommerce rating
                 }
             })

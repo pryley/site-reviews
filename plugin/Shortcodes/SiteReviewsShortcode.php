@@ -53,6 +53,11 @@ class SiteReviewsShortcode extends Shortcode
         return esc_html_x('Latest Reviews', 'admin-text', 'site-reviews');
     }
 
+    public function stylesheets(): array
+    {
+        return ['button', 'flags', 'pagination', 'review', 'star-rating'];
+    }
+
     protected function config(): array
     {
         return [ // order is intentional

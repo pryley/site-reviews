@@ -52,6 +52,7 @@ const publicConfig = () => ({
         routes: { 'submit-review': 'submissions' },
         url: 'https://example.org/wp-json/site-reviews/v1/',
     },
+    styles: Object.fromEntries(['variables', 'keyframes', 'base', 'loaders', 'pagination', 'star-rating', 'review', 'flags', 'summary', 'form', 'field-label', 'field-input', 'field-choice', 'field-toggle', 'field-range', 'field-rating', 'button', 'modal', 'debug'].map(c => [c, `https://example.org/wp-content/plugins/site-reviews/assets/styles/base/${c}.css?ver=9.0.0`])),
     text: { closeModal: 'Close Modal' },
     validation: {
         field: 'glsr-field',

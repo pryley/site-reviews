@@ -47,7 +47,7 @@ Both end with the `site-reviews/initialized` event, which carries the root. To s
 
 ## Modules
 
-Each behaviour is a script module in the page's import map, fetched only when something on the page needs it. A rendered root says what it needs in its `data-glsr-modules` attribute, one token per module (`<div class="glsr" data-glsr-modules="form captcha">`); the bootstrap sets the root up with each module it names, on the first scan and whenever a root arrives later, however it arrived.
+Each behaviour is a script module in the page's import map, fetched only when something on the page needs it. A rendered root says what it needs in its `data-glsr-modules` attribute, one token per module (`<div class="glsr" data-glsr-modules="form captcha">`); the bootstrap sets the root up with each module it names, on the first scan and whenever a root arrives later, however it arrived. A root names its stylesheets the same way in `data-glsr-styles` (`data-glsr-styles="review star-rating flags pagination button"`), and so does a star rating printed on its own. The plugin prints them beside the first root of a page render; a fragment rendered over admin-ajax or REST carries only the names, and the bootstrap adds a `<link>` for each the page lacks.
 
 | Module | Token | Puts on `GLSR` |
 | --- | --- | --- |
@@ -68,13 +68,7 @@ GLSR.load('form').then(() => GLSR.Form.find(el))
 
 A feature of Site Reviews Premium registers its module the same way (`@site-reviews/{token}`) and adds its token to a root through the `site-reviews/shortcode/attributes` filter.
 
-Every shortcode, block and page-builder element prints its root with the attribute. A theme that prints a list or a form itself (`echo glsr_get_reviews()`, `$review->render()`) prints no root, so it puts `data-glsr-modules="reviews"` or `"form"` on its own wrapper, or loads the module and sets the markup up:
-
-```js
-GLSR.load('reviews').then(() => GLSR.Review.init(el))
-```
-
-A star rating on its own (`glsr_star_rating()`, the WooCommerce ratings) needs no module.
+Every shortcode, block and page-builder element prints its root with the attribute. A theme that prints a list or a review through `glsr_get_reviews()` or `glsr_get_review()` prints the root from the `attributes` of the built object, as the functions' documentation shows, and that string carries the attribute too. A star rating on its own (`glsr_star_rating()`, the WooCommerce ratings) needs no module.
 
 `GLSR_init(eventName, ...args)` triggers the event with that name. It exists for the deprecated `block:` event names (see [js-events.md](js-events.md#deprecated-names)).
 
