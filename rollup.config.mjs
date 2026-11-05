@@ -1,9 +1,10 @@
 import { createConfig } from '@site-reviews/build';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const { css, commonJs, module, namespacedCss, js } = createConfig(__dirname);
+const { componentCss, css, commonJs, module, js } = createConfig(__dirname);
 
 // ------------------------------------------------------------------
 //  Script modules (the import map, @site-reviews/{id})
@@ -62,24 +63,68 @@ const cssBundles = [
     css('integrations/flatsome/flatsome-inline', 'assets/styles/integrations'),
     css('integrations/fusion/fusion-inline', 'assets/styles/integrations'),
     css('integrations/wpbakery/wpbakery-inline', 'assets/styles/integrations'),
-    // Plugin styles
-    namespacedCss('styles/bootstrap', '.glsr-bootstrap'),
-    namespacedCss('styles/breakdance', '.glsr-breakdance'),
-    namespacedCss('styles/contact_form_7', '.glsr-contact_form_7'),
-    namespacedCss('styles/default', '.glsr-default'),
-    namespacedCss('styles/divi', '#page-container .glsr-divi, .glsr-divi'),
-    namespacedCss('styles/elementor', '.glsr-elementor'),
-    namespacedCss('styles/minimal', '.glsr-minimal'),
-    namespacedCss('styles/ninja_forms', '.glsr-ninja_forms'),
-    namespacedCss('styles/twentyfifteen', '.glsr-twentyfifteen'),
-    namespacedCss('styles/twentysixteen', '.glsr-twentysixteen'),
-    namespacedCss('styles/twentyseventeen', '.glsr-twentyseventeen'),
-    namespacedCss('styles/twentynineteen', '.glsr-twentynineteen'),
-    namespacedCss('styles/twentytwenty', '.glsr-twentytwenty'),
-    namespacedCss('styles/twentytwentyone', '.glsr-twentytwentyone'),
-    namespacedCss('styles/twentytwentytwo', '.glsr-twentytwentytwo'),
-    namespacedCss('styles/wpforms', '.glsr-wpforms'),
 ];
+
+// ------------------------------------------------------------------
+//  Plugin styles: the base per component, each style's components, and the whole sheets
+// ------------------------------------------------------------------
+
+// A style's selectors; the base's (`:--base`) compile under `.glsr`, Divi's under its own.
+const NAMESPACES = {
+    bootstrap: '.glsr-bootstrap',
+    breakdance: '.glsr-breakdance',
+    contact_form_7: '.glsr-contact_form_7',
+    default: '.glsr-default',
+    divi: '#page-container .glsr-divi, .glsr-divi',
+    elementor: '.glsr-elementor',
+    minimal: '.glsr-minimal',
+    ninja_forms: '.glsr-ninja_forms',
+    twentyfifteen: '.glsr-twentyfifteen',
+    twentynineteen: '.glsr-twentynineteen',
+    twentyseventeen: '.glsr-twentyseventeen',
+    twentysixteen: '.glsr-twentysixteen',
+    twentytwenty: '.glsr-twentytwenty',
+    twentytwentyone: '.glsr-twentytwentyone',
+    twentytwentytwo: '.glsr-twentytwentytwo',
+    wpforms: '.glsr-wpforms',
+};
+
+const BASE_NAMESPACES = {
+    divi: NAMESPACES.divi, // Divi's theme CSS selects with #page-container, so the base rules need it too
+};
+
+const baseNamespace = (style) => BASE_NAMESPACES[style] || '.glsr';
+
+// `+/styles/{style}.css` is the style's component list: `public/base/{c}` for a component it
+// leaves as the base is, `public/{style}/{c}` for one it changes.
+const styleComponents = (style) => [...fs.readFileSync(path.join(__dirname, `+/styles/${style}.css`), 'utf8').matchAll(/@import\s+"public\/([\w-]+)\/([\w-]+)"/g)]
+    .map(([, dir, component]) => ({ component, dir }));
+
+const baseComponents = styleComponents('minimal').map(({ component }) => component); // the base in the order a page needs it
+
+const styleBundles = [
+    ...baseComponents.map((component) => componentCss(`styles/public/base/${component}`, 'assets/styles/base', { base: '.glsr', namespace: '.glsr' })),
+    ...Object.entries(NAMESPACES).flatMap(([style, namespace]) => [
+        componentCss(`styles/${style}`, 'assets/styles', { base: baseNamespace(style), namespace }),
+        ...styleComponents(style)
+            .filter(({ dir }) => dir === style)
+            .map(({ component }) => componentCss(`styles/public/${style}/${component}`, `assets/styles/${style}`, { base: baseNamespace(style), namespace })),
+    ]),
+];
+
+// What the renderer reads: per style and component, the file to print, in the order the page needs them.
+const manifest = Object.fromEntries(Object.keys(NAMESPACES).map((style) => [
+    style,
+    Object.fromEntries(styleComponents(style).map(({ component, dir }) => [component, `${dir}/${component}.css`])),
+]));
+fs.writeFileSync(path.join(__dirname, 'assets/styles/manifest.php'), [
+    '<?php',
+    '',
+    '// Written by rollup.config.mjs from the import lists in +/styles/{style}.css; do not edit.',
+    'return ' + JSON.stringify({ components: baseComponents, styles: manifest }, null, 4)
+        .replace(/\{/g, '[').replace(/\}/g, ']').replace(/": /g, '" => ').replace(/"/g, "'") + ';',
+    '',
+].join('\n'));
 
 // ------------------------------------------------------------------
 //  Export
@@ -89,4 +134,5 @@ export default [
     ...moduleBundles,
     ...jsBundles,
     ...cssBundles,
+    ...styleBundles,
 ];

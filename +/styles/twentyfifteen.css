@@ -1,130 +1,19 @@
-@import "minimal";
-
-:root body {
-    --glsr-gray-300: #eaeaea;
-    --glsr-gray-400: #707070;
-    --glsr-gray-500: #333;
-    --glsr-red: #c0392b;
-    --glsr-blue: #21759b;
-    --glsr-form-success: var(--glsr-blue);
-    --glsr-font: "Noto Sans", sans-serif;
-}
-
-:root .glsr {
-    --glsr-leading: 1.6842;
-    --glsr-text-base: 1.5rem;
-    --glsr-input-pt: 0.375em;
-    --glsr-input-pr: 0.375em;
-    --glsr-input-pb: 0.375em;
-    --glsr-input-pl: 0.375em;
-    font-size: var(--glsr-text-base);
-    @media screen and (min-width: 46.25em) {
-        --glsr-text-base: 1.7rem;
-        --glsr-input-pt: 0.5em;
-        --glsr-input-pr: 0.5em;
-        --glsr-input-pb: 0.5em;
-        --glsr-input-pl: 0.5em;
-    }
-    @media screen and (min-width: 55em) {
-        --glsr-text-base: 1.9rem;
-        --glsr-input-pt: 0.5278em;
-        --glsr-input-pr: 0.5278em;
-        --glsr-input-pb: 0.5278em;
-        --glsr-input-pl: 0.5278em;
-    }
-    @media screen and (min-width: 59.6875em) {
-        --glsr-text-base: 1.5rem;
-        --glsr-input-pt: 0.375em;
-        --glsr-input-pr: 0.375em;
-        --glsr-input-pb: 0.375em;
-        --glsr-input-pl: 0.375em;
-    }
-    @media screen and (min-width: 68.75em) {
-        --glsr-leading: 1.6842;
-        --glsr-text-base: 1.7rem;
-        --glsr-input-pt: 0.5em;
-        --glsr-input-pr: 0.5em;
-        --glsr-input-pb: 0.5em;
-        --glsr-input-pl: 0.5em;
-    }
-    @media screen and (min-width: 77.5em) {
-        --glsr-text-base: 1.9rem;
-    }
-}
-:root .widget .glsr {
-    --glsr-leading: 1.5;
-    --glsr-text-base: 1.2rem;
-    font-size: var(--glsr-text-base);
-    @media screen and (min-width: 46.25em) {
-        --glsr-text-base: 1.4rem;
-    }
-    @media screen and (min-width: 55em) {
-        --glsr-text-base: 1.6rem;
-    }
-    @media screen and (min-width: 59.6875em) {
-        --glsr-text-base: 1.2rem;
-    }
-    @media screen and (min-width: 68.75em) {
-        --glsr-text-base: 1.4rem;
-    }
-    @media screen and (min-width: 77.5em) {
-        --glsr-text-base: 1.6rem;
-    }
-}
-:root .glsr-modal h4 {
-    --glsr-leading: 1.2;
-    --glsr-text-base: 1.5rem;
-    font-size: var(--glsr-text-base);
-    @media screen and (min-width: 46.25em) {
-        --glsr-leading: 1.4;
-        --glsr-text-base: 2rem;
-    }
-    @media screen and (min-width: 55em) {
-        --glsr-leading: 1.4545;
-        --glsr-text-base: 2.2rem;
-    }
-    @media screen and (min-width: 59.6875em) {
-        --glsr-leading: 1.3333;
-        --glsr-text-base: 1.8rem;
-    }
-    @media screen and (min-width: 68.75em) {
-        --glsr-leading: 1.4;
-        --glsr-text-base: 2rem;
-    }
-    @media screen and (min-width: 77.5em) {
-        --glsr-leading: 1.4545;
-        --glsr-text-base: 2.2rem;
-    }
-}
-:root .glsr-button {
-    border-radius: 0;
-}
-:--namespace .glsr-field-error {
-    font-family: var(--glsr-font);
-}
-:--namespace .glsr-field-toggle label,
-:--namespace .glsr-field-choice span label {
-    font-size: var(--glsr-text-md);
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: var(--glsr-leading);
-    text-transform: none;
-}
-:--namespace .nav-links {
-    justify-content: center;
-}
-:--namespace form.glsr-form input.glsr-input,
-:--namespace form.glsr-form select.glsr-select,
-:--namespace form.glsr-form textarea.glsr-textarea {
-    border: 1px solid var(--glsr-gray-300);
-    color: var(--glsr-gray-400);
-    padding-top: var(--glsr-input-pt);
-    padding-right: var(--glsr-input-pr);
-    padding-bottom: var(--glsr-input-pb);
-    padding-left: var(--glsr-input-pl);
-}
-:--namespace form.glsr-form .glsr-description {
-    font-family: var(--glsr-font);
-    font-size: var(--glsr-description-text);
-    font-weight: var(--glsr-description-weight);
-}
+@import "public/twentyfifteen/variables";
+@import "public/base/keyframes";
+@import "public/twentyfifteen/base";
+@import "public/base/loaders";
+@import "public/twentyfifteen/pagination";
+@import "public/base/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/twentyfifteen/form";
+@import "public/twentyfifteen/field-label";
+@import "public/twentyfifteen/field-input";
+@import "public/twentyfifteen/field-choice";
+@import "public/twentyfifteen/field-toggle";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/twentyfifteen/button";
+@import "public/twentyfifteen/modal";
+@import "public/base/debug";

@@ -1,0 +1,16 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-toggle label {
+  font-size: var(--glsr-text-md);
+  line-height: var(--glsr-leading);
+  padding: 0;
+}
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus {
+  outline: none;
+}
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus + .glsr-toggle-track {
+  outline: 1px solid transparent;
+  box-shadow: 0 0 0 3px Highlight;
+  box-shadow: 0 0 0 3px -moz-mac-focusring;
+  box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+}

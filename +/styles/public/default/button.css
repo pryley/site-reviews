@@ -1,0 +1,8 @@
+@import "../base/button";
+
+.theme-twentytwentytwo :--namespace .glsr-button {
+  border: none;
+  &:hover {
+    color: var(--glsr-white);
+  }
+}

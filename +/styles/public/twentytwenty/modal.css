@@ -1,0 +1,6 @@
+@import "../base/modal";
+
+:root .glsr-modal,
+:root .glsr-modal .glsr {
+    font-size: var(--glsr-text-sm);
+}

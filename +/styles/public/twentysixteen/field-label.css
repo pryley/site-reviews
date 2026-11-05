@@ -1,0 +1,17 @@
+@import "../base/field-label";
+
+:--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
+    color: var(--glsr-gray-500);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 1.6153846154;
+    margin-bottom: var(--glsr-gap-sm);
+    text-transform: uppercase;
+}
+:--namespace form.glsr-form .glsr-description {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
+}

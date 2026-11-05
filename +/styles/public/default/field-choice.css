@@ -1,0 +1,46 @@
+@import "../base/field-choice";
+
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+  appearance: none;
+  background-color: var(--glsr-white);
+  background-origin: border-box;
+  border: 1px solid var(--glsr-input-border-color);
+  font-size: var(--glsr-text-md);
+  min-height: auto;
+  min-width: auto;
+  print-color-adjust: exact;
+  user-select: none;
+  /*color: var(--glsr-input-border-color);*/
+  height: var(--glsr-choice-h);
+  width: var(--glsr-choice-w);
+  &::before,
+  &::after {
+    display: none !important;
+  }
+  &:checked,
+  &:checked {
+    background-color: currentColor;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-color: transparent;
+    color: var(--glsr-blue);
+  }
+  &:focus,
+  &:focus {
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+    box-shadow: 0 0 0 3px Highlight;
+  }
+  &:checked:focus,
+  &:checked:focus {
+    border-color: transparent;
+  }
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+  border-radius: var(--glsr-input-radius);
+  &:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+  }
+}

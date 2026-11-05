@@ -1,59 +1,17 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/base";
-@import "public/minimal/loaders";
-@import "public/minimal/pagination";
-@import "public/minimal/star-rating";
-@import "public/minimal/review";
-@import "public/minimal/flags";
-@import "public/minimal/summary";
-@import "public/minimal/form";
-@import "public/minimal/field-toggle";
-@import "public/minimal/field-range";
-@import "public/minimal/field-rating";
-@import "public/minimal/button";
-@import "public/minimal/modal";
-@import "public/minimal/debug";
-
-:--namespace form.glsr-hide-form {
-    max-height: 0 !important;
-    opacity: 0;
-    overflow: hidden;
-}
-:--namespace form.glsr-form .glsr-field-toggle {
-    line-height: 1.5;
-}
-:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
-:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
-    display: none;
-}
-:--namespace form.glsr-form .glsr-form-message {
-    border: 1px solid transparent;
-    margin: var(--glsr-text-md) auto;
-    padding: var(--glsr-text-md);
-}
-:--namespace form.glsr-form .glsr-form-failed {
-    background-color: #f2dede;
-    border-color: #eed3d7;
-}
-:--namespace form.glsr-form .glsr-form-success {
-    background-color: #e0ffc7;
-    border-color: #b4d39b;
-}
-:--namespace form.glsr-form .glsr-toggle .glsr-toggle,
-:--namespace form.glsr-form .glsr-field-toggle label {
-    font-size: var(--glsr-text-md);
-}
-:--namespace form.glsr-form .glsr-description {
-    display: block;
-    font-weight: normal;
-    text-transform: none;
-}
-:--namespace form.glsr-form .glsr-label + .glsr-description {
-    margin: 0 0 4px;
-}
-:--namespace .glsr-required .glsr-label::after {
-    content: ' *';
-    color: #ff0000;
-    font-weight: 400;
-}
+@import "public/base/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/base/pagination";
+@import "public/base/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/wpforms/form";
+@import "public/wpforms/field-label";
+@import "public/wpforms/field-toggle";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/base/button";
+@import "public/base/modal";
+@import "public/base/debug";

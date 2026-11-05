@@ -1,0 +1,63 @@
+@import "../base/base";
+
+:root .glsr {
+    --glsr-leading: 1.6842;
+    --glsr-text-base: 1.5rem;
+    --glsr-input-pt: 0.375em;
+    --glsr-input-pr: 0.375em;
+    --glsr-input-pb: 0.375em;
+    --glsr-input-pl: 0.375em;
+    font-size: var(--glsr-text-base);
+    @media screen and (min-width: 46.25em) {
+        --glsr-text-base: 1.7rem;
+        --glsr-input-pt: 0.5em;
+        --glsr-input-pr: 0.5em;
+        --glsr-input-pb: 0.5em;
+        --glsr-input-pl: 0.5em;
+    }
+    @media screen and (min-width: 55em) {
+        --glsr-text-base: 1.9rem;
+        --glsr-input-pt: 0.5278em;
+        --glsr-input-pr: 0.5278em;
+        --glsr-input-pb: 0.5278em;
+        --glsr-input-pl: 0.5278em;
+    }
+    @media screen and (min-width: 59.6875em) {
+        --glsr-text-base: 1.5rem;
+        --glsr-input-pt: 0.375em;
+        --glsr-input-pr: 0.375em;
+        --glsr-input-pb: 0.375em;
+        --glsr-input-pl: 0.375em;
+    }
+    @media screen and (min-width: 68.75em) {
+        --glsr-leading: 1.6842;
+        --glsr-text-base: 1.7rem;
+        --glsr-input-pt: 0.5em;
+        --glsr-input-pr: 0.5em;
+        --glsr-input-pb: 0.5em;
+        --glsr-input-pl: 0.5em;
+    }
+    @media screen and (min-width: 77.5em) {
+        --glsr-text-base: 1.9rem;
+    }
+}
+:root .widget .glsr {
+    --glsr-leading: 1.5;
+    --glsr-text-base: 1.2rem;
+    font-size: var(--glsr-text-base);
+    @media screen and (min-width: 46.25em) {
+        --glsr-text-base: 1.4rem;
+    }
+    @media screen and (min-width: 55em) {
+        --glsr-text-base: 1.6rem;
+    }
+    @media screen and (min-width: 59.6875em) {
+        --glsr-text-base: 1.2rem;
+    }
+    @media screen and (min-width: 68.75em) {
+        --glsr-text-base: 1.4rem;
+    }
+    @media screen and (min-width: 77.5em) {
+        --glsr-text-base: 1.6rem;
+    }
+}

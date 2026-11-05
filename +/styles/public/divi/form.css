@@ -1,0 +1,10 @@
+@import "../base/form";
+
+:--namespace form.glsr-form .glsr-dz-message {
+  color: var(--glsr-input-color);
+}
+:--namespace form.glsr-filters-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--glsr-gap-sm);
+}

@@ -1,0 +1,12 @@
+@import "../base/review";
+
+:--namespace .glsr-review-author {
+    font-family: var(--glsr-font);
+}
+:--namespace .glsr-review-date {
+    font-size: var(--glsr-text-sm);
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
+    font-style: normal;
+    font-weight: 500;
+}

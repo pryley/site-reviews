@@ -1,0 +1,11 @@
+@import "../base/pagination";
+
+:--namespace .et_pb_gallery_pagination {
+  --vertical-gap: 0;
+}
+:--namespace .et_pb_gallery_pagination ul {
+  padding: 0;
+  &::after {
+    display: none;
+  }
+}

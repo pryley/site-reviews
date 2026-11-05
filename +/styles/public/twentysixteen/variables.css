@@ -1,0 +1,20 @@
+@import "../base/variables";
+
+:root body {
+    --glsr-gray-300: #f7f7f7;
+    --glsr-gray-400: #d1d1d1;
+    --glsr-gray-500: #686868;
+    --glsr-black: #1a1a1a;
+    --glsr-blue: #007acc;
+    --glsr-toggled-bg: var(--glsr-blue);
+    --glsr-text-sm: 0.8125rem;
+    --glsr-gap-sm: 0.5384615385em;
+    --glsr-leading: 1.75;
+    --glsr-font: Montserrat, "Helvetica Neue", sans-serif;
+    --glsr-input-pr: 0.4375em;
+    --glsr-input-pl: 0.4375em;
+    --glsr-input-pt: 0.625em;
+    --glsr-input-pb: 0.625em;
+    --glsr-input-radius: 2px;
+    --glsr-radius: 2px;
+}

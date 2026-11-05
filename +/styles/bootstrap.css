@@ -1,48 +1,16 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/base";
-@import "public/minimal/loaders";
-@import "public/minimal/pagination";
-@import "public/minimal/star-rating";
-@import "public/minimal/review";
-@import "public/minimal/flags";
-@import "public/minimal/summary";
-@import "public/minimal/form";
-@import "public/minimal/field-range";
-@import "public/minimal/field-rating";
-@import "public/minimal/button";
-@import "public/minimal/modal";
-@import "public/minimal/debug";
-
-:root body {
-    --glsr-text-base: 1rem;
-}
-:--namespace form.glsr-hide-form {
-    max-height: 0 !important;
-    opacity: 0;
-    overflow: hidden;
-}
-:--namespace form.glsr-form-is-invalid .glsr-field-error {
-    display: block;
-}
-:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
-:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
-    display: none;
-}
-:--namespace .glsr-pagination ul.pagination {
-    margin-bottom: 0;
-}
-:--namespace form.glsr-form .glsr-field:has(.glsr-label + .glsr-description) .glsr-label {
-    margin-bottom: .25rem;
-}
-:--namespace form.glsr-form .glsr-label + .glsr-description {
-    margin-top: 0;
-    margin-bottom: .25rem;
-}
-:--namespace .glsr-summary .glsr-bar-label {
-    display: flex;
-    column-gap: var(--glsr-gap-sm);
-}
-:--namespace .glsr-summary .glsr-bar-label label {
-    font-size: inherit !important;
-}
+@import "public/bootstrap/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/bootstrap/pagination";
+@import "public/base/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/bootstrap/summary";
+@import "public/bootstrap/form";
+@import "public/bootstrap/field-label";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/base/button";
+@import "public/base/modal";
+@import "public/base/debug";

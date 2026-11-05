@@ -1,0 +1,9 @@
+@import "../base/modal";
+
+:root .glsr-modal h4 {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.140625em;
+    line-height: 1.3125;
+    text-transform: uppercase;
+}

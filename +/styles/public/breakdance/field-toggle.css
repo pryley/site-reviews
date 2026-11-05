@@ -1,0 +1,8 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-field-toggle {
+  gap: 0;
+}
+:--namespace .glsr-toggle:has(input:checked) {
+  color: var(--bde-form-checkbox-selected-color);
+}

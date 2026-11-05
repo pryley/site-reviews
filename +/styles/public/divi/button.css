@@ -1,0 +1,17 @@
+@import "../base/button";
+
+:root .et_pb_bg_layout_light .glsr-button_wrapper {
+  color: var(--glsr-divi-color);
+}
+:--namespace .glsr-button {
+  color: inherit;
+  &::after {
+    margin-right: -1em;
+    position: relative;
+    top: auto;
+    transform: none;
+  }
+}
+:--namespace[data-from="shortcode"] .glsr-button:hover {
+  background-color: rgba(0,0,0,.05);
+}

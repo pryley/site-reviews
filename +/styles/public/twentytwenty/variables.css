@@ -1,0 +1,25 @@
+@import "../base/variables";
+
+:root body {
+    --glsr-gray-300: #dcd7ca;
+    --glsr-black: #000;
+    --glsr-red: #cd2653;
+    --glsr-font: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+    --glsr-font-serif: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
+    --glsr-leading: 1.476;
+    --glsr-input-radius: 0;
+    --glsr-input-pr: 1em;
+    --glsr-input-pl: 1em;
+    --glsr-input-pt: 0.83333333em;
+    --glsr-input-pb: 0.83333333em;
+    --glsr-text-base: 1.8rem;
+    --glsr-text-sm: 0.77777778em;
+    --glsr-summary-text: 1em;
+    --glsr-toggle-h: 1em;
+    --glsr-description-text: 1.6rem;
+
+    @media (min-width: 700px) {
+        --glsr-text-base: 2.1rem;
+        --glsr-summary-text: 0.83333333em;
+    }
+}

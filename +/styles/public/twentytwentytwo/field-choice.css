@@ -1,0 +1,7 @@
+@import "../base/field-choice";
+
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    height: var(--glsr-text-md);
+    width: var(--glsr-text-md);
+}

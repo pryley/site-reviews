@@ -1,0 +1,12 @@
+@import "../base/variables";
+
+:root body {
+    --glsr-gray-300: #bbb;
+    --glsr-gray-400: #666;
+    --glsr-gray-500: #333;
+    --glsr-black: #222;
+    --glsr-input-pt: 0.7em;
+    --glsr-input-pr: 0.7em;
+    --glsr-input-pb: 0.7em;
+    --glsr-input-pl: 0.7em;
+}

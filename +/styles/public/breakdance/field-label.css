@@ -1,0 +1,8 @@
+@import "../base/field-label";
+
+:--namespace form.glsr-form label.glsr-label {
+  margin-bottom: var(--bde-form-after-label);
+}
+:--namespace form.glsr-form .glsr-description {
+  font-size: var(--glsr-text-sm);
+}

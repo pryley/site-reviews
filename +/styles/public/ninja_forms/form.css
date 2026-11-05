@@ -1,0 +1,12 @@
+@import "../base/form";
+
+:--namespace form.glsr-form textarea {
+    display: block;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    order: 50;
+}
+:--namespace form.glsr-form .glsr-form-failed,
+:--namespace form.glsr-form .glsr-form-success {
+    display: block;
+}

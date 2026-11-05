@@ -1,0 +1,7 @@
+@import "../base/modal";
+
+:root .glsr-modal input {
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
+}

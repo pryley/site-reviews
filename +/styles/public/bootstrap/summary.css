@@ -1,0 +1,9 @@
+@import "../base/summary";
+
+:--namespace .glsr-summary .glsr-bar-label {
+    display: flex;
+    column-gap: var(--glsr-gap-sm);
+}
+:--namespace .glsr-summary .glsr-bar-label label {
+    font-size: inherit !important;
+}

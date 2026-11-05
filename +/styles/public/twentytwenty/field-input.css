@@ -1,0 +1,16 @@
+@import "../base/field-input";
+
+:--namespace form.glsr-form select.glsr-select {
+    background: var(--glsr-white);
+    border: solid 0.1rem var(--glsr-gray-300);
+    border-radius: var(--glsr-input-radius);
+    font-size: 1.6rem;
+    letter-spacing: -0.015em;
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
+    &:focus {
+        border-color: currentColor;
+    }
+}

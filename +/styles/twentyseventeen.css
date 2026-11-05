@@ -1,40 +1,19 @@
-@import "minimal";
-
-:root body {
-    --glsr-gray-300: #bbb;
-    --glsr-gray-400: #666;
-    --glsr-gray-500: #333;
-    --glsr-black: #222;
-    --glsr-input-pt: 0.7em;
-    --glsr-input-pr: 0.7em;
-    --glsr-input-pb: 0.7em;
-    --glsr-input-pl: 0.7em;
-}
-:root .glsr-button {
-    border-radius: 2px;
-}
-:--namespace form.glsr-form label.glsr-label {
-    font-weight: 800;
-}
-:--namespace form.glsr-form .glsr-field-choice span label {
-    font-weight: normal;
-}
-:--namespace form.glsr-form .glsr-description {
-    font-size: var(--glsr-description-text);
-    font-weight: var(--glsr-description-weight);
-}
-:--namespace form.glsr-form select.glsr-select {
-    background: var(--glsr-white);
-    border: 1px solid var(--glsr-gray-300);
-    border-radius: var(--glsr-radius);
-    padding-top: var(--glsr-input-pt);
-    padding-right: var(--glsr-input-pr);
-    padding-bottom: var(--glsr-input-pb);
-    padding-left: var(--glsr-input-pl);
-    &:focus {
-        border-color: var(--glsr-gray-500);
-    }
-}
-:--namespace .glsr-pagination .pagination {
-    padding-bottom: 0;
-}
+@import "public/twentyseventeen/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/twentyseventeen/pagination";
+@import "public/base/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/base/form";
+@import "public/twentyseventeen/field-label";
+@import "public/twentyseventeen/field-input";
+@import "public/twentyseventeen/field-choice";
+@import "public/base/field-toggle";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/twentyseventeen/button";
+@import "public/base/modal";
+@import "public/base/debug";

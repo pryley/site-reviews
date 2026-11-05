@@ -22,13 +22,5 @@
     "postcss-preset-env": "^11.2.0",
     "rollup": "^4.60.0",
     "rollup-plugin-postcss": "^4.0.0"
-  },
-  "peerDependencies": {
-    "postcss-selector-namespace": "*"
-  },
-  "peerDependenciesMeta": {
-    "postcss-selector-namespace": {
-      "optional": true
-    }
   }
 }

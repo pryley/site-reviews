@@ -1,0 +1,42 @@
+@import "../base/field-input";
+
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+  appearance: none;
+  background-clip: padding-box;
+  background-color: var(--glsr-input-bg);
+  border-radius: var(--glsr-input-radius);
+  border-color: var(--glsr-input-border-color);
+  border-style: var(--glsr-input-border-style);
+  border-width: var(--glsr-input-border-width);
+  color: var(--glsr-input-color);
+  font-family: inherit;
+  font-size: var(--glsr-text-md);
+  line-height: var(--glsr-leading);
+  padding-top: var(--glsr-input-pt) !important;
+  padding-right: var(--glsr-input-pr) !important;
+  padding-bottom: var(--glsr-input-pb) !important;
+  padding-left: var(--glsr-input-pl) !important;
+  transition: var(--glsr-input-transition);
+  &:focus {
+    background-color: var(--glsr-input-bg);
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+    box-shadow: 0 0 0 3px Highlight;
+  }
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select {
+    min-height: auto !important; /* not textarea!  */
+}
+:--namespace form.glsr-form select.glsr-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+  background-position: right 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  print-color-adjust: exact;
+  height: auto;
+  padding-right: 3em;
+}

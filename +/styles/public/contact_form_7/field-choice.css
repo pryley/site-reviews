@@ -1,0 +1,6 @@
+@import "../base/field-choice";
+
+:--namespace form.glsr-form .glsr-field-checkbox,
+:--namespace form.glsr-form .glsr-field-radio {
+    display: flex;
+}

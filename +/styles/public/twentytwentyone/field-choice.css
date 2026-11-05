@@ -1,0 +1,11 @@
+@import "../base/field-choice";
+
+:--namespace form.glsr-form input.glsr-input-checkbox {
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
+}

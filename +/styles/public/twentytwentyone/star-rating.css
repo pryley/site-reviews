@@ -1,0 +1,6 @@
+@import "../base/star-rating";
+
+:--namespace form.glsr-form .glsr-star-rating > select:focus + .glsr-star-rating--stars::before {
+    box-shadow: none;
+    outline: 2px dotted var(--form--border-color);
+}

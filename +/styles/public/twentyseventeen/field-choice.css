@@ -1,0 +1,5 @@
+@import "../base/field-choice";
+
+:--namespace form.glsr-form .glsr-field-choice span label {
+    font-weight: normal;
+}

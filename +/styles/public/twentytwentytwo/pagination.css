@@ -1,0 +1,15 @@
+@import "../base/pagination";
+
+:--namespace .glsr-pagination .nav-links {
+    column-gap: var(--glsr-gap-sm);
+}
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
+    flex: 1;
+    text-align: left;
+}
+:--namespace.glsr-rtl .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
+    flex: 1;
+    text-align: right;
+}

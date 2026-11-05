@@ -1,0 +1,9 @@
+@import "../base/field-toggle";
+
+:--namespace .glsr-field-toggle label {
+    font-size: var(--glsr-text-md);
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: var(--glsr-leading);
+    text-transform: none;
+}

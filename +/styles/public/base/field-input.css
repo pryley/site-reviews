@@ -1,0 +1,21 @@
+:--base form.glsr-form input.glsr-input:not(.wp-block-search__input),
+:--base form.glsr-form select.glsr-select,
+:--base form.glsr-form textarea.glsr-textarea {
+    box-sizing: border-box;
+    display: block;
+    float: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    max-height: none;
+    max-width: none;
+    min-height: auto;
+    min-width: auto;
+    width: 100%;
+}
+:--base form.glsr-form textarea.glsr-textarea {
+    field-sizing: content;
+    min-height: 5lh;
+    resize: vertical;
+}

@@ -1,0 +1,5 @@
+@import "../base/pagination";
+
+:--namespace .glsr-pagination .pagination {
+    padding-bottom: 0;
+}

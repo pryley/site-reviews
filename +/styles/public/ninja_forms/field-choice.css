@@ -1,0 +1,12 @@
+:--namespace form.glsr-form.nf-style-light .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
+:--namespace form.glsr-form.nf-style-light .listradio-wrap input[type=radio]:not(:checked) + label::after {
+    border-color: #c4c4c4;
+}
+:--namespace form.glsr-form.nf-style-dark .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
+:--namespace form.glsr-form.nf-style-dark .listradio-wrap input[type=radio]:not(:checked) + label::after {
+    border-color: #3c3c3c;
+}
+:--namespace form.glsr-form .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::before,
+:--namespace form.glsr-form .listradio-wrap input[type=radio]:not(:checked) + label::before {
+    opacity: 0;
+}
