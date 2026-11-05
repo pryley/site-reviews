@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Controllers\DebugController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\DebugScript;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
@@ -65,11 +66,11 @@ afterEach(function () {
     set_current_screen('front');
 });
 
-test('the public script and stylesheet are enqueued', function () {
+test('the public script is enqueued, and no page-wide stylesheet', function () {
     (new EnqueuePublicAssets())->handle();
 
     expect(wp_script_is(glsr()->id, 'enqueued'))->toBeTrue()
-        ->and(wp_style_is(glsr()->id, 'enqueued'))->toBeTrue();
+        ->and(wp_style_is(glsr()->id, 'registered'))->toBeFalse(); // a root prints its own stylesheets
 
     // and the inline script goes with it — the JS is useless without its config
     $inline = wp_scripts()->get_data(glsr()->id, 'before');
@@ -82,8 +83,7 @@ test('the optimize filters no longer change what is enqueued', function () {
     add_filter('site-reviews/optimize/js', '__return_true');
     add_filter('site-reviews/optimize/css', '__return_true');
     (new EnqueuePublicAssets())->handle();
-    expect(wp_scripts()->registered[glsr()->id]->src)->toContain('/assets/scripts/site-reviews.js')
-        ->and(wp_styles()->registered[glsr()->id]->src)->not->toContain('/uploads/');
+    expect(wp_scripts()->registered[glsr()->id]->src)->toContain('/assets/scripts/site-reviews.js');
 });
 
 test('a site can turn the assets off', function () {
@@ -94,7 +94,7 @@ test('a site can turn the assets off', function () {
     (new EnqueuePublicAssets())->handle();
 
     expect(wp_script_is(glsr()->id, 'enqueued'))->toBeFalse()
-        ->and(wp_style_is(glsr()->id, 'enqueued'))->toBeFalse();
+        ->and(glsr(Stylesheets::class)->print(['review']))->toBe('');
 });
 
 test('the frontend is handed the configuration it runs on', function () {
@@ -103,8 +103,10 @@ test('the frontend is handed the configuration it runs on', function () {
     $config = (new EnqueuePublicAssets())->config();
 
     expect(array_keys($config))->toBe([
-        'captcha', 'modal', 'nameprefix', 'pagination', 'rating', 'request', 'text', 'validation',
+        'captcha', 'modal', 'nameprefix', 'pagination', 'rating', 'request', 'styles', 'text', 'validation',
     ]);
+    expect(array_keys($config['styles']))->toBe(glsr(Stylesheets::class)->components()); // the default style has every component
+    expect($config['styles']['review'])->toContain('/assets/styles/base/review.css?ver=');
     expect($config['request'])->toBe([
         'ajax' => [
             'action' => glsr()->prefix.'public_action',
@@ -557,11 +559,11 @@ test('the canvas of the block editor is given the compat script, and the debug s
     expect($canvas())->toBe([glsr()->id.'/compat', glsr()->id.'/debug']);
 });
 
-test('the inline stylesheet has its star urls substituted in', function () {
+test('the shared stylesheet has its star urls substituted in', function () {
     // inline-styles.css ships with placeholders — :star-full and friends — and the
     // config swaps in the real URLs. A placeholder that survives is a CSS custom
     // property pointing at url(:star-full), which loads nothing and shows no stars.
-    $styles = (new EnqueuePublicAssets())->inlineStyles();
+    $styles = glsr(Stylesheets::class)->shared();
 
     expect($styles)->toContain('--glsr-star-full:url(')
         ->toContain(glsr()->url('assets/images/stars/default/star-full.svg'))
@@ -683,12 +685,13 @@ test('the admin assets stay out of the Customizer preview', function () {
     }
 });
 
-test('a missing inline stylesheet is logged and skipped rather than left to fatal', function () {
-    // inlineStyles() reads the file through the path filter; pointing it at a file that is not there
+test('a missing stylesheet is logged and skipped rather than left to fatal', function () {
+    // the files are read through the path filter; pointing one at a file that is not there
     // exercises the guard that logs and returns nothing instead of feeding file_get_contents(false).
     add_filter('site-reviews/path', function ($path, $file) {
         return 'assets/styles/inline-styles.css' === $file ? '/no/such/inline-styles.css' : $path;
     }, 10, 2);
 
-    expect((new EnqueuePublicAssets())->inlineStyles())->toBe('');
+    expect(glsr(Stylesheets::class)->shared())->not->toContain('--glsr-star-full')
+        ->toContain('--glsr-white'); // the shared components are still there
 });

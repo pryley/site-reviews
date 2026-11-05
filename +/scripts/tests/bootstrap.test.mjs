@@ -132,3 +132,24 @@ test('GLSR_init is a bare global function that binds the plugin listeners once, 
     await window.GLSR_init()
     assert.equal(loaded, 3)
 });
+
+test('the bootstrap adds the stylesheets a root or a rating names that the page lacks, once', async () => {
+    const html = LIST().replace('data-shortcode', 'data-glsr-styles="review star-rating flags pagination button" data-shortcode');
+    const { ready, window } = loadPage({ html }); // a fragment of a page render, with no stylesheets beside it
+    await ready
+    const { document } = window;
+    const links = [...document.head.querySelectorAll('link[id^="glsr-css-"]')].map(link => link.id);
+    assert.deepEqual(links, ['glsr-css-variables', 'glsr-css-keyframes', 'glsr-css-base', 'glsr-css-loaders', 'glsr-css-review', 'glsr-css-star-rating', 'glsr-css-flags', 'glsr-css-pagination', 'glsr-css-button'])
+    assert.match(document.getElementById('glsr-css-review').href, /\/assets\/styles\/base\/review\.css\?ver=/)
+    // a rating on its own, arriving later with no module
+    const rating = document.createElement('div');
+    rating.innerHTML = '<div class="glsr-star-rating glsr-stars" data-glsr-styles="star-rating summary"></div>';
+    document.body.appendChild(rating)
+    await new Promise(resolve => window.setTimeout(resolve, 0))
+    assert.equal(document.querySelectorAll('#glsr-css-star-rating').length, 1)
+    assert.equal(document.querySelectorAll('#glsr-css-summary').length, 1)
+    // a name the config has no file for is skipped
+    rating.innerHTML = '<div data-glsr-styles="unknown"></div>';
+    await new Promise(resolve => window.setTimeout(resolve, 0))
+    assert.equal(document.getElementById('glsr-css-unknown'), null)
+});

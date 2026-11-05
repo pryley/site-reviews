@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Breakdance;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 
 trait ElementTrait
 {
@@ -101,7 +102,7 @@ trait ElementTrait
         $path = (string) wp_styles()->get_data($handle, 'path');
         $css = ($path && file_exists($path)) ? file_get_contents($path) : '';
         return glsr()->filterString('breakdance/default_css',
-            static::bdFileContents('default.css').$css,
+            glsr(Stylesheets::class)->css('default').$css,
             static::bdShortcode()
         );
     }

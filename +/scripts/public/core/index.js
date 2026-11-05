@@ -11,9 +11,11 @@ import feature, { direction, wrappers } from './feature.js';
 import lib from './lib.js';
 import report, { attach as attachReporter, expect } from './report.js';
 import { attach, isAttached, load, setImporter, setup, whenAttached } from './modules.js';
+import { declared as declaredStyles, ensure as ensureStyles, SELECTOR as STYLES_SELECTOR } from './styles.js';
 import { debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from './helpers.js';
 import { addRemoveClass, classListSelector } from './helpers.js';
 
 export { Button, config, dom, Event, adopt, listen, listeners, feature, direction, wrappers, lib, report, attachReporter, expect };
 export { attach, isAttached, load, setImporter, setup, whenAttached };
+export { declaredStyles, ensureStyles, STYLES_SELECTOR };
 export { addRemoveClass, classListSelector, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle };

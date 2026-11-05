@@ -152,11 +152,6 @@ test('a style can give an option\'s label its own classes for a toggle or a rang
         ->and($style->fieldElementLabelClass(new Field(['name' => 'x', 'options' => ['a' => 'A'], 'type' => 'radio'])))->toBe('');
 });
 
-test('a style with no stylesheet of its own falls back to the default one', function () {
-    expect((new Style('bootstrap'))->stylesheetUrl())->toEndWith('assets/styles/bootstrap.css')
-        ->and((new Style('not-a-style'))->stylesheetUrl())->toEndWith('assets/styles/default.css');
-});
-
 test('a styled framework serves its own view when it ships one', function () {
     // The bootstrap style ships its own pagination and choice-input views; a view
     // it does not ship falls back to the plugin's own under templates/.

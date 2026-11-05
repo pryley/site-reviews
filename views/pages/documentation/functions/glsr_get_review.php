@@ -53,7 +53,7 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
             <li>
                 <p>Print the rendered (HTML) review to the page:</p>
                 <pre><code class="language-php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
-                <p>If you want to use the Site Reviews CSS to style a single review, you will need to wrap it in a div and add the attribute tags like this:</p>
+                <p>If you want to use the Site Reviews CSS and Javascript (the "read more" link), you will need to wrap it in a div and add the attribute tags like this. The attributes carry the plugin style's classes and name the scripts the review uses, and the stylesheets are loaded for the div.</p>
                 <pre><code class="language-php">echo "&lt;div {$reviewHtml->attributes}&gt;";
 echo $reviewHtml;
 echo '&lt;/div&gt;';</code></pre>

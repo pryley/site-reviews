@@ -134,6 +134,11 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
+    public function stylesheets(): array
+    {
+        return ['button', 'field-choice', 'field-input', 'field-label', 'field-range', 'field-rating', 'field-toggle', 'form'];
+    }
+
     protected function config(): array
     {
         return [ // order is intentional

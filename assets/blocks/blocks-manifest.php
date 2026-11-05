@@ -92,8 +92,7 @@ return array(
 			'site-reviews'
 		),
 		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
+			'file:./style-index.css'
 		)
 	),
 	'site_reviews' => array(
@@ -250,8 +249,7 @@ return array(
 			'site-reviews'
 		),
 		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
+			'file:./style-index.css'
 		)
 	),
 	'site_reviews_form' => array(
@@ -373,7 +371,6 @@ return array(
 		),
 		'style' => array(
 			'file:./style-index.css',
-			'site-reviews',
 			'wp-block-button'
 		)
 	),
@@ -539,8 +536,7 @@ return array(
 			'site-reviews'
 		),
 		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
+			'file:./style-index.css'
 		)
 	),
 	'surecart_product_rating' => array(
@@ -645,8 +641,7 @@ return array(
 			'file:./view.js'
 		),
 		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
+			'file:./style-index.css'
 		),
 		'render' => 'file:./view.php'
 	),
@@ -710,8 +705,7 @@ return array(
 		),
 		'editorScript' => 'file:./index.js',
 		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
+			'file:./style-index.css'
 		)
 	)
 );

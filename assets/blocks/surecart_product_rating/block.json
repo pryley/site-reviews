@@ -98,8 +98,7 @@
     "file:./view.js"
   ],
   "style": [
-    "file:./style-index.css",
-    "site-reviews"
+    "file:./style-index.css"
   ],
   "render": "file:./view.php"
 }

@@ -9,9 +9,32 @@ use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 
 class Controller extends AbstractController
 {
+    /**
+     * Enqueue every component of the site's style in the canvas, which cannot know what a preview renders.
+     *
+     * @action enqueue_block_assets
+     */
+    public function enqueueBlockAssets(): void
+    {
+        if (!is_admin() || !glsr()->filterBool('assets/css', true)) {
+            return;
+        }
+        $stylesheets = glsr(Stylesheets::class);
+        $handle = glsr()->id.'/css';
+        wp_register_style($handle, false, [], glsr()->version);
+        wp_add_inline_style($handle, $stylesheets->shared());
+        wp_enqueue_style($handle);
+        foreach ($stylesheets->urls() as $component => $url) {
+            if (!in_array($component, Stylesheets::SHARED, true)) {
+                wp_enqueue_style("{$handle}/{$component}", $url, [$handle], null); // the version is in the url
+            }
+        }
+    }
+
     /**
      * @action enqueue_block_editor_assets
      */

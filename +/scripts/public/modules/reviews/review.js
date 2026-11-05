@@ -1,4 +1,4 @@
-import { config, dom, Event, feature, direction, load, wrappers } from '@/public/core/index.js';
+import { config, declaredStyles, dom, Event, feature, direction, load, wrappers } from '@/public/core/index.js';
 import Excerpts from '@/public/modules/reviews/excerpts.js';
 import Pagination from '@/public/modules/reviews/pagination.js';
 import Request from '@/public/modules/request/request.js';
@@ -33,6 +33,7 @@ class Review {
     }
 
     _onPaginated (response) {
+        declaredStyles(this.el)
         this.excerpts.init()
         initModal()
         Event.trigger('site-reviews/review/paginated', { response, review: this })
@@ -93,6 +94,7 @@ module.open = (id, values = {}) => Promise.all([Request.review(id, values), load
     window.GLSR.Modal.open(`glsr-modal-${values.verified ? 'verified' : 'approved'}`, {
         onOpen: (modal) => {
             const contentEl = modal.content(response.review, response.attributes);
+            declaredStyles(contentEl)
             contentEl.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true')
             if (response.message) {
                 modal.footer(`<p style="margin:0;padding:0;">${response.message}</p>`);

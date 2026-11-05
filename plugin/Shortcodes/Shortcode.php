@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Text;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -45,6 +46,7 @@ abstract class Shortcode implements ShortcodeContract
             'class' => $this->classAttr($values['class'] ?? '', isWrapper: false),
             'data-from' => ($values['from'] ?? '') ?: $from,
             'data-glsr-modules' => implode(' ', $this->modules()),
+            'data-glsr-styles' => glsr(Stylesheets::class)->declare($this->stylesheets()),
             'data-shortcode' => $this->tag,
             'id' => $values['id'] ?? '',
         ]);
@@ -60,14 +62,23 @@ abstract class Shortcode implements ShortcodeContract
     public function build(array $args = [], string $from = 'shortcode', bool $isWrapped = true): string
     {
         $this->normalize($args, $from);
-        $template = $this->buildTemplate();
+        glsr(Stylesheets::class)->suspend(); // don't print the stylesheets for the template partials
+        try {
+            $template = $this->buildTemplate();
+        } finally {
+            glsr(Stylesheets::class)->resume();
+        }
         if (empty($template)) {
             return '';
         }
         $attributes = $this->attributes($this->args, $this->from);
         $this->enqueueModules($attributes['data-glsr-modules'] ?? '');
         $html = glsr(Builder::class)->div($template, $attributes);
-        $rendered = $this->debug.$html;
+        $stylesheets = array_filter(explode(' ', $attributes['data-glsr-styles'] ?? ''));
+        if ($this->debug) {
+            $stylesheets[] = 'debug';
+        }
+        $rendered = glsr(Stylesheets::class)->print($stylesheets).$this->debug.$html;
         if ($isWrapped) {
             $rendered = $this->wrap($rendered, $args); // pass the original $args here
         }
@@ -116,8 +127,6 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * Enqueue the script modules a rendered root names, so the browser fetches them with the page.
-     *
      * @param string $tokens the root's data-glsr-modules value
      */
     public function enqueueModules(string $tokens): void
@@ -160,7 +169,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * Name the script modules a rendered root needs; they are written on it as data-glsr-modules.
+     * The unfiltered list of module names. Printed in data-glsr-modules.
      *
      * @return string[]
      */
@@ -170,8 +179,8 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * Returns the options for a shortcode setting. Results are filtered
-     * by the "site-reviews/shortcode/options/{$options}" hook.
+     * The options for a shortcode setting. Results are filtered
+     * by the "site-reviews/shortcode/options/{$option}" hook.
      */
     public function options(string $option, array $args = []): array
     {
@@ -191,7 +200,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * Returns the filtered shortcode settings configuration.
+     * The filtered shortcode settings configuration.
      */
     public function settings(): array
     {
@@ -199,6 +208,16 @@ abstract class Shortcode implements ShortcodeContract
         $config = glsr()->filterArray("shortcode/config/{$this->tag}", $config, $this);
         $config = glsr()->filterArray('shortcode/config', $config, $this);
         return $config;
+    }
+
+    /**
+     * The unfiltered list of stylesheet component names. Printed in data-glsr-styles.
+     *
+     * @return string[]
+     */
+    public function stylesheets(): array
+    {
+        return [];
     }
 
     public function tag(): string
@@ -216,7 +235,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * Returns the unfiltered shortcode settings configuration.
+     * The unfiltered shortcode settings configuration.
      */
     abstract protected function config(): array;
 

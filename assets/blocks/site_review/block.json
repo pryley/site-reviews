@@ -83,7 +83,6 @@
     "site-reviews"
   ],
   "style": [
-    "file:./style-index.css",
-    "site-reviews"
+    "file:./style-index.css"
   ]
 }

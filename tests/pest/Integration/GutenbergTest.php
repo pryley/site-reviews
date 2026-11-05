@@ -114,11 +114,20 @@ test('registerBlocks registers the metadata collection and all four blocks', fun
     }
 });
 
-test('the editor loads the public assets', function () {
-    glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Controller::class)->enqueueBlockEditorAssets();
+test('the editor loads the public script, and the canvas every stylesheet of the site\'s style', function () {
+    $controller = glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Controller::class);
+    $controller->enqueueBlockEditorAssets();
+    expect(wp_script_is(glsr()->id, 'enqueued'))->toBeTrue();
 
-    expect(wp_script_is(glsr()->id, 'enqueued'))->toBeTrue()
-        ->and(wp_style_is(glsr()->id, 'enqueued'))->toBeTrue();
+    // the canvas cannot know what a preview renders, so it takes the whole set, shared styles inline
+    set_current_screen('edit-page');
+    $controller->enqueueBlockAssets();
+    expect(wp_style_is(glsr()->id.'/css', 'enqueued'))->toBeTrue()
+        ->and(implode('', (array) wp_styles()->get_data(glsr()->id.'/css', 'after')))->toContain('--glsr-star-full:url(')
+        ->and(wp_style_is(glsr()->id.'/css/review', 'enqueued'))->toBeTrue()
+        ->and(wp_style_is(glsr()->id.'/css/form', 'enqueued'))->toBeTrue()
+        ->and(wp_style_is(glsr()->id.'/css/variables', 'registered'))->toBeFalse(); // inline, with the shared set
+    set_current_screen('front');
 });
 
 test('a block with no styling of its own still renders wrapped', function () {

@@ -9,9 +9,9 @@
         </button>
     </h3>
     <div id="hooks-filter-styles" class="inside">
-        <p>Use this hook if you want to disable the plugin stylesheet from loading on your website.</p>
+        <p>Use this hook if you want to stop the plugin's stylesheets from loading on your website.</p>
         <pre><code class="language-php">/**
- * Disables the Site Reviews stylesheet.
+ * Disables the Site Reviews stylesheets.
  * Paste this in your active theme's functions.php file.
  * @return bool
  */
