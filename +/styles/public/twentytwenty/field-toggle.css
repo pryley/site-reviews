@@ -1,0 +1,6 @@
+@import "../base/field-toggle";
+
+:--namespace .glsr-toggle,
+:--namespace .glsr-toggle > label {
+    font-size: 1.6rem;
+}

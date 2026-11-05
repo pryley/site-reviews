@@ -1,0 +1,9 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-field-toggle {
+    line-height: 1.5;
+}
+:--namespace form.glsr-form .glsr-toggle .glsr-toggle,
+:--namespace form.glsr-form .glsr-field-toggle label {
+    font-size: var(--glsr-text-md);
+}

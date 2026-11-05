@@ -1,0 +1,41 @@
+:--base form.glsr-form .glsr-field-subgroup {
+  gap: var(--glsr-subgroup-gap);
+}
+:--base form.glsr-form .glsr-field-checkbox,
+:--base form.glsr-form .glsr-field-radio {
+  align-items: start;
+  display: flex;
+  gap: var(--glsr-gap-sm);
+}
+:--base form.glsr-form .glsr-field-checkbox > span:not(.glsr-checkbox),
+:--base form.glsr-form .glsr-field-radio > span:not(.glsr-radio) {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 1.5em;
+}
+:--base form.glsr-form .glsr-checkbox,
+:--base form.glsr-form .glsr-radio {
+  display: grid;
+  font-size: var(--glsr-choice-size); /* This set the overall size of the input! */
+  height: 1em !important;
+  width: 1em !important;
+}
+:--base form.glsr-form .glsr-checkbox input,
+:--base form.glsr-form .glsr-radio input {
+  box-sizing: border-box;
+  display: block;
+  left: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+  top: 0;
+  user-select: none;
+}
+:--base form.glsr-form .glsr-checkbox label,
+:--base form.glsr-form .glsr-radio label {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}

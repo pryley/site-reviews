@@ -1,0 +1,5 @@
+@import "../base/variables";
+
+:root body {
+    --glsr-toggled-bg: var( --e-global-color-accent, currentColor);
+}

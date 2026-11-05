@@ -1,0 +1,5 @@
+@import "../base/variables";
+
+:--namespace {
+  --glsr-toggled-bg: var(--glsr-blue);
+}

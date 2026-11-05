@@ -1,0 +1,18 @@
+@import "../base/field-range";
+
+:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range):not(:checked) {
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
+}
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
+}
+/* Range field */
+:--namespace form.glsr-form .glsr-range-options input[type="radio"]::after {
+    height: calc(var(--glsr-range-size) - 18px);
+    width: calc(var(--glsr-range-size) - 18px);
+    left: 5px;
+    top: 5px;
+}

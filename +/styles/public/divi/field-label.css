@@ -1,0 +1,6 @@
+@import "../base/field-label";
+
+:--namespace form.glsr-form label.glsr-label {
+  color: var(--glsr-label-color);
+  font-weight: var(--glsr-label-weight);
+}

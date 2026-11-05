@@ -1,0 +1,46 @@
+@import "../base/field-range";
+
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
+  appearance: none;
+  background-color: var(--glsr-white);
+  background-origin: border-box;
+  border: 1px solid var(--glsr-input-border-color);
+  font-size: var(--glsr-text-md);
+  min-height: auto;
+  min-width: auto;
+  print-color-adjust: exact;
+  user-select: none;
+  /*color: var(--glsr-input-border-color);*/
+  height: var(--glsr-choice-h);
+  width: var(--glsr-choice-w);
+  &::before,
+  &::after {
+    display: none !important;
+  }
+  &:checked,
+  &:checked {
+    background-color: currentColor;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-color: transparent;
+    color: var(--glsr-blue);
+  }
+  &:focus,
+  &:focus {
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+    box-shadow: 0 0 0 3px Highlight;
+  }
+  &:checked:focus,
+  &:checked:focus {
+    border-color: transparent;
+  }
+}
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
+  border-radius: 100%;
+  &:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+  }
+}

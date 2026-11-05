@@ -24,35 +24,37 @@ const consolePureFuncs = Object.keys(console)
     .filter((key) => !['info', 'warn', 'error'].includes(key))
     .map((key) => `console.${key}`);
 
-const postcssPlugins = (namespace = '', features = {}) => [
+const postcssPlugins = (namespace = '', features = {}, base = '') => [
     postcssImport(),
     postcssPresetEnv({
         features: { 'custom-properties': false, ...features },
         stage: 1,
     }),
-    ...(namespace
-        ? [getNamespacePlugin(namespace)]
-        : []
-    ),
+    ...(namespace || base ? [namespacePlugin({ base, namespace })] : []),
 ];
 
-let _postcssSelectorNamespace;
+// A placeholder marks where a namespace is inserted: `:--base` takes the shared base's and
+// `:--namespace` the style's, each expanded for a namespace with commas (Divi's). A selector that
+// starts `:root` is printed as written, without it.
+const MARKERS = { ':--base': 'base', ':--namespace': 'namespace' };
 
-try {
-    _postcssSelectorNamespace = (await import('postcss-selector-namespace')).default;
-} catch {
-    _postcssSelectorNamespace = null;
-}
-
-const getNamespacePlugin = (namespace) => {
-    if (!_postcssSelectorNamespace) {
-        throw new Error(
-            '@site-reviews/build: CSS namespacing requires "postcss-selector-namespace". ' +
-            'Install it as a devDependency in your project.'
-        );
+const namespaced = (selector, namespaces) => {
+    const marker = Object.keys(MARKERS).find((marker) => selector.includes(marker));
+    if (!marker) {
+        return [selector.replace(/^:root\s*/, '')];
     }
-    return _postcssSelectorNamespace({ namespace });
+    return namespaces[MARKERS[marker]].split(',').map((namespace) => selector.replaceAll(marker, namespace.trim()));
 };
+
+const namespacePlugin = (namespaces) => ({
+    postcssPlugin: 'site-reviews-namespace',
+    Once(root) {
+        root.walkRules((rule) => {
+            if (rule.parent?.type === 'rule' || rule.parent?.type === 'atrule' && /keyframes$/.test(rule.parent.name)) return;
+            rule.selectors = rule.selectors.flatMap((selector) => namespaced(selector, namespaces));
+        });
+    },
+});
 
 // Imports a file as a plain string: markup authored as its own file but
 // shipped inline (SVG icons).
@@ -163,11 +165,11 @@ const cleanCssJsPlugin = () => ({
     },
 });
 
-const cssPlugins = (namespace = '') => [
+const cssPlugins = (namespace = '', base = '') => [
     postcss({
         extract: true,
         minimize: cssMinify,
-        plugins: postcssPlugins(namespace),
+        plugins: postcssPlugins(namespace, {}, base),
         sourceMap: !isProduction,
     }),
     cleanCssJsPlugin(),
@@ -259,7 +261,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
      *
      * @param {string} source     Path relative to `+/` without extension.
      * @param {string} [outputDir='assets/styles']
-     * @param {string} [namespace='']  Requires postcss-selector-namespace.
+     * @param {string} [namespace='']  What `:--namespace` in a selector becomes.
      * @param {string} [name='']  Names the emitted file {outputDir}/{name}.css
      *                            instead of the source basename.
      */
@@ -277,7 +279,29 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
         plugins: cssPlugins(namespace),
     });
 
-    const namespacedCss = (source, namespace, outputDir = 'assets/styles') => css(source, outputDir, namespace);
+    /**
+     * Build a stylesheet of two namespaces: the shared base's rules (`:--base`) under `base` and
+     * the style's own (`:--namespace`) under `namespace`.
+     *
+     * @param {string} source     Path relative to `+/` without extension.
+     * @param {string} outputDir
+     * @param {Object} options
+     * @param {string} options.base       The base namespace, e.g. `.glsr`.
+     * @param {string} options.namespace  The style's namespace, e.g. `.glsr-default`.
+     * @param {string} [options.name]     Names the emitted file; default the source basename.
+     */
+    const componentCss = (source, outputDir, { base, namespace, name = '' }) => ({
+        input: name ? { [name]: `+/${source}.css` } : `+/${source}.css`,
+        output: {
+            dir: outputDir,
+            format: 'es',
+        },
+        onwarn(warning, warn) {
+            if (warning.code === 'FILE_NAME_CONFLICT') return;
+            warn(warning);
+        },
+        plugins: cssPlugins(namespace, base),
+    });
 
     /**
      * A CSS registry chunk: css() output named `{outputDir}/{id}.css` so the
@@ -333,11 +357,11 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
     return {
         chunk,
         commonJs,
+        componentCss,
         copy,
         css,
         cssChunk,
         js,
         module,
-        namespacedCss,
     };
 }

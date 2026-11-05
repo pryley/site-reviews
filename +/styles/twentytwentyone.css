@@ -1,78 +1,19 @@
-@import "minimal";
-
-:root body {
-    --glsr-choice-h: 25px;
-    --glsr-choice-w: 25px;
-    --glsr-gap-xs: 0.25rem;
-    --glsr-gap-sm: 0.5rem;
-    --glsr-gap-md: 0.75rem;
-    --glsr-gap-lg: 1rem;
-    --glsr-gap-xl: 2rem;
-    --glsr-input-border-color: var(--form--border-color);
-    --glsr-input-border-width: var(--form--border-width);
-    --glsr-input-radius: var(--form--border-radius);
-    --glsr-label-weight: var(--form--label-weight);
-    --glsr-leading: var(--wp--typography--line-height, var(--global--line-height-body));
-    --glsr-modal-bg: var(--global--color-background);
-    --glsr-px: var(--global--spacing-unit);
-    --glsr-py: var(--global--spacing-unit);
-    --glsr-text-base: var(--global--font-size-base);
-    --glsr-text-sm: var(--global--font-size-xs);
-    --glsr-text-md: var(--global--font-size-md);
-    --glsr-text-lg: var(--global--font-size-lg);
-    --glsr-toggle-bg: var(--global--color-white);
-    --glsr-toggled-bg: var(--form--border-color);
-    --glsr-toggle-color: var(--global--color-white);
-    --glsr-toggle-h: 25px;
-    --glsr-toggle-opacity: 1;
-    --glsr-toggle-size: 19px;
-    --glsr-toggle-w: 44px;
-}
-:root body.is-dark-theme {
-    --glsr-toggle-bg: var(--global--color-background);
-    --glsr-toggle-color: var(--global--color-background);
-    --glsr-toggle-opacity: 0.25;
-}
-
-:--namespace form.glsr-form .glsr-star-rating > select:focus + .glsr-star-rating--stars::before {
-    box-shadow: none;
-    outline: 2px dotted var(--form--border-color);
-}
-:--namespace form.glsr-form input.glsr-input,
-:--namespace form.glsr-form input.glsr-input-checkbox,
-:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range):not(:checked) {
-    border-color: var(--glsr-input-border-color);
-    border-style: var(--glsr-input-border-style);
-    border-width: var(--glsr-input-border-width);
-}
-:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
-    height: var(--glsr-choice-h);
-    width: var(--glsr-choice-w);
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
-    border: var(--form--border-width) solid var(--glsr-toggled-bg);
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
-    box-shadow: none;
-    background-color: var(--glsr-toggled-bg);
-    border: 2px solid var(--glsr-toggle-bg);
-    transition: transform 0.075s ease-in-out;
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    background-color: var(--glsr-toggle-bg);
-    border-color: var(--glsr-toggled-bg);
-    border-width: 1px;
-}
-:--namespace form.glsr-form .glsr-description {
-    font-size: var(--glsr-description-text);
-    font-weight: var(--glsr-description-weight);
-}
-
-/* Range field */
-:--namespace form.glsr-form .glsr-range-options input[type="radio"]::after {
-    height: calc(var(--glsr-range-size) - 18px);
-    width: calc(var(--glsr-range-size) - 18px);
-    left: 5px;
-    top: 5px;
-}
+@import "public/twentytwentyone/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/base/pagination";
+@import "public/twentytwentyone/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/base/form";
+@import "public/twentytwentyone/field-label";
+@import "public/twentytwentyone/field-input";
+@import "public/twentytwentyone/field-choice";
+@import "public/twentytwentyone/field-toggle";
+@import "public/twentytwentyone/field-range";
+@import "public/base/field-rating";
+@import "public/base/button";
+@import "public/base/modal";
+@import "public/base/debug";

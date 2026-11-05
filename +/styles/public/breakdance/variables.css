@@ -1,0 +1,31 @@
+@import "../base/variables";
+
+:root body {
+  --glsr-gray-100: var(--grey-100);
+  --glsr-gray-200: var(--grey-200);
+  --glsr-gray-300: var(--grey-300);
+  --glsr-gray-400: var(--grey-400);
+  --glsr-gray-500: var(--grey-500);
+  --glsr-gray-600: var(--grey-600);
+  --glsr-gray-700: var(--grey-700);
+  --glsr-gray-800: var(--grey-800);
+  --glsr-gray-900: var(--grey-900);
+  --glsr-blue    : var(--blue-500);
+  --glsr-green   : var(--emerald-700);
+  --glsr-red     : var(--red-500);
+  --glsr-yellow  : var(--yellow-500);
+  
+  /* Form */
+  --glsr-form-col-gap: var(--bde-form-gap);
+  --glsr-form-row-gap: var(--bde-form-gap);
+  --glsr-input-bg: var(--bde-form-input-background-color);
+  --glsr-input-border-color: var(--bde-form-input-border-color);
+  --glsr-input-border-width: var(--bde-form-input-border-width);
+  --glsr-input-color: var(--bde-form-text-color);
+  --glsr-input-pb: var(--bde-form-input-padding-bottom);
+  --glsr-input-pl: var(--bde-form-input-padding-left);
+  --glsr-input-pr: var(--bde-form-input-padding-right);
+  --glsr-input-pt: var(--bde-form-input-padding-top);
+  --glsr-input-radius: var(--bde-form-input-border-radius);
+  --glsr-label-weight: var(--bde-form-label-font-weight);
+}

@@ -1,0 +1,5 @@
+@import "../base/field-rating";
+
+:--namespace form.glsr-form .glsr-field:not(.glsr-field-choice,.glsr-field-rating) .glsr-label {
+  display: none;
+}

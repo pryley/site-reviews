@@ -1,0 +1,10 @@
+@import "../base/form";
+
+:--namespace form.glsr-form {
+  font-size: var(--glsr-text-md);
+  line-height: var(--glsr-leading);
+}
+:--namespace form.glsr-form .glsr-field-error {
+  font-family: system-ui;
+  line-height: var(--glsr-leading);
+}

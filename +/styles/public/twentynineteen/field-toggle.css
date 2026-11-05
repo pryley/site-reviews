@@ -1,0 +1,5 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-toggle label {
+    font-size: var(--glsr-label-text);
+}

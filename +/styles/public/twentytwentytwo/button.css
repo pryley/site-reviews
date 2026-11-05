@@ -1,0 +1,5 @@
+@import "../base/button";
+
+:root .glsr-button {
+    border-width: 0;
+}
