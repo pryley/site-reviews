@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery, _, wp */
 
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 
 const Search = function (selector, options) {
     this.el = jQuery(selector);

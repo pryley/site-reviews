@@ -1,6 +1,6 @@
 /** global: GLSR */
 
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 import Button from '@/admin/button.js';
 import Serializer from '@/admin/serializer.js';
 

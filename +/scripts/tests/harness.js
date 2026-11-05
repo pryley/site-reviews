@@ -71,26 +71,6 @@ const publicConfig = () => ({
     },
 });
 
-// The inline script of 8.3: EnqueuePublicAssets::inlineScript() before 8.4.0.
-const PUBLIC_INLINE_83 = 'window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});' + Object.entries({
-    action: 'glsr_public_action',
-    addons: [],
-    ajax_pagination: ['#wpadminbar', '.site-navigation-fixed'],
-    ajax_url: 'https://example.org/wp-admin/admin-ajax.php',
-    captcha: { class: 'glsr-cf-turnstile', sitekey: 'key', token_field: 'cf-turnstile-response', type: 'turnstile' },
-    modal_wrapped_by: ['block'],
-    nameprefix: 'site-reviews',
-    rest_nonce: false,
-    rest_url: 'https://example.org/wp-json/site-reviews/v1/',
-    stars_config: { clearable: false, tooltip: 'Select a Rating' },
-    state: { popstate: false },
-    text: { close_modal: 'Close Modal' },
-    url_parameter: 'reviews-page',
-    validation_config: { field: 'glsr-field', field_error: 'glsr-field-is-invalid', form: 'glsr-form' },
-    validation_strings: { errors: 'Please fix the submission errors.' },
-    version: '8.3.4',
-}).map(([key, value]) => `GLSR.${key}=${JSON.stringify(value)};`).join('');
-
 // InlineScript::build(); `added` is the keys that an 8.x localize filter added
 const inlineScript = (config, added = {}) => {
     const values = { GLSR_CONFIG: config, GLSR_DEPRECATED: added, GLSR_VERSION: '8.4.0' };
@@ -189,4 +169,4 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
     return { errors, infos, warnings, window };
 };
 
-module.exports = { PUBLIC_INLINE_83, adminConfig, loadAdmin, loadBoth, loadPublic, loadRollback, publicConfig };
+module.exports = { DIALOG, adminConfig, inlineScript, loadAdmin, loadBoth, loadPublic, loadRollback, publicConfig, read };

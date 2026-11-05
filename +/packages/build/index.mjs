@@ -208,6 +208,32 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
     });
 
     /**
+     * Build a script module for the import map: ES output, with the shared sources imported by
+     * their module id instead of inlined. `@site-reviews/*` imports are left for the import map.
+     *
+     * @param {string} source     Path relative to `+/` without extension.
+     * @param {string} id         The module's name after `@site-reviews/`, which names the file.
+     * @param {string} [outputDir='assets/scripts/modules']
+     * @param {Object} [options]
+     * @param {Object<string, string>} [options.shared]  Source import => module id, e.g.
+     *                             `{ '@/public/core/index.js': '@site-reviews/core' }`.
+     */
+    const module = (source, id, outputDir = 'assets/scripts/modules', { shared = {} } = {}) => ({
+        input: `+/${source}.js`,
+        external: (importId) => importId.startsWith('@site-reviews/') || importId in shared,
+        output: {
+            file: `${outputDir}/${id}.js`,
+            format: 'es',
+            paths: shared,
+            sourcemap: !isProduction,
+        },
+        plugins: [
+            inlineCssPlugin(),
+            ...jsPlugins(rootDir, { scriptsAlias }),
+        ],
+    });
+
+    /**
      * JavaScript bundle (IIFE, with CommonJS transforms).
      *
      * @param {string} source     Path relative to `+/` without extension.
@@ -311,6 +337,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
         css,
         cssChunk,
         js,
+        module,
         namespacedCss,
     };
 }

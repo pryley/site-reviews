@@ -1,4 +1,4 @@
-import report from '@/public/report.js';
+import report from './report.js';
 
 // shared with the other script when both are on a page
 const KEY = Symbol.for('site-reviews.events');

@@ -1,6 +1,6 @@
 /** global: FormData */
 
-import xhr from '@/public/xhr.js';
+import xhr from '@/public/modules/request/xhr.js';
 
 /**
  * GLSR.ajax and GLSR.request.data of 8.x: always posts to admin-ajax.

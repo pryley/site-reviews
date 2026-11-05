@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
@@ -43,6 +44,7 @@ abstract class Shortcode implements ShortcodeContract
         $attributes = wp_parse_args($attributes, [
             'class' => $this->classAttr($values['class'] ?? '', isWrapper: false),
             'data-from' => ($values['from'] ?? '') ?: $from,
+            'data-glsr-modules' => implode(' ', $this->modules()),
             'data-shortcode' => $this->tag,
             'id' => $values['id'] ?? '',
         ]);
@@ -63,6 +65,7 @@ abstract class Shortcode implements ShortcodeContract
             return '';
         }
         $attributes = $this->attributes($this->args, $this->from);
+        $this->enqueueModules($attributes['data-glsr-modules'] ?? '');
         $html = glsr(Builder::class)->div($template, $attributes);
         $rendered = $this->debug.$html;
         if ($isWrapped) {
@@ -112,6 +115,21 @@ abstract class Shortcode implements ShortcodeContract
     {
     }
 
+    /**
+     * Enqueue the script modules a rendered root names, so the browser fetches them with the page.
+     *
+     * @param string $tokens the root's data-glsr-modules value
+     */
+    public function enqueueModules(string $tokens): void
+    {
+        if (!glsr()->filterBool('assets/js', true)) {
+            return;
+        }
+        foreach (array_filter(explode(' ', $tokens)) as $token) {
+            wp_enqueue_script_module(EnqueuePublicAssets::MODULE_PREFIX.$token);
+        }
+    }
+
     public function hasVisibleFields(array $args = []): bool
     {
         if (!empty($args)) {
@@ -139,6 +157,16 @@ abstract class Shortcode implements ShortcodeContract
             $this->args[$key] = $value;
         }
         return $this;
+    }
+
+    /**
+     * Name the script modules a rendered root needs; they are written on it as data-glsr-modules.
+     *
+     * @return string[]
+     */
+    public function modules(): array
+    {
+        return [];
     }
 
     /**

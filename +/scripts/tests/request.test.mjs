@@ -1,6 +1,9 @@
-const assert = require('node:assert/strict');
-const { test } = require('node:test');
-const { PUBLIC_INLINE_83, loadAdmin, loadPublic, publicConfig } = require('./harness.js');
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import harness from './harness.js';
+import { loadPage, publicConfig } from './page.mjs';
+
+const { loadAdmin } = harness;
 
 const AJAX_URL = 'https://example.org/wp-admin/admin-ajax.php';
 const REST_URL = 'https://example.org/wp-json/site-reviews/v1/';
@@ -63,24 +66,27 @@ const parseErrorMessage = (window, text) => {
 
 const request = (overrides = {}) => ({ ...publicConfig().request, ...overrides });
 
-test('Request has five members, in both scripts', () => {
-    assert.deepEqual(Object.keys(loadPublic().window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
+test('Request has five members, in both scripts, before and after the request module loads', async () => {
+    const { window } = loadPage();
+    assert.deepEqual(Object.keys(window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
+    await window.GLSR.load('request')
+    assert.deepEqual(Object.keys(window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
     assert.deepEqual(Object.keys(loadAdmin().window.GLSR.Request).sort(), ['log', 'pagedReviews', 'review', 'send', 'submit'])
 });
 
 for (const [status, level] of [[0, 'error'], [400, 'warn'], [403, 'warn'], [429, 'warn'], [499, 'warn'], [500, 'error'], [503, 'error']]) {
-    test(`Request.log logs a status of ${status} with console.${level}`, () => {
-        const { window } = loadPublic();
+    test(`Request.log logs a status of ${status} with console.${level}`, async () => {
+        const { window } = loadPage();
         const lines = [];
         window.console.error = (details) => lines.push(['error', details]);
         window.console.warn = (details) => lines.push(['warn', details]);
-        window.GLSR.Request.log(status, 'the details')
+        await window.GLSR.Request.log(status, 'the details')
         assert.deepEqual(lines, [[level, 'the details']])
     });
 }
 
 test('a request goes to the REST API, with its params in the query', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const calls = fakeFetch(window, [{ json: { reviews: '<div></div>' } }]);
     const result = await window.GLSR.Request.send({ path: 'my-addon/route', params: { page: 2, atts: { display: 5 }, skipped: null } });
     assert.equal(calls.length, 1)
@@ -91,14 +97,14 @@ test('a request goes to the REST API, with its params in the query', async () =>
 });
 
 test('a logged-in page sends its nonce', async () => {
-    const { window } = loadPublic({ config: { request: request({ nonce: 'abc123' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'abc123' }) } });
     const calls = fakeFetch(window, [{ json: {} }]);
     await window.GLSR.Request.send({ path: 'render/reviews' })
     assert.equal(calls[0].options.headers['X-WP-Nonce'], 'abc123')
 });
 
 test('an error from the route is the final answer', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const calls = fakeFetch(window, [{ status: 400, json: { errors: { title: ['This field is required.'] } } }]);
     const result = await window.GLSR.Request.send({ path: 'submissions', method: 'POST' });
     assert.equal(calls.length, 1)
@@ -113,7 +119,7 @@ for (const [reason, blocked] of [
     ['a network error', { error: 'Failed to fetch' }],
 ]) {
     test(`after ${reason}, the same request goes over admin-ajax`, async () => {
-        const { infos, window } = loadPublic();
+        const { infos, window } = loadPage();
         const calls = fakeFetch(window, [blocked]);
         const sent = fakeXhr(window, [{ json: { reviews: '<div></div>' } }]);
         const result = await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2, atts: { display: 5 } } });
@@ -139,7 +145,7 @@ for (const [reason, blocked] of [
     ['a 503 with rest_disabled', { status: 503, json: { code: 'rest_disabled' } }],
 ]) {
     test(`after ${reason}, the rest of the page goes over admin-ajax without asking the REST API again`, async () => {
-        const { infos, window } = loadPublic();
+        const { infos, window } = loadPage();
         const calls = fakeFetch(window, [blocked]);
         const sent = fakeXhr(window, [{ json: { reviews: '<div>2</div>' } }, { json: { reviews: '<div>3</div>' } }]);
         await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })
@@ -153,7 +159,7 @@ for (const [reason, blocked] of [
 }
 
 test('after a replaced window.fetch, the rest of the page goes over admin-ajax without calling it again', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     let fetched = 0;
     window.fetch = async () => { fetched++; };
     const sent = fakeXhr(window, [{ json: {} }, { json: {} }]);
@@ -170,7 +176,7 @@ for (const [reason, blocked] of [
 ]) {
     test(`after ${reason}, only that request goes over admin-ajax and the next one tries the REST API again`, async () => {
         // a route can be missing or broken on its own; the REST API is still there for the others
-        const { window } = loadPublic();
+        const { window } = loadPage();
         const calls = fakeFetch(window, [blocked, { json: { reviews: '<div>REST</div>' } }]);
         const sent = fakeXhr(window, [{ json: { reviews: '<div>admin-ajax</div>' } }]);
         await window.GLSR.Request.send({ path: 'my-addon/route' })
@@ -184,7 +190,7 @@ for (const [reason, blocked] of [
 test('a config without a REST URL goes straight to admin-ajax', async () => {
     // the guard for an inline config that has no REST URL, such as a page cached by an earlier version
     const { url, ...withoutUrl } = request();
-    const { infos, window } = loadPublic({ config: { request: withoutUrl } });
+    const { infos, window } = loadPage({ config: { request: withoutUrl } });
     const calls = fakeFetch(window, []);
     const sent = fakeXhr(window, [{ json: { reviews: '<div></div>' } }]);
     const result = await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } });
@@ -197,7 +203,7 @@ test('a config without a REST URL goes straight to admin-ajax', async () => {
 });
 
 test('a submission over admin-ajax carries the form fields, and leaves the form data alone', async () => {
-    const { window } = loadPublic({ config: { request: request({ nonce: 'abc123' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'abc123' }) } });
     const calls = fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
     const sent = fakeXhr(window, [{ status: 201, json: { success: true } }]);
     const formData = new window.FormData();
@@ -219,7 +225,7 @@ test('a submission over admin-ajax carries the form fields, and leaves the form 
 });
 
 test('when a page script has replaced window.fetch with one that returns nothing, the review is submitted over admin-ajax', async () => {
-    const { infos, window } = loadPublic();
+    const { infos, window } = loadPage();
     window.fetch = async () => undefined;
     const sent = fakeXhr(window, [{ status: 201, json: { success: true } }]);
     const result = await window.GLSR.Request.submit(formOf(window, 'submit-review'));
@@ -231,7 +237,7 @@ test('when a page script has replaced window.fetch with one that returns nothing
 });
 
 test('a failed admin-ajax request is the answer, with its status', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }, { status: 403, json: { code: 'rest_forbidden' } }]);
     fakeXhr(window, [{ status: 400, json: { errors: { title: ['This field is required.'] } } }, { error: 'network error' }]);
     const refused = await window.GLSR.Request.send({ method: 'POST', path: 'submissions' });
@@ -241,7 +247,7 @@ test('a failed admin-ajax request is the answer, with its status', async () => {
 });
 
 test('an expired nonce is replaced with a fresh one and the request is sent again', async () => {
-    const { window } = loadPublic({ config: { request: request({ nonce: 'expired' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'expired' }) } });
     const calls = fakeFetch(window, [
         { status: 403, json: { code: 'rest_cookie_invalid_nonce' } },
         { json: { reviews: '' } },
@@ -259,7 +265,7 @@ test('an expired nonce is replaced with a fresh one and the request is sent agai
 });
 
 test('when the login has ended, the request is sent again without a nonce', async () => {
-    const { window } = loadPublic({ config: { request: request({ nonce: 'expired' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'expired' }) } });
     const calls = fakeFetch(window, [
         { status: 403, json: { code: 'rest_cookie_invalid_nonce' } },
         { json: { reviews: '' } },
@@ -271,7 +277,7 @@ test('when the login has ended, the request is sent again without a nonce', asyn
 });
 
 test('when the nonce refresh fails, the request is sent again without a nonce', async () => {
-    const { window } = loadPublic({ config: { request: request({ nonce: 'expired' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'expired' }) } });
     const calls = fakeFetch(window, [
         { status: 403, json: { code: 'rest_cookie_invalid_nonce' } },
         { json: { reviews: '' } },
@@ -285,7 +291,7 @@ test('when the nonce refresh fails, the request is sent again without a nonce', 
 test('over admin-ajax too, an expired nonce is refreshed and the request is sent again', async () => {
     // the refresh must not use window.fetch either: it is the one request between a logged-in
     // submitter and a review saved as a visitor's, or refused on a site that requires a login
-    const { window } = loadPublic({ config: { request: request({ nonce: 'expired' }) } });
+    const { window } = loadPage({ config: { request: request({ nonce: 'expired' }) } });
     window.fetch = async () => undefined;
     const sent = fakeXhr(window, [
         { status: 403, json: { code: 'rest_cookie_invalid_nonce' } },
@@ -302,7 +308,7 @@ test('over admin-ajax too, an expired nonce is refreshed and the request is sent
 });
 
 test('an admin-ajax answer that is not JSON is a failed request', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
     fakeXhr(window, [{ status: 500, text: '<html>Fatal error</html>' }]);
     const result = await window.GLSR.Request.send({ method: 'POST', path: 'submissions' });
@@ -310,7 +316,7 @@ test('an admin-ajax answer that is not JSON is a failed request', async () => {
 });
 
 test('with plain permalinks the route goes in rest_route, and never into the admin-ajax fields', async () => {
-    const { window } = loadPublic({ config: { request: request({ url: 'https://example.org/index.php?rest_route=/site-reviews/v1/' }) } });
+    const { window } = loadPage({ config: { request: request({ url: 'https://example.org/index.php?rest_route=/site-reviews/v1/' }) } });
     const calls = fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
     const sent = fakeXhr(window, [{ json: {} }]);
     await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })
@@ -320,7 +326,7 @@ test('with plain permalinks the route goes in rest_route, and never into the adm
 });
 
 test('pagedReviews, review and submit are the requests of the plugin', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const calls = fakeFetch(window, [{ json: {} }, { json: {} }, { json: {} }]);
     await window.GLSR.Request.pagedReviews({ atts: { display: 5 }, page: 3, schema: false, url: 'https://example.org/reviews/' })
     await window.GLSR.Request.review(13, { theme: 4 })
@@ -340,7 +346,7 @@ const formOf = (window, action) => {
 
 test('a form is posted to the route of its action', async () => {
     const routes = { 'submit-review': 'submissions', 'update-review': 'authors/update-review' };
-    const { window } = loadPublic({ config: { request: request({ routes }) } });
+    const { window } = loadPage({ config: { request: request({ routes }) } });
     const calls = fakeFetch(window, [{ json: {} }, { json: {} }]);
     await window.GLSR.Request.submit(formOf(window, 'update-review'))
     await window.GLSR.Request.submit(formOf(window, 'submit-review'))
@@ -351,41 +357,14 @@ test('a form is posted to the route of its action', async () => {
 
 test('a config without routes still posts the review form to submissions', async () => {
     const { routes, ...withoutRoutes } = request();
-    const { window } = loadPublic({ config: { request: withoutRoutes } });
+    const { window } = loadPage({ config: { request: withoutRoutes } });
     const calls = fakeFetch(window, [{ json: {} }]);
     await window.GLSR.Request.submit(formOf(window, 'submit-review'))
     assert.equal(calls[0].url, `${REST_URL}submissions`)
 });
 
-test('with compat mode, a form whose action has no route is posted to admin-ajax, and debug mode says so', async () => {
-    const { warnings, window } = loadPublic({ debug: true });
-    const calls = fakeXhr(window, [{ json: { data: { message: 'Saved.' }, success: true } }]);
-    const formData = formOf(window, 'update-review');
-    const result = await window.GLSR.Request.submit(formData);
-    assert.equal(calls.length, 1)
-    assert.equal(calls[0].url, AJAX_URL)
-    assert.deepEqual(fields(calls[0]), {
-        _ajax_request: 'true',
-        action: 'glsr_public_action',
-        'site-reviews[_action]': 'update-review',
-        'site-reviews[title]': 'A lovely stay',
-    })
-    assert.equal(formData.has('action'), false)
-    assert.deepEqual(plain(result), { data: { message: 'Saved.' }, status: 200, success: true })
-    assert.equal(warnings.filter(text => text.includes('The form action "update-review" over admin-ajax is deprecated')).length, 1)
-});
-
-test('with compat mode, a failed post of a form whose action has no route is the answer', async () => {
-    const { window } = loadPublic();
-    fakeXhr(window, [{ error: 'network error' }, { status: 500, text: '<html>Fatal error</html>' }]);
-    const failed = await window.GLSR.Request.submit(formOf(window, 'update-review'));
-    assert.deepEqual(plain(failed), { data: { message: 'network error' }, status: 0, success: false })
-    const broken = await window.GLSR.Request.submit(formOf(window, 'update-review'));
-    assert.deepEqual(plain(broken), { data: { message: parseErrorMessage(window, '<html>Fatal error</html>') }, status: 0, success: false })
-});
-
-test('without compat mode, a form whose action has no route is not sent', async () => {
-    const { window } = loadPublic({ compat: false });
+test('a form whose action has no route is not sent', async () => {
+    const { window } = loadPage();
     const errors = [];
     window.console.error = (...args) => errors.push(args.join(' '));
     const calls = fakeFetch(window, []);
@@ -397,7 +376,7 @@ test('without compat mode, a form whose action has no route is not sent', async 
 
 for (const status of [401, 403, 404]) {
     test(`a ${status} with a glsr_ code is the answer of the route, and is not sent again`, async () => {
-        const { infos, window } = loadPublic();
+        const { infos, window } = loadPage();
         const refusal = { code: 'glsr_forbidden', message: 'You cannot edit this review.' };
         const calls = fakeFetch(window, [{ status, json: refusal }]);
         const result = await window.GLSR.Request.send({ method: 'POST', path: 'authors/update-review' });
@@ -408,16 +387,16 @@ for (const status of [401, 403, 404]) {
 }
 
 test('debug mode logs each request with its transport, status and time', async () => {
-    const { infos, window } = loadPublic({ debug: true });
+    const { infos, window } = loadPage({ debug: true });
     fakeFetch(window, [{ json: {} }]);
     await window.GLSR.Request.send({ path: 'render/reviews' })
     assert.match(infos[0], /^\[site-reviews\] GET render\/reviews: REST, 200, \d+ms$/)
 });
 
 test('GLSR.request and GLSR.ajax of 8.x are hidden getters', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const { GLSR } = window;
-    assert.equal(GLSR.request.send, GLSR.Request.send)
+    assert.equal(GLSR.request.send, GLSR.Request.send) // the shim's; the module's once it has loaded
     assert.deepEqual(plain(GLSR.request.data('my-action', { page: 2 })), { 'site-reviews[_action]': 'my-action', 'site-reviews[page]': 2 })
     assert.equal(GLSR.ajax.data, GLSR.request.data)
     assert.deepEqual(Object.keys(GLSR.ajax).sort(), ['data', 'get', 'post'])
@@ -429,7 +408,7 @@ test('GLSR.request and GLSR.ajax of 8.x are hidden getters', async () => {
 });
 
 test('GLSR.ajax.post posts to the Router action and calls back with the data and the success flag', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const calls = fakeXhr(window, [{ json: { data: { message: 'ok' }, success: true } }]);
     const [data, success] = await new Promise((resolve) => {
         window.GLSR.ajax.post(window.GLSR.ajax.data('my-action', { id: 7 }), (...args) => resolve(args))
@@ -446,7 +425,7 @@ test('GLSR.ajax.post posts to the Router action and calls back with the data and
 });
 
 test('GLSR.ajax.post calls back with the message and false when the request fails', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     fakeXhr(window, [{ error: 'network error' }, { status: 500, text: '<html>Fatal error</html>' }]);
     const post = () => new Promise((resolve) => {
         window.GLSR.ajax.post(window.GLSR.ajax.data('my-action'), (...args) => resolve(args))
@@ -456,7 +435,7 @@ test('GLSR.ajax.post calls back with the message and false when the request fail
 });
 
 test('GLSR.ajax.get requests a URL with XMLHttpRequest and calls back with the text', async () => {
-    const { window } = loadPublic();
+    const { window } = loadPage();
     const calls = fakeXhr(window, [{ text: '<div>A page</div>' }, { error: 'network error' }]);
     const get = (url, headers) => new Promise((resolve) => {
         window.GLSR.ajax.get(url, resolve, headers)
@@ -471,7 +450,7 @@ test('GLSR.ajax.get requests a URL with XMLHttpRequest and calls back with the t
 
 test('without the inline config, a request is not sent and the answer says why', async () => {
     // an optimisation plugin moved the inline script, or a filter removed the request config
-    const { window } = loadPublic({ inline: '' });
+    const { window } = loadPage({ inline: '' });
     const errors = [];
     window.console.error = (...args) => errors.push(args.join(' '));
     const calls = fakeFetch(window, []);
@@ -489,17 +468,8 @@ test('without the inline config, a request is not sent and the answer says why',
     assert.equal(errors.length, 3)
 });
 
-test('a page cached before 8.4.0 sends the rest action its config does not have', async () => {
-    const { window } = loadPublic({ inline: PUBLIC_INLINE_83 });
-    fakeFetch(window, [{ status: 403, json: { code: 'rest_forbidden' } }]);
-    const sent = fakeXhr(window, [{ json: { reviews: '<div></div>' } }]);
-    const result = await window.GLSR.Request.send({ path: 'render/reviews' });
-    assert.equal(fields(sent[0]).action, 'glsr_rest_request')
-    assert.deepEqual(plain(result), { data: { reviews: '<div></div>' }, status: 200, success: true })
-});
-
 test('under Polylang or WPML, a request carries the language of the page, over admin-ajax too', async () => {
-    const { window } = loadPublic({ config: { request: request({ language: 'de' }) } });
+    const { window } = loadPage({ config: { request: request({ language: 'de' }) } });
     const calls = fakeFetch(window, [{ json: {} }, { status: 404, json: { code: 'rest_no_route' } }]);
     const sent = fakeXhr(window, [{ json: {} }]);
     await window.GLSR.Request.send({ path: 'render/reviews', params: { page: 2 } })

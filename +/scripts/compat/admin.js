@@ -1,6 +1,5 @@
 /** global: GLSR */
 
-import { aliasAddons } from '@/compat/public.js';
 import { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
 
 // The name of a member before 8.4.0 => its name in the config.
@@ -35,7 +34,6 @@ const keys = { ALT: 18, DOWN: 40, ENTER: 13, ESC: 27, SPACE: 32, TAB: 9, UP: 38 
 export default ({ Ajax, notices, report, shortcode }) => {
     const { GLSR } = window;
     reportTo(report)
-    aliasAddons()
     aliasPaths(PATHS, KEYS)
     alias(GLSR, 'ajax', 'GLSR.ajax', 'GLSR.Request', () => Ajax)
     alias(GLSR, 'autosize', 'GLSR.autosize', null, () => autosize)

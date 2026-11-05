@@ -1,6 +1,5 @@
-import config from '@/public/config.js';
-import dom from '@/public/dom.js'
-import css from '../../styles/public/modal-shadow.css'
+import { config, dom } from '@/public/core/index.js';
+import css from '../../../../styles/public/modal-shadow.css'
 
 /**
  * A native <dialog> in a shadow root owns the modal chrome (frame, backdrop,
@@ -417,6 +416,7 @@ const open = (id, config) => {
 }
 
 // set by the compat script
+// The compat script sets this, to relay the 8.x name for a modal about to open.
 export const hooks = { beforeOpen: null };
 
 export { Modal as Instance }

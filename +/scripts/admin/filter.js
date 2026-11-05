@@ -1,7 +1,7 @@
 /** global: GLSR, jQuery */
 
-import config from '@/public/config.js';
-import Request from '@/public/request.js';
+import { config } from '@/public/core/index.js';
+import Request from '@/public/modules/request/request.js';
 
 const aria = (el, prop, bool) => el.attr(`aria-${prop}`, bool ? 'true' : 'false');
 

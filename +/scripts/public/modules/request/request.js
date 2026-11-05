@@ -1,8 +1,7 @@
 /** global: FormData */
 
-import config from '@/public/config.js';
-import report from '@/public/report.js';
-import xhr from '@/public/xhr.js';
+import { config, report } from '@/public/core/index.js';
+import xhr from '@/public/modules/request/xhr.js';
 
 // codes that say the REST API is unavailable (security plugin, login requirement, etc.)
 const REST_UNAVAILABLE_CODES = ['rest_disabled', 'rest_forbidden', 'rest_not_logged_in'];

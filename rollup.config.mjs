@@ -3,7 +3,26 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const { css, commonJs, namespacedCss, js } = createConfig(__dirname);
+const { css, commonJs, module, namespacedCss, js } = createConfig(__dirname);
+
+// ------------------------------------------------------------------
+//  Script modules (the import map, @site-reviews/{id})
+// ------------------------------------------------------------------
+
+// What a module imports by id instead of bundling: core's plumbing and the request module.
+const shared = {
+    '@/public/core/index.js': '@site-reviews/core',
+    '@/public/modules/request/request.js': '@site-reviews/request',
+};
+
+const moduleBundles = [
+    module('scripts/public/core/index', 'core'),
+    module('scripts/public/modules/captcha/index', 'captcha', 'assets/scripts/modules', { shared }),
+    module('scripts/public/modules/form/index', 'form', 'assets/scripts/modules', { shared }),
+    module('scripts/public/modules/modal/index', 'modal', 'assets/scripts/modules', { shared }),
+    module('scripts/public/modules/request/index', 'request', 'assets/scripts/modules', { shared: { '@/public/core/index.js': '@site-reviews/core' } }),
+    module('scripts/public/modules/reviews/index', 'reviews', 'assets/scripts/modules', { shared }),
+];
 
 // ------------------------------------------------------------------
 //  JavaScript builds (IIFE)
@@ -22,7 +41,7 @@ const jsBundles = [
     js('scripts/inline-script'),
     js('scripts/mce-plugin'),
     js('scripts/rollback'),
-    js('scripts/site-reviews', 'assets/scripts', '', { inlineCss: true }),
+    js('scripts/site-reviews'),
     js('scripts/site-reviews-admin-compat'),
     js('scripts/site-reviews-admin-debug'),
     js('scripts/site-reviews-compat'),
@@ -67,6 +86,7 @@ const cssBundles = [
 // ------------------------------------------------------------------
 
 export default [
+    ...moduleBundles,
     ...jsBundles,
     ...cssBundles,
 ];

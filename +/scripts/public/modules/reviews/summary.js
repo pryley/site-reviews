@@ -1,5 +1,4 @@
-import Event from '@/public/event.js';
-import feature, { direction, wrappers } from '@/public/feature.js';
+import { Event, feature, direction, wrappers } from '@/public/core/index.js';
 
 class Summary {
     constructor (el) {

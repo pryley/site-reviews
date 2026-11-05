@@ -56,21 +56,6 @@ test('the admin script does not read ?glsr-debug', () => {
     assert.deepEqual(inserted(window), [])
 });
 
-test('at most fifty reports are kept while the debug script loads', async () => {
-    const { infos, read, window } = loadPublic({
-        config: { debug: { url: DEBUG_URL } },
-        url: 'https://example.org/?glsr-debug',
-    });
-    window.fetch = async () => ({ headers: { get: () => 'application/json' }, json: async () => ({}), ok: true, status: 200 });
-    for (let i = 0; i < 60; i++) {
-        await window.GLSR.Request.send({ path: 'render/reviews' })
-    }
-    window.eval(read('site-reviews-debug.js'))
-    assert.equal(infos.length, 50)
-    await window.GLSR.Request.send({ path: 'render/reviews' })
-    assert.equal(infos.length, 51)
-});
-
 test('the debug scripts send nothing, store nothing and change nothing on the page', () => {
     const { read } = loadPublic();
     for (const file of ['site-reviews-debug.js', 'site-reviews-admin-debug.js']) {

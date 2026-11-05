@@ -4,16 +4,17 @@ Site Reviews keeps its javascript in one global, `GLSR`. This page describes it 
 
 ```text
 window.GLSR
-├── version     the Site Reviews version, e.g. '8.4.0'
+├── version     the Site Reviews version, e.g. '9.0.0'
 ├── config      the values PHP gives to the scripts (read-only)
 ├── {Module}    Review, Form, Summary, Modal, Event, Request, Util, …
 ├── lib         third-party libraries and shared modules
+├── load        loads a module that nothing on the page has named
 └── registry    defines scripts and loads them on demand
 
 window.GLSR_init(root)
 ```
 
-The public script (`site-reviews.js`) and the admin script (`site-reviews-admin.js`) share this shape. They differ in the modules they carry. The block editor loads both on one page: they then share `GLSR.Event`, `GLSR.lib` and `GLSR.registry`, and `GLSR.config` holds the subjects of both. Where both configs have a member, the public script's value is kept: `request.ajax.action` is the public action on such a page.
+The public script (`site-reviews.js`) is a bootstrap: it carries `Event`, `Util`, `lib`, `load`, the config and a `Request` whose methods load the request module, and nothing else. The behaviours are script modules that the page loads when a root names one (see [Modules](#modules)): `GLSR.Review` and `GLSR.Summary` arrive with `@site-reviews/reviews`, `GLSR.Form` with `@site-reviews/form`, `GLSR.Modal` with `@site-reviews/modal`. A name is on `GLSR` once its module has loaded, and not before. The admin script (`site-reviews-admin.js`) carries its modules itself. The block editor loads both on one page: they then share `GLSR.Event`, `GLSR.lib` and `GLSR.registry`, and `GLSR.config` holds the subjects of both. Where both configs have a member, the public script's value is kept: `request.ajax.action` is the public action on such a page.
 
 ## Naming
 
@@ -21,7 +22,7 @@ The public script (`site-reviews.js`) and the admin script (`site-reviews-admin.
 - A singular module belongs to Site Reviews: `Review`, `Form`, `Summary`, `Modal`, `Event`, `Request`, `Util`.
 - A plural module belongs to a Site Reviews Premium feature: `Filters`, `Images`, `Themes`. It exists only on a page that loads that feature's script.
 - `Editor` is the editor of an [editor screen](#an-editor-screen), whichever plugin provides it. Only one is ever on a page.
-- The only lowercase keys are `version`, `config`, `lib` and `registry`.
+- The only lowercase keys are `version`, `config`, `lib`, `load` and `registry`.
 
 ## Before the script runs
 
@@ -35,7 +36,7 @@ GLSR.Event.on('site-reviews/initialized', ({ root }) => {
 
 ## Initialising
 
-Site Reviews sets up the page on DOMContentLoaded. `GLSR_init` sets it up again; it is a plain global function so that a page builder can call it by name.
+Site Reviews sets up the page on DOMContentLoaded, and sets up markup that arrives later as it arrives (see [Modules](#modules)). `GLSR_init` sets a page or an element up again; it is a plain global function so that a page builder can call it by name, and it returns a promise that resolves when what it set up is ready.
 
 ```js
 GLSR_init()         // sets up the whole page (it triggers site-reviews/init)
@@ -43,6 +44,37 @@ GLSR_init(root)     // sets up the reviews, forms and summaries inside an elemen
 ```
 
 Both end with the `site-reviews/initialized` event, which carries the root. To set up only one kind of markup, use the module's `init(root)` (see below).
+
+## Modules
+
+Each behaviour is a script module in the page's import map, fetched only when something on the page needs it. A rendered root says what it needs in its `data-glsr-modules` attribute, one token per module (`<div class="glsr" data-glsr-modules="form captcha">`); the bootstrap sets the root up with each module it names, on the first scan and whenever a root arrives later, however it arrived.
+
+| Module | Token | Puts on `GLSR` |
+| --- | --- | --- |
+| `@site-reviews/reviews` | `reviews` | `Review`, `Summary` |
+| `@site-reviews/form` | `form` | `Form` |
+| `@site-reviews/captcha` | `captcha` | nothing: it takes over a form's `captcha` |
+| `@site-reviews/modal` | `modal` | `Modal` |
+| `@site-reviews/request` | `request` | `Request` (in place of the bootstrap's) |
+| `@site-reviews/core` | none | nothing: the plumbing every module imports |
+
+A snippet that needs a module on a page where nothing named it asks for it:
+
+```js
+GLSR.load('form').then(() => GLSR.Form.find(el))
+```
+
+`GLSR.Request` is on every page. Before the request module has loaded it is a shim whose five methods load the module and call through; every method returns a promise either way. A snippet that wants to act when reviews are set up listens to `site-reviews/review/initialized` or `site-reviews/form/initialized` and never has to load anything.
+
+A feature of Site Reviews Premium registers its module the same way (`@site-reviews/{token}`) and adds its token to a root through the `site-reviews/shortcode/attributes` filter.
+
+Every shortcode, block and page-builder element prints its root with the attribute. A theme that prints a list or a form itself (`echo glsr_get_reviews()`, `$review->render()`) prints no root, so it puts `data-glsr-modules="reviews"` or `"form"` on its own wrapper, or loads the module and sets the markup up:
+
+```js
+GLSR.load('reviews').then(() => GLSR.Review.init(el))
+```
+
+A star rating on its own (`glsr_star_rating()`, the WooCommerce ratings) needs no module.
 
 `GLSR_init(eventName, ...args)` triggers the event with that name. It exists for the deprecated `block:` event names (see [js-events.md](js-events.md#deprecated-names)).
 
@@ -230,24 +262,13 @@ GLSR.lib.tippy                   // reads an entry
 
 ## Registry
 
-`GLSR.registry` runs the scripts of Site Reviews and its features at the right time, and loads a script that is not on the page.
+`GLSR.registry` runs the compat and debug scripts of Site Reviews at the right time. It is on its way out: the behaviours are [modules](#modules) now, and `GLSR.load(token)` is how a script asks for one.
 
 ```js
 GLSR.registry.define(id, factory)   // defines a script; the factory runs when the registry boots
 GLSR.registry.boot()                // runs every defined factory once, on DOMContentLoaded
 GLSR.registry.load(id)              // returns a Promise that resolves when the script has defined
 GLSR.registry.register(urls)        // { id: url }, the scripts that load(id) can fetch
-```
-
-- The first definition of an id wins, and so does the first url registered for an id.
-- A factory that throws is logged and does not stop the others.
-- A factory defined after the registry has booted runs at once.
-- `load(id)` inserts the script when it is not on the page. It rejects when the script fails to load.
-
-```js
-GLSR.registry.load('themes.swiper').then(() => {
-    const Swiper = GLSR.lib.swiper
-})
 ```
 
 ## Debug
@@ -288,7 +309,7 @@ In debug mode:
 
 Site Reviews 8.4.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
 
-Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
+Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. The names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`, the `form` of a form instance) are gone: those add-ons do not run on this version, and a name of a module cannot be kept before the module has loaded. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
 ```php
 add_filter('site-reviews/compat/assets', '__return_false');
@@ -299,15 +320,12 @@ The public script:
 | Deprecated | Use instead |
 | --- | --- |
 | `GLSR.action` | `GLSR.config.request.ajax.action` |
-| `GLSR.addons` | `GLSR.config.{feature}` and the feature's module |
 | `GLSR.ajax` | `GLSR.Request`, with a REST route |
 | `GLSR.ajax_pagination`, `GLSR.ajaxpagination` | `GLSR.config.pagination.fixed` |
 | `GLSR.ajax_url`, `GLSR.ajaxurl` | `GLSR.config.request.ajax.url` |
 | `GLSR.captcha` | `GLSR.config.captcha` (`captcha_type` is `captchaType`, `token_field` is `tokenField`) |
-| `GLSR.forms` | `GLSR.Form.instances` |
 | `GLSR.modal_wrapped_by` | `GLSR.config.modal.wrappedBy` |
 | `GLSR.nameprefix` | `GLSR.config.nameprefix` |
-| `GLSR.pagination` | `GLSR.Review.pagination.instances` |
 | `GLSR.request` | `GLSR.Request` (`send` no longer takes `legacy`, and `data` has no replacement) |
 | `GLSR.rest_nonce` | `GLSR.config.request.nonce` |
 | `GLSR.rest_url` | `GLSR.config.request.url` |
@@ -319,7 +337,6 @@ The public script:
 | `GLSR.validation_strings`, `GLSR.validationstrings` | `GLSR.config.validation.strings` |
 | `GLSR.Modal.modify(id, callback)` | `GLSR.Modal.get(id)` |
 | `dom` of a modal instance | the instance's `header`, `content`, `footer`, `style` and `hideClose` |
-| `form` of a form instance | `el` |
 
 The names without an underscore (`GLSR.ajaxurl`) are those that Site Reviews had before 8.0.1.
 
