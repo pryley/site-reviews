@@ -123,7 +123,7 @@ function purgeCommittedRows(): void
             OR option_name LIKE '\\_transient\\_timeout\\_glsr\\_%'
             OR option_name LIKE '\\_site\\_transient\\_glsr\\_%'
             OR option_name LIKE '\\_site\\_transient\\_timeout\\_glsr\\_%'
-            OR option_name = 'glsr_api_transients'"
+            OR option_name IN ('glsr_api_last_flushed', 'glsr_api_transients')"
     );
 
     forgetDerivedOptions();
