@@ -1,0 +1,5 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-toggle {
+  color: var(--glsr-choice-color);
+}

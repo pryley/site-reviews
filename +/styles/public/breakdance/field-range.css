@@ -1,0 +1,6 @@
+@import "../base/field-range";
+
+:--namespace .glsr-range-labels,
+:--namespace .glsr-range-options {
+    width: 100%;
+}

@@ -1,0 +1,5 @@
+@import "../base/pagination";
+
+:--namespace .nav-links {
+    justify-content: center;
+}

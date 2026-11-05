@@ -1,0 +1,31 @@
+@import "../base/variables";
+
+:root body {
+  
+  /* Colors */
+    --glsr-divi-color: var(--gcid-primary-color, #2ea3f2);
+  
+  /* Form */
+    --glsr-input-border-color: #eee;
+    --glsr-input-border-width: 0px;
+    --glsr-input-bg: #eee;
+    --glsr-input-color: #999;
+    --glsr-input-pt: 16px;
+    --glsr-input-pr: 16px;
+    --glsr-input-pb: 16px;
+    --glsr-input-pl: 16px;
+    --glsr-input-radius: 0;
+  
+  /* Form Range */
+    --glsr-range-size: 1.5em;
+  
+  /* Form Choice */
+    --glsr-choice-color: var(--glsr-divi-color);
+    --glsr-choice-size: 1.5em;
+  
+  /* Form Toggle */
+    --glsr-toggle-bg: var(--glsr-input-bg);
+    --glsr-toggled-bg: var(--glsr-divi-color);
+    --glsr-toggle-opacity: 1;
+    --glsr-toggle-size: 1.5em;
+}

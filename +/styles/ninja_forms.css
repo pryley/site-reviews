@@ -1,51 +1,18 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/base";
-@import "public/minimal/loaders";
-@import "public/minimal/pagination";
-@import "public/minimal/star-rating";
-@import "public/minimal/review";
-@import "public/minimal/flags";
-@import "public/minimal/summary";
-@import "public/minimal/form";
-@import "public/minimal/field-toggle";
-@import "public/minimal/field-range";
-@import "public/minimal/field-rating";
-@import "public/minimal/button";
-@import "public/minimal/modal";
-@import "public/minimal/debug";
-
-:--namespace form.glsr-form textarea {
-    display: block;
-}
-:--namespace form.glsr-form.nf-style-light .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
-:--namespace form.glsr-form.nf-style-light .listradio-wrap input[type=radio]:not(:checked) + label::after {
-    border-color: #c4c4c4;
-}
-:--namespace form.glsr-form.nf-style-dark .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
-:--namespace form.glsr-form.nf-style-dark .listradio-wrap input[type=radio]:not(:checked) + label::after {
-    border-color: #3c3c3c;
-}
-:--namespace form.glsr-form .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::before,
-:--namespace form.glsr-form .listradio-wrap input[type=radio]:not(:checked) + label::before {
-    opacity: 0;
-}
-:--namespace form.glsr-form .glsr-field-error {
-    order: 50;
-}
-:--namespace form.glsr-form .glsr-form-failed,
-:--namespace form.glsr-form .glsr-form-success {
-    display: block;
-}
-:--namespace form.glsr-form .glsr-description {
-    display: block;
-    font-weight: normal;
-    text-transform: none;
-}
-:--namespace form.glsr-form .glsr-label + .glsr-description {
-    top: 10px;
-    position: relative;
-}
-:--namespace form.glsr-form .nf-field-element + .glsr-description {
-    order: 15;
-}
+@import "public/base/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/base/pagination";
+@import "public/base/star-rating";
+@import "public/base/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/ninja_forms/form";
+@import "public/ninja_forms/field-label";
+@import "public/ninja_forms/field-choice";
+@import "public/base/field-toggle";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/base/button";
+@import "public/base/modal";
+@import "public/base/debug";

@@ -1,0 +1,6 @@
+@import "../base/form";
+
+:--namespace form.glsr-form .glsr-field,
+:--namespace form.glsr-form .glsr-field label {
+    font-family: var(--glsr-font);
+}

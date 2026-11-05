@@ -1,61 +1,19 @@
-@import "minimal";
-
-:root body {
-    --glsr-gray-300: #ccc;
-    --glsr-gray-400: #767676;
-    --glsr-blue: #0073aa;
-    --glsr-description-text: var(--glsr-text-sm);
-    --glsr-font: system-ui;
-    --glsr-gap-xl: 2em;
-    --glsr-input-pt: 0.36rem;
-    --glsr-input-pb: 0.36rem;
-    --glsr-input-pr: 0.66rem;
-    --glsr-input-pl: 0.66rem;
-    --glsr-label-text: var(--glsr-text-sm);
-    --glsr-leading: 1.8;
-    --glsr-radius: 0;
-    --glsr-summary-text: 0.88889em;
-    --glsr-text-base: 1rem;
-    --glsr-text-sm: 0.71111em;
-    --glsr-toggled-bg: var(--glsr-blue);
-    --glsr-toggle-h: 1rem;
-    --glsr-toggle-text: var(--glsr-text-sm);
-}
-:--namespace .glsr-review-author {
-    font-family: var(--glsr-font);
-}
-:--namespace .glsr-review-date {
-    font-size: var(--glsr-text-sm);
-    color: var(--glsr-gray-400);
-    font-family: var(--glsr-font);
-    font-style: normal;
-    font-weight: 500;
-}
-:--namespace form.glsr-form .glsr-field-error {
-    font-family: var(--glsr-font);
-}
-:--namespace form.glsr-form select.glsr-select {
-    background: var(--glsr-white);
-    border: solid 1px var(--glsr-gray-300);
-    border-radius: var(--glsr-radius);
-    outline: none;
-    outline-offset: 0;
-    padding-top: var(--glsr-input-pt);
-    padding-right: var(--glsr-input-pr);
-    padding-bottom: var(--glsr-input-pb);
-    padding-left: var(--glsr-input-pl);
-    &:focus {
-        border-color: var(--glsr-blue);
-        outline: thin solid rgba(0, 115, 170, 0.15);
-        outline-offset: -4px;
-    }
-}
-:--namespace form.glsr-form .glsr-toggle label {
-    font-size: var(--glsr-label-text);
-}
-:--namespace form.glsr-form .glsr-description {
-    color: var(--glsr-gray-400);
-    font-family: var(--glsr-font);
-    font-size: var(--glsr-description-text);
-    font-weight: var(--glsr-description-weight);
-}
+@import "public/twentynineteen/variables";
+@import "public/base/keyframes";
+@import "public/base/base";
+@import "public/base/loaders";
+@import "public/base/pagination";
+@import "public/base/star-rating";
+@import "public/twentynineteen/review";
+@import "public/base/flags";
+@import "public/base/summary";
+@import "public/twentynineteen/form";
+@import "public/twentynineteen/field-label";
+@import "public/twentynineteen/field-input";
+@import "public/base/field-choice";
+@import "public/twentynineteen/field-toggle";
+@import "public/base/field-range";
+@import "public/base/field-rating";
+@import "public/base/button";
+@import "public/base/modal";
+@import "public/base/debug";

@@ -1,0 +1,16 @@
+@import "../base/field-toggle";
+
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
+    border: var(--form--border-width) solid var(--glsr-toggled-bg);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+    box-shadow: none;
+    background-color: var(--glsr-toggled-bg);
+    border: 2px solid var(--glsr-toggle-bg);
+    transition: transform 0.075s ease-in-out;
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    background-color: var(--glsr-toggle-bg);
+    border-color: var(--glsr-toggled-bg);
+    border-width: 1px;
+}

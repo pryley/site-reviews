@@ -1,160 +1,19 @@
-@import "minimal";
-
-:root body {
-  /* Colors */
-    --glsr-divi-color: var(--gcid-primary-color, #2ea3f2);
-  /* Form */
-    --glsr-input-border-color: #eee;
-    --glsr-input-border-width: 0px;
-    --glsr-input-bg: #eee;
-    --glsr-input-color: #999;
-    --glsr-input-pt: 16px;
-    --glsr-input-pr: 16px;
-    --glsr-input-pb: 16px;
-    --glsr-input-pl: 16px;
-    --glsr-input-radius: 0;
-  /* Form Range */
-    --glsr-range-size: 1.5em;
-  /* Form Choice */
-    --glsr-choice-color: var(--glsr-divi-color);
-    --glsr-choice-size: 1.5em;
-  /* Form Toggle */
-    --glsr-toggle-bg: var(--glsr-input-bg);
-    --glsr-toggled-bg: var(--glsr-divi-color);
-    --glsr-toggle-opacity: 1;
-    --glsr-toggle-size: 1.5em;
-}
-
-:--namespace form.glsr-hide-form {
-  max-height: 0 !important;
-  opacity: 0;
-  overflow: hidden;
-}
-:--namespace form.glsr-form .glsr-field:not(.glsr-field-choice,.glsr-field-rating) .glsr-label {
-  display: none;
-}
-:--namespace form.glsr-form label.glsr-label {
-  color: var(--glsr-label-color);
-  font-weight: var(--glsr-label-weight);
-}
-:--namespace form.glsr-form input.glsr-input,
-:--namespace form.glsr-form select.glsr-select,
-:--namespace form.glsr-form textarea.glsr-textarea {
-    appearance: none;
-    background-clip: padding-box;
-    background-color: var(--glsr-input-bg);
-    border-radius: var(--glsr-input-radius);
-    border-color: var(--glsr-input-border-color);
-    border-style: var(--glsr-input-border-style);
-    border-width: var(--glsr-input-border-width);
-    color: var(--glsr-input-color);
-    font-size: var(--glsr-text-md);
-    line-height: var(--glsr-leading);
-    min-height: auto;
-    padding-top: var(--glsr-input-pt);
-    padding-right: var(--glsr-input-pr);
-    padding-bottom: var(--glsr-input-pb);
-    padding-left: var(--glsr-input-pl);
-    print-color-adjust: exact;
-    transition: var(--glsr-input-transition);
-}
-:--namespace form.glsr-form select.glsr-select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='%23666'%3e%3cpath d='M0 3h12L6 9z'/%3e%3c/svg%3e");
-    background-position: right 10px center;
-    background-repeat: no-repeat;
-    background-size: 12px;
-}
-:--namespace form.glsr-form input:is(.glsr-input-checkbox,.glsr-input-radio,.glsr-input-range) {
-  appearance: none;
-  background-color: var(--glsr-input-bg);
-  background-origin: border-box;
-  border-color: var(--glsr-input-border-color);
-  border-style: var(--glsr-input-border-style);
-  border-width: var(--glsr-input-border-width);
-  font-size: var(--glsr-text-md);
-  min-height: auto;
-  min-width: auto;
-  position: relative;
-  print-color-adjust: exact;
-  user-select: none;
-  color: var(--glsr-choice-color);
-  height: var(--glsr-choice-h);
-  width: var(--glsr-choice-w);
-  &::before,
-  &::after {
-    background-color: var(--glsr-choice-color);
-    mask-position: center;
-    mask-size: contain;
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-}
-:--namespace form.glsr-form input.glsr-input-checkbox {
-  border-radius: var(--glsr-input-radius);
-  &:checked::after {
-    content: '';
-    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath d='M14.141 4.522c.303-.058.595-.001.835.161a1.09 1.09 0 0 1 .502.738c.057.302.001.594-.159.834l-2.704 4.362-2.704 4.362-.147.237h-.048l-.043.035-.047.033-.047.047-.078.026-.075.042a1.15 1.15 0 0 1-.151.063l-.131.02-.098.02h-.142a.73.73 0 0 1-.179-.022l.041.007-.095.001-.106-.053-.058-.023-.014-.006-.027-.013c-.006-.002-.019-.009-.083-.04l-.018-.011-.034.004-.104-.102-.074-.056-.015-.03-.007-.007-.142-.138-.129-.126-1.343-1.31-.163-.159-1.312-1.28-.093-.09-.106-.103c-.21-.211-.327-.477-.343-.775a1.11 1.11 0 0 1 .301-.829 1.11 1.11 0 0 1 .774-.361 1.11 1.11 0 0 1 .838.313l.185.182.082.081L7.8 11.645l.923.905.014.013.009-.012 1.996-3.223.165-.267 2.076-3.352.085-.138.337-.544c.168-.271.423-.446.736-.506z'/%3e%3c/svg%3e");
-  }
-}
-:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range) {
-  border-radius: 100%;
-  &:checked::after {
-    content: '';
-    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3ccircle cx='10' cy='10' r='3.5'/%3e%3c/svg%3e");
-  }
-}
-:--namespace form.glsr-form .glsr-dz-message {
-  color: var(--glsr-input-color);
-}
-:--namespace form.glsr-form .glsr-field-subgroup {
-  color: var(--glsr-input-color);
-}
-:--namespace form.glsr-form .glsr-range-labels {
-  color: var(--glsr-input-color);
-  font-size: var(--glsr-text-md);
-}
-:--namespace form.glsr-form .glsr-toggle {
-  color: var(--glsr-choice-color);
-}
-
-:root .et_pb_bg_layout_light .glsr-button_wrapper {
-  color: var(--glsr-divi-color);
-}
-:--namespace .glsr-button {
-  color: inherit;
-  &::after {
-    margin-right: -1em;
-    position: relative;
-    top: auto;
-    transform: none;
-  }
-}
-:--namespace[data-from="shortcode"] .glsr-button:hover {
-  background-color: rgba(0,0,0,.05);
-}
-
-:--namespace form.glsr-filters-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--glsr-gap-sm);
-}
-:--namespace form.glsr-filters-form select.glsr-select {
-  padding-top: .5em;
-  padding-right: .715em;
-  padding-bottom: .5em;
-  padding-left: .715em;
-}
-
-:--namespace .et_pb_gallery_pagination {
-  --vertical-gap: 0;
-}
-:--namespace .et_pb_gallery_pagination ul {
-  padding: 0;
-  &::after {
-    display: none;
-  }
-}
-:root .et_pb_wc_rating.et_pb_wc_rating_no_rating .glsr-star-rating {
-  display: none;
-}
+@import "public/divi/variables";
+@import "public/divi/keyframes";
+@import "public/divi/base";
+@import "public/divi/loaders";
+@import "public/divi/pagination";
+@import "public/divi/star-rating";
+@import "public/divi/review";
+@import "public/divi/flags";
+@import "public/divi/summary";
+@import "public/divi/form";
+@import "public/divi/field-label";
+@import "public/divi/field-input";
+@import "public/divi/field-choice";
+@import "public/divi/field-toggle";
+@import "public/divi/field-range";
+@import "public/divi/field-rating";
+@import "public/divi/button";
+@import "public/divi/modal";
+@import "public/divi/debug";

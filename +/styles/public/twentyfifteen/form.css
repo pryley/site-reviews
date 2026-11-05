@@ -1,0 +1,5 @@
+@import "../base/form";
+
+:--namespace .glsr-field-error {
+    font-family: var(--glsr-font);
+}

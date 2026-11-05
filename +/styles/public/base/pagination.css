@@ -1,0 +1,21 @@
+:--base .glsr-pagination {
+    position: relative;
+}
+:--base .glsr-pagination:not(.glsr-ajax-loadmore) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+:--base .glsr-pagination .glsr-spinner {
+    position: absolute;
+}
+:--base .glsr-pagination .pagination {
+    flex-basis: 100%;
+    margin-bottom: 0;
+    margin-top: 0;
+    opacity: 1;
+    transition: opacity var(--glsr-duration-slow);
+}
+:--base.glsr-hide .glsr-pagination .pagination {
+    opacity: 0 !important;
+}
