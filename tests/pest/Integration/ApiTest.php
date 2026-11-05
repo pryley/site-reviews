@@ -19,7 +19,8 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *
  *   caches       a successful response goes into a SITE transient keyed by url + body, so
  *                that a licence check on every admin page load is one request a day and
- *                not one per page. `force` is how a caller says "no, really, ask".
+ *                not one per page. `force` is how a caller says "no, really, ask", and
+ *                `cache` set to false keeps out an answer nobody asks for twice.
  *   retries      a 429 or a 5xx is the server saying "not now" rather than "no", and the
  *                client is supposed to back off and ask again.
  *   parses       whatever comes back is turned into a Response: JSON if it is JSON, and
@@ -99,6 +100,21 @@ test('a failed response is not cached', function () {
     api()->get('check', ['transient_key' => 'check_license']);
 
     expect($requests)->toHaveCount(2);
+});
+
+test('a request with the cache off is not answered from the cache or kept in it', function () {
+    // A captcha check is asked once with a token nobody sends again, so keeping its answer
+    // would only add a row to the database and a key to the index.
+    $requests = interceptHttp(httpReply(200, ['success' => true]));
+    $index = fn () => (array) get_site_option(glsr()->prefix.'api_transients', []);
+
+    api()->post('verify', ['body' => ['token' => 'a']]);
+    api()->post('verify', ['body' => ['token' => 'a'], 'cache' => false]);
+    expect($requests)->toHaveCount(2); // the cached answer was not used
+
+    api()->post('verify', ['body' => ['token' => 'b'], 'cache' => false]);
+    expect(get_site_transient(api()->transientKey('verify', 'request', ['token' => 'b'])))->toBeFalse()
+        ->and($index())->toHaveCount(1); // only the answer to the first request
 });
 
 test('two different request bodies are cached separately', function () {
