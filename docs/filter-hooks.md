@@ -121,6 +121,7 @@ site-reviews/enqueue/public/inline-script/after             (string $javascript)
 site-reviews/enqueue/public/inline-styles                   (string $inlineCss, array $inlineConfig): string
 site-reviews/enqueue/public/localize                        (array $variables): array
 site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
+site-reviews/enqueue/public/modules                         (array $ids): array
 site-reviews/export/review/args                             (array $args, Request $request): array
 site-reviews/export/review/header                           (array $header, array $record): array
 site-reviews/export/review/meta                             (array $meta, Arguments $args, array $record): array

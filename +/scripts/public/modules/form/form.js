@@ -1,27 +1,18 @@
 /** global: FormData */
 
-import Button from '@/public/button.js';
-import Captcha from '@/public/captcha.js';
-import config from '@/public/config.js';
-import Conditions from '@/public/conditions.js';
-import Event from '@/public/event.js';
-import feature, { direction } from '@/public/feature.js';
-import { historyState } from '@/public/helpers.js';
-import report from '@/public/report.js';
-import Request from '@/public/request.js';
-import Review from '@/public/review.js';
-import Session from '@/public/session.js';
-import StarRating from '@/public/starrating.js';
-import Summary from '@/public/summary.js';
-import Validation from '@/public/validation.js';
-import { addRemoveClass, classListSelector } from '@/public/helpers.js';
+import { Button, config, Event, feature, direction, historyState, load, report, addRemoveClass, classListSelector } from '@/public/core/index.js';
+import Conditions from '@/public/modules/form/conditions.js';
+import Request from '@/public/modules/request/request.js';
+import Session from '@/public/modules/form/session.js';
+import StarRating from '@/public/modules/form/starrating.js';
+import Validation from '@/public/modules/form/validation.js';
 
 class Form {
     constructor (formEl) {
         this.button = Button(formEl.querySelector('[type=submit]'));
         this.el = formEl;
         this.isActive = false;
-        this.captcha = new Captcha(this);
+        this.captcha = { execute: () => this.submit(), render () {}, reset () {} }; // the captcha module replaces it
         this.conditions = new Conditions(this);
         this.session = new Session(formEl);
         this.validation = new Validation(formEl);
@@ -150,6 +141,15 @@ class Form {
     _refresh (response) {
         const reviewsEl = this._linked('reviews_id');
         const summaryEl = this._linked('summary_id');
+        if ((reviewsEl && response.reviews) || (summaryEl && response.summary)) {
+            load('reviews').then(() => this._refreshLinked(reviewsEl, summaryEl, response))
+        }
+        this.destroy()
+        this.init()
+    }
+
+    _refreshLinked (reviewsEl, summaryEl, response) {
+        const { Review, Summary } = window.GLSR;
         if (reviewsEl && response.reviews) {
             reviewsEl.innerHTML = response.reviews;
             if (config.pagination.urlParameter) {
@@ -167,8 +167,6 @@ class Form {
                 summaryEl.innerHTML = response.summary; // the id is on an element that is not a summary
             }
         }
-        this.destroy()
-        this.init()
     }
 
     _resetErrors () {

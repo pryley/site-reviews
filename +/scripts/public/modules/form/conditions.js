@@ -1,5 +1,4 @@
-import config from '@/public/config.js';
-import { classListSelector, parseJson } from '@/public/helpers.js';
+import { config, classListSelector, parseJson } from '@/public/core/index.js';
 
 const checks = {
     contains: (value, conditionVal) => {

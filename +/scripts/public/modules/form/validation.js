@@ -1,8 +1,6 @@
 // Inspired by https://github.com/sha256/Pristine/
 
-import config from '@/public/config.js';
-import report from '@/public/report.js';
-import { addRemoveClass, classListSelector } from '@/public/helpers.js';
+import { config, report, addRemoveClass, classListSelector } from '@/public/core/index.js';
 
 const allowedAttributes = [
     'required', 'max', 'maxlength', 'min', 'minlength', 'pattern',

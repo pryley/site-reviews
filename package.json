@@ -71,7 +71,7 @@
     "divi:watch": "NODE_ENV=development webpack -w --config=+/integrations/divi/webpack.config.js --progress",
     "rollup": "NODE_ENV=production site-reviews-build",
     "rollup:watch": "NODE_ENV=development rollup -c --watch",
-    "test:js": "node --test '+/scripts/tests/*.test.js'"
+    "test:js": "node --test '+/scripts/tests/*.test.js' '+/scripts/tests/*.test.mjs'"
   },
   "workspaces": [
     "+/packages/*"

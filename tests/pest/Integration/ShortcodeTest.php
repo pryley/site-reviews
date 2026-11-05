@@ -410,6 +410,35 @@ test('a rendered shortcode says what it is and where it came from', function () 
         ->toContain('id="my-reviews"');
 });
 
+test('a rendered root names the script modules it needs, and enqueues them', function () {
+    // The bootstrap reads data-glsr-modules off a root and loads each module it names; the render
+    // enqueues the same modules so the browser fetches them with the page instead of after it.
+    createReview();
+
+    expect(do_shortcode('[site_reviews]'))->toContain('data-glsr-modules="reviews"');
+    expect(do_shortcode('[site_reviews_summary]'))->toContain('data-glsr-modules="reviews"');
+    expect(do_shortcode('[site_reviews_form]'))->toContain('data-glsr-modules="form"');
+    expect(wp_script_modules()->get_queue())->toContain('@site-reviews/reviews')->toContain('@site-reviews/form');
+});
+
+test('a form names the captcha module only when the site has a captcha', function () {
+    glsr(OptionManager::class)->set('settings.forms.captcha.integration', 'procaptcha');
+    glsr(OptionManager::class)->set('settings.forms.captcha.usage', 'all');
+
+    expect(do_shortcode('[site_reviews_form]'))->toContain('data-glsr-modules="form captcha"');
+    expect(wp_script_modules()->get_queue())->toContain('@site-reviews/captcha');
+});
+
+test('an addon adds the modules its part of a root needs through the attributes filter', function () {
+    createReview();
+    add_filter('site-reviews/shortcode/attributes', function (array $attributes) {
+        $attributes['data-glsr-modules'] .= ' filters';
+        return $attributes;
+    });
+
+    expect(do_shortcode('[site_reviews]'))->toContain('data-glsr-modules="reviews filters"');
+});
+
 test('a class is put on the element it belongs on', function () {
     // Classes prefixed has-/is-/items- are layout, and go on the WRAPPER; anything else
     // is styling for the reviews themselves and goes on the root. Getting it the wrong

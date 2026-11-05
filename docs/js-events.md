@@ -123,7 +123,7 @@ GLSR.Event.on('site-reviews/modal/closed', ({ modal, event }) => {
 
 ## `site-reviews/init`
 
-This is the one event that is also an instruction. Triggering it sets up the whole page, as `GLSR_init()` does. A listener that was added before the page was ready runs before the page is set up.
+This is the one event that is also an instruction. Triggering it sets up the whole page, as `GLSR_init()` does. A listener that was added before the page was ready runs before the page is set up; the set-up itself finishes after the modules the page names have loaded, so the moment to act on a root is `site-reviews/review/initialized`, `site-reviews/form/initialized` or `site-reviews/initialized`.
 
 ```js
 GLSR.Event.trigger('site-reviews/init') // sets up the whole page

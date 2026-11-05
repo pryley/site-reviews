@@ -1,8 +1,8 @@
 /** global: GLSR */
 
 import Button from '@/admin/button.js';
-import config from '@/public/config.js';
-import Request from '@/public/request.js';
+import { config } from '@/public/core/index.js';
+import Request from '@/public/modules/request/request.js';
 
 /**
  * The License Key row of Settings > General, and the install link of the premium notice.

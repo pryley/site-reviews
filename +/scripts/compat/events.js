@@ -1,9 +1,10 @@
-/** global: GLSR */
+/** global: GLSR, GLSR_init */
 
 /**
  * The event names of Site Reviews before 8.4.0, each triggered beside its replacement.
  */
 
+import { whenAttached } from '@/public/core/index.js';
 import deprecated from '@/compat/deprecated.js';
 
 // The shortcode of a block => the event that the block editor triggered for it.
@@ -16,8 +17,8 @@ const BLOCKS = {
 
 const element = (el) => 1 === el?.nodeType ? el : document;
 
-export default ({ initReviewModal, listen, modalHooks }) => {
-    const { Event, Form, Review, Summary } = window.GLSR;
+export default ({ listen }) => {
+    const { Event } = window.GLSR;
 
     let isRelaying = false; // an old name relayed from here must not run its command
     let running = null; // the command that is running: its own relay is skipped
@@ -34,16 +35,27 @@ export default ({ initReviewModal, listen, modalHooks }) => {
         }
     }
 
+    // a command that waits for its module keeps its name as running until the module has run it
     const command = (name, replacement, fn) => listen(name, (...args) => {
         if (isRelaying) return;
         deprecated(`Triggering ${name}`, replacement)
         running = name;
+        const done = () => { running = null; };
         try {
-            fn(...args)
-        } finally {
-            running = null;
+            const result = fn(...args);
+            if (result?.then) {
+                result.then(done, done)
+            } else {
+                done()
+            }
+        } catch (error) {
+            done()
+            throw error;
         }
     })
+
+    // the module may not be on the page yet: the command waits for it
+    const review = (fn) => window.GLSR.load('reviews').then(() => fn(window.GLSR.Review))
 
     listen('site-reviews/initialized', ({ root }) => {
         if (root === document) {
@@ -72,20 +84,16 @@ export default ({ initReviewModal, listen, modalHooks }) => {
     listen('site-reviews/form/submitted', ({ form, response }) => relay('site-reviews/form/handle', response, form.el))
     listen('site-reviews/modal/closed', ({ event, modal }) => relay('site-reviews/modal/close', modal, event))
     // site-reviews/modal/open fires before the dialog is shown, site-reviews/modal/opened after.
-    modalHooks.beforeOpen = (modal, event) => relay('site-reviews/modal/open', modal, event);
+    whenAttached('modal').then(({ hooks }) => {
+        hooks.beforeOpen = (modal, event) => relay('site-reviews/modal/open', modal, event);
+    })
 
-    command('site-reviews/excerpts/init', 'GLSR.Review.init(root)', (el) => {
-        Review.excerpts.init(el)
-        initReviewModal()
-        relay('site-reviews/modal/init')
-    })
-    command('site-reviews/modal/init', 'GLSR.Review.init(root)', initReviewModal)
-    command('site-reviews/pagination/init', 'GLSR.Review.init(root)', () => {
-        Review.instances.forEach(instance => instance._initPagination())
-    })
-    command('site-reviews/forms/init', 'GLSR.Form.init(root)', () => Form.init())
-    command(BLOCKS.site_review, 'GLSR_init(el)', (el) => Review.init(element(el)))
-    command(BLOCKS.site_reviews, 'GLSR_init(el)', (el) => Review.init(element(el)))
-    command(BLOCKS.site_reviews_form, 'GLSR_init(el)', (el) => Form.init(element(el)))
-    command(BLOCKS.site_reviews_summary, 'GLSR_init(el)', (el) => Summary.init(element(el)))
+    command('site-reviews/excerpts/init', 'GLSR.Review.init(root)', (el) => review(Review => {
+        Review.excerpts.init(element(el))
+        Review.init() // the review modal too
+    }))
+    command('site-reviews/modal/init', 'GLSR.Review.init(root)', () => review(Review => Review.init()))
+    command('site-reviews/pagination/init', 'GLSR.Review.init(root)', () => review(Review => Review.init()))
+    command('site-reviews/forms/init', 'GLSR.Form.init(root)', () => window.GLSR.load('form').then(() => window.GLSR.Form.init()))
+    Object.values(BLOCKS).forEach(name => command(name, 'GLSR_init(el)', (el) => window.GLSR_init(element(el))))
 }

@@ -1,11 +1,7 @@
-import config from '@/public/config.js';
-import dom from '@/public/dom.js';
-import Event from '@/public/event.js';
-import Excerpts from '@/public/excerpts.js';
-import feature, { direction, wrappers } from '@/public/feature.js';
-import Modal from '@/public/modal.js';
-import Pagination from '@/public/pagination.js';
-import Request from '@/public/request.js';
+import { config, dom, Event, feature, direction, load, wrappers } from '@/public/core/index.js';
+import Excerpts from '@/public/modules/reviews/excerpts.js';
+import Pagination from '@/public/modules/reviews/pagination.js';
+import Request from '@/public/modules/request/request.js';
 
 class Review {
     constructor (el) {
@@ -48,8 +44,10 @@ const { module } = feature(root => wrappers(root, '.glsr-reviews-wrap, .glsr-rev
 
 const init = module.init;
 
+// The modal loads only for a page that holds a trigger: core prints none, a theme or a snippet may.
 const initModal = () => {
-    Modal.init('glsr-modal-review', {
+    if (!document.querySelector('[data-glsr-trigger="glsr-modal-review"]')) return;
+    load('modal').then(() => window.GLSR.Modal.init('glsr-modal-review', {
         onOpen: (modal) => {
             const triggerRoot = modal.trigger.closest('.glsr');
             const baseEl   = triggerRoot.cloneNode(true);
@@ -72,7 +70,7 @@ const initModal = () => {
                 : baseEl;
             modal.content(appendEl);
         },
-    })
+    }))
 }
 
 const paginations = () => module.instances.map(instance => instance.pagination).filter(Boolean);
@@ -88,11 +86,11 @@ module.excerpts = {
     init: (el) => new Excerpts(el).init(),
 };
 
-module.open = (id, values = {}) => Request.review(id, values).then(({ data: response, status, success }) => {
+module.open = (id, values = {}) => Promise.all([Request.review(id, values), load('modal')]).then(([{ data: response, status, success }]) => {
     if (!success) {
         return Request.log(status, { values, response })
     }
-    Modal.open(`glsr-modal-${values.verified ? 'verified' : 'approved'}`, {
+    window.GLSR.Modal.open(`glsr-modal-${values.verified ? 'verified' : 'approved'}`, {
         onOpen: (modal) => {
             const contentEl = modal.content(response.review, response.attributes);
             contentEl.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true')

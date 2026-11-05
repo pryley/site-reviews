@@ -1,4 +1,4 @@
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 
 jQuery($ => {
     const __ = wp.i18n.__;

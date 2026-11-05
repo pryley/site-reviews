@@ -11,6 +11,21 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets extends AbstractCommand
 {
+    public const MODULE_PREFIX = '@site-reviews/';
+
+    /**
+     * The behaviour modules and the modules each imports statically; every one imports core.
+     *
+     * @var array<string, string[]>
+     */
+    public const MODULES = [
+        'captcha' => ['core'],
+        'form' => ['core', 'request'],
+        'modal' => ['core'],
+        'request' => ['core'],
+        'reviews' => ['core', 'request'],
+    ];
+
     public function config(): array
     {
         $style = glsr(Style::class);
@@ -71,6 +86,23 @@ class EnqueuePublicAssets extends AbstractCommand
         }
     }
 
+    /**
+     * Register the script modules the bootstrap names in the import map.
+     *
+     * @return string[] the module ids
+     */
+    public function registerModules(): array
+    {
+        $core = static::MODULE_PREFIX.'core';
+        wp_register_script_module($core, glsr()->url('assets/scripts/modules/core.js'), [], glsr()->version);
+        foreach (static::MODULES as $name => $imports) {
+            $dependencies = array_map(fn ($import) => static::MODULE_PREFIX.$import, $imports);
+            wp_register_script_module(static::MODULE_PREFIX.$name, glsr()->url("assets/scripts/modules/{$name}.js"), $dependencies, glsr()->version);
+        }
+        $ids = array_map(fn ($name) => static::MODULE_PREFIX.$name, array_keys(static::MODULES));
+        return glsr()->filterArray('enqueue/public/modules', $ids);
+    }
+
     public function enqueueScripts(): void
     {
         if (!glsr()->filterBool('assets/js', true)) {
@@ -78,12 +110,15 @@ class EnqueuePublicAssets extends AbstractCommand
         }
         $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
         $args = [
-            'in_footer' => true,
+            'in_footer' => false, // the module tags print before the footer scripts, and the loader runs first
             'strategy' => 'defer',
         ];
         wp_register_script(glsr()->id, glsr()->url(sprintf('assets/scripts/%s.js', glsr()->id)), $dependencies, glsr()->version, $args);
         wp_enqueue_script(glsr()->id);
         wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
+        // dynamic: in the import map, fetched when a root names the module
+        $modules = array_map(fn ($id) => ['id' => $id, 'import' => 'dynamic'], $this->registerModules());
+        wp_scripts()->add_data(glsr()->id, 'module_dependencies', $modules);
         $compat = glsr(CompatScript::class);
         $last = glsr()->id;
         if ($compat->isEnabled('public')) {

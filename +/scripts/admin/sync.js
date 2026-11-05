@@ -1,7 +1,7 @@
 /** global: GLSR, jQuery */
 /* jshint -W014 */
 
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 
 const Sync = function () {

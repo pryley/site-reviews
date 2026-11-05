@@ -1,6 +1,6 @@
 /** global: editor, GLSR, jQuery, tinymce, tinyMCEPreInit */
 
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 
 const Shortcode = function (selector) {
