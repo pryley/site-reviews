@@ -12,6 +12,7 @@ class Migrate_8_4_0 implements MigrateContract
 {
     public function run(): bool
     {
+        $this->deleteApiIndex();
         return $this->activateLicensesForMappedSite();
     }
 
@@ -38,5 +39,13 @@ class Migrate_8_4_0 implements MigrateContract
             }
         }
         return true;
+    }
+
+    /**
+     * Delete the list of every cached API response that 8.2.0 to 8.3.x kept in a site option.
+     */
+    public function deleteApiIndex(): void
+    {
+        delete_site_option(glsr()->prefix.'api_transients');
     }
 }

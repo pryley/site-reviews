@@ -104,17 +104,15 @@ test('a failed response is not cached', function () {
 
 test('a request with the cache off is not answered from the cache or kept in it', function () {
     // A captcha check is asked once with a token nobody sends again, so keeping its answer
-    // would only add a row to the database and a key to the index.
+    // would only write a row to the database that nothing reads.
     $requests = interceptHttp(httpReply(200, ['success' => true]));
-    $index = fn () => (array) get_site_option(glsr()->prefix.'api_transients', []);
 
     api()->post('verify', ['body' => ['token' => 'a']]);
     api()->post('verify', ['body' => ['token' => 'a'], 'cache' => false]);
     expect($requests)->toHaveCount(2); // the cached answer was not used
 
     api()->post('verify', ['body' => ['token' => 'b'], 'cache' => false]);
-    expect(get_site_transient(api()->transientKey('verify', 'request', ['token' => 'b'])))->toBeFalse()
-        ->and($index())->toHaveCount(1); // only the answer to the first request
+    expect(get_site_transient(api()->transientKey('verify', 'request', ['token' => 'b'])))->toBeFalse();
 });
 
 test('two different request bodies are cached separately', function () {
@@ -431,7 +429,7 @@ test('flushing removes the cached answer, whatever body was asked with', functio
     // to go, or they are told there is nothing to download for a whole day.
     //
     // The body it was cached under contains the OLD licence, so the key cannot be
-    // reconstructed. It is found by the index Api keeps of the keys it has set.
+    // reconstructed. flushAll() changes a value that every get_version key is built with.
     $requests = interceptHttp(httpReply(200, ['new_version' => '1.0.0']));
     $unlicensed = ['body' => ['item_name' => 'site-reviews-images', 'license' => ''], 'transient_key' => 'get_version'];
     $licensed = ['body' => ['item_name' => 'site-reviews-images', 'license' => 'a-real-key'], 'transient_key' => 'get_version'];
@@ -465,17 +463,21 @@ test('flushing one key leaves the others alone', function () {
     expect($requests)->toHaveCount(3);
 });
 
-test('the index does not outlive the things it indexes', function () {
-    // It is an option, not a transient, so it has to be tidied up by hand or it grows
-    // forever on a site that changes its licence key a few times.
-    $index = fn () => (array) get_site_option(glsr()->prefix.'api_transients', []);
+test('the cache keeps no list of its answers, and a flush keeps one value for its key and path', function () {
+    // A list of every cached key would grow with each geolocated IP address on a busy site.
+    // The flushed answers are never read again, and WordPress deletes them once they expire.
+    $lastFlushed = fn () => (array) get_site_option(glsr()->prefix.'api_last_flushed', []);
     interceptHttp(httpReply(200, ['ok' => true]));
 
-    api()->get('check', ['transient_key' => 'check_license']);
-    expect($index())->toHaveCount(1);
+    api()->post('check', ['body' => ['a' => 1], 'transient_key' => 'check_license']);
+    api()->post('check', ['body' => ['a' => 2], 'transient_key' => 'check_license']);
+    expect(get_site_option(glsr()->prefix.'api_transients'))->toBeFalse()
+        ->and($lastFlushed())->toBe([]);
 
     api()->flushAll('check_license', 'check');
-    expect($index())->toBe([]); // and the option is gone with it
+    api()->flushAll('check_license', 'check');
+    api()->post('check', ['body' => ['a' => 3], 'transient_key' => 'check_license']);
+    expect($lastFlushed())->toHaveCount(1);
 });
 
 test('a targeted flush forgets exactly one answer', function () {

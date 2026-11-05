@@ -15,6 +15,14 @@ beforeEach(fn () => resetPluginState());
  * site the licence URL did not change.
  */
 
+test('the migration deletes the list of cached api responses', function () {
+    update_site_option(glsr()->prefix.'api_transients', ['glsr_api_request_abcdefgh_ijklmnop']);
+
+    (new Migrate_8_4_0())->run();
+
+    expect(get_site_option(glsr()->prefix.'api_transients'))->toBeFalse();
+});
+
 test('on a single site the migration asks the licence server nothing', function () {
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-saved-key');
     $asked = licenseServer([]);

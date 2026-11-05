@@ -41,7 +41,7 @@ class Api
 
     public function flush(string $transientKey, string $path = '', array $body = []): void
     {
-        $this->forget($this->transientKey($path, $transientKey, $body));
+        delete_site_transient($this->transientKey($path, $transientKey, $body));
     }
 
     /**
@@ -49,16 +49,9 @@ class Api
      */
     public function flushAll(string $transientKey, string $path = ''): void
     {
-        $prefix = $this->transientKey($path, $transientKey); // no body: the common prefix
-        $remaining = [];
-        foreach ($this->remembered() as $transient) {
-            if (str_starts_with($transient, $prefix)) {
-                delete_site_transient($transient);
-                continue;
-            }
-            $remaining[] = $transient;
-        }
-        $this->rememberAll($remaining);
+        $lastFlushed = Arr::consolidate(get_site_option($this->lastFlushedKey()));
+        $lastFlushed[$this->flushGroup($path, $transientKey)] = microtime();
+        update_site_option($this->lastFlushedKey(), $lastFlushed);
     }
 
     public function get(string $path, array $args = []): Response
@@ -78,7 +71,7 @@ class Api
         $transientKey = $this->transientKey($path, $args['transient_key'], $body);
         $url = $this->url($path);
         if ($args['force']) {
-            $this->forget($transientKey);
+            delete_site_transient($transientKey);
         } else {
             $result = $args['cache'] ? get_site_transient($transientKey) : false;
             if (!empty($result)) {
@@ -97,7 +90,7 @@ class Api
             $response = new Response($result);
             if ($response->successful()) {
                 if ($args['cache']) {
-                    $this->remember($transientKey, $result, $args['expiration']);
+                    set_site_transient($transientKey, $result, $args['expiration']);
                 }
                 if ($args['skip_when_down']) {
                     $this->markReachable();
@@ -124,7 +117,7 @@ class Api
         } else {
             $bodyHash = Str::hash((string) maybe_serialize($body), 8);
         }
-        $url = Str::hash($this->url($path), 8);
+        $url = Str::hash($this->url($path).$this->lastFlushed($path, $transientKey), 8);
         $key = sanitize_key($transientKey);
         $key = trim("{$key}_{$url}_{$bodyHash}", '_');
         return glsr()->prefix."api_{$key}";
@@ -144,12 +137,25 @@ class Api
     }
 
     /**
-     * Deletes a cached response, and stops remembering it.
+     * Name the cached responses that flushAll() forgets together, whatever body they were asked with.
      */
-    protected function forget(string $transientKey): void
+    protected function flushGroup(string $path, string $transientKey): string
     {
-        delete_site_transient($transientKey);
-        $this->rememberAll(array_diff($this->remembered(), [$transientKey]));
+        return sanitize_key($transientKey).'_'.Str::hash($this->url($path), 8);
+    }
+
+    /**
+     * Return when flushAll() last ran for this transient key and path, or a blank.
+     */
+    protected function lastFlushed(string $path, string $transientKey): string
+    {
+        $lastFlushed = Arr::consolidate(get_site_option($this->lastFlushedKey()));
+        return Cast::toString($lastFlushed[$this->flushGroup($path, $transientKey)] ?? '');
+    }
+
+    protected function lastFlushedKey(): string
+    {
+        return glsr()->prefix.'api_last_flushed';
     }
 
     protected function markReachable(): void
@@ -188,54 +194,6 @@ class Api
         $now = microtime(true);
         $jitter = 1 + self::BACKOFF_JITTER * (2 * (rand() / getrandmax()) - 1);
         return $now + $this->backoff * $jitter;
-    }
-
-    /**
-     * Caches a response, and remembers the key it was cached under so that flushAll() can
-     * find it again without knowing the body it was asked with.
-     *
-     * @param mixed $result
-     */
-    protected function remember(string $transientKey, $result, int $expiration): void
-    {
-        set_site_transient($transientKey, $result, $expiration);
-        $remembered = $this->remembered();
-        if (!in_array($transientKey, $remembered, true)) {
-            $remembered[] = $transientKey;
-            $this->rememberAll($remembered);
-        }
-    }
-
-    /**
-     * @param string[] $transientKeys
-     */
-    protected function rememberAll(array $transientKeys): void
-    {
-        $transientKeys = array_values(array_unique($transientKeys));
-        if (empty($transientKeys)) {
-            delete_site_option($this->rememberedKey());
-            return;
-        }
-        update_site_option($this->rememberedKey(), $transientKeys);
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function remembered(): array
-    {
-        $remembered = Arr::consolidate(get_site_option($this->rememberedKey()));
-        return array_values(array_unique(array_filter($remembered, 'is_string')));
-    }
-
-    /**
-     * A site option rather than a site transient: the index must outlive the things it
-     * indexes, and a transient that has expired is one whose key we would otherwise never
-     * be able to clean up.
-     */
-    protected function rememberedKey(): string
-    {
-        return glsr()->prefix.'api_transients';
     }
 
     /**
