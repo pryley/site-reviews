@@ -1,28 +1,24 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
-import config from '@/public/config.js';
+import { config, adopt, listeners, feature, lib, report, attachReporter as attach, dom, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 import ColorPicker from '@/admin/color-picker.js';
-import { adopt, listeners } from '@/public/event.js';
-import feature from '@/public/feature.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
 import Flyoutmenu from '@/admin/flyoutmenu.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
-import lib from '@/public/lib.js';
 import Metabox from '@/admin/metabox.js';
 import Notice, { instance as notices } from '@/admin/notice.js';
 import PremiumLicense from '@/admin/premium-license.js';
 import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
 import registry, { defined, host } from '@/public/registry.js';
-import report, { attach } from '@/public/report.js';
-import Request from '@/public/request.js';
+import Request from '@/public/modules/request/request.js';
 import Search from '@/admin/search.js';
 import Sections from '@/admin/sections.js';
 import Shortcode from '@/admin/shortcode.js';
-import StarRating from '@/public/starrating.js';
+import StarRating from '@/public/modules/form/starrating.js';
 import Status from '@/admin/status.js';
 import Tabs from '@/admin/tabs.js';
 import watchTabs from '@/admin/tabs-wrap.js';
@@ -31,8 +27,6 @@ import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy, { followCursor } from 'tippy.js';
-import dom from '@/public/dom.js';
-import { debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
 
 GLSR.Event = adopt(GLSR.Event);
 GLSR.lib = lib;

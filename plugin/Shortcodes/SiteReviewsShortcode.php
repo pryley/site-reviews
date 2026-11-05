@@ -43,6 +43,11 @@ class SiteReviewsShortcode extends Shortcode
         }
     }
 
+    public function modules(): array
+    {
+        return ['reviews'];
+    }
+
     public function name(): string
     {
         return esc_html_x('Latest Reviews', 'admin-text', 'site-reviews');

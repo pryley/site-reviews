@@ -2973,12 +2973,12 @@ msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:31
+#: plugin/Commands/EnqueuePublicAssets.php:29
 #: plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:46
+#: plugin/Commands/EnqueuePublicAssets.php:44
 msgid "Close Modal"
 msgstr ""
 

@@ -1,8 +1,5 @@
-import Button from '@/public/button.js';
-import config from '@/public/config.js';
-import { historyState } from '@/public/helpers.js';
-import report from '@/public/report.js';
-import Request from '@/public/request.js';
+import { Button, config, historyState, report } from '@/public/core/index.js';
+import Request from '@/public/modules/request/request.js';
 
 const classNames = {
     hide: 'glsr-hide',

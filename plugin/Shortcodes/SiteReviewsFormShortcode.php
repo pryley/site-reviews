@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -94,6 +95,15 @@ class SiteReviewsFormShortcode extends Shortcode
         $url = wp_login_url(strval(get_permalink()));
         remove_filter('login_url', [$this, 'filterLoginUrl'], 20);
         return $url;
+    }
+
+    public function modules(): array
+    {
+        $modules = ['form'];
+        if (!empty(glsr(Captcha::class)->config())) {
+            $modules[] = 'captcha';
+        }
+        return $modules;
     }
 
     public function name(): string

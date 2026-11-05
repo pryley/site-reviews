@@ -1,5 +1,4 @@
-import config from '@/public/config.js';
-import dom from '@/public/dom.js';
+import { config, dom } from '@/public/core/index.js';
 
 class Captcha {
     constructor (Form) {

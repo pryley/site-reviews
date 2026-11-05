@@ -101,12 +101,12 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
-#: plugin/Commands/EnqueuePublicAssets.php:31
+#: plugin/Commands/EnqueuePublicAssets.php:29
 #: plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr "Select a Rating"
 
-#: plugin/Commands/EnqueuePublicAssets.php:46
+#: plugin/Commands/EnqueuePublicAssets.php:44
 msgid "Close Modal"
 msgstr "Close Modal"
 

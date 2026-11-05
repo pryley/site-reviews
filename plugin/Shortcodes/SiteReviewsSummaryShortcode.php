@@ -47,6 +47,11 @@ class SiteReviewsSummaryShortcode extends Shortcode
         wp_enqueue_style('site-reviews-summary-style');
     }
 
+    public function modules(): array
+    {
+        return ['reviews'];
+    }
+
     public function name(): string
     {
         return esc_html_x('Rating Summary', 'admin-text', 'site-reviews');

@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery */
 
-import config from '@/public/config.js';
+import { config } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 
 const Filters = function () {

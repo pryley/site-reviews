@@ -58,6 +58,10 @@ afterEach(function () {
         wp_deregister_style($handle);
     }
     wp_dequeue_style('wp-color-picker');
+    foreach (['core', 'captcha', 'filters', 'form', 'modal', 'request', 'reviews'] as $name) {
+        wp_script_modules()->dequeue("@site-reviews/{$name}");
+        wp_script_modules()->deregister("@site-reviews/{$name}");
+    }
     set_current_screen('front');
 });
 
@@ -298,6 +302,65 @@ test('PHP answers the same with and without the glsr-debug parameter, and never 
         }
     }
     expect(true)->toBeTrue();
+});
+
+/*
+ * The bootstrap and its modules.
+ *
+ * The public script is a loader: it runs in the head, deferred, and names the behaviour modules
+ * in the import map without fetching one until a root on the page asks for it.
+ */
+
+test('the public script is a deferred head script that names its modules in the import map', function () {
+    (new EnqueuePublicAssets())->handle();
+
+    $script = wp_scripts()->registered[glsr()->id];
+    expect(wp_scripts()->get_data(glsr()->id, 'group'))->toBeFalsy() // the head
+        ->and(wp_scripts()->get_data(glsr()->id, 'strategy'))->toBe('defer');
+
+    $modules = wp_scripts()->get_data(glsr()->id, 'module_dependencies');
+    expect(array_column($modules, 'id'))->toBe([
+        '@site-reviews/captcha', '@site-reviews/form', '@site-reviews/modal', '@site-reviews/request', '@site-reviews/reviews',
+    ]);
+    expect(array_unique(array_column($modules, 'import')))->toBe(['dynamic']); // in the map, fetched on demand
+    foreach (['core', 'captcha', 'form', 'modal', 'request', 'reviews'] as $name) {
+        expect(wp_script_modules()->get_queue())->not->toContain("@site-reviews/{$name}"); // nothing is enqueued by the loader
+    }
+});
+
+test('every module imports core, and the two that send requests import the request module', function () {
+    (new EnqueuePublicAssets())->handle();
+
+    $registered = (fn () => $this->registered)->call(wp_script_modules());
+    expect($registered)->toHaveKeys(['@site-reviews/core', '@site-reviews/captcha', '@site-reviews/form', '@site-reviews/modal', '@site-reviews/request', '@site-reviews/reviews']);
+    expect($registered['@site-reviews/core']['src'])->toContain('/assets/scripts/modules/core.js');
+    expect(array_column($registered['@site-reviews/form']['dependencies'], 'id'))->toBe(['@site-reviews/core', '@site-reviews/request']);
+    expect(array_column($registered['@site-reviews/reviews']['dependencies'], 'id'))->toBe(['@site-reviews/core', '@site-reviews/request']);
+    expect(array_column($registered['@site-reviews/modal']['dependencies'], 'id'))->toBe(['@site-reviews/core']);
+    expect(array_unique(array_column($registered['@site-reviews/form']['dependencies'], 'import')))->toBe(['static']); // preloaded with the module
+});
+
+test('an addon adds its modules to the import map through the filter', function () {
+    add_filter('site-reviews/enqueue/public/modules', function (array $ids) {
+        wp_register_script_module('@site-reviews/filters', 'https://example.org/filters.js');
+        $ids[] = '@site-reviews/filters';
+        return $ids;
+    });
+
+    (new EnqueuePublicAssets())->handle();
+
+    expect(array_column(wp_scripts()->get_data(glsr()->id, 'module_dependencies'), 'id'))->toContain('@site-reviews/filters');
+});
+
+test('turning the scripts off also keeps the modules out', function () {
+    add_filter('site-reviews/assets/js', '__return_false');
+
+    (new EnqueuePublicAssets())->handle();
+    do_shortcode('[site_reviews_form]');
+
+    $registered = (fn () => $this->registered)->call(wp_script_modules());
+    expect($registered)->not->toHaveKey('@site-reviews/core');
+    expect(wp_script_modules()->get_queue())->toBe([]);
 });
 
 test('the pagination url parameter is only offered when the setting is on', function () {
