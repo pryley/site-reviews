@@ -12,6 +12,7 @@ class ApiDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'blocking' => 'bool',
+        'cache' => 'bool',
         'compress' => 'bool',
         'cookies' => 'array',
         'decompress' => 'bool',
@@ -49,6 +50,7 @@ class ApiDefaults extends DefaultsAbstract
         return [
             'blocking' => true, // Whether the calling code requires the result of the request.
             'body' => null,
+            'cache' => true, // if the response is cached
             'compress' => false, // Whether to compress the $body when sending the request.
             'cookies' => [],
             'decompress' => true, // Whether to decompress a compressed response.
