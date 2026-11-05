@@ -80,7 +80,7 @@ class Api
         if ($args['force']) {
             $this->forget($transientKey);
         } else {
-            $result = get_site_transient($transientKey);
+            $result = $args['cache'] ? get_site_transient($transientKey) : false;
             if (!empty($result)) {
                 return new Response($result);
             }
@@ -96,7 +96,9 @@ class Api
             $result = $this->send($url, wp_parse_args(compact('timeout'), $args));
             $response = new Response($result);
             if ($response->successful()) {
-                $this->remember($transientKey, $result, $args['expiration']);
+                if ($args['cache']) {
+                    $this->remember($transientKey, $result, $args['expiration']);
+                }
                 if ($args['skip_when_down']) {
                     $this->markReachable();
                 }

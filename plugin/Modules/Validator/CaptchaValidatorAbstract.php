@@ -83,7 +83,7 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
     {
         return [
             'body' => $body,
-            'force' => true,
+            'cache' => false,
         ];
     }
 

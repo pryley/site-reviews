@@ -64,12 +64,12 @@ class FriendlycaptchaV2Validator extends CaptchaValidatorAbstract
     protected function requestArgs(array $body): array
     {
         return [
-            'force' => true,
+            'body' => wp_json_encode($body),
+            'cache' => false,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'X-API-Key' => $this->siteSecret(),
             ],
-            'body' => wp_json_encode($body),
         ];
     }
 

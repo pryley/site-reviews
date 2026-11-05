@@ -54,9 +54,9 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
     protected function requestArgs(array $body): array
     {
         return [
-            'force' => true,
-            'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
+            'cache' => false,
+            'headers' => ['Content-Type' => 'application/json'],
         ];
     }
 
