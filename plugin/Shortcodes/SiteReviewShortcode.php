@@ -41,6 +41,11 @@ class SiteReviewShortcode extends Shortcode
         return esc_html_x('Single Review', 'admin-text', 'site-reviews');
     }
 
+    public function stylesheets(): array
+    {
+        return ['flags', 'review', 'star-rating'];
+    }
+
     protected function config(): array
     {
         return [ // order is intentional

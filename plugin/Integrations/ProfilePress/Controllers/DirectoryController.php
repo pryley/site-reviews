@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\ProfilePress\Controllers;
 
-use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\ProfilePress\RatingField;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use ProfilePress\Core\Admin\SettingsPages\DragDropBuilder\DragDropBuilder;
 use ProfilePress\Core\Classes\FormRepository;
@@ -136,8 +136,7 @@ class DirectoryController extends AbstractController
         if ('pp-builder-preview' !== filter_input(\INPUT_POST, 'action')) {
             return;
         }
-        $css = file_get_contents(glsr()->path('assets/styles/minimal.css'));
-        $css .= glsr(EnqueuePublicAssets::class)->inlineStyles();
+        $css = glsr(Stylesheets::class)->css('minimal');
         $_POST['builder_css'] = $_POST['builder_css'].$css; // ProfilePress reads $_POST after this callback
     }
 

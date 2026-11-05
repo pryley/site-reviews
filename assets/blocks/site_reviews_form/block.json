@@ -107,7 +107,6 @@
   ],
   "style": [
     "file:./style-index.css",
-    "site-reviews",
     "wp-block-button"
   ]
 }

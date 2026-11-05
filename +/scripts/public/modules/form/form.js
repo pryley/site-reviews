@@ -1,6 +1,6 @@
 /** global: FormData */
 
-import { Button, config, Event, feature, direction, historyState, load, report, addRemoveClass, classListSelector } from '@/public/core/index.js';
+import { Button, config, declaredStyles, Event, feature, direction, historyState, load, report, addRemoveClass, classListSelector } from '@/public/core/index.js';
 import Conditions from '@/public/modules/form/conditions.js';
 import Request from '@/public/modules/request/request.js';
 import Session from '@/public/modules/form/session.js';
@@ -152,6 +152,7 @@ class Form {
         const { Review, Summary } = window.GLSR;
         if (reviewsEl && response.reviews) {
             reviewsEl.innerHTML = response.reviews;
+            declaredStyles(reviewsEl)
             if (config.pagination.urlParameter) {
                 let url = new URL(location.href);
                 url.searchParams.delete(config.pagination.urlParameter);

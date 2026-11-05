@@ -224,6 +224,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/enqueue/public/modules` filter hook to add a script module to the import map
+- Added the `site-reviews/stylesheet/url` filter hook to point a stylesheet at your own file
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Added the `site-reviews/review/value`, `site-reviews/review/label` and `site-reviews/review/notice` filters for developers, which run on every tag before the per-tag ones
 - Changed the browser console: a request the server declines is logged as a warning and a fault as an error
@@ -232,6 +233,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed the Licenses tab: it is shown only while a standalone addon is active
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed the plugin script into a small loader: a page only loads the parts it uses (the review lists, the form, the captcha, the modal), when it uses them, and a page without reviews loads none of them
+- Changed how the plugin stylesheet loads: each reviews list, form and summary loads the styles it uses beside itself, once per page, and a page without reviews loads none; the `site-reviews` stylesheet handle is gone and the `site-reviews/assets/css` filter hook turns the stylesheets off
 - Changed Compatibility Mode to no longer keep the Javascript names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`), since those add-ons do not run on this version
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website

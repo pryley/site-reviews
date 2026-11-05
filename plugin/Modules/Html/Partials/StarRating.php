@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Defaults\StarRatingDefaults;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
@@ -17,9 +18,11 @@ class StarRating implements PartialContract
         $this->data = glsr()->args(
             glsr(StarRatingDefaults::class)->restrict($args)
         );
-        return glsr(Builder::class)->div([
+        $stylesheets = glsr(Stylesheets::class);
+        return $stylesheets->print(['star-rating']).glsr(Builder::class)->div([
             'aria-label' => $this->label(),
             'class' => 'glsr-star-rating glsr-stars',
+            'data-glsr-styles' => $stylesheets->declare(['star-rating']),
             'data-rating' => $this->data->rating,
             'data-reviews' => $this->data->reviews,
             'role' => 'img',

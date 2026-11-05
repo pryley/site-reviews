@@ -238,6 +238,7 @@ site-reviews/slack/fields                                   (array $fields, Revi
 site-reviews/slack/notification                             (array $notification, Modules\Slack $slack): array
 site-reviews/slack/stars                                    (string $stars, int $rating, int $maxRating): string
 site-reviews/style                                          (string $style): string
+site-reviews/stylesheet/url                                 (string $url, string $component, string $style): string
 site-reviews/style/templates                                (array $views): array
 site-reviews/style/views                                    (array $views, string $view): array
 site-reviews/summary/build/<tag_or_field_key>               (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string

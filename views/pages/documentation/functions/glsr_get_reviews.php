@@ -96,7 +96,7 @@ echo $reviewsHtml;
 echo $reviewsHtml->pagination;</code></pre>
             </li>
             <li>
-                <p>If you want to use the Site Reviews CSS to style the reviews, you will need to wrap everything in a div and add the attribute tags like this:</p>
+                <p>If you want to use the Site Reviews CSS and Javascript (the pagination, the "read more" links), you will need to wrap everything in a div and add the attribute tags like this. The attributes carry the plugin style's classes and name the scripts the reviews use, and the stylesheets are loaded for the div.</p>
                 <pre><code class="language-php">$reviewsHtml = $reviews->build();
 echo "&lt;div {$reviewsHtml->attributes}&gt;";
 echo $reviewsHtml;

@@ -46,7 +46,6 @@ function styleMatrixRow(string $name): array
         'block_button' => $style->usesBlockButton(),
         'classes' => $style->classes,
         'root' => $style->styleClasses(),
-        'stylesheet' => str_replace(glsr()->url(), '', $style->stylesheetUrl()),
         'validation' => $style->validation,
         'views' => array_combine(STYLE_MATRIX_VIEWS, array_map([$style, 'view'], STYLE_MATRIX_VIEWS)),
     ];

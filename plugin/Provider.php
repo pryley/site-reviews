@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Licensing\Hooks as LicensingHooks;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
+use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -27,6 +28,7 @@ class Provider implements ProviderContract
         $app->singleton(Router::class);
         $app->singleton(ScheduledActionsTable::class);
         $app->singleton(Style::class);
+        $app->singleton(Stylesheets::class);
         $app->singleton(Translation::class);
         $app->singleton(Translator::class);
     }

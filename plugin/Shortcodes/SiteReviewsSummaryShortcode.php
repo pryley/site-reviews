@@ -57,6 +57,11 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return esc_html_x('Rating Summary', 'admin-text', 'site-reviews');
     }
 
+    public function stylesheets(): array
+    {
+        return ['star-rating', 'summary'];
+    }
+
     protected function buildTemplateTag(string $tag): string
     {
         $args = $this->args;

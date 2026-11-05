@@ -19,7 +19,6 @@ return [
             'label_radio' => 'form-check-label',
         ],
         'root' => 'glsr glsr-bootstrap',
-        'stylesheet' => 'assets/styles/bootstrap.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -77,7 +76,6 @@ return [
             'label_radio' => 'breakdance-form-radio__text',
         ],
         'root' => 'glsr glsr-breakdance',
-        'stylesheet' => 'assets/styles/breakdance.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -141,7 +139,6 @@ return [
             'label_radio' => 'wpcf7-list-item-label',
         ],
         'root' => 'glsr glsr-contact_form_7',
-        'stylesheet' => 'assets/styles/contact_form_7.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -197,7 +194,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-default',
-        'stylesheet' => 'assets/styles/default.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -253,7 +249,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-divi',
-        'stylesheet' => 'assets/styles/divi.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -310,7 +305,6 @@ return [
             'input_date' => 'elementor-date-field elementor-field elementor-field-textual elementor-size-sm elementor-use-native',
         ],
         'root' => 'glsr glsr-elementor',
-        'stylesheet' => 'assets/styles/elementor.css',
         'validation' => [
             'field_error' => 'elementor-error glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -366,7 +360,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-minimal',
-        'stylesheet' => 'assets/styles/minimal.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -424,7 +417,6 @@ return [
             'label_radio' => 'nf-checked-label',
         ],
         'root' => 'glsr glsr-ninja_forms',
-        'stylesheet' => 'assets/styles/ninja_forms.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid nf-error nf-fail',
             'field_hidden' => 'glsr-hidden',
@@ -480,7 +472,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentyfifteen',
-        'stylesheet' => 'assets/styles/twentyfifteen.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -536,7 +527,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentynineteen',
-        'stylesheet' => 'assets/styles/twentynineteen.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -592,7 +582,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentyseventeen',
-        'stylesheet' => 'assets/styles/twentyseventeen.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -648,7 +637,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentysixteen',
-        'stylesheet' => 'assets/styles/twentysixteen.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -704,7 +692,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentytwenty',
-        'stylesheet' => 'assets/styles/twentytwenty.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -760,7 +747,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentytwentyone',
-        'stylesheet' => 'assets/styles/twentytwentyone.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -816,7 +802,6 @@ return [
             'textarea' => '',
         ],
         'root' => 'glsr glsr-twentytwentytwo',
-        'stylesheet' => 'assets/styles/twentytwentytwo.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',
@@ -874,7 +859,6 @@ return [
             'label_radio' => 'wpforms-field-label-inline',
         ],
         'root' => 'glsr glsr-wpforms',
-        'stylesheet' => 'assets/styles/wpforms.css',
         'validation' => [
             'field_error' => 'glsr-field-is-invalid',
             'field_hidden' => 'glsr-hidden',

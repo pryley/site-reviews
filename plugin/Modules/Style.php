@@ -95,14 +95,6 @@ class Style
         );
     }
 
-    public function stylesheetUrl(): string
-    {
-        $name = file_exists(glsr()->path("assets/styles/{$this->name}.css"))
-            ? $this->name
-            : 'default';
-        return glsr()->url("assets/styles/{$name}.css");
-    }
-
     public function usesBlockButton(): bool
     {
         if (!glsr()->filterBool('assets/css', true)) {
