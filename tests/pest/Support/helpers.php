@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Licensing\License;
 use Pryley\WpPluginTooling\Pest;
 
 /*
@@ -33,6 +34,7 @@ function resetPluginState(): void
     // validation writes `form_invalid`, and ValidatorAbstract::validate() then SKIPS validation
     // entirely, so one failing submission leaves every validation test after it passing blind.
     glsr()->sessionClear();
+    glsr(License::class)->reset(); // the status is memoised on the singleton
 }
 
 /**

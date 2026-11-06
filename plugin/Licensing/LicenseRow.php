@@ -74,6 +74,7 @@ class LicenseRow
     {
         $this->check = null;
         glsr(LicenseServer::class)->flush(static::ADDON_ID);
+        glsr(License::class)->reset();
     }
 
     public function isActive(): bool

@@ -18,7 +18,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *
  * None of this exists on a free site — the first thing to get right. Everything hangs off
  * glsr()->retrieve('licensed'), the addons that declared `const LICENSED = true`. Empty on a free
- * site, so License::status() reports `licensed => false` and both banners return immediately:
+ * site, so License answers `isLicensed()` with false and both banners return immediately:
  * nagging a free user about a licence they never bought would be worse than wrong.
  *
  * With licensed addons, three states, each its own outcome:
@@ -261,6 +261,7 @@ function licenseServerDown(): void
     glsr(GeminiLabs\SiteReviews\Api::class, ['url' => GeminiLabs\SiteReviews\Licensing\LicenseServer::baseUrl()])->flushAll('check_license');
     add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 0]));
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+    glsr(License::class)->reset(); // the next read is another request
 }
 
 /**
@@ -273,48 +274,49 @@ function lastCheck(string $addonId): ?array
 }
 
 /**
- * Time passes: the stored check ages.
+ * Time passes: the stored check ages, and the next read is another request.
  */
 function ageLastCheck(string $addonId, int $seconds): void
 {
     $checks = (array) get_option(glsr()->prefix.'license_checks');
     $checks[$addonId]['time'] = time() - $seconds;
     update_option(glsr()->prefix.'license_checks', $checks, false);
+    glsr(License::class)->reset();
 }
 
 test('the last check stands in for three days while the licence server cannot be reached', function () {
     licensedAddon('a-premium-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    expect(glsr(License::class)->status()['premium'])->toBeTrue();
+    expect(glsr(License::class)->isPremium())->toBeTrue();
 
     licenseServerDown();
-    expect(glsr(License::class)->status()['premium'])->toBeTrue()
-        ->and(glsr(License::class)->status()['invalid'])->toBeFalse()
+    expect(glsr(License::class)->isPremium())->toBeTrue()
+        ->and(glsr(License::class)->isInvalid())->toBeFalse()
         ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key');
 
     ageLastCheck(addonId(), 4 * DAY_IN_SECONDS);
-    expect(glsr(License::class)->status()['premium'])->toBeFalse()
-        ->and(glsr(License::class)->status()['invalid'])->toBeFalse(); // nothing is known again
+    expect(glsr(License::class)->isPremium())->toBeFalse()
+        ->and(glsr(License::class)->isInvalid())->toBeFalse(); // nothing is known again
 });
 
 test('an expired check stands in too, so the renewal banner stays', function () {
     licensedAddon('an-expired-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59']]);
-    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+    expect(glsr(License::class)->isExpired())->toBeTrue();
 
     licenseServerDown();
-    expect(glsr(License::class)->status()['expired'])->toBeTrue();
+    expect(glsr(License::class)->isExpired())->toBeTrue();
 });
 
 test('a key changed during the outage does not inherit the check of the old one', function () {
     licensedAddon('an-old-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
 
     licenseServerDown();
     licensedAddon('a-new-key');
-    expect(glsr(License::class)->status()['premium'])->toBeFalse()
-        ->and(glsr(License::class)->status()['invalid'])->toBeFalse();
+    expect(glsr(License::class)->isPremium())->toBeFalse()
+        ->and(glsr(License::class)->isInvalid())->toBeFalse();
 });
 
 test('Check on the License row still says the server could not be reached', function () {
@@ -322,27 +324,26 @@ test('Check on the License row still says the server could not be reached', func
     // send them away thinking the server answered.
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
 
     licenseServerDown();
     expect(glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->check(true)->isReachable())->toBeFalse()
-        ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key'); // while status() keeps the check
+        ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key'); // while the status keeps the check
 });
 
 test('the check is written once an hour, not on every admin page', function () {
-    // status() runs several times on every admin page. An hour keeps the stored time close
-    // to the last real check, so the three days are three days.
+    // An hour keeps the stored time close to the last real check, so the three days are three days.
     licensedAddon('a-premium-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
 
     ageLastCheck(addonId(), 30 * MINUTE_IN_SECONDS);
     $halfAnHourAgo = lastCheck(addonId())['time'];
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
     expect(lastCheck(addonId())['time'])->toBe($halfAnHourAgo); // the same check, younger than an hour
 
     ageLastCheck(addonId(), 2 * HOUR_IN_SECONDS);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
     expect(lastCheck(addonId())['time'])->toBeGreaterThan(time() - 5); // written again
 });
 
@@ -351,7 +352,7 @@ test('the stored checks are one option row that is not autoloaded', function () 
     global $wpdb;
     licensedAddon('a-premium-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
 
     $autoload = $wpdb->get_var($wpdb->prepare("SELECT autoload FROM {$wpdb->options} WHERE option_name = %s", glsr()->prefix.'license_checks'));
 
@@ -362,12 +363,30 @@ test('the stored checks are one option row that is not autoloaded', function () 
 test('deactivating or deleting the premium key deletes its stored check', function () {
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
     licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
-    glsr(License::class)->status();
+    glsr(License::class)->isPremium();
     expect(lastCheck('site-reviews-premium'))->toBeArray();
 
     glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->flush(); // what Deactivate and Delete call
 
     expect(lastCheck('site-reviews-premium'))->toBeNull();
+});
+
+test('the status is built once a request, and again after a reset', function () {
+    // Ten places read it on an admin page. A reset is what a flush does; a key change rebuilds it on its own.
+    licensedAddon('a-premium-key');
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    expect(glsr(License::class)->isPremium())->toBeTrue();
+
+    glsr(GeminiLabs\SiteReviews\Api::class, ['url' => GeminiLabs\SiteReviews\Licensing\LicenseServer::baseUrl()])->flushAll('check_license');
+    licenseServer(['check_license' => ['success' => false, 'license' => 'invalid']]);
+    expect(glsr(License::class)->isPremium())->toBeTrue(); // the same request: nothing is asked again
+
+    glsr(License::class)->reset();
+    expect(glsr(License::class)->isPremium())->toBeFalse();
+
+    licensedAddon('another-key'); // a changed key rebuilds it without a reset
+    licenseServer(['check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true]]);
+    expect(glsr(License::class)->isPremium())->toBeTrue();
 });
 
 test('a licence that could not be checked is not reported as invalid', function () {
@@ -377,7 +396,7 @@ test('a licence that could not be checked is not reported as invalid', function 
     licensedAddon('a-licence-key');
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
 
-    expect(glsr(License::class)->status()['invalid'])->toBeFalse();
+    expect(glsr(License::class)->isInvalid())->toBeFalse();
 });
 
 test('an EXPIRED licence is kept, and the person is told to renew it', function () {
@@ -524,11 +543,9 @@ test('a premium licence marks the whole status premium', function () {
         'check_license' => ['license' => 'valid', 'is_premium_license' => true],
     ]);
 
-    $status = glsr(License::class)->status();
-
-    expect($status['licensed'])->toBeTrue()
-        ->and($status['premium'])->toBeTrue()
-        ->and($status['expired'])->toBeFalse();
+    expect(glsr(License::class)->isLicensed())->toBeTrue()
+        ->and(glsr(License::class)->isPremium())->toBeTrue()
+        ->and(glsr(License::class)->isExpired())->toBeFalse();
 });
 
 test('the key the upgrade page saved counts as premium before premium is installed', function () {
@@ -538,13 +555,11 @@ test('the key the upgrade page saved counts as premium before premium is install
         'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
     ]);
 
-    $status = glsr(License::class)->status();
-
-    expect($status['licensed'])->toBeTrue()
-        ->and($status['missing'])->toBeFalse()
-        ->and($status['premium'])->toBeTrue()
+    expect(glsr(License::class)->isLicensed())->toBeTrue()
+        ->and(glsr(License::class)->isMissing())->toBeFalse()
+        ->and(glsr(License::class)->isPremium())->toBeTrue()
         ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key')
-        ->and($asked->getArrayCopy())->toBe(['check_license']); // status() ran twice; the second read the day's cache
+        ->and($asked->getArrayCopy())->toBe(['check_license']); // the status was built once; premiumKey() read it again
 });
 
 test('a flagged key of an addon is the premium key too', function () {
@@ -563,10 +578,8 @@ test('an expired flagged key is not offered for the install', function () {
         'check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59', 'is_premium_license' => true],
     ]);
 
-    $status = glsr(License::class)->status();
-
-    expect($status['premium'])->toBeTrue() // as before: the pitch is hidden
-        ->and($status['expired'])->toBeTrue()
+    expect(glsr(License::class)->isPremium())->toBeTrue() // as before: the pitch is hidden
+        ->and(glsr(License::class)->isExpired())->toBeTrue()
         ->and(glsr(License::class)->premiumKey())->toBe('');
 });
 
@@ -600,12 +613,13 @@ test('an installed premium plugin is premium before any licence is entered', fun
     $registered = $registry->getValue(glsr(Registry::class));
     try {
         glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
-        $status = glsr(License::class)->status();
+        $isPremium = glsr(License::class)->isPremium();
+        $isMissing = glsr(License::class)->isMissing();
     } finally {
         $registry->setValue(glsr(Registry::class), $registered);
     }
 
-    expect($status['premium'])->toBeTrue()
-        ->and($status['missing'])->toBeTrue() // no key entered: the missing banner still nags
+    expect($isPremium)->toBeTrue()
+        ->and($isMissing)->toBeTrue() // no key entered: the missing banner still nags
         ->and($asked)->toHaveCount(0); // and nobody asked the licence server to find that out
 });

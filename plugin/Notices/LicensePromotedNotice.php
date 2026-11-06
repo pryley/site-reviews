@@ -11,8 +11,7 @@ class LicensePromotedNotice extends AbstractNotice
 
     public function render(): void
     {
-        $licensing = glsr(License::class)->status(); // cached daily
-        if ($licensing['licensed']) {
+        if (glsr(License::class)->isLicensed()) {
             return;
         }
         if (!$this->canRender()) {
@@ -21,7 +20,7 @@ class LicensePromotedNotice extends AbstractNotice
         echo glsr(Builder::class)->div([
             'class' => $this->classAttr(),
             'data-notice' => get_class($this),
-            'text' => glsr()->build($this->path(), $licensing),
+            'text' => glsr()->build($this->path()),
         ]);
     }
 
