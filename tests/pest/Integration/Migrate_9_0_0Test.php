@@ -1,7 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Migrations\Migrate_8_4_0;
+use GeminiLabs\SiteReviews\Migrations\Migrate_9_0_0;
 
 use function GeminiLabs\SiteReviews\Tests\licenseServer;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -18,7 +18,7 @@ beforeEach(fn () => resetPluginState());
 test('the migration deletes the list of cached api responses', function () {
     update_site_option(glsr()->prefix.'api_transients', ['glsr_api_request_abcdefgh_ijklmnop']);
 
-    (new Migrate_8_4_0())->run();
+    (new Migrate_9_0_0())->run();
 
     expect(get_site_option(glsr()->prefix.'api_transients'))->toBeFalse();
 });
@@ -27,7 +27,7 @@ test('on a single site the migration asks the licence server nothing', function 
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-saved-key');
     $asked = licenseServer([]);
 
-    expect((new Migrate_8_4_0())->run())->toBeTrue()
+    expect((new Migrate_9_0_0())->run())->toBeTrue()
         ->and($asked)->toHaveCount(0)
         ->and(glsr_get_option('licenses.site-reviews-images'))->toBe('a-saved-key');
 });
