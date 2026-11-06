@@ -9,6 +9,37 @@
     </h3>
     <div id="upgrade-v9_0_0" class="inside">
 
+        <h2>Changes to how the scripts and stylesheets load</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
+        <ol>
+            <li>
+                <p><strong>Site Reviews only loads its scripts and stylesheets on a page that shows reviews, a review form or a rating summary.</strong></p>
+                <p>The public script is a small loader. The reviews, the form, the captcha and the modal are each a script module that the page loads when something on it needs that module. The stylesheet is split the same way and printed beside the first reviews, review form or rating summary on the page.</p>
+            </li>
+            <li>
+                <p><strong>If your site uses a page cache, purge it after updating.</strong></p>
+                <p>A cached page may link to a script or stylesheet that version 9.0 does not have. If this happens, the review elements on the page will look unstyled until the cache is refreshed.</p>
+            </li>
+            <li>
+                <p><strong>If your theme uses <code>glsr_get_reviews()</code> or <code>glsr_get_review()</code> to display reviews, make sure that you wrap the output in a <code>&lt;div&gt;</code> with the <code>attributes</code> of the built object.</strong></p>
+                <p>The attributes contain the script and stylesheet names needed to dynamically style the reviews.</p>
+                <pre><code class="language-php">$reviewsHtml = $reviews->build();
+echo "&lt;div {$reviewsHtml->attributes}&gt;";
+echo $reviewsHtml;
+echo $reviewsHtml->pagination;
+echo '&lt;/div&gt;';</code></pre>
+            </li>
+        </ol>
+
+        <h2>Removed hooks</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <ol>
+            <li>
+                <p><strong>The hook names that version 5.0 replaced no longer work.</strong></p>
+                <p>Version 5.0 deprecated these in 2020, and they were kept working until now: <code>site-reviews/review/response</code>, <code>site-reviews/reviews/reviews-wrapper</code>, <code>site-reviews/review-table/filter</code>, <code>site-reviews/config/forms/submission-form</code>, <code>site-reviews/submission-form/order</code>, and the <code>{{ review_id }}</code> and <code>{{ assigned_to }}</code> template tags. The <code>site-reviews/support/deprecated/v5</code> filter hook is removed with them.</p>
+            </li>
+        </ol>
+
         <h2>Changes to Javascript events</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
@@ -58,8 +89,8 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
                 <p>Both events are still triggered when the page loads.</p>
             </li>
             <li>
-                <p><strong>The <code>site-reviews/pagination/popstate</code> event is removed.</strong></p>
-                <p>It repeated the browser's own event. Use that instead:</p>
+                <p><strong>The <code>site-reviews/pagination/popstate</code> event has been removed.</strong></p>
+                <p>Use the native browser event instead:</p>
                 <pre><code class="language-js">window.addEventListener('popstate', (event) => {
     // the visitor used the back or the forward button
 })</code></pre>
@@ -70,7 +101,7 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
-                <p><strong>The values that Site Reviews gives to its scripts have moved to <code>GLSR.config</code>, and they are read-only.</strong></p>
+                <p><strong>The values that Site Reviews gives to its scripts have moved to <code>GLSR.config</code> and they are read-only.</strong></p>
                 <p>The previous keys (for example <code>GLSR.ajax_url</code> and <code>GLSR.validation_strings</code>) still work, but changing one of them in the browser no longer has an effect. To change a value, use the <code>site-reviews/assets/config</code> filter hook:</p>
                 <pre><code class="language-php">add_filter('site-reviews/assets/config', function (array $config, string $bundle) {
     if ('public' === $bundle) {
