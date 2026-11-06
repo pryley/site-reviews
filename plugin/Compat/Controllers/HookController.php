@@ -10,14 +10,6 @@ use GeminiLabs\Vectorface\Whip\Whip;
 class HookController extends AbstractController
 {
     /**
-     * @filter site-reviews/build/template/review
-     */
-    public function filterAssignedToTag(string $template): string
-    {
-        return str_replace('{{ assigned_to }}', '{{ assigned_links }}', $template);
-    }
-
-    /**
      * @action wp_enqueue_scripts
      */
     public function filterOptimizeAsset(): void
@@ -86,43 +78,6 @@ class HookController extends AbstractController
     }
 
     /**
-     * @filter site-reviews/build/template/review
-     */
-    public function filterReviewIdTag(string $template): string
-    {
-        return str_replace('id="{{ review_id }}"', 'id="review-{{ review_id }}"', $template);
-    }
-
-    /**
-     * @return mixed
-     *
-     * @filter site-reviews/defaults/review-table-filters
-     */
-    public function filterReviewTableFilter(array $defaults)
-    {
-        return apply_filters_deprecated('site-reviews/review-table/filter',
-            [$defaults],
-            '5.11.0',
-            'site-reviews/defaults/review-table-filters'
-        );
-    }
-
-    /**
-     * @return mixed
-     *
-     * @filter site-reviews/rendered/template/reviews
-     */
-    public function filterReviewsWrapper(string $html)
-    {
-        return apply_filters_deprecated('site-reviews/reviews/reviews-wrapper',
-            [$html],
-            '5.0',
-            '',
-            'Please use a custom "reviews.php" template instead.'
-        );
-    }
-
-    /**
      * @return mixed
      *
      * @filter site-reviews/slack/notification
@@ -137,34 +92,6 @@ class HookController extends AbstractController
     }
 
     /**
-     * @return mixed
-     *
-     * @filter site-reviews/config/forms/review-form
-     */
-    public function filterSubmissionFormConfig(array $config)
-    {
-        return apply_filters_deprecated('site-reviews/config/forms/submission-form',
-            [$config],
-            '5.0',
-            'site-reviews/config/forms/review-form'
-        );
-    }
-
-    /**
-     * @return mixed
-     *
-     * @filter site-reviews/review-form/fields/order
-     */
-    public function filterSubmissionFormOrder(array $order)
-    {
-        return apply_filters_deprecated('site-reviews/submission-form/order',
-            [$order],
-            '5.0',
-            'site-reviews/review-form/fields/order'
-        );
-    }
-
-    /**
      * @filter site-reviews/whip/whitelist
      */
     public function filterWhipWhitelist(array $whitelist): array
@@ -173,19 +100,6 @@ class HookController extends AbstractController
         apply_filters_deprecated('site-reviews/whip/methods', [Whip::ALL_METHODS], '7.0.6', '', $message);
         apply_filters_deprecated('site-reviews/whip/whitelist/cloudflare', [false], '7.0.6', '', $message);
         return $whitelist;
-    }
-
-    /**
-     * @action site-reviews/review/responded
-     */
-    public function reviewResponse(Review $review, string $response): void
-    {
-        do_action_deprecated('site-reviews/review/response',
-            [$review, $response],
-            '5.11.0',
-            'site-reviews/review/responded',
-            'This hook is documented on the FAQ page.'
-        );
     }
 
     /**

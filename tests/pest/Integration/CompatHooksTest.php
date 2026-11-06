@@ -24,7 +24,7 @@ beforeEach(function () {
 
 function registerOldHooks(array $versions): void
 {
-    foreach ([5, 6, 7, 8] as $version) {
+    foreach ([6, 7, 8] as $version) {
         remove_filter("site-reviews/support/deprecated/v{$version}", '__return_false');
         if (!in_array($version, $versions)) {
             add_filter("site-reviews/support/deprecated/v{$version}", '__return_false');
@@ -34,35 +34,26 @@ function registerOldHooks(array $versions): void
 }
 
 test('a listener of an old filter name receives the value, and its answer is used', function () {
-    registerOldHooks([5, 8]);
-    add_filter('site-reviews/submission-form/order', fn ($order) => array_merge($order, ['v5']));
+    registerOldHooks([8]);
     add_filter('site-reviews/review-form/order', fn ($order) => array_merge($order, ['v8']));
 
-    // the 5.0 name is relayed at priority 9, the 8.0 name at 10
-    expect(glsr()->filterArray('review-form/fields/order', ['rating']))->toBe(['rating', 'v5', 'v8']);
+    expect(glsr()->filterArray('review-form/fields/order', ['rating']))->toBe(['rating', 'v8']);
 
     $notices = implode(' ', glsr()->retrieveAs('array', 'deprecated'));
-    expect($notices)->toContain('site-reviews/submission-form/order');
     expect($notices)->toContain('site-reviews/review-form/order');
 });
 
 test('a listener of an old action name receives every argument', function () {
     // the plugin's own listeners expect a Review
-    remove_all_actions('site-reviews/review/responded');
     remove_all_actions('site-reviews/review/updated');
-    registerOldHooks([5, 6]);
+    registerOldHooks([6]);
     $heard = [];
-    add_action('site-reviews/review/saved', function (...$args) use (&$heard) { $heard['saved'] = $args; }, 10, 2);
-    add_action('site-reviews/review/response', function (...$args) use (&$heard) { $heard['response'] = $args; }, 10, 2);
+    add_action('site-reviews/review/saved', function (...$args) use (&$heard) { $heard = $args; }, 10, 2);
 
     $review = createReview();
     do_action('site-reviews/review/updated', $review, ['title' => 'x']);
-    do_action('site-reviews/review/responded', $review, 'thanks');
 
-    expect($heard)->toBe([
-        'saved' => [$review, ['title' => 'x']],
-        'response' => [$review, 'thanks'],
-    ]);
+    expect($heard)->toBe([$review, ['title' => 'x']]);
 });
 
 test('the filter of a version turns off the old hooks of that version only', function () {
@@ -81,15 +72,6 @@ test('the filter of a version turns off the old hooks of that version only', fun
     glsr()->filterArray('slack/notification', []);
 
     expect($heard)->toBe(['v6']);
-});
-
-test('the 5.x template tags still work', function () {
-    remove_all_filters('site-reviews/build/template/review');
-    registerOldHooks([5]);
-    $template = '<div id="{{ review_id }}">{{ assigned_to }}</div>';
-
-    expect(glsr()->filterString('build/template/review', $template))
-        ->toBe('<div id="review-{{ review_id }}">{{ assigned_links }}</div>');
 });
 
 test('a snippet that still turns the 8.4.0 asset optimiser on is told once, and a site without one hears nothing', function () {

@@ -44,6 +44,7 @@
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
+- Removed the fallbacks for the hook names and template tags that version 5.0 replaced: `site-reviews/review/response`, `site-reviews/reviews/reviews-wrapper`, `site-reviews/review-table/filter`, `site-reviews/config/forms/submission-form`, `site-reviews/submission-form/order`, `{{ review_id }}` and `{{ assigned_to }}`, and the `site-reviews/support/deprecated/v5` filter hook
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
 - Renamed the `Compatibility` PHP class to `Helpers\Hook`
 
