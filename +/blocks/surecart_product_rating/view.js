@@ -48,7 +48,6 @@ store('site-reviews/surecart-product-rating', {
         const newReviewCount = newStars.dataset.reviews ?? '0';
         currentStars.replaceWith(newStars);
         context.reviewCount = parseInt(newReviewCount, 10) || 0;
-        console.log(context)
       });
     },
   },
