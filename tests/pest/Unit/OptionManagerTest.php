@@ -25,6 +25,7 @@ test('database key', function () {
 
 test('database keys', function () {
     expect(OptionManager::databaseKeys())->toEqual([
+        9 => "site_reviews",
         8 => "site_reviews",
         7 => "site_reviews",
         6 => "site_reviews_v6",
