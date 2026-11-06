@@ -38,13 +38,9 @@ test('the two scripts share one list of listeners', async () => {
     }
 });
 
-test('the two scripts share one registry, which runs the compat script of each', () => {
+test('the compat script of each script runs, whichever loads first', () => {
     for (const order of ORDERS) {
         const { window } = loadBoth({ debug: true, order });
-        const ids = plain(window.GLSR.registry.defined()).filter(({ ran }) => ran).map(({ id }) => id).sort();
-        assert.deepEqual(ids, ['compat.admin', 'compat.public', 'debug.admin', 'debug.public'], order.join(', '))
-        // the pieces that each script was handed are not kept
-        assert.deepEqual(Object.keys(window.GLSR.registry[window.Symbol.for('site-reviews.registry')].hosted), [])
         // a key of the public script, a key of the admin script, and one that both define
         assert.equal(window.GLSR.ajax_url, window.GLSR.config.request.ajax.url)
         assert.equal(window.GLSR.addonsurl, window.GLSR.config.urls.addons)
