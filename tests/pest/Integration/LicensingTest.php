@@ -583,6 +583,58 @@ test('an expired flagged key is not offered for the install', function () {
         ->and(glsr(License::class)->premiumKey())->toBe('');
 });
 
+test('a flagged key saved under a deactivated addon is the premium key', function () {
+    // Deactivating Review Forms empties the licensed list but not its key field. The key is still
+    // the customer's premium key, so the install row is prefilled from it (PREMIUM-INSTALL.md).
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-forms', 'a-forms-all-access-key');
+    licenseServer([
+        'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    expect(glsr(License::class)->isPremium())->toBeTrue()
+        ->and(glsr(License::class)->premiumKey())->toBe('a-forms-all-access-key')
+        ->and(glsr(License::class)->isLicensed())->toBeFalse() // no addon is licensed here, so no banner nags
+        ->and(glsr(License::class)->isMissing())->toBeFalse();
+});
+
+test('a deactivated addon\'s key sets nothing but the premium flag', function () {
+    // Its expiry or invalidity is nobody's problem on this site: the addon is gone.
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-forms', 'an-expired-all-access-key');
+    licenseServer([
+        'check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59', 'is_premium_license' => true],
+    ]);
+
+    expect(glsr(License::class)->isPremium())->toBeTrue()
+        ->and(glsr(License::class)->premiumKey())->toBe('') // expired: not offered for the install
+        ->and(glsr(License::class)->isExpired())->toBeFalse()
+        ->and(glsr(License::class)->isInvalid())->toBeFalse();
+});
+
+test('the saved keys are only looked through while no premium key is known', function () {
+    // Each key looked at is a licence-server call a day, for ever. Once a valid premium key is in
+    // hand, from a licensed addon or from the row, the leftover keys are not asked about.
+    licensedAddon('an-all-access-key');
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-forms', 'another-key');
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-authors', 'a-third-key');
+    $asked = licenseServer([
+        'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    expect(glsr(License::class)->premiumKey())->toBe('an-all-access-key')
+        ->and($asked->getArrayCopy())->toBe(['check_license']); // the licensed addon's key alone
+});
+
+test('the look through the saved keys stops at the first flagged one', function () {
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-authors', 'an-authors-key');
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-forms', 'a-forms-key');
+    $asked = licenseServer([
+        'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    expect(glsr(License::class)->premiumKey())->toBe('an-authors-key')
+        ->and($asked->getArrayCopy())->toBe(['check_license']);
+});
+
 test('the connect page address of the licence check is kept, and only as a URL', function () {
     $defaults = glsr(GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults::class);
 
