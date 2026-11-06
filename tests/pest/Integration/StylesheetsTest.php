@@ -39,7 +39,8 @@ test('the first root prints the shared styles inline and its components as links
         ->not->toContain('id="glsr-css-form"');
     expect(strpos($list, '<style'))->toBeLessThan(strpos($list, 'glsr-reviews-wrap')); // before the root
     expect($list)->toContain('data-glsr-styles="button flags pagination review star-rating"')
-        ->not->toContain('data-glsr-styles="star-rating"'); // the root declares for the ratings inside it
+        ->not->toContain('data-glsr-styles="star-rating"') // the root declares for the ratings inside it
+        ->not->toContain('data-glsr-styles=""');
     expect(strpos($list, 'glsr-css-review"'))->toBeLessThan(strpos($list, 'glsr-css-button"')); // printed in the manifest's order
 
     $summary = do_shortcode('[site_reviews_summary]');
