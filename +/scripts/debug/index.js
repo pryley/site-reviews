@@ -6,7 +6,7 @@
 
 const PREFIX = '[site-reviews]';
 
-export default ({ attach, defined, listeners }, events = null) => {
+export default ({ attach, listeners }, events = null) => {
     const warned = new Set();
 
     const info = (message) => console.info(`${PREFIX} ${message}`);
@@ -63,6 +63,5 @@ export default ({ attach, defined, listeners }, events = null) => {
     };
 
     window.GLSR.Event.listeners = listeners;
-    window.GLSR.registry.defined = defined;
     attach((type, data) => reports[type]?.(data))
 }

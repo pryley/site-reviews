@@ -8,13 +8,12 @@ window.GLSR
 ├── config      the values PHP gives to the scripts (read-only)
 ├── {Module}    Review, Form, Summary, Modal, Event, Request, Util, …
 ├── lib         third-party libraries and shared modules
-├── load        loads a module that nothing on the page has named
-└── registry    defines scripts and loads them on demand
+└── load        loads a module that nothing on the page has named
 
 window.GLSR_init(root)
 ```
 
-The public script (`site-reviews.js`) is a bootstrap: it carries `Event`, `Util`, `lib`, `load`, the config and a `Request` whose methods load the request module, and nothing else. The behaviours are script modules that the page loads when a root names one (see [Modules](#modules)): `GLSR.Review` and `GLSR.Summary` arrive with `@site-reviews/reviews`, `GLSR.Form` with `@site-reviews/form`, `GLSR.Modal` with `@site-reviews/modal`. A name is on `GLSR` once its module has loaded, and not before. The admin script (`site-reviews-admin.js`) carries its modules itself. The block editor loads both on one page: they then share `GLSR.Event`, `GLSR.lib` and `GLSR.registry`, and `GLSR.config` holds the subjects of both. Where both configs have a member, the public script's value is kept: `request.ajax.action` is the public action on such a page.
+The public script (`site-reviews.js`) is a bootstrap: it carries `Event`, `Util`, `lib`, `load`, the config and a `Request` whose methods load the request module, and nothing else. The behaviours are script modules that the page loads when a root names one (see [Modules](#modules)): `GLSR.Review` and `GLSR.Summary` arrive with `@site-reviews/reviews`, `GLSR.Form` with `@site-reviews/form`, `GLSR.Modal` with `@site-reviews/modal`. A name is on `GLSR` once its module has loaded, and not before. The admin script (`site-reviews-admin.js`) carries its modules itself. The block editor loads both on one page: they then share `GLSR.Event` and `GLSR.lib`, and `GLSR.config` holds the subjects of both. Where both configs have a member, the public script's value is kept: `request.ajax.action` is the public action on such a page.
 
 ## Naming
 
@@ -22,7 +21,7 @@ The public script (`site-reviews.js`) is a bootstrap: it carries `Event`, `Util`
 - A singular module belongs to Site Reviews: `Review`, `Form`, `Summary`, `Modal`, `Event`, `Request`, `Util`.
 - A plural module belongs to a Site Reviews Premium feature: `Filters`, `Images`, `Themes`. It exists only on a page that loads that feature's script.
 - `Editor` is the editor of an [editor screen](#an-editor-screen), whichever plugin provides it. Only one is ever on a page.
-- The only lowercase keys are `version`, `config`, `lib`, `load` and `registry`.
+- The only lowercase keys are `version`, `config`, `lib` and `load`.
 
 ## Before the script runs
 
@@ -254,17 +253,6 @@ GLSR.lib.tippy                   // reads an entry
 - The first registration of a name wins; an entry cannot be replaced.
 - Read an entry when you use it, and handle `undefined`: a library is on the page only when something on that page needs it.
 
-## Registry
-
-`GLSR.registry` runs the compat and debug scripts of Site Reviews at the right time. It is on its way out: the behaviours are [modules](#modules) now, and `GLSR.load(token)` is how a script asks for one.
-
-```js
-GLSR.registry.define(id, factory)   // defines a script; the factory runs when the registry boots
-GLSR.registry.boot()                // runs every defined factory once, on DOMContentLoaded
-GLSR.registry.load(id)              // returns a Promise that resolves when the script has defined
-GLSR.registry.register(urls)        // { id: url }, the scripts that load(id) can fetch
-```
-
 ## Debug
 
 Debug mode writes information to the browser console. It never changes what the scripts do. It is a script of its own (`site-reviews-debug.js`, and `site-reviews-admin-debug.js` in the admin) that is on the page only when debug mode is on.
@@ -292,7 +280,6 @@ add_filter('site-reviews/debug/on-request', '__return_false');
 In debug mode:
 
 - `GLSR.Event.listeners()` returns the number of listeners of each event; `GLSR.Event.listeners(name)` returns the listeners of one event.
-- `GLSR.registry.defined()` returns the defined ids in order, and whether each has run.
 - `GLSR.Request` logs each request: the path, whether it used the REST API or the fallback, the status, and the time it took.
 - `GLSR.Form` logs each field's validation when a form is submitted (the rule, the value, pass or fail) and the response code.
 - `GLSR.Review.pagination` logs each page change.
