@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
+use GeminiLabs\SiteReviews\Licensing\Verdict;
 
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -148,27 +149,25 @@ test('a licence response is restricted to the keys the plugin knows about', func
 
     $result = server()->activate(addon(), 'a-real-licence-key');
 
-    expect($result['success'])->toBeTrue()
-        ->and($result['license'])->toBe('valid')
-        ->and($result['expires'])->toBe('2027-01-01 23:59:59')
-        ->and($result['activations_left'])->toEqual(3)
-        ->and($result)->not->toHaveKey('malicious_key')
-        ->and($result)->toHaveKey('site_count') // and the ones it did not send are still there
-        ->and($result['error'])->toBe('');
+    expect($result->isValid())->toBeTrue()
+        ->and($result->expires)->toBe('2027-01-01 23:59:59')
+        ->and($result->activationsLeft)->toBe(3)
+        ->and($result->toArray())->not->toHaveKey('malicious_key')
+        ->and($result->toArray())->toHaveKey('site_count') // and the ones it did not send are still there
+        ->and($result->toArray()['error'])->toBe('');
     expect($requests)->toHaveCount(1);
 });
 
 test('an unlicensed check comes back invalid rather than empty', function () {
     // CheckLicenseDefaults defaults `license` to 'invalid', not to ''. Everything that reads
-    // it is asking "is this licensed", and an empty string that is treated as "not yet
-    // checked" is how an unlicensed site ends up being offered a premium download.
+    // the verdict is asking "is this licensed", and a blank treated as "not yet checked" is
+    // how an unlicensed site ends up being offered a premium download.
     interceptHttp(['body' => (string) wp_json_encode(['success' => false])]);
 
     $result = server()->check(addon(), 'a-key', true);
 
-    expect($result['license'])->toBe('invalid')
-        ->and($result['success'])->toBeFalse()
-        ->and($result['is_premium_license'])->toBeFalse();
+    expect($result->verdict)->toBe(Verdict::Invalid)
+        ->and($result->premium)->toBeFalse();
 });
 
 test('a check with no answer comes back unknown, and still unlicensed', function () {
@@ -178,9 +177,9 @@ test('a check with no answer comes back unknown, and still unlicensed', function
 
     $result = server()->check(addon(), 'a-key', true);
 
-    expect($result['license'])->toBe('unknown')
-        ->and($result['success'])->toBeFalse()
-        ->and($result['is_premium_license'])->toBeFalse();
+    expect($result->verdict)->toBe(Verdict::Unreachable)
+        ->and($result->isValid())->toBeFalse()
+        ->and($result->premium)->toBeFalse();
 });
 
 test('a server that is down does not become an update', function () {
