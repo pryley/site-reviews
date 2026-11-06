@@ -11,12 +11,9 @@ class LicenseExpiredNotice extends AbstractNotice
 
     public function render(): void
     {
-        $licensing = glsr(License::class)->status(); // cached daily
-        if (!$licensing['licensed']) {
-            return; // unlicensed
-        }
-        if (!$licensing['expired']) {
-            return; // no licenses are expired
+        $license = glsr(License::class);
+        if (!$license->isLicensed() || !$license->isExpired()) {
+            return;
         }
         if (!$this->canRender()) {
             return;
@@ -24,7 +21,7 @@ class LicenseExpiredNotice extends AbstractNotice
         echo glsr(Builder::class)->div([
             'class' => $this->classAttr(),
             'data-notice' => get_class($this),
-            'text' => glsr()->build($this->path(), $licensing),
+            'text' => glsr()->build($this->path()),
         ]);
     }
 
