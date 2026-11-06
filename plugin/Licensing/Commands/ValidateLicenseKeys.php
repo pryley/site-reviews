@@ -6,8 +6,8 @@ use GeminiLabs\SiteReviews\Commands\AbstractCommand as AbstractBaseCommand;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Licensing\Check;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
-use GeminiLabs\SiteReviews\Licensing\LicenseStatus;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
@@ -18,7 +18,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
 {
     public array $licenses;
     protected string $addonId = '';
-    protected array $check = [];
+    protected ?Check $check = null;
     protected string $license = '';
     protected array $posted;
 
@@ -35,7 +35,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
             $this->license = $license;
             // A person saved the key: ask the server now.
             $this->check = glsr(LicenseServer::class)->check($addonId, $license, true);
-            $method = Helper::buildMethodName('onStatus', LicenseStatus::of($this->check));
+            $method = Helper::buildMethodName('onStatus', $this->check->verdict->value);
             if (!method_exists($this, $method)) {
                 $method = 'onStatusExhausted'; // unknown status fallback
             }
@@ -84,7 +84,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
         $this->notice(
             /* translators: %s: the relative expiry date (e.g. 3 days ago) */
             sprintf(_x('A license you entered has expired: %s.', 'admin-text', 'site-reviews'),
-                glsr(Date::class)->relative($this->check['expires'])
+                glsr(Date::class)->relative($this->check->expires)
             ),
             /* translators: %s: link to the License Keys page */
             sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
@@ -96,8 +96,8 @@ class ValidateLicenseKeys extends AbstractBaseCommand
     protected function onStatusInactive(): void
     {
         $activation = glsr(LicenseServer::class)->activate($this->addonId, $this->license);
-        if ('valid' !== $activation['license']) {
-            glsr_log($activation);
+        if (!$activation->isValid()) {
+            glsr_log($activation->toArray());
             $this->drop();
             return;
         }

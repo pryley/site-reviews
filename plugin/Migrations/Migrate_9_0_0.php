@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
+use GeminiLabs\SiteReviews\Licensing\Verdict;
 
 class Migrate_9_0_0 implements MigrateContract
 {
@@ -25,13 +26,10 @@ class Migrate_9_0_0 implements MigrateContract
         foreach ($licenses as $addonId => $license) {
             // Ask now: a cached answer is from before the URL changed.
             $check = $server->check((string) $addonId, $license, true);
-            if ('unknown' === $check['license']) {
+            if (!$check->isReachable()) {
                 return false; // no answer so run again next time
             }
-            if (!in_array($check['license'], ['inactive', 'site_inactive'], true)) {
-                continue;
-            }
-            if ($check['activations_left'] > 0 || 0 === $check['license_limit']) {
+            if (Verdict::Inactive === $check->verdict) {
                 $server->activate((string) $addonId, $license);
             }
         }

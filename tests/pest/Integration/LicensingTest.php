@@ -317,7 +317,7 @@ test('Check on the License row still says the server could not be reached', func
     glsr(License::class)->status();
 
     licenseServerDown();
-    expect(glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->check(true)['license'])->toBe('unknown')
+    expect(glsr(GeminiLabs\SiteReviews\Licensing\LicenseRow::class)->check(true)->isReachable())->toBeFalse()
         ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key'); // while status() keeps the answer
 });
 

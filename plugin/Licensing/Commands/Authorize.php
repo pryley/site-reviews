@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
+use GeminiLabs\SiteReviews\Licensing\Check;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Request;
@@ -14,16 +15,12 @@ class Authorize extends AbstractCommand
     public const CONNECT_HOSTS = ['niftyplugins.com', 'site-reviews.com'];
     public const TOKEN_LIFETIME = 15 * MINUTE_IN_SECONDS;
 
-    public array $check;
+    public ?Check $check;
     public string $connectUrl = '';
     public string $license = '';
     public string $token = '';
 
-    /**
-     * @param array $check the licence server's answer when Verify has just made it;
-     *                     otherwise the saved key is verified again here
-     */
-    public function __construct(array $check = [])
+    public function __construct(?Check $check = null)
     {
         $this->check = $check;
         $this->license = glsr(LicenseRow::class)->savedKey();
@@ -34,7 +31,7 @@ class Authorize extends AbstractCommand
         if (!$this->canInstall()) {
             return;
         }
-        if (empty($this->check)) {
+        if (null === $this->check) {
             $verify = new Verify(new Request(['connect' => false, 'license' => $this->license]));
             $verify->handle();
             if (!$verify->successful()) {
@@ -47,7 +44,7 @@ class Authorize extends AbstractCommand
             }
             $this->check = $verify->check;
         }
-        if (!$this->checkConnectUrl($this->check['connect_url'])) {
+        if (!$this->checkConnectUrl($this->check->connectUrl)) {
             return;
         }
         // Ask now: the store is about to install this version.

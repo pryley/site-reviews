@@ -23,11 +23,11 @@ class LicenseServer
     /** @var array<string, string> addon id => the address its Update URI header names, unsanitised */
     protected array $urls = [];
 
-    public function activate(string $addonId, string $license): array
+    public function activate(string $addonId, string $license): Check
     {
         $this->flushVersion($addonId);
         $results = $this->request('activate_license', $addonId, $license);
-        return glsr(ActivateLicenseDefaults::class)->restrict($results);
+        return new Check(glsr(ActivateLicenseDefaults::class)->restrict($results));
     }
 
     /**
@@ -55,7 +55,7 @@ class LicenseServer
     /**
      * Ask the server about a key, through the day's cache unless forced.
      */
-    public function check(string $addonId, string $license, bool $force = false): array
+    public function check(string $addonId, string $license, bool $force = false): Check
     {
         $this->flushVersion($addonId);
         $results = $this->request('check_license', $addonId, $license, $force);
@@ -63,14 +63,14 @@ class LicenseServer
         if (empty($results)) {
             $check['license'] = 'unknown'; // no answer is not an invalid license
         }
-        return $check;
+        return new Check($check);
     }
 
-    public function deactivate(string $addonId, string $license): array
+    public function deactivate(string $addonId, string $license): Check
     {
         $this->flushVersion($addonId);
         $results = $this->request('deactivate_license', $addonId, $license);
-        return glsr(DeactivateLicenseDefaults::class)->restrict($results);
+        return new Check(glsr(DeactivateLicenseDefaults::class)->restrict($results));
     }
 
     /**

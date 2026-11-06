@@ -47,16 +47,15 @@ class License
             }
             $check = glsr(LicenseServer::class)->check($addonId, $license); // the day's cache answers a passive check
             $check = $this->answerOrLast($addonId, $license, $check);
-            $verdict = LicenseStatus::of($check);
-            if (LicenseStatus::EXPIRED === $verdict) {
+            if (Verdict::Expired === $check->verdict) {
                 $status['expired'] = true;
             }
-            if (!in_array($verdict, [LicenseStatus::UNREACHABLE, LicenseStatus::VALID], true)) {
+            if (!in_array($check->verdict, [Verdict::Unreachable, Verdict::Valid], true)) {
                 $status['invalid'] = true; // no answer is no verdict
             }
-            if ($check['is_premium_license']) {
+            if ($check->premium) {
                 $status['premium'] = true;
-                if (LicenseStatus::VALID === $verdict && '' === $status['premium_key']) {
+                if ($check->isValid() && '' === $status['premium_key']) {
                     $status['premium_key'] = $license;
                 }
             }
@@ -67,16 +66,16 @@ class License
     /**
      * Use the last answer for three days while the licence server cannot be reached.
      */
-    protected function answerOrLast(string $addonId, string $license, array $check): array
+    protected function answerOrLast(string $addonId, string $license, Check $check): Check
     {
-        if (LicenseStatus::UNREACHABLE !== LicenseStatus::of($check)) {
+        if ($check->isReachable()) {
             $this->rememberAnswer($addonId, $license, $check);
             return $check;
         }
         $stored = Arr::consolidate(get_option($this->lastAnswerKey($addonId)));
         $age = time() - Cast::toInt($stored['time'] ?? 0);
         if ($age < static::LAST_ANSWER_FOR && Str::hash($license, 8) === ($stored['key'] ?? '')) {
-            return glsr(CheckLicenseDefaults::class)->restrict(Arr::consolidate($stored['check'] ?? []));
+            return new Check(glsr(CheckLicenseDefaults::class)->restrict(Arr::consolidate($stored['check'] ?? [])));
         }
         return $check;
     }
@@ -86,15 +85,15 @@ class License
         return glsr()->prefix.'license_answer_'.$addonId;
     }
 
-    protected function rememberAnswer(string $addonId, string $license, array $check): void
+    protected function rememberAnswer(string $addonId, string $license, Check $check): void
     {
         $key = $this->lastAnswerKey($addonId);
         $stored = Arr::consolidate(get_option($key));
         $hash = Str::hash($license, 8);
-        $unchanged = ($stored['check'] ?? null) === $check && ($stored['key'] ?? null) === $hash;
+        $unchanged = ($stored['check'] ?? null) === $check->toArray() && ($stored['key'] ?? null) === $hash;
         if ($unchanged && time() - Cast::toInt($stored['time'] ?? 0) < \HOUR_IN_SECONDS) {
             return; // status() runs several times a page; one write an hour is enough
         }
-        update_option($key, ['check' => $check, 'key' => $hash, 'time' => time()]);
+        update_option($key, ['check' => $check->toArray(), 'key' => $hash, 'time' => time()]);
     }
 }

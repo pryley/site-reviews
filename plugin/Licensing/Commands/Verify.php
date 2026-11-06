@@ -4,9 +4,9 @@ namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Licensing\Check;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
-use GeminiLabs\SiteReviews\Licensing\LicenseStatus;
 use GeminiLabs\SiteReviews\Request;
 
 /**
@@ -14,7 +14,7 @@ use GeminiLabs\SiteReviews\Request;
  */
 class Verify extends AbstractCommand
 {
-    public array $check = [];
+    public ?Check $check = null;
     public array $connect = [];
     public string $license;
     public array $notice = [];
@@ -37,7 +37,7 @@ class Verify extends AbstractCommand
         }
         // A person asked: ask the server now.
         $this->check = glsr(LicenseServer::class)->check(static::ADDON_ID, $this->license, true);
-        $method = Helper::buildMethodName('onStatus', LicenseStatus::of($this->check));
+        $method = Helper::buildMethodName('onStatus', $this->check->verdict->value);
         if (!method_exists($this, $method)) {
             $method = 'onStatusExhausted'; // unknown status fallback
         }
@@ -109,11 +109,12 @@ class Verify extends AbstractCommand
     protected function onStatusInactive(): void
     {
         $activation = glsr(LicenseServer::class)->activate(static::ADDON_ID, $this->license);
-        if ('valid' !== $activation['license']) {
+        if (!$activation->isValid()) {
             $this->onStatusExhausted();
             return;
         }
-        $this->check = array_replace($this->check, $activation, ['license' => 'valid']);
+        // The activation answer lacks the connect URL and the premium flag
+        $this->check = new Check(array_replace($this->check->toArray(), $activation->toArray(), ['license' => 'valid']));
         $this->save();
         glsr(LicenseRow::class)->flush(); // the cached check still says the site is inactive
         $this->connect();
