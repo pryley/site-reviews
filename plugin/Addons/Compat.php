@@ -17,14 +17,6 @@ class Compat
         if (!file_exists($file)) {
             return;
         }
-        $retired = [ // @compat these addons have been retired
-            'site-reviews-gamipress',
-            'site-reviews-woocommerce',
-        ];
-        if (in_array($addonId, $retired)) {
-            glsr()->append('retired', $addon);
-            return;
-        }
         $pluginData = get_file_data($file, ['update_url' => 'Update URI'], 'plugin');
         if (empty($pluginData['update_url'])) {
             glsr()->append('compat', $file, $addonId); // this addon needs updating in compatibility mode.
