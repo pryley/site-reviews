@@ -1,7 +1,11 @@
 <?php
 
+use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\PlainAddon\Application as PlainAddon;
+use GeminiLabs\SiteReviews\Premium\Host\Application as HostAddon;
+use GeminiLabs\SiteReviews\ReplacingAddon\Application as ReplacingAddon;
 use GeminiLabs\SiteReviews\Role;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
@@ -9,6 +13,12 @@ use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\unregisterAddons;
+
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-replacing-addon/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-replacing-addon/plugin/Hooks.php');
 
 /*
  * The Application: how an addon gets in, and what it may do once in.
@@ -16,22 +26,48 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * register() is the front door for all nine premium addons, called from the addon's plugin file
  * before anything else. Everything it does is a refusal or a registration, and the refusals are the
  * interesting half — a half-registered addon is worse than an unregistered one, because the plugin
- * calls into it. It refuses on four grounds, each a real support ticket:
+ * calls into it. It refuses on five grounds, each a real support ticket:
  *
  *   the class does not exist       deleted from disk but still in active_plugins
  *   the plugin FILE does not exist the directory was renamed, so nothing (assets, views, languages)
  *                                  can be read from it
  *   Site Reviews is too old        the addon needs a newer parent than installed
  *   Site Reviews is too new        the parent moved on and the addon has not
+ *   another addon replaces it      a standalone left active beside the plugin that bundles it
  *
- * The last two are gated from the addon's plugin header, which is why the fixture carries GLSR
- * headers. Registration binds the addon as a singleton, aliases it by id, and calls init() (its post
- * types and hooks) — doing that to an incompatible addon is the white screen the refusals prevent.
+ * The version gates are read from the addon's plugin header, which is why the fixture carries GLSR
+ * headers; the last ground from the REPLACES constant of the addons registering beside it, which is
+ * why registration runs in two steps: every addon that hooks site-reviews/premium/register is queued,
+ * and Addons\Registry::registerQueued() reads every list before it starts anyone. Registration binds the addon as a
+ * singleton, aliases it by id, and calls init() (its post types and hooks) — doing that to an
+ * incompatible addon is the white screen the refusals prevent.
  */
 
 beforeEach(function () {
     resetPluginState();
 });
+
+/**
+ * Register the addons the way plugins do: each hooked to the register action at its priority, then
+ * the action fired and the queue started, as MainController does on plugins_loaded.
+ *
+ * @param array<int, class-string> $addonsByPriority
+ */
+function registerThroughTheAction(array $addonsByPriority): void
+{
+    $callbacks = [];
+    foreach ($addonsByPriority as $priority => $addon) {
+        $callbacks[$priority] = fn ($app) => $app->register($addon);
+        add_action('site-reviews/premium/register', $callbacks[$priority], $priority);
+    }
+    try {
+        glsr(MainController::class)->registerAddons();
+    } finally {
+        foreach ($callbacks as $priority => $callback) {
+            remove_action('site-reviews/premium/register', $callback, $priority);
+        }
+    }
+}
 
 /**
  * Somebody's addon, whose plugin file is not where the layout says it should be — because this
@@ -118,17 +154,77 @@ test('an addon that needs a newer Site Reviews is refused, and one the parent ou
     expect(glsr()->addon(GeminiLabs\SiteReviews\GateTooNew\Application::ID))->toBeNull();
 });
 
-test('an addon claimed by the premium bundle is parked, not registered twice', function () {
-    // When Site Reviews Premium is installed it declares the addons it bundles; a standalone
-    // copy of one of those must stand down and let the bundle's (Premium-namespaced) copy
-    // register instead — two live copies of one addon is a fatal on the second class load.
-    // ($this->addons survives between tests on the singleton, so the parked list — which is
-    // per-test storage — is the assertion, not addon())
-    add_filter('site-reviews/site-reviews-premium', fn () => [TestAddon::ID]);
+test('an addon another addon declares it replaces is shelved, not started', function () {
+    // When Site Reviews Premium is installed it declares the standalones its modules replace; a
+    // standalone copy left active must stand down — two live copies of one addon is a fatal on the
+    // second class load. ($this->addons survives between tests on the singleton, so the replaced
+    // addon is unregistered first and the shelved list, which is per-test storage, is asserted too.)
+    unregisterAddons(PlainAddon::ID);
 
+    glsr()->register(ReplacingAddon::class);
+    glsr()->register(PlainAddon::class);
+
+    expect(glsr()->addon(ReplacingAddon::ID))->toBe(ReplacingAddon::class)
+        ->and(glsr()->addon(PlainAddon::ID))->toBeNull()
+        ->and(glsr()->retrieveAs('array', 'replaced'))->toBe([PlainAddon::class]);
+});
+
+test('a shelved addon gets no licence field', function () {
+    // The Licenses tab is drawn for any addon in the licensed list. A shelved standalone is about
+    // to be deactivated by the plugin that replaces it, and must not leave a key field behind.
+    glsr()->register(ReplacingAddon::class);
     glsr()->register(TestAddon::class);
 
-    expect(glsr()->retrieveAs('array', 'site-reviews-premium'))->toContain(TestAddon::class);
+    expect(glsr()->retrieveAs('array', 'replaced'))->toBe([TestAddon::class])
+        ->and(glsr()->retrieveAs('array', 'licensed', []))->not->toHaveKey(TestAddon::ID);
+});
+
+test('every REPLACES list is read before any addon starts, whatever order the plugins hooked in', function () {
+    // The standalone hooks the register action BEFORE the addon that replaces it: a renamed plugin
+    // folder or an odd priority does this. Starting addons as they register would let it in.
+    unregisterAddons(PlainAddon::ID, ReplacingAddon::ID);
+
+    registerThroughTheAction([
+        5 => PlainAddon::class,
+        10 => ReplacingAddon::class,
+    ]);
+
+    expect(glsr()->addon(PlainAddon::ID))->toBeNull()
+        ->and(glsr()->addon(ReplacingAddon::ID))->toBe(ReplacingAddon::class)
+        ->and(glsr()->retrieveAs('array', 'replaced'))->toBe([PlainAddon::class]);
+});
+
+test('a shelved addon\'s own REPLACES list counts for nothing', function () {
+    // The host fixture replaces the replacing addon, which replaces the plain addon. Only a started
+    // addon's list is read, so the plain addon starts: a stale zip of a replaced standalone left on
+    // a site cannot shelve what it names.
+    unregisterAddons(HostAddon::ID, PlainAddon::ID, ReplacingAddon::ID);
+
+    registerThroughTheAction([
+        5 => PlainAddon::class,
+        6 => ReplacingAddon::class,
+        7 => HostAddon::class,
+    ]);
+
+    expect(glsr()->addon(HostAddon::ID))->toBe(HostAddon::class)
+        ->and(glsr()->addon(ReplacingAddon::ID))->toBeNull()
+        ->and(glsr()->addon(PlainAddon::ID))->toBe(PlainAddon::class)
+        ->and(glsr()->retrieveAs('array', 'replaced'))->toBe([ReplacingAddon::class]);
+});
+
+test('a refused addon\'s REPLACES list shelves nothing', function () {
+    // The too-new gate fixture names the plain addon. It never starts, so its list is never read.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-gate-too-new/plugin/Application.php');
+    unregisterAddons(PlainAddon::ID);
+
+    registerThroughTheAction([
+        5 => GeminiLabs\SiteReviews\GateTooNew\Application::class,
+        10 => PlainAddon::class,
+    ]);
+
+    expect(glsr()->addon(GeminiLabs\SiteReviews\GateTooNew\Application::ID))->toBeNull()
+        ->and(glsr()->addon(PlainAddon::ID))->toBe(PlainAddon::class)
+        ->and(glsr()->retrieveAs('array', 'replaced', []))->toBe([]);
 });
 
 /*

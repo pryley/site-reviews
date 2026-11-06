@@ -37,6 +37,7 @@ abstract class Addon implements PluginContract
     public const LICENSED = false;
     public const NAME = '';
     public const POST_TYPE = '';
+    public const REPLACES = []; // the ids of the addons this one replaces
     public const SLUG = '';
 
     protected ?PluginContract $host = null;

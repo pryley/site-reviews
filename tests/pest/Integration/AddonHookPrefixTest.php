@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Premium\Host\Application as HostAddon;
 use GeminiLabs\SiteReviews\Premium\HostedThing\Application as HostedAddon;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
@@ -38,10 +39,11 @@ afterEach(function () {
     // does not clear it, so registering the hosted fixtures here would leak into
     // the next file — AddonSettingsStorageTest asserts that an addon with no main
     // file and no host is REFUSED, which cannot be true if it is already listed.
-    $property = new ReflectionProperty(glsr(), 'addons');
+    $registry = glsr(Registry::class);
+    $property = new ReflectionProperty($registry, 'addons');
     $property->setAccessible(true);
-    $property->setValue(glsr(), array_diff_key(
-        $property->getValue(glsr()),
+    $property->setValue($registry, array_diff_key(
+        $property->getValue($registry),
         array_flip([HostAddon::ID, HostedAddon::ID])
     ));
 });

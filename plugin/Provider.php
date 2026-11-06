@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Compat\Hooks as CompatHooks;
 use GeminiLabs\SiteReviews\Contracts\ProviderContract;
 use GeminiLabs\SiteReviews\Licensing\Hooks as LicensingHooks;
@@ -25,6 +26,7 @@ class Provider implements ProviderContract
         $app->singleton(Multilingual::class);
         $app->singleton(Notice::class);
         $app->singleton(Queue::class);
+        $app->singleton(Registry::class);
         $app->singleton(Router::class);
         $app->singleton(ScheduledActionsTable::class);
         $app->singleton(Style::class);

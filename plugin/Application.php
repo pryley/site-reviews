@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -11,7 +12,6 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Queue;
 
 /**
- * @property array     $addons
  * @property string    $basename
  * @property string    $capability
  * @property string    $cron_event
@@ -48,15 +48,14 @@ final class Application extends Container implements PluginContract
     public const PREFIX = 'glsr_';
     public const TAXONOMY = 'site-review-category';
 
-    protected array $addons = [];
     protected array $defaults;
     protected array $migrationArgs = [];
     protected string $name;
     protected array $settings;
 
-    public function addon(string $addonId)
+    public function addon(string $addonId): ?string
     {
-        return $this->addons[$addonId] ?? null;
+        return $this->make(Registry::class)->get($addonId);
     }
 
     /**
@@ -197,60 +196,11 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered on "plugins_loaded:-10" by "site-reviews/premium/register".
+     * Register an addon with the Registry which queues it while "site-reviews/premium/register" runs.
      */
     public function register(string $addon, ?PluginContract $host = null): void
     {
-        try {
-            $reflection = new \ReflectionClass($addon); // make sure that the class exists
-        } catch (\ReflectionException $e) {
-            glsr_log()->error("Attempted to register an invalid addon [$addon]");
-            return;
-        }
-        $addonId = $reflection->getConstant('ID');
-        $file = dirname(dirname($reflection->getFileName()));
-        $file = trailingslashit($file).$addonId.'.php';
-        if (!file_exists($file)) {
-            if (!$host instanceof PluginContract) {
-                glsr_log()->error("Attempted to register an invalid addon [$addonId].");
-                return;
-            }
-            $file = $host->file; // hosted addon: the host's headers gate the whole bundle
-        }
-        $premium = glsr()->filterArray('site-reviews-premium', []);
-        if (in_array($addonId, $premium)
-            && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviews\Premium')) {
-            $this->append('site-reviews-premium', $addon);
-            return;
-        }
-        if (true === $reflection->getConstant('LICENSED')) {
-            $this->append('licensed', $addon, $addonId);
-        }
-        $pluginData = get_file_data($file, [
-            'glsr_version_required' => 'GLSR requires at least',
-            'glsr_version_unsupported' => 'GLSR unsupported version',
-        ], 'plugin');
-        if (version_compare($this->version, $pluginData['glsr_version_required'], '<')) {
-            return; // This addon requires a newer version of Site Reviews
-        }
-        if (version_compare($this->version, $pluginData['glsr_version_unsupported'], '>=')) {
-            return; // This addon requires an older version of Site Reviews
-        }
-        $this->addons[$addonId] = $addon;
-        $this->singleton($addon); // this goes first!
-        $parameters = [];
-        if ($host instanceof PluginContract) {
-            $parameters = ['host' => $host];
-            if ($host instanceof Addons\Addon) {
-                $host->markAsHost();
-            }
-        }
-        $instance = $this->make($addon, $parameters);
-        $this->alias($addon, $instance); // instances built with parameters are not auto-cached
-        $this->alias($addonId, $instance);
-        $instance->init();
-        $this->append('addons', $instance->version, $instance->id);
-        $this->discard('settings'); // recompose the settings view now that this addon's option is mounted
+        $this->make(Registry::class)->register($addon, $host);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Tests;
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -442,9 +443,10 @@ function createReviews(int $count, array $values = []): array
  */
 function unregisterAddons(string ...$addonIds): void
 {
-    $property = new \ReflectionProperty(glsr(), 'addons');
+    $registry = glsr(Registry::class);
+    $property = new \ReflectionProperty($registry, 'addons');
     $property->setAccessible(true);
-    $property->setValue(glsr(), array_diff_key($property->getValue(glsr()), array_flip($addonIds)));
+    $property->setValue($registry, array_diff_key($property->getValue($registry), array_flip($addonIds)));
 }
 
 /**
