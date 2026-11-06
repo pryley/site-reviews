@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Compat\Hooks as CompatHooks;
 use GeminiLabs\SiteReviews\Contracts\ProviderContract;
 use GeminiLabs\SiteReviews\Licensing\Hooks as LicensingHooks;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
@@ -22,6 +23,7 @@ class Provider implements ProviderContract
         $app->bind(Application::class, fn () => $app);
         $app->singleton(CompatHooks::class);
         $app->singleton(Hooks::class);
+        $app->singleton(LicenseServer::class);
         $app->singleton(LicensingHooks::class);
         $app->singleton(Multilingual::class);
         $app->singleton(Notice::class);
