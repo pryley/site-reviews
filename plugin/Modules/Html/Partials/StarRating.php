@@ -19,7 +19,7 @@ class StarRating implements PartialContract
             glsr(StarRatingDefaults::class)->restrict($args)
         );
         $stylesheets = glsr(Stylesheets::class);
-        return $stylesheets->print(['star-rating']).glsr(Builder::class)->div([
+        $attributes = [
             'aria-label' => $this->label(),
             'class' => 'glsr-star-rating glsr-stars',
             'data-glsr-styles' => $stylesheets->declare(['star-rating']),
@@ -27,7 +27,11 @@ class StarRating implements PartialContract
             'data-reviews' => $this->data->reviews,
             'role' => 'img',
             'text' => $this->stars(),
-        ]);
+        ];
+        if ('' === $attributes['data-glsr-styles']) {
+            unset($attributes['data-glsr-styles']);
+        }
+        return $stylesheets->print(['star-rating']).glsr(Builder::class)->div($attributes);
     }
 
     protected function label()
