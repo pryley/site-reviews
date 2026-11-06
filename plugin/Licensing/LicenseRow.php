@@ -110,7 +110,7 @@ class LicenseRow
             'name' => 'settings.licenses.'.static::ADDON_ID,
             'placeholder' => _x('Paste license key', 'admin-text', 'site-reviews'),
             /* translators: %s: link to the License Keys page */
-            'tooltip' => sprintf(_x('Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
+            'tooltip' => sprintf(_x('Enter the license key here. Your license can be found on the %s page of your account.', 'link to License Keys page (admin-text)', 'site-reviews'),
                 glsr_premium_link('license-keys')
             ),
             'type' => 'secret',
@@ -164,7 +164,7 @@ class LicenseRow
             'on-disk' => fn () => $this->text($sentence(_x('Site Reviews Premium is installed but not active. Activate it to unlock all features.', 'admin-text', 'site-reviews'), $replaces), 'info'),
             'install' => fn () => $this->text($sentence(_x('Your license is active. Install Site Reviews Premium to unlock all features.', 'admin-text', 'site-reviews'), $replaces), 'info'),
             'download' => fn () => $this->text($sentence(sprintf(
-                /* translators: %s: link to the Nifty Plugins account page */
+                /* translators: %s: link to the account page */
                 _x('Your license is active. Download Site Reviews Premium from %s and upload it on the Plugins screen.', 'admin-text', 'site-reviews'),
                 glsr_premium_link('account', _x('your account', 'admin-text', 'site-reviews'))
             ), $replaces), 'info'),
@@ -270,7 +270,7 @@ class LicenseRow
             Verdict::Inactive => $this->text(_x('Your license key is not active for this website. Click Verify License Key to activate it.', 'admin-text', 'site-reviews'), 'warning'),
             Verdict::Exhausted => $this->text(sprintf(
                 /* translators: %s: link to the License Keys page */
-                _x('Your license key has reached its activation limit. Please visit the %s page of your Nifty Plugins account and click "Manage Sites".', 'link to License Keys page (admin-text)', 'site-reviews'),
+                _x('Your license key has reached its activation limit. Please visit the %s page of your account and click "Manage Sites".', 'link to License Keys page (admin-text)', 'site-reviews'),
                 glsr_premium_link('license-keys')
             ), 'warning'),
             Verdict::Disabled => $this->text(sprintf(

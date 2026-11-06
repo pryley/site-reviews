@@ -309,7 +309,7 @@ test('the addon documentation is added under the addon\'s own id', function () {
 
     expect($documentation)->toHaveKey('site-reviews-test-addon')
         ->and($documentation['site-reviews-test-addon'])->toContain('Test addon documentation.')
-        ->and($documentation['site-reviews-test-addon'])->toContain('Nifty Plugins'); // the support notice
+        ->and($documentation['site-reviews-test-addon'])->toContain('To receive support'); // the support notice
 });
 
 /*
@@ -545,7 +545,7 @@ test('a hosted addon\'s documentation carries no support notice of its own', fun
         $documentation = glsr(GeminiLabs\SiteReviews\Premium\HostedThing\Controller::class)->filterDocumentation([]);
 
         expect($documentation)->toHaveKey('site-reviews-hosted-addon')
-            ->and($documentation['site-reviews-hosted-addon'])->not->toContain('Nifty Plugins');
+            ->and($documentation['site-reviews-hosted-addon'])->not->toContain('To receive support');
     } finally {
         GeminiLabs\SiteReviews\Tests\unregisterAddons(
             GeminiLabs\SiteReviews\Premium\Host\Application::ID,
