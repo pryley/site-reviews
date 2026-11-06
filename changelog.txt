@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 8.4.0 (unreleased) =
+= 9.0.0 (unreleased) =
 
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
 - Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)

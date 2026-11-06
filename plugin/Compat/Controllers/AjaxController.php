@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Request;
 
 /**
- * The admin-ajax routes that the public script used before 8.4.0.
+ * The admin-ajax routes that the public script used before 9.0.0.
  */
 class AjaxController extends AbstractController
 {

@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Compat;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 /**
- * Runs the two filters that received the localized variables before 8.4.0,
+ * Runs the two filters that received the localized variables before 9.0.0,
  * site-reviews/enqueue/{admin,public}/localize
  */
 class LocalizeFilters

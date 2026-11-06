@@ -13,7 +13,7 @@ const deprecated = (name, replacement) => {
 }
 
 /**
- * Assigning to the key replaces the getter with the value, as it did before 8.4.0.
+ * Assigning to the key replaces the getter with the value, as it did before 9.0.0.
  * A getter without a setter would throw in strict mode.
  */
 export const alias = (target, key, name, replacement, get, set) => {
@@ -39,7 +39,7 @@ export const reportTo = (fn) => {
 }
 
 /**
- * `keys` holds the names that the members of a value had before 8.4.0.
+ * `keys` holds the names that the members of a value had before 9.0.0.
  */
 export const aliasPaths = (paths, keys, view = {}) => {
     const { config } = window.GLSR;

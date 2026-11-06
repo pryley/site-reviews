@@ -7,7 +7,7 @@ export const CURRENT = {
     summary: ['updated'],
 };
 
-// A name before 8.4.0 => its replacement. The compat script fires these.
+// A name before 9.0.0 => its replacement. The compat script fires these.
 export const OLD = {
     'block:site-reviews/form': 'site-reviews/initialized',
     'block:site-reviews/review': 'site-reviews/initialized',
@@ -24,7 +24,7 @@ export const OLD = {
     'site-reviews/pagination/init': 'site-reviews/review/initialized',
 };
 
-// A name that 8.4.0 removed => what to use.
+// A name that 9.0.0 removed => what to use.
 export const REMOVED = {
     'site-reviews/pagination/popstate': "window.addEventListener('popstate', …)",
 };

@@ -2,7 +2,7 @@
 
 import { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
 
-// The name of a member before 8.4.0 => its name in the config.
+// The name of a member before 9.0.0 => its name in the config.
 const KEYS = {
     text: {
         import_error: 'importError',
@@ -13,7 +13,7 @@ const KEYS = {
     },
 };
 
-// A key before 8.4.0 => its path in the config.
+// A key before 9.0.0 => its path in the config.
 const PATHS = {
     action: 'request.ajax.action',
     addonsurl: 'urls.addons',

@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.4.0
+Stable tag: 9.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -211,7 +211,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 == Changelog ==
 
-= 8.4.0 (unreleased) =
+= 9.0.0 (unreleased) =
 
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
 - Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)

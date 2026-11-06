@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { evaluate, loadPage } from './page.mjs';
 
-const DEBUG_URL = 'https://example.org/wp-content/plugins/site-reviews/assets/scripts/site-reviews-debug.js?ver=8.4.0';
+const DEBUG_URL = 'https://example.org/wp-content/plugins/site-reviews/assets/scripts/site-reviews-debug.js?ver=9.0.0';
 
 test('at most fifty reports are kept while the debug script loads', async () => {
     const { infos, read, window } = loadPage({

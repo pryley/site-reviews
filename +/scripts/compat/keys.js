@@ -1,8 +1,8 @@
 /**
- * The keys that the inline script printed before 8.4.0. Imports nothing: config.js needs it.
+ * The keys that the inline script printed before 9.0.0. Imports nothing: config.js needs it.
  */
 
-// The name of a member before 8.4.0 => its name in the config.
+// The name of a member before 9.0.0 => its name in the config.
 export const KEYS = {
     captcha: {
         captcha_type: 'captchaType',
@@ -26,7 +26,7 @@ export const KEYS = {
     },
 };
 
-// A key before 8.4.0 => its path in the config. validation_config goes before
+// A key before 9.0.0 => its path in the config. validation_config goes before
 // validation_strings: flatConfig() writes the strings into the object it made.
 export const PATHS = {
     action: 'request.ajax.action',
@@ -52,7 +52,7 @@ export const rename = (value, names) => {
 }
 
 /**
- * Builds the config from the 8.x keys of a page that was cached before 8.4.0.
+ * Builds the config from the 8.x keys of a page that was cached before 9.0.0.
  */
 export const flatConfig = (GLSR) => {
     const config = {};

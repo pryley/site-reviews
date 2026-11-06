@@ -44,10 +44,10 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-// for config without routes: admin script or page was cached before 8.4.0
+// for config without routes: admin script or page was cached before 9.0.0
 const ROUTES = { 'submit-review': 'submissions' };
 
-// for config without rest action: page was cached before 8.4.0
+// for config without rest action: page was cached before 9.0.0
 const REST_ACTION = 'glsr_rest_request';
 
 const submit = (formData) => {

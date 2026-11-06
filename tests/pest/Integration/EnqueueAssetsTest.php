@@ -78,7 +78,7 @@ test('the public script is enqueued, and no page-wide stylesheet', function () {
 });
 
 test('the optimize filters no longer change what is enqueued', function () {
-    // 8.4.0 removed the combiner that wrote one file of the plugin's and its addons' assets
+    // 9.0.0 removed the combiner that wrote one file of the plugin's and its addons' assets
     // into uploads; the deprecation a snippet hears is CompatHooksTest's.
     add_filter('site-reviews/optimize/js', '__return_true');
     add_filter('site-reviews/optimize/css', '__return_true');
@@ -379,7 +379,7 @@ test('the pagination url parameter is only offered when the setting is on', func
 });
 
 /*
- * The two filters that received the localized variables before 8.4.0 (Compat\LocalizeFilters).
+ * The two filters that received the localized variables before 9.0.0 (Compat\LocalizeFilters).
  */
 
 test('an 8.x localize filter is handed the array it knew', function () {
