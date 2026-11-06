@@ -72,7 +72,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
         $this->notice(
             _x('A license you entered has not been activated for your website.', 'admin-text', 'site-reviews'),
             /* translators: %s: link to the License Keys page */
-            sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'link to License Keys page (admin-text)', 'site-reviews'),
+            sprintf(_x('To activate your license, please visit the %s page on your account and click the "Manage Sites" button to activate it for your website.', 'link to License Keys page (admin-text)', 'site-reviews'),
                 glsr_premium_link('license-keys')
             )
         );
@@ -87,7 +87,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
                 glsr(Date::class)->relative($this->check->expires)
             ),
             /* translators: %s: link to the License Keys page */
-            sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
+            sprintf(_x('To renew your license and enable updates, please visit the %s on your account.', 'link to License Keys page (admin-text)', 'site-reviews'),
                 glsr_premium_link('license-keys')
             )
         );
