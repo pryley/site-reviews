@@ -80,6 +80,7 @@ export async function build(configs) {
 
     // Build Rollup bundles
     const tasks = rollupConfigs.map((config) => limit(async () => {
+        const budget = config.plugins?.find((plugin) => 'site-reviews-budget' === plugin.name)?.budget || 0;
         const input = typeof config.input === 'string'
             ? config.input
             : Object.values(config.input)[0];
@@ -107,6 +108,9 @@ export async function build(configs) {
                         gzipped,
                         size,
                     });
+                    if (budget && gzipped > budget) {
+                        errors.push({ err: new Error(`${fileName} is ${gzipped} bytes gzipped, over its budget of ${budget}`), input });
+                    }
                 }
             }
             await bundle.close();

@@ -141,6 +141,9 @@ const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
     ),
 ];
 
+// The most gzipped bytes a bundle may have, read by the runner; a plugin object because rollup warns about an option it does not know.
+const budgetPlugin = (budget) => ({ budget, name: 'site-reviews-budget' });
+
 // Runs after terser (renderChunk hooks run in plugin order) so the wrapper is not minified away.
 const wrapChunkPlugin = (chunkId, registry) => ({
     name: 'wrap-chunk',
@@ -190,10 +193,11 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
      * @param {string} [filename]  Without extension. When set, output.file
      *                             names the bundle; otherwise output.dir.
      * @param {Object} [options]
+     * @param {number} [options.budget=0]  The most gzipped bytes the bundle may have; the build fails past it.
      * @param {boolean} [options.inlineCss=false]  Import stylesheets as strings,
      *                             for a bundle that adopts one into a shadow root.
      */
-    const js = (source, outputDir = 'assets/scripts', filename = '', { inlineCss = false } = {}) => ({
+    const js = (source, outputDir = 'assets/scripts', filename = '', { budget = 0, inlineCss = false } = {}) => ({
         input: `+/${source}.js`,
         output: {
             ...(filename
@@ -204,6 +208,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
             sourcemap: !isProduction,
         },
         plugins: [
+            budgetPlugin(budget),
             ...(inlineCss ? [inlineCssPlugin()] : []),
             ...jsPlugins(rootDir, { scriptsAlias }),
         ],
@@ -217,10 +222,11 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
      * @param {string} id         The module's name after `@site-reviews/`, which names the file.
      * @param {string} [outputDir='assets/scripts/modules']
      * @param {Object} [options]
+     * @param {number} [options.budget=8192]  The most gzipped bytes the module may have; the build fails past it.
      * @param {Object<string, string>} [options.shared]  Source import => module id, e.g.
      *                             `{ '@/public/core/index.js': '@site-reviews/core' }`.
      */
-    const module = (source, id, outputDir = 'assets/scripts/modules', { shared = {} } = {}) => ({
+    const module = (source, id, outputDir = 'assets/scripts/modules', { budget = 8192, shared = {} } = {}) => ({
         input: `+/${source}.js`,
         external: (importId) => importId.startsWith('@site-reviews/') || importId in shared,
         output: {
@@ -230,6 +236,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
             sourcemap: !isProduction,
         },
         plugins: [
+            budgetPlugin(budget),
             inlineCssPlugin(),
             ...jsPlugins(rootDir, { scriptsAlias }),
         ],
@@ -264,8 +271,10 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
      * @param {string} [namespace='']  What `:--namespace` in a selector becomes.
      * @param {string} [name='']  Names the emitted file {outputDir}/{name}.css
      *                            instead of the source basename.
+     * @param {Object} [options]
+     * @param {number} [options.budget=0]  The most gzipped bytes the stylesheet may have; the build fails past it.
      */
-    const css = (source, outputDir = 'assets/styles', namespace = '', name = '') => ({
+    const css = (source, outputDir = 'assets/styles', namespace = '', name = '', { budget = 0 } = {}) => ({
         // An object input names the rollup chunk, which names the extracted file.
         input: name ? { [name]: `+/${source}.css` } : `+/${source}.css`,
         output: {
@@ -276,7 +285,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
             if (warning.code === 'FILE_NAME_CONFLICT') return;
             warn(warning);
         },
-        plugins: cssPlugins(namespace),
+        plugins: [budgetPlugin(budget), ...cssPlugins(namespace)],
     });
 
     /**
@@ -288,9 +297,10 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
      * @param {Object} options
      * @param {string} options.base       The base namespace, e.g. `.glsr`.
      * @param {string} options.namespace  The style's namespace, e.g. `.glsr-default`.
+     * @param {number} [options.budget=4096]  The most gzipped bytes the component may have; the build fails past it.
      * @param {string} [options.name]     Names the emitted file; default the source basename.
      */
-    const componentCss = (source, outputDir, { base, namespace, name = '' }) => ({
+    const componentCss = (source, outputDir, { base, budget = 4096, namespace, name = '' }) => ({
         input: name ? { [name]: `+/${source}.css` } : `+/${source}.css`,
         output: {
             dir: outputDir,
@@ -300,7 +310,7 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
             if (warning.code === 'FILE_NAME_CONFLICT') return;
             warn(warning);
         },
-        plugins: cssPlugins(namespace, base),
+        plugins: [budgetPlugin(budget), ...cssPlugins(namespace, base)],
     });
 
     /**

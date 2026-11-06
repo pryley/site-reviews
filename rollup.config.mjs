@@ -42,7 +42,7 @@ const jsBundles = [
     js('scripts/inline-script'),
     js('scripts/mce-plugin'),
     js('scripts/rollback'),
-    js('scripts/site-reviews'),
+    js('scripts/site-reviews', 'assets/scripts', '', { budget: 4096 }), // the bootstrap is on every page
     js('scripts/site-reviews-admin-compat'),
     js('scripts/site-reviews-admin-debug'),
     js('scripts/site-reviews-compat'),
