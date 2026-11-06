@@ -57,7 +57,7 @@ class VersionUpdateDefaults extends DefaultsAbstract
             'license_renewal_url' => '',
             'license_status' => '',
             'package' => '',
-            'replaced_by' => '', // the slug of the plugin that replaces a retired addon, from the store
+            'replaced_by' => '', // the slug of the plugin that replaces a retired addon
             'replaced_by_name' => '',
             'replaced_by_url' => '',
             'requires' => '',

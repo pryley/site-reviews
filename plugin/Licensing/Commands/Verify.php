@@ -22,7 +22,7 @@ class Verify extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $this->connects = wp_validate_boolean($request->get('connect', true)); // premium/connect verifies without going on
+        $this->connects = wp_validate_boolean($request->get('connect', true)); // premium/connect verifies
         $this->license = sanitize_text_field((string) $request->get('license', ''));
     }
 
