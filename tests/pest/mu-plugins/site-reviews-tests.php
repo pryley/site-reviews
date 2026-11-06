@@ -148,7 +148,6 @@ add_action('muplugins_loaded', function () {
     remove_action('admin_init', '_maybe_update_plugins');
     remove_action('admin_init', '_maybe_update_themes');
     // remove deprecated fallbacks
-    add_filter('site-reviews/support/deprecated/v5', '__return_false');
     add_filter('site-reviews/support/deprecated/v6', '__return_false');
     add_filter('site-reviews/support/deprecated/v7', '__return_false');
     add_filter('site-reviews/support/deprecated/v8', '__return_false');

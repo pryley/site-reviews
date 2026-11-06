@@ -39,17 +39,6 @@ class Hooks extends AbstractHooks
                 ['reviewSaved', 'site-reviews/review/updated', 10, 2],
             ]);
         }
-        if (glsr()->filterBool('support/deprecated/v5', true)) {
-            $this->hook(HookController::class, [
-                ['filterAssignedToTag', 'site-reviews/build/template/review'],
-                ['filterReviewIdTag', 'site-reviews/build/template/review'],
-                ['filterReviewTableFilter', 'site-reviews/defaults/review-table-filters'],
-                ['filterReviewsWrapper', 'site-reviews/rendered/template/reviews'],
-                ['filterSubmissionFormConfig', 'site-reviews/config/forms/review-form', 9],
-                ['filterSubmissionFormOrder', 'site-reviews/review-form/fields/order', 9],
-                ['reviewResponse', 'site-reviews/review/responded', 9, 2],
-            ]);
-        }
     }
 
     public function run(): void
