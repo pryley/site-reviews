@@ -151,13 +151,13 @@ test('an addon card labels itself by its beta flag', function () {
 });
 
 test('a lifetime licence gets an expiry date far enough away', function () {
-    $deactivated = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults::class)
+    $deactivated = glsr(\GeminiLabs\SiteReviews\Licensing\Defaults\DeactivateLicenseDefaults::class)
         ->merge(['expires' => 'lifetime', 'license' => 'abc123', 'success' => '1']);
 
     expect($deactivated['success'])->toBeTrue()
         ->and(strtotime($deactivated['expires']))->toBeGreaterThan(strtotime('+9 years'));
 
-    $dated = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults::class)
+    $dated = glsr(\GeminiLabs\SiteReviews\Licensing\Defaults\DeactivateLicenseDefaults::class)
         ->merge(['expires' => '2030-01-01 00:00:00']);
     expect($dated['expires'])->toBe('2030-01-01 00:00:00'); // a real date passes through
 });
@@ -247,15 +247,15 @@ test('an addon tested up to the same minor as this wordpress reads as tested on 
         $wp_version = $realVersion;
     }
 })->with([
-    \GeminiLabs\SiteReviews\Defaults\Updater\VersionDetailsDefaults::class,
-    \GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults::class,
-    \GeminiLabs\SiteReviews\Defaults\Updater\VersionDefaults::class,
+    \GeminiLabs\SiteReviews\Licensing\Defaults\VersionDetailsDefaults::class,
+    \GeminiLabs\SiteReviews\Licensing\Defaults\VersionUpdateDefaults::class,
+    \GeminiLabs\SiteReviews\Licensing\Defaults\VersionDefaults::class,
 ]);
 
 test('the update answer keeps the plugin that replaces a retired addon', function () {
     // A retired addon's last release shows the replacement in a notice, so the three fields
     // survive the restriction and reach the update_plugins transient.
-    $values = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults::class)->restrict([
+    $values = glsr(\GeminiLabs\SiteReviews\Licensing\Defaults\VersionUpdateDefaults::class)->restrict([
         'new_version' => '3.1.0',
         'replaced_by' => 'site-reviews-emails',
         'replaced_by_name' => 'Review Emails',
@@ -274,8 +274,8 @@ test('an activated or checked lifetime licence gets a far-away expiry too', func
 
     expect(strtotime($values['expires']))->toBeGreaterThan(strtotime('+9 years'));
 })->with([
-    \GeminiLabs\SiteReviews\Defaults\Updater\ActivateLicenseDefaults::class,
-    \GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults::class,
+    \GeminiLabs\SiteReviews\Licensing\Defaults\ActivateLicenseDefaults::class,
+    \GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults::class,
 ]);
 
 test('the deprecated assignment keys map onto the real ones, new winning over old', function (string $class) {

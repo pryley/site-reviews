@@ -2,12 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Licensing;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults;
+use GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Helpers\Url;
 
 class License
 {
@@ -29,22 +27,6 @@ class License
         return $this->status()['premium_key'];
     }
 
-    /**
-     * The URL a licence is activated for.
-     */
-    public function siteUrl(): string
-    {
-        if (!is_multisite()) {
-            return Url::home();
-        }
-        $network = strtolower((string) preg_replace('|^www\.|', '', (string) get_network()->domain));
-        $site = strtolower((string) get_site()->domain);
-        if ($site === $network || str_ends_with($site, '.'.$network)) {
-            return Url::home();
-        }
-        return trailingslashit(home_url());
-    }
-
     public function status(): array
     {
         $licensed = glsr()->retrieveAs('array', 'licensed', []);
@@ -63,11 +45,8 @@ class License
                 $status['missing'] = true;
                 continue;
             }
-            $updater = new Updater($addonId, [
-                'force' => false, // cached once per day
-                'license' => $license,
-            ]);
-            $check = $this->answerOrLast($addonId, $license, $updater->checkLicense());
+            $check = glsr(LicenseServer::class)->check($addonId, $license); // the day's cache answers a passive check
+            $check = $this->answerOrLast($addonId, $license, $check);
             $verdict = LicenseStatus::of($check);
             if (LicenseStatus::EXPIRED === $verdict) {
                 $status['expired'] = true;

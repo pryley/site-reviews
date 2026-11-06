@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Defaults\Updater;
+namespace GeminiLabs\SiteReviews\Licensing\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 

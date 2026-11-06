@@ -258,7 +258,7 @@ test('a changed licence keeps the saved one when the licence server gives no ans
  */
 function licenseServerDown(): void
 {
-    glsr(GeminiLabs\SiteReviews\Api::class, ['url' => GeminiLabs\SiteReviews\Addons\Updater::baseUrl()])->flushAll('check_license');
+    glsr(GeminiLabs\SiteReviews\Api::class, ['url' => GeminiLabs\SiteReviews\Licensing\LicenseServer::baseUrl()])->flushAll('check_license');
     add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 0]));
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
 }
@@ -550,7 +550,7 @@ test('an expired flagged key is not offered for the install', function () {
 });
 
 test('the connect page address of the licence check is kept, and only as a URL', function () {
-    $defaults = glsr(GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults::class);
+    $defaults = glsr(GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults::class);
 
     expect($defaults->restrict(['connect_url' => 'https://niftyplugins.com/connect/'])['connect_url'])
         ->toBe('https://niftyplugins.com/connect/')
@@ -559,7 +559,7 @@ test('the connect page address of the licence check is kept, and only as a URL',
 });
 
 test('on a single site the licence URL is the home URL', function () {
-    expect(glsr(License::class)->siteUrl())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
+    expect(glsr(GeminiLabs\SiteReviews\Licensing\LicenseServer::class)->activationUrl())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
 });
 
 test('an installed premium plugin is premium before any licence is entered', function () {

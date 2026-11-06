@@ -2,11 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
-use GeminiLabs\SiteReviews\Licensing\License;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 
 class Migrate_9_0_0 implements MigrateContract
 {
@@ -18,16 +17,14 @@ class Migrate_9_0_0 implements MigrateContract
 
     public function activateLicensesForMappedSite(): bool
     {
-        if (glsr(License::class)->siteUrl() === Url::home()) {
+        $server = glsr(LicenseServer::class);
+        if ($server->activationUrl() === Url::home()) {
             return true;
         }
         $licenses = array_filter(Arr::consolidate(glsr_get_option('licenses')));
         foreach ($licenses as $addonId => $license) {
-            $updater = new Updater((string) $addonId, [
-                'force' => true,
-                'license' => $license,
-            ]);
-            $check = $updater->checkLicense();
+            // Ask now: a cached answer is from before the URL changed.
+            $check = $server->check((string) $addonId, $license, true);
             if ('unknown' === $check['license']) {
                 return false; // no answer so run again next time
             }
@@ -35,7 +32,7 @@ class Migrate_9_0_0 implements MigrateContract
                 continue;
             }
             if ($check['activations_left'] > 0 || 0 === $check['license_limit']) {
-                $updater->activateLicense();
+                $server->activate((string) $addonId, $license);
             }
         }
         return true;
