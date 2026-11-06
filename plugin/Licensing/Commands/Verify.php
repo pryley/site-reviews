@@ -90,7 +90,7 @@ class Verify extends AbstractCommand
     protected function onStatusExhausted(): void
     {
         $this->refuse('license_inactive',
-            _x('Your license key has reached its activation limit. Please visit the License Keys page of your account and click "Manage Sites" to activate it here.', 'admin-text', 'site-reviews'),
+            _x('Your license key has reached its activation limit. Please visit the License Keys page of your account and click "Manage Sites" to activate it there.', 'admin-text', 'site-reviews'),
             $this->licenseKeysLink(), 400, 'warning'
         );
     }
