@@ -70,15 +70,44 @@ class License
             if (!in_array($check->verdict, [Verdict::Unreachable, Verdict::Valid], true)) {
                 $status->invalid = true; // no answer counts as invalid
             }
-            if ($check->premium) {
-                $status->premium = true;
-                if ($check->isValid() && '' === $status->premiumKey) {
-                    $status->premiumKey = $license;
-                }
-            }
+            $this->markPremium($status, $check, $license);
         }
+        $this->markPremiumFromSavedKeys($status, array_keys($licensed));
         $this->status = $status;
         $this->statusFor = $statusFor;
         return $status;
+    }
+
+    /**
+     * Mark the status premium when the server flags the key.
+     */
+    protected function markPremium(Status $status, Check $check, string $license): void
+    {
+        if (!$check->premium) {
+            return;
+        }
+        $status->premium = true;
+        if ($check->isValid() && '' === $status->premiumKey) {
+            $status->premiumKey = $license;
+        }
+    }
+
+    /**
+     * Look through the saved keys of the addons that are not licensed here.
+     *
+     * @param string[] $checked the addon ids the licensed loop has already checked
+     */
+    protected function markPremiumFromSavedKeys(Status $status, array $checked): void
+    {
+        $saved = array_diff_key(glsr_get_option('licenses', [], 'array'), array_flip($checked));
+        foreach ($saved as $addonId => $license) {
+            if ('' !== $status->premiumKey) {
+                break;
+            }
+            if (!is_string($license) || '' === $license) {
+                continue;
+            }
+            $this->markPremium($status, glsr(LicenseServer::class)->check($addonId, $license), $license);
+        }
     }
 }
