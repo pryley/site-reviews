@@ -13,6 +13,7 @@ class Migrate_9_0_0 implements MigrateContract
     public function run(): bool
     {
         $this->deleteApiIndex();
+        $this->deleteLastAnswers();
         return $this->activateLicensesForMappedSite();
     }
 
@@ -42,5 +43,20 @@ class Migrate_9_0_0 implements MigrateContract
     public function deleteApiIndex(): void
     {
         delete_site_option(glsr()->prefix.'api_transients');
+    }
+
+    /**
+     * Delete the autoloaded option 8.3.6 and 8.3.7 kept per addon for the last answer of the licence server.
+     */
+    public function deleteLastAnswers(): void
+    {
+        global $wpdb;
+        $options = $wpdb->get_col($wpdb->prepare(
+            "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s",
+            $wpdb->esc_like(glsr()->prefix.'license_answer_').'%'
+        ));
+        foreach ($options as $option) {
+            delete_option($option); // through the options cache, which a raw delete leaves stale
+        }
     }
 }

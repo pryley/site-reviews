@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Licensing;
 
 use GeminiLabs\SiteReviews\Api;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Licensing\Defaults\ActivateLicenseDefaults;
 use GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults;
@@ -13,12 +15,11 @@ use GeminiLabs\SiteReviews\Licensing\Defaults\VersionDetailsDefaults;
 use GeminiLabs\SiteReviews\Licensing\Defaults\VersionUpdateDefaults;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
-/**
- * The licence server: one request per action about an addon's key, at the address the addon's Update URI header names.
- */
 class LicenseServer
 {
     public const BASE_URL = 'https://niftyplugins.com';
+    // How long a stored check exists for a server that cannot be reached.
+    protected const LAST_CHECK_LIFETIME = 3 * \DAY_IN_SECONDS;
 
     /** @var array<string, string> addon id => the address its Update URI header names, unsanitised */
     protected array $urls = [];
@@ -53,17 +54,25 @@ class LicenseServer
     }
 
     /**
-     * Ask the server about a key, through the day's cache unless forced.
+     * Ask the server about a key through the day's cache unless forced.
      */
     public function check(string $addonId, string $license, bool $force = false): Check
     {
         $this->flushVersion($addonId);
         $results = $this->request('check_license', $addonId, $license, $force);
-        $check = glsr(CheckLicenseDefaults::class)->restrict($results);
+        $values = glsr(CheckLicenseDefaults::class)->restrict($results);
         if (empty($results)) {
-            $check['license'] = 'unknown'; // no answer is not an invalid license
+            $values['license'] = 'unknown'; // no answer is not an invalid license
         }
-        return new Check($check);
+        $check = new Check($values);
+        if ($check->isReachable()) {
+            $this->storeLastCheck($addonId, $license, $check);
+            return $check;
+        }
+        if ($force) {
+            return $check; // a person asked, so they are told the server could not be reached
+        }
+        return $this->lastCheck($addonId, $license) ?? $check;
     }
 
     public function deactivate(string $addonId, string $license): Check
@@ -74,12 +83,19 @@ class LicenseServer
     }
 
     /**
-     * Forget the cached check and version answers for an addon.
+     * Forget the cached check for an addon.
      */
     public function flush(string $addonId): void
     {
         glsr(Api::class, ['url' => $this->url($addonId)])->flushAll('check_license');
         $this->flushVersion($addonId);
+        $checks = $this->lastChecks();
+        unset($checks[$addonId]);
+        if (empty($checks)) {
+            delete_option($this->lastChecksOption());
+        } else {
+            update_option($this->lastChecksOption(), $checks, false);
+        }
     }
 
     /**
@@ -149,6 +165,32 @@ class LicenseServer
     }
 
     /**
+     * The check stored for this key within the last three days.
+     */
+    protected function lastCheck(string $addonId, string $license): ?Check
+    {
+        $stored = Arr::consolidate($this->lastChecks()[$addonId] ?? []);
+        $age = time() - Cast::toInt($stored['time'] ?? 0);
+        if ($age < static::LAST_CHECK_LIFETIME && Str::hash($license, 8) === ($stored['key'] ?? '')) {
+            return new Check(glsr(CheckLicenseDefaults::class)->restrict(Arr::consolidate($stored['check'] ?? [])));
+        }
+        return null;
+    }
+
+    /**
+     * @return array<string, array{check: array, key: string, time: int}> addon id => the stored check, the key's hash and when it was stored
+     */
+    protected function lastChecks(): array
+    {
+        return Arr::consolidate(get_option($this->lastChecksOption()));
+    }
+
+    protected function lastChecksOption(): string
+    {
+        return glsr()->prefix.'license_checks';
+    }
+
+    /**
      * @param string $action activate_license|check_license|deactivate_license|get_version
      */
     protected function request(string $action, string $addonId, string $license, bool $force = true, string $url = ''): array
@@ -192,6 +234,19 @@ class LicenseServer
     protected function savedLicense(string $addonId): string
     {
         return glsr_get_option("licenses.{$addonId}", '', 'string');
+    }
+
+    protected function storeLastCheck(string $addonId, string $license, Check $check): void
+    {
+        $checks = $this->lastChecks();
+        $stored = Arr::consolidate($checks[$addonId] ?? []);
+        $hash = Str::hash($license, 8);
+        $unchanged = ($stored['check'] ?? null) === $check->toArray() && ($stored['key'] ?? null) === $hash;
+        if ($unchanged && time() - Cast::toInt($stored['time'] ?? 0) < \HOUR_IN_SECONDS) {
+            return; // one write an hour is enough
+        }
+        $checks[$addonId] = ['check' => $check->toArray(), 'key' => $hash, 'time' => time()];
+        update_option($this->lastChecksOption(), $checks, false); // only admin requests read it
     }
 
     protected function timeout(): int
