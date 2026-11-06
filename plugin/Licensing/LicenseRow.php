@@ -17,7 +17,7 @@ class LicenseRow
     public const STATE_ON_DISK = 3; // a valid key, premium on disk and inactive
     public const STATE_INSTALLED = 4; // a valid key, premium registered
 
-    protected ?array $check = null;
+    protected ?Check $check = null;
     protected string $checkedKey = '';
 
     /**
@@ -57,11 +57,11 @@ class LicenseRow
         return wp_is_file_mod_allowed('site_reviews_premium_install');
     }
 
-    public function check(bool $force = false): array
+    public function check(bool $force = false): ?Check
     {
         $key = $this->savedKey();
         if ('' === $key) {
-            return [];
+            return null;
         }
         if ($force || $this->isStale($key)) {
             $this->check = glsr(LicenseServer::class)->check(static::ADDON_ID, $key, $force); // the row reads it several times
@@ -79,7 +79,7 @@ class LicenseRow
 
     public function isActive(): bool
     {
-        return 'valid' === ($this->check()['license'] ?? '');
+        return (bool) $this->check()?->isValid();
     }
 
     public function isInstalled(): bool
@@ -130,18 +130,17 @@ class LicenseRow
     public function message(): array
     {
         $check = $this->check();
-        if (empty($check)) {
+        if (null === $check) {
             return $this->isInstalled() || '' !== $this->key()
                 ? $this->text('') // the section notice says it
                 : $this->text(_x('Already purchased? Enter your license key to enable Site Reviews Premium.', 'admin-text', 'site-reviews'), 'description');
         }
-        $status = LicenseStatus::of($check);
-        if (LicenseStatus::VALID === $status && $this->expiresSoon($check)) {
-            $status = 'expiring';
+        if ($check->isValid() && $check->expiresSoon()) {
+            /* translators: %s: the expiry date */
+            $text = sprintf(_x('Your license key expires soon! It expires on %s.', 'admin-text', 'site-reviews'), $this->date($check->expires));
+            return $this->text(trim($text.' '.$this->subscriptionMessage($check->subscription)), 'warning');
         }
-        $messages = $this->messages($check);
-        $message = $messages[$status] ?? $messages[LicenseStatus::INVALID];
-        return $message();
+        return $this->messageFor($check);
     }
 
     /**
@@ -200,10 +199,10 @@ class LicenseRow
     public function render(): string
     {
         $field = $this->keyField();
-        $status = $this->check()['license'] ?? '';
+        $check = $this->check();
         return glsr()->build('partials/settings/premium-license', [
             'activate_url' => $this->activateUrl(),
-            'can_delete' => '' !== $this->savedKey() && 'unknown' !== $status,
+            'can_delete' => '' !== $this->savedKey() && (null === $check || $check->isReachable()),
             'can_install' => $this->canInstall(),
             'field' => $field->buildFieldElement(),
             'label' => $field->buildFieldLabel(),
@@ -237,19 +236,13 @@ class LicenseRow
         return date_i18n(get_option('date_format'), strtotime($date));
     }
 
-    protected function expiresSoon(array $check): bool
+    protected function expiryMessage(Check $check): string
     {
-        $expires = strtotime($check['expires']);
-        return !$check['lifetime'] && $expires > time() && $expires - time() < 30 * DAY_IN_SECONDS;
-    }
-
-    protected function expiryMessage(array $check): string
-    {
-        if ($check['lifetime']) {
+        if ($check->lifetime) {
             return _x('License key never expires.', 'admin-text', 'site-reviews');
         }
         /* translators: %s: the expiry date */
-        return sprintf(_x('Your license key expires on %s.', 'admin-text', 'site-reviews'), $this->date($check['expires']));
+        return sprintf(_x('Your license key expires on %s.', 'admin-text', 'site-reviews'), $this->date($check->expires));
     }
 
     protected function isStale(string $key): bool
@@ -258,38 +251,36 @@ class LicenseRow
     }
 
     /**
-     * The text under the field for each status.
+     * The text under the field for the check's verdict.
      *
-     * @return array<string, callable(): array{text: string, type: string}>
+     * @return array{text: string, type: string}
      */
-    protected function messages(array $check): array
+    protected function messageFor(Check $check): array
     {
-        $subscription = $this->subscriptionMessage($check['subscription']);
-        return [
-            LicenseStatus::UNREACHABLE => fn () => $this->text(_x('The license server could not be reached. Please try again later.', 'admin-text', 'site-reviews'), 'warning'),
-            LicenseStatus::EXPIRED => fn () => $this->text(sprintf(
+        $subscription = $this->subscriptionMessage($check->subscription);
+        return match ($check->verdict) {
+            Verdict::Unreachable => $this->text(_x('The license server could not be reached. Please try again later.', 'admin-text', 'site-reviews'), 'warning'),
+            Verdict::Expired => $this->text(sprintf(
                 /* translators: %1$s: the expiry date, %2$s: the renewal link's opening tag, %3$s: its closing tag */
                 _x('Your license key expired on %1$s. Please %2$srenew it%3$s.', 'admin-text', 'site-reviews'),
-                $this->date($check['expires']),
-                sprintf('<a href="%s" target="_blank">', esc_url('' !== $check['renewal_url'] ? $check['renewal_url'] : glsr_premium_url('license-keys'))),
+                $this->date($check->expires),
+                sprintf('<a href="%s" target="_blank">', esc_url('' !== $check->renewalUrl ? $check->renewalUrl : glsr_premium_url('license-keys'))),
                 '</a>'
             ), 'error'),
-            LicenseStatus::INACTIVE => fn () => $this->text(_x('Your license key is not active for this website. Click Verify License Key to activate it.', 'admin-text', 'site-reviews'), 'warning'),
-            LicenseStatus::EXHAUSTED => fn () => $this->text(sprintf(
+            Verdict::Inactive => $this->text(_x('Your license key is not active for this website. Click Verify License Key to activate it.', 'admin-text', 'site-reviews'), 'warning'),
+            Verdict::Exhausted => $this->text(sprintf(
                 /* translators: %s: link to the License Keys page */
                 _x('Your license key has reached its activation limit. Please visit the %s page of your Nifty Plugins account and click "Manage Sites".', 'link to License Keys page (admin-text)', 'site-reviews'),
                 glsr_premium_link('license-keys')
             ), 'warning'),
-            LicenseStatus::DISABLED => fn () => $this->text(sprintf(
+            Verdict::Disabled => $this->text(sprintf(
                 /* translators: %s: link with the text "contact support" */
                 _x('Your license key has been disabled. Please %s for more information.', 'admin-text', 'site-reviews'),
                 glsr_premium_link('support', _x('contact support', 'admin-text', 'site-reviews'))
             ), 'error'),
-            LicenseStatus::INVALID => fn () => $this->text(_x('This appears to be an invalid license key for Site Reviews Premium.', 'admin-text', 'site-reviews'), 'error'),
-            /* translators: %s: the expiry date */
-            'expiring' => fn () => $this->text(trim(sprintf(_x('Your license key expires soon! It expires on %s.', 'admin-text', 'site-reviews'), $this->date($check['expires'])).' '.$subscription), 'warning'),
-            LicenseStatus::VALID => fn () => $this->text(trim($this->expiryMessage($check).' '.$subscription), 'description'),
-        ];
+            Verdict::Valid => $this->text(trim($this->expiryMessage($check).' '.$subscription), 'description'),
+            default => $this->text(_x('This appears to be an invalid license key for Site Reviews Premium.', 'admin-text', 'site-reviews'), 'error'),
+        };
     }
 
     /**
@@ -307,14 +298,14 @@ class LicenseRow
         if (static::STATE_ACTIVE === $state) {
             return $this->canInstall() ? 'install' : 'download';
         }
-        $status = $this->check()['license'] ?? '';
-        if ('unknown' === $status) {
+        $check = $this->check();
+        if (null !== $check && !$check->isReachable()) {
             return 'unreachable';
         }
         if ($this->isInstalled()) {
             return 'unlicensed';
         }
-        if ('' !== $status) {
+        if (null !== $check) {
             return 'refused';
         }
         if ('' !== $this->key()) { // the flagged key's addon is licensed but not registered (version-gated)
