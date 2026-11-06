@@ -241,6 +241,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed cached API responses adding to a list in the database that is never cleaned up
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
+- Fixed the last license server check being loaded on every page
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
 - Fixed the location shown on Console entries logged from a hook callback
