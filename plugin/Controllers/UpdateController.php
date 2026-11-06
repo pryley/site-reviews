@@ -23,8 +23,6 @@ class UpdateController extends AbstractController
     }
 
     /**
-     * Say why an addon did not update when its update carried no package.
-     *
      * @param mixed $email
      *
      * @return mixed
@@ -271,7 +269,7 @@ class UpdateController extends AbstractController
     }
 
     /**
-     * The email line for a failed addon update that had no package; '' for any other failure.
+     * The email line for a failed addon update that had no package
      *
      * @param mixed $failed
      */

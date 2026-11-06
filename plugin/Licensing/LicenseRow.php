@@ -21,7 +21,7 @@ class LicenseRow
     protected string $checkedKey = '';
 
     /**
-     * The Plugins screen's activation link, not the Gatekeeper notice's silent one.
+     * The Plugins screen's activation link.
      */
     public function activateUrl(): string
     {
@@ -99,7 +99,7 @@ class LicenseRow
     }
 
     /**
-     * Readonly while the key is active so the settings form still submits it.
+     * Readonly while the key is active so the settings form submits it.
      */
     public function keyField(): SettingField
     {
