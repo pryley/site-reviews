@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Licensing\License;
+use GeminiLabs\SiteReviews\Licensing\Status;
 use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
@@ -485,21 +486,24 @@ test('the gatekeeper notice only warns when an integration is merely untested', 
 
 /*
  * The licence banners, which turn on and off with the licence server's answer. That answer is faked
- * here so the tests never leave the machine: the notices only ever read License::status().
+ * here so the tests never leave the machine: the notices only ever ask License its questions.
  */
 
 function withLicenseStatus(array $status, callable $callback): void
 {
     $original = glsr(License::class);
     $fake = new class() extends License {
-        public array $fakeStatus = [];
+        public Status $fakeStatus;
 
-        public function status(): array
+        protected function status(): Status
         {
             return $this->fakeStatus;
         }
     };
-    $fake->fakeStatus = wp_parse_args($status, array_fill_keys(['expired', 'invalid', 'licensed', 'missing', 'premium'], false));
+    $fake->fakeStatus = new Status();
+    foreach ($status as $field => $value) {
+        $fake->fakeStatus->$field = $value;
+    }
     glsr()->alias(License::class, $fake);
     try {
         $callback();
