@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 /**
- * The keys posted from the Licenses tab: invalid keys are dropped from the saved settings.
+ * The keys posted from the Licenses tab. Invalid keys are dropped from the saved settings.
  */
 class ValidateLicenseKeys extends AbstractBaseCommand
 {

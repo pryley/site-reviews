@@ -36,7 +36,7 @@ class Authorize extends AbstractCommand
             $verify->handle();
             if (!$verify->successful()) {
                 if ('license_server' !== substr($verify->code, strlen(glsr()->prefix))) {
-                    glsr(LicenseRow::class)->flush(); // the row is redrawn with what the server said now
+                    glsr(LicenseRow::class)->flush(); // reset the license row
                     $this->redraw = true;
                 }
                 $this->refuse(substr($verify->code, strlen(glsr()->prefix)), $verify->message, $verify->link, $verify->status, $verify->type);
@@ -78,9 +78,6 @@ class Authorize extends AbstractCommand
         ];
     }
 
-    /**
-     * The database holds the hash, never the token the store is given.
-     */
     public static function tokenKey(string $token): string
     {
         return glsr()->prefix.'premium_token_'.hash('sha256', $token);
@@ -109,7 +106,7 @@ class Authorize extends AbstractCommand
     }
 
     /**
-     * The store only posts to the licence URL's host, or a subdomain of it.
+     * The store only posts to the licence URL's host or a subdomain of it.
      */
     protected function checkAddresses(): bool
     {
@@ -185,7 +182,7 @@ class Authorize extends AbstractCommand
     }
 
     /**
-     * The same host, or a subdomain of it.
+     * The same host or a subdomain of it.
      */
     protected function isSameHost(string $host, string $other): bool
     {

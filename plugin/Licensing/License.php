@@ -53,7 +53,7 @@ class License
         $status = new Status();
         $status->premium = $isInstalled; // an installed and registered premium plugin counts as premium
         if (!$isInstalled && !empty(glsr_get_option('licenses.site-reviews-premium'))) {
-            // The key the License Key row saved before premium was installed.
+            // The key that the License Key row saved before premium was installed.
             $licensed['site-reviews-premium'] = ['name' => 'site-reviews-premium'];
         }
         foreach ($licensed as $addonId => $addon) {

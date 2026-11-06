@@ -8,16 +8,12 @@ use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Request;
 
 /**
- * The store's call to premium/install, authorised by the token that premium/connect made.
+ * The store's call to premium/install authorised by the token from premium/connect.
  */
 class Install extends AbstractBaseCommand
 {
-    public const PLUGIN_FILE = LicenseRow::PLUGIN_FILE;
-
-    /**
-     * Premium reads and deletes this to say once that it was installed from here.
-     */
     public const INSTALLED_KEY = 'glsr_premium_installed';
+    public const PLUGIN_FILE = LicenseRow::PLUGIN_FILE;
 
     public string $code = '';
     public array $link = [];
@@ -102,7 +98,7 @@ class Install extends AbstractBaseCommand
     }
 
     /**
-     * Downloaded here rather than by the upgrader, which loses the HTTP status of a failed download.
+     * Downloaded here because the upgrader loses the HTTP status of a failed download.
      */
     protected function install(): bool
     {
@@ -120,13 +116,13 @@ class Install extends AbstractBaseCommand
             }
             return $this->refuseInstall($file->get_error_message());
         }
-        // hooked by admin-filters.php over admin-ajax, it would print into the JSON body
+        // hooked by admin-filters.php over admin-ajax; removing it because it prints into the JSON body
         remove_action('upgrader_process_complete', ['Language_Pack_Upgrader', 'async_upgrade'], 20);
         $skin = new \WP_Ajax_Upgrader_Skin();
         $upgrader = new \Plugin_Upgrader($skin);
         $result = $this->silenced(fn () => $upgrader->install($file));
         if (file_exists($file)) {
-            unlink($file); // the upgrader deletes only the packages it downloaded itself
+            unlink($file); // the upgrader deletes only the packages it downloaded
         }
         if (true === $result) {
             return true;
