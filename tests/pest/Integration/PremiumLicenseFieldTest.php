@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -58,14 +59,14 @@ function withPremiumRegistered(callable $callback): void
 {
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Application.php');
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Hooks.php');
-    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry = new ReflectionProperty(Registry::class, 'addons');
     $registry->setAccessible(true);
-    $registered = $registry->getValue(glsr());
+    $registered = $registry->getValue(glsr(Registry::class));
     try {
         glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
         $callback();
     } finally {
-        $registry->setValue(glsr(), $registered);
+        $registry->setValue(glsr(Registry::class), $registered);
     }
 }
 
@@ -241,9 +242,9 @@ test('a flagged addon key is the prefill until a key is saved under premium', fu
 });
 
 test('the notices name the active addons premium replaces', function () {
-    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry = new ReflectionProperty(Registry::class, 'addons');
     $registry->setAccessible(true);
-    $registered = $registry->getValue(glsr());
+    $registered = $registry->getValue(glsr(Registry::class));
     try {
         glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
 
@@ -261,7 +262,7 @@ test('the notices name the active addons premium replaces', function () {
         savedValidPremiumKey([], 'another-valid-key');
         expect(premiumRow())->toContain('Install Site Reviews Premium to unlock all features. It replaces Test Addon with one plugin and imports its settings.');
     } finally {
-        $registry->setValue(glsr(), $registered);
+        $registry->setValue(glsr(Registry::class), $registered);
     }
 });
 
@@ -394,11 +395,11 @@ test('the Settings page says once that premium is installed, from the mark the i
 });
 
 test('the rollback popup is told which registered addons each version stops', function () {
-    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry = new ReflectionProperty(Registry::class, 'addons');
     $registry->setAccessible(true);
-    $registered = $registry->getValue(glsr());
+    $registered = $registry->getValue(glsr(Registry::class));
     try {
-        $registry->setValue(glsr(), []);
+        $registry->setValue(glsr(Registry::class), []);
         glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class); // GLSR requires at least: 8.0.0
         $stops = protectedMethod(MenuController::class, 'rollbackStops')
             ->invoke(glsr(MenuController::class), ['8.4.0', '8.0.0', '7.9.0']);
@@ -416,7 +417,7 @@ test('the rollback popup is told which registered addons each version stops', fu
             ->and($page)->not->toContain('data-premium="1"')
             ->and($page)->not->toContain('id="rollback-warning"');
     } finally {
-        $registry->setValue(glsr(), $registered);
+        $registry->setValue(glsr(Registry::class), $registered);
     }
 });
 

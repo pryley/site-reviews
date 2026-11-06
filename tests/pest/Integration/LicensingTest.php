@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Licensing\Controllers\Controller;
 use GeminiLabs\SiteReviews\Licensing\License;
@@ -571,16 +572,16 @@ test('an installed premium plugin is premium before any licence is entered', fun
 
     expect(glsr(License::class)->isPremium())->toBeFalse();
 
-    // Registration lands on the Application singleton's $addons property,
+    // Registration lands on the Registry singleton's $addons property,
     // which no teardown resets — so it is backed up and restored by hand.
-    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry = new ReflectionProperty(Registry::class, 'addons');
     $registry->setAccessible(true);
-    $registered = $registry->getValue(glsr());
+    $registered = $registry->getValue(glsr(Registry::class));
     try {
         glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
         $status = glsr(License::class)->status();
     } finally {
-        $registry->setValue(glsr(), $registered);
+        $registry->setValue(glsr(Registry::class), $registered);
     }
 
     expect($status['premium'])->toBeTrue()

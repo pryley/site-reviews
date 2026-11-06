@@ -487,18 +487,14 @@ test('a hosted addon writes through its own mount', function () {
         ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing');
 });
 
-test('the suppression guard admits a hosted addon in the Premium namespace', function () {
-    // The premium bundle lists the addon ids it owns via this filter; standalone addons with those
-    // ids are shelved, but the bundle's own modules pass because of their namespace.
-    $filter = fn (array $ids): array => array_merge($ids, [HostedAddon::ID]);
-    add_filter('site-reviews/site-reviews-premium', $filter);
-    try {
-        registerHostedFixture();
-        expect(glsr()->addon(HostedAddon::ID))->toBe(HostedAddon::class)
-            ->and(glsr()->retrieveAs('array', 'site-reviews-premium', []))->not->toContain(HostedAddon::class);
-    } finally {
-        remove_filter('site-reviews/site-reviews-premium', $filter);
-    }
+test('a hosted addon passes under an id its host declared it replaces', function () {
+    // The premium bundle's REPLACES names the standalone ids its modules take; a standalone under
+    // one of those ids is shelved, but a module registering with the bundle as its host passes.
+    registerHostedFixture();
+
+    expect(glsr()->addon(HostedAddon::ID))->toBe(HostedAddon::class)
+        ->and(glsr()->retrieveAs('array', 'replacedBy'))->toHaveKey(HostedAddon::ID, HostAddon::ID)
+        ->and(glsr()->retrieveAs('array', 'replaced', []))->toBe([]);
 });
 
 test('settingPath resolves a standalone-authored path against the addon mount', function () {
