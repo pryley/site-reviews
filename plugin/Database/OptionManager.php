@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Addons\Addon;
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -53,7 +54,7 @@ class OptionManager
     public static function addons(): array
     {
         $addons = [];
-        foreach (array_keys(glsr()->addons) as $addonId) {
+        foreach (array_keys(glsr(Registry::class)->all()) as $addonId) {
             $addon = glsr($addonId);
             if ($addon instanceof Addon) {
                 $addons[$addon->slug] = $addon;

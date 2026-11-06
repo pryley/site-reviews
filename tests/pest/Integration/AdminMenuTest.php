@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
@@ -211,14 +212,14 @@ test('the premium settings tab needs the premium plugin, the addons tab addon se
     // up and restored by hand.
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Application.php');
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Hooks.php');
-    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry = new ReflectionProperty(Registry::class, 'addons');
     $registry->setAccessible(true);
-    $registered = $registry->getValue(glsr());
+    $registered = $registry->getValue(glsr(Registry::class));
     try {
         glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
         $html = renderedPage('renderSettingsMenuCallback');
     } finally {
-        $registry->setValue(glsr(), $registered);
+        $registry->setValue(glsr(Registry::class), $registered);
     }
 
     expect($html)->toContain('data-id="premium"')->toContain('>Premium</a>')

@@ -2595,7 +2595,7 @@ msgid "Your license is not activated for this site. %s to update this plugin."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Application.php:171
+#: plugin/Application.php:175
 #: plugin/Licensing/LicenseRow.php:117
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
@@ -4173,7 +4173,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:176
+#: plugin/Controllers/MainController.php:177
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""

@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Migrations\Migrate_6_0_0;
@@ -208,13 +209,14 @@ test('a style that was never a bootstrap 4 one is left as it is', function () {
  */
 function withAddons(array $slugs, callable $callback)
 {
-    $property = new ReflectionProperty(glsr(), 'addons');
-    $addons = $property->getValue(glsr());
-    $property->setValue(glsr(), array_merge($addons, array_fill_keys($slugs, true)));
+    $registry = glsr(Registry::class);
+    $property = new ReflectionProperty($registry, 'addons');
+    $addons = $property->getValue($registry);
+    $property->setValue($registry, array_merge($addons, array_fill_keys($slugs, true)));
     try {
         return $callback();
     } finally {
-        $property->setValue(glsr(), $addons);
+        $property->setValue($registry, $addons);
     }
 }
 
