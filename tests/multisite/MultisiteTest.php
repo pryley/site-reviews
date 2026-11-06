@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Licensing\License;
-use GeminiLabs\SiteReviews\Migrations\Migrate_8_4_0;
+use GeminiLabs\SiteReviews\Migrations\Migrate_9_0_0;
 
 /*
  * The is_multisite() branches, exercised on a real network (see bootstrap.php).
@@ -334,8 +334,8 @@ test('the licence URL is the network\'s under its domain and the site\'s own on 
     }
 });
 
-test('the 8.4.0 migration activates a mapped site\'s saved keys for the URL it now sends', function () {
-    // Before 8.4.0 every site sent the network's URL, so a mapped site's key was activated for that.
+test('the 9.0 migration activates a mapped site\'s saved keys for the URL it now sends', function () {
+    // Before 9.0 every site sent the network's URL, so a mapped site's key was activated for that.
     $mapped = wp_insert_site(['domain' => 'shop-other.com', 'path' => '/']);
     expect($mapped)->toBeInt();
     switch_to_blog($mapped);
@@ -357,7 +357,7 @@ test('the 8.4.0 migration activates a mapped site\'s saved keys for the URL it n
         wp_upload_dir(); // a real site has an uploads directory for core to delete
         glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-saved-key');
 
-        expect((new Migrate_8_4_0())->run())->toBeTrue()
+        expect((new Migrate_9_0_0())->run())->toBeTrue()
             ->and($asked)->toBe([
                 ['check_license', 'http://shop-other.com/'],
                 ['activate_license', 'http://shop-other.com/'],

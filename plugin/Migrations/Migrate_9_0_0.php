@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Licensing\License;
 
-class Migrate_8_4_0 implements MigrateContract
+class Migrate_9_0_0 implements MigrateContract
 {
     public function run(): bool
     {
