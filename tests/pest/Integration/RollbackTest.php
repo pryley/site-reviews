@@ -15,7 +15,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * and returns.
  *
  * Addons\Compat is the other half: from a class name alone it works out which addons are installed,
- * licensed, retired, or too old to update themselves. Wrong, and a paid addon silently stops
+ * licensed, or too old to update themselves. Wrong, and a paid addon silently stops
  * receiving updates.
  */
 
@@ -25,13 +25,12 @@ beforeEach(function () {
 });
 
 afterEach(function () {
-    // `licensed`, `compat` and `retired` live in memory on the Application SINGLETON — they are
+    // `licensed` and `compat` live in memory on the Application SINGLETON — they are
     // not options and they do not roll back. A test addon left in any of them would follow the
     // suite around: the addons page would list it, the update check would look for it, and the
     // licence notices would ask somebody to activate it.
     glsr()->store('compat', []);
     glsr()->store('licensed', []);
-    glsr()->store('retired', []);
 });
 
 /*
@@ -88,20 +87,3 @@ test('a class that does not exist is not an addon', function () {
     expect(glsr()->retrieveAs('array', 'licensed'))->toBe([]);
 });
 
-test('a retired addon is remembered as retired, and nothing else', function () {
-    // Two addons were folded into the plugin. They are still installed on people's sites, and
-    // they must not be treated as licensed or as needing updates — they need REMOVING, and the
-    // list is what the notice that says so is built from. The fixture is a licensed addon laid
-    // out on disk as Compat::register() expects, with no Update URI.
-    require_once glsr()->path('tests/pest/fixtures/site-reviews-gamipress/plugin/Application.php');
-    $retired = \GeminiLabs\SiteReviews\Tests\Fixtures\Gamipress\Application::class;
-    glsr()->store('compat', []);
-    glsr()->store('licensed', []);
-    glsr()->store('retired', []);
-
-    glsr(Compat::class)->register($retired);
-
-    expect(glsr()->retrieveAs('array', 'retired'))->toBe([$retired])
-        ->and(glsr()->retrieveAs('array', 'compat'))->toBe([])
-        ->and(glsr()->retrieveAs('array', 'licensed'))->toBe([]);
-});
