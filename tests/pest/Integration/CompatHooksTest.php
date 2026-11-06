@@ -74,7 +74,7 @@ test('the filter of a version turns off the old hooks of that version only', fun
     expect($heard)->toBe(['v6']);
 });
 
-test('a snippet that still turns the 8.4.0 asset optimiser on is told once, and a site without one hears nothing', function () {
+test('a snippet that still turns the 9.0.0 asset optimiser on is told once, and a site without one hears nothing', function () {
     // The filters stay declared so the snippet that hooks one is named, not ignored;
     // apply_filters_deprecated returns early while nothing hooks the filter.
     glsr(HookController::class)->filterOptimizeAsset();

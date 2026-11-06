@@ -74,7 +74,7 @@ const publicConfig = () => ({
 
 // InlineScript::build(); `added` is the keys that an 8.x localize filter added
 const inlineScript = (config, added = {}) => {
-    const values = { GLSR_CONFIG: config, GLSR_DEPRECATED: added, GLSR_VERSION: '8.4.0' };
+    const values = { GLSR_CONFIG: config, GLSR_DEPRECATED: added, GLSR_VERSION: '9.0.0' };
     return read('inline-script.js').replace(/GLSR_(CONFIG|DEPRECATED|VERSION)/g, name => JSON.stringify(values[name]));
 }
 

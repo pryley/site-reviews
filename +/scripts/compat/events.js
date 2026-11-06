@@ -1,7 +1,7 @@
 /** global: GLSR, GLSR_init */
 
 /**
- * The event names of Site Reviews before 8.4.0, each triggered beside its replacement.
+ * The event names of Site Reviews before 9.0.0, each triggered beside its replacement.
  */
 
 import { whenAttached } from '@/public/core/index.js';

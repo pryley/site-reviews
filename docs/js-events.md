@@ -139,7 +139,7 @@ It does not fire after a review is submitted: the form only sets up the list and
 
 ## Deprecated names
 
-Site Reviews 8.4.0 renamed its events. The old names are deprecated: use the new ones in anything you write. They keep firing, with the arguments they had, through compat mode, which is on by default (see [js-api.md](js-api.md#deprecated-keys)). In debug mode, a script that listens to an old name logs a warning that names its replacement.
+Site Reviews 9.0.0 renamed its events. The old names are deprecated: use the new ones in anything you write. They keep firing, with the arguments they had, through compat mode, which is on by default (see [js-api.md](js-api.md#deprecated-keys)). In debug mode, a script that listens to an old name logs a warning that names its replacement.
 
 | Deprecated | Arguments | Use instead |
 | --- | --- | --- |

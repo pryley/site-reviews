@@ -31,7 +31,7 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
  *   verifyReview()        the GET the mail client opens. The token IS the route — the router has
  *                         already decrypted and validated it, which is why this takes a plain review
  *                         id and checks nothing. It verifies, then redirects back to the review's page.
- *   verifiedReviewAjax()  the admin-ajax route used before 8.4.0 (Compat\Controllers\AjaxController).
+ *   verifiedReviewAjax()  the admin-ajax route used before 9.0.0 (Compat\Controllers\AjaxController).
  *                         Public and unguarded, so the `verified` token must decrypt to the review
  *                         id asked for.
  *

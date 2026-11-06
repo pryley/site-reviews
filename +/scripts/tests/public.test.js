@@ -50,7 +50,7 @@ test('the config is the one PHP printed, deep-frozen', () => {
     assert.equal(Object.isFrozen(config.request.ajax), true)
     assert.equal(Object.isFrozen(config.pagination.fixed), true)
     assert.equal(Object.isFrozen(config.validation.strings), true)
-    assert.equal(window.GLSR.version, '8.4.0')
+    assert.equal(window.GLSR.version, '9.0.0')
 });
 
 test('the built inline script names each value that PHP supplies once, so that none is printed twice', () => {
@@ -151,7 +151,7 @@ test('the compat script is handed its pieces, and puts none of them on GLSR', ()
     }
 });
 
-test('a key that an 8.x filter added, and 8.4.0 does not know, stays a plain key', () => {
+test('a key that an 8.x filter added, and 9.0.0 does not know, stays a plain key', () => {
     const { window } = loadPublic({ added: { my_snippet: { value: 1 } } });
     assert.deepEqual(plain(window.GLSR.my_snippet), { value: 1 })
 });

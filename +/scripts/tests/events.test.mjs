@@ -375,7 +375,7 @@ test('debug mode names the replacement of an old name, of a removed name, and of
     assert.deepEqual(warnings, [
         '[site-reviews] A script listens to site-reviews/form/handle, which is deprecated; use site-reviews/form/submitted instead.',
         '[site-reviews] A script listens to site-reviews/loaded, which is deprecated; use site-reviews/initialized instead.',
-        "[site-reviews] A script listens to site-reviews/pagination/popstate, which Site Reviews 8.4.0 removed; use window.addEventListener('popstate', …) instead.",
+        "[site-reviews] A script listens to site-reviews/pagination/popstate, which Site Reviews 9.0.0 removed; use window.addEventListener('popstate', …) instead.",
         '[site-reviews] Triggering site-reviews/forms/init is deprecated; use GLSR.Form.init(root) instead.',
     ])
 });

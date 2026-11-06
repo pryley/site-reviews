@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { loadAdmin, loadPublic } = require('./harness.js');
 
-const DEBUG_URL = 'https://example.org/wp-content/plugins/site-reviews/assets/scripts/site-reviews-debug.js?ver=8.4.0';
+const DEBUG_URL = 'https://example.org/wp-content/plugins/site-reviews/assets/scripts/site-reviews-debug.js?ver=9.0.0';
 
 const inserted = (window) => [...window.document.head.querySelectorAll('script[src]')].map(script => script.src);
 
