@@ -281,7 +281,7 @@ test('debug mode names a listener of site-reviews/init that no longer runs after
     await submit(window, { reviews: REVIEWS(), success: true })
     await submit(window, { reviews: REVIEWS(), success: true })
     assert.equal(warnings.length, 1)
-    assert.match(warnings[0], /A script listens to site-reviews\/init\. Since Site Reviews 8\.4\.0 this event does not fire after a review is submitted; use site-reviews\/review\/initialized/)
+    assert.match(warnings[0], /A script listens to site-reviews\/init\. Since Site Reviews 9\.0\.0 this event does not fire after a review is submitted; use site-reviews\/review\/initialized/)
 });
 
 test('debug mode logs each rule of each field, and the status of the answer', async () => {

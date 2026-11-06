@@ -17,13 +17,13 @@ export default ({ attach, listeners }, events = null) => {
         console.warn(`${PREFIX} ${message}`)
     }
 
-    // Before 8.4.0 a submission that replaced a list or a summary ended with site-reviews/init.
+    // Before 9.0.0 a submission that replaced a list or a summary ended with site-reviews/init.
     const warnAfterSubmission = () => {
         const counts = listeners();
         // site-reviews.js has one listener of site-reviews/init, and none of site-reviews/loaded
         Object.entries({ 'site-reviews/init': 1, 'site-reviews/loaded': 0 }).forEach(([name, own]) => {
             if ((counts[name] || 0) > own) {
-                warn(`submission:${name}`, `A script listens to ${name}. Since Site Reviews 8.4.0 this event does not fire after a review is submitted; use site-reviews/review/initialized for a refreshed list and site-reviews/summary/updated for a refreshed summary.`)
+                warn(`submission:${name}`, `A script listens to ${name}. Since Site Reviews 9.0.0 this event does not fire after a review is submitted; use site-reviews/review/initialized for a refreshed list and site-reviews/summary/updated for a refreshed summary.`)
             }
         })
     }
@@ -31,7 +31,7 @@ export default ({ attach, listeners }, events = null) => {
     const checkName = (name) => {
         const { CURRENT, OLD, REMOVED } = events;
         if (REMOVED[name]) {
-            return warn(`event:${name}`, `A script listens to ${name}, which Site Reviews 8.4.0 removed; use ${REMOVED[name]} instead.`);
+            return warn(`event:${name}`, `A script listens to ${name}, which Site Reviews 9.0.0 removed; use ${REMOVED[name]} instead.`);
         }
         if (OLD[name]) {
             const isFired = false !== window.GLSR.config.compat;

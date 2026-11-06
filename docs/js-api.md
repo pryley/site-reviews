@@ -1,6 +1,6 @@
 # Javascript API
 
-Site Reviews keeps its javascript in one global, `GLSR`. This page describes it as of Site Reviews 8.4.0. The keys that 8.4.0 replaces keep working while compat mode is on; they are listed under [Deprecated keys](#deprecated-keys).
+Site Reviews keeps its javascript in one global, `GLSR`. This page describes it as of Site Reviews 9.0.0. The keys that 9.0.0 replaces keep working while compat mode is on; they are listed under [Deprecated keys](#deprecated-keys).
 
 ```text
 window.GLSR
@@ -202,7 +202,7 @@ add_filter('site-reviews/assets/config', function (array $config, string $bundle
 }, 10, 2);
 ```
 
-The filters `site-reviews/enqueue/public/localize` and `site-reviews/enqueue/admin/localize` are deprecated. While compat mode is on they keep working, and they receive the values under the names they had before 8.4.0.
+The filters `site-reviews/enqueue/public/localize` and `site-reviews/enqueue/admin/localize` are deprecated. While compat mode is on they keep working, and they receive the values under the names they had before 9.0.0.
 
 The public script:
 
@@ -288,7 +288,7 @@ In debug mode:
 
 ## Deprecated keys
 
-Site Reviews 8.4.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
+Site Reviews 9.0.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
 
 Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. The names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`, the `form` of a form instance) are gone: those add-ons do not run on this version, and a name of a module cannot be kept before the module has loaded. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
@@ -344,7 +344,7 @@ The admin script:
 | `GLSR.Tippy` | `GLSR.lib.tippy` |
 | `GLSR.Utils` | `GLSR.Util` |
 
-Three keys are removed in 8.4.0 with no replacement:
+Three keys are removed in 9.0.0 with no replacement:
 
 - `GLSR.state`, which nothing read.
 - `GLSR.Event.events`, which was never meant to be public (use `GLSR.Event.listeners()` in debug mode).

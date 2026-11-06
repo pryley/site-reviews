@@ -81,7 +81,7 @@ add_filter('site-reviews/rest-api/routes', function (array $routes) {
 
 The route receives the form's fields in the `site-reviews` parameter. A controller that extends `Controllers\Api\Version1\AbstractRestController` has three helpers for it: `formRequest($request, $action)` returns the fields as the plugin's `Request`, with the action of the route and the captcha token; `lock($action)` takes the lock that prevents parallel submissions; `refuse($code, $message, $status)` returns the error of a refused request, with a `glsr_` code.
 
-An action without a route is deprecated. While compat mode is on, its form is posted to admin-ajax as it was before 8.4.0, and debug mode logs a warning. With compat mode off the form is not sent.
+An action without a route is deprecated. While compat mode is on, its form is posted to admin-ajax as it was before 9.0.0, and debug mode logs a warning. With compat mode off the form is not sent.
 
 ## The searchable dropdowns of the admin
 

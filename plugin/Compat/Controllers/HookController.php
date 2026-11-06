@@ -15,7 +15,7 @@ class HookController extends AbstractController
     public function filterOptimizeAsset(): void
     {
         foreach (['css', 'js'] as $type) {
-            apply_filters_deprecated("site-reviews/optimize/{$type}", [false], '8.4.0', '',
+            apply_filters_deprecated("site-reviews/optimize/{$type}", [false], '9.0.0', '',
                 'Site Reviews no longer combines assets into one file.'
             );
         }

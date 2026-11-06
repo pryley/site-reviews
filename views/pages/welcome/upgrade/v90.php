@@ -2,12 +2,12 @@
 
 <div class="glsr-card postbox is-fullwidth open">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="upgrade-v8_4_0">
-            <span class="title">Version 8.4</span>
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="upgrade-v9_0_0">
+            <span class="title">Version 9.0</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div id="upgrade-v8_4_0" class="inside">
+    <div id="upgrade-v9_0_0" class="inside">
 
         <h2>Changes to Javascript events</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
@@ -20,12 +20,12 @@ GLSR.Event.on('site-reviews/form/handle', (response, form) => {
     // response.success, form is the &lt;form&gt; element
 })
 
-/* version 8.4 */
+/* version 9.0 */
 GLSR.Event.on('site-reviews/form/submitted', ({ form, response, success }) => {
     // form.el is the &lt;form&gt; element
 })</code></pre>
                 <table class="wp-list-table widefat striped">
-                    <thead><tr><th>Version 8.3</th><th>Version 8.4</th></tr></thead>
+                    <thead><tr><th>Version 8.3</th><th>Version 9.0</th></tr></thead>
                     <tbody>
                         <tr><td><code>site-reviews/loaded</code></td><td><code>site-reviews/initialized</code></td></tr>
                         <tr><td><code>site-reviews/excerpts/init</code>, <code>site-reviews/modal/init</code>, <code>site-reviews/pagination/init</code></td><td><code>site-reviews/review/initialized</code></td></tr>
@@ -47,7 +47,7 @@ GLSR.Event.on('site-reviews/init', () => {
     // runs when the page loads, and after each submission
 })
 
-/* version 8.4 */
+/* version 9.0 */
 GLSR.Event.on('site-reviews/review/initialized', ({ root }) => {
     // runs when the page loads (root is the document), and with the list of
     // reviews that was updated (root) after a submission or a page change

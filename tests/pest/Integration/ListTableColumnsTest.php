@@ -209,7 +209,7 @@ test('a searchable filter carries its route and its fixed choices on the element
 });
 
 test('a filter that names no route offers its choices without a search box', function () {
-    // What the filter of an addon released before 8.4.0 becomes: it never named a route.
+    // What the filter of an addon released before 9.0.0 becomes: it never named a route.
     $filter = new class() extends ColumnFilterAssignedPost {
         public function searchRoute(): string
         {
