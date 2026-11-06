@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Licensing;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 
 /**
@@ -66,7 +64,7 @@ class LicenseRow
             return [];
         }
         if ($force || $this->isStale($key)) {
-            $this->check = $this->updater($key, $force)->checkLicense(); // the row reads it several times
+            $this->check = glsr(LicenseServer::class)->check(static::ADDON_ID, $key, $force); // the row reads it several times
             $this->checkedKey = $key;
         }
         return $this->check;
@@ -75,9 +73,7 @@ class LicenseRow
     public function flush(): void
     {
         $this->check = null;
-        $updater = $this->updater($this->savedKey());
-        glsr(Api::class, ['url' => $updater->apiUrl])->flushAll('check_license');
-        $updater->flushCachedVersion();
+        glsr(LicenseServer::class)->flush(static::ADDON_ID);
         glsr(License::class)->forgetAnswer(static::ADDON_ID);
     }
 
@@ -234,14 +230,6 @@ class LicenseRow
             return static::STATE_ON_DISK;
         }
         return static::STATE_ACTIVE;
-    }
-
-    public function updater(string $key, bool $force = false): Updater
-    {
-        return new Updater(static::ADDON_ID, [
-            'force' => $force,
-            'license' => $key,
-        ]);
     }
 
     protected function date(string $date): string

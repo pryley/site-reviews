@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Hooks;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Controllers\UpdateController;
 use GeminiLabs\SiteReviews\Modules\UpdateLock;
 
@@ -50,7 +50,7 @@ class UpdateHooks extends AbstractHooks
         // WordPress names the hook after the host in the addon's Update URI header
         $hosts = array_unique(array_map(
             fn ($url) => (string) wp_parse_url($url, \PHP_URL_HOST),
-            [Updater::BASE_URL, Updater::baseUrl()]
+            [LicenseServer::BASE_URL, LicenseServer::baseUrl()]
         ));
         foreach ($hosts as $host) {
             $this->hook(UpdateController::class, [

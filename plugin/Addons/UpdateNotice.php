@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 class UpdateNotice
 {
     public string $status;
@@ -11,7 +12,7 @@ class UpdateNotice
 
     public function __construct(string $status = '', string $renewalUrl = '', string $pluginUrl = '')
     {
-        $this->pluginUrl = $pluginUrl ?: Updater::baseUrl();
+        $this->pluginUrl = $pluginUrl ?: LicenseServer::baseUrl();
         $this->renewalUrl = $renewalUrl;
         $this->status = $status;
     }

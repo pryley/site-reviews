@@ -139,6 +139,15 @@ if (!function_exists(__NAMESPACE__.'\filter_input_array')) {
     }
 }
 
+namespace GeminiLabs\SiteReviews\Licensing;
+
+if (!function_exists(__NAMESPACE__.'\filter_input')) {
+    function filter_input(int $type, string $key, int $filter = FILTER_DEFAULT, $options = 0)
+    {
+        return \GeminiLabs\SiteReviews\Tests\filterInputShadow($type, $key, $filter, $options);
+    }
+}
+
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 if (!function_exists(__NAMESPACE__.'\filter_input')) {

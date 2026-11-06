@@ -2,10 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Licensing\LicenseStatus;
 use GeminiLabs\SiteReviews\Request;
 
@@ -19,7 +19,6 @@ class Verify extends AbstractCommand
     public string $license;
     public array $notice = [];
     protected bool $connects;
-    protected Updater $updater;
 
     public function __construct(Request $request)
     {
@@ -36,8 +35,8 @@ class Verify extends AbstractCommand
             $this->refuse('license_missing', _x('Please enter your license key.', 'admin-text', 'site-reviews'), [], 400, 'warning');
             return;
         }
-        $this->updater = glsr(LicenseRow::class)->updater($this->license, true);
-        $this->check = $this->updater->checkLicense();
+        // A person asked: ask the server now.
+        $this->check = glsr(LicenseServer::class)->check(static::ADDON_ID, $this->license, true);
         $method = Helper::buildMethodName('onStatus', LicenseStatus::of($this->check));
         if (!method_exists($this, $method)) {
             $method = 'onStatusExhausted'; // unknown status fallback
@@ -109,7 +108,7 @@ class Verify extends AbstractCommand
 
     protected function onStatusInactive(): void
     {
-        $activation = $this->updater->activateLicense();
+        $activation = glsr(LicenseServer::class)->activate(static::ADDON_ID, $this->license);
         if ('valid' !== $activation['license']) {
             $this->onStatusExhausted();
             return;

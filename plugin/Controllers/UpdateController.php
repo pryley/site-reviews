@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\UpdateNotice;
-use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Modules\UpdateLock;
 
 class UpdateController extends AbstractController
@@ -131,13 +131,11 @@ class UpdateController extends AbstractController
         if ('plugin_information' !== $action || empty($args->slug)) {
             return $data;
         }
-        if (!Updater::isAddon($args->slug)) {
+        if (!$this->isAddon($args->slug)) {
             return $data;
         }
-        $updater = new Updater($args->slug, [
-            'force' => Updater::isDue($args->slug),
-        ]);
-        $details = $updater->versionDetails();
+        $server = glsr(LicenseServer::class);
+        $details = $server->versionDetails($args->slug, $server->isDue($args->slug));
         if (empty($details['version'])) {
             return $data;
         }
@@ -157,11 +155,8 @@ class UpdateController extends AbstractController
     {
         $addonId = $pluginData['TextDomain'] ?? '';
         $url = $pluginData['UpdateURI'] ?? '';
-        $updater = new Updater($addonId, [
-            'force' => Updater::isDue($addonId),
-            'url' => $url,
-        ]);
-        $update = $updater->versionUpdate();
+        $server = glsr(LicenseServer::class);
+        $update = $server->versionUpdate($addonId, $server->isDue($addonId), $url);
         if (!empty($update['version'])) {
             return $update;
         }
@@ -187,15 +182,12 @@ class UpdateController extends AbstractController
             $plugin = plugin_basename($file);
             $pluginData = get_file_data($file, ['version' => 'Version'], 'plugin');
             $currentVersion = $pluginData['version'];
-            $updater = new Updater($addonId, [
-                'force' => Updater::isDue($addonId),
-                'url' => Updater::BASE_URL,
-            ]);
-            $update = (object) $updater->versionUpdate();
+            $server = glsr(LicenseServer::class);
+            $update = (object) $server->versionUpdate($addonId, $server->isDue($addonId), LicenseServer::BASE_URL);
             if (empty($update->version)) {
                 continue;
             }
-            $update->id = Updater::BASE_URL;
+            $update->id = LicenseServer::BASE_URL;
             $update->plugin = $plugin;
             $update->new_version = $update->version;
             unset($updates->no_update[$plugin], $updates->response[$plugin]);
@@ -254,6 +246,30 @@ class UpdateController extends AbstractController
         ));
     }
 
+    protected function isAddon(string $slug): bool
+    {
+        static $cache = [];
+        if (isset($cache[$slug])) {
+            return $cache[$slug];
+        }
+        $cache[$slug] = false;
+        if (!preg_match('/^'.glsr()->id.'-[a-z-]+$/D', $slug)) {
+            return $cache[$slug];
+        }
+        $file = \WP_PLUGIN_DIR."/{$slug}/{$slug}.php";
+        if (is_readable($file)) {
+            $data = get_file_data($file, ['update_uri' => 'Update URI']);
+            $cache[$slug] = trailingslashit(LicenseServer::BASE_URL) === trailingslashit($data['update_uri']);
+        }
+        return $cache[$slug];
+    }
+
+    protected function isAddonUpdate(object $update): bool
+    {
+        $id = (string) ($update->id ?? '');
+        return '' !== $id && trailingslashit($id) === trailingslashit(LicenseServer::BASE_URL);
+    }
+
     /**
      * The email line for a failed addon update that had no package; '' for any other failure.
      *
@@ -262,7 +278,7 @@ class UpdateController extends AbstractController
     protected function licenseFailureLine($failed): string
     {
         $item = $failed->item ?? null;
-        if (!is_object($item) || !empty($item->package) || !Updater::isAddonUpdate($item)) {
+        if (!is_object($item) || !empty($item->package) || !$this->isAddonUpdate($item)) {
             return '';
         }
         $notice = UpdateNotice::fromUpdate($item);

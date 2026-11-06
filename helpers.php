@@ -1,6 +1,5 @@
 <?php
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\BlackHole;
@@ -13,6 +12,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Licensing\License;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Diagnostics\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Diagnostics\Dump;
@@ -311,7 +311,7 @@ function glsr_premium_url(string $path = '/'): string
         return esc_url($urlPath);
     }
     $urlPath = trailingslashit(ltrim($urlPath, '/'));
-    return esc_url(trailingslashit(Updater::baseUrl()).$urlPath);
+    return esc_url(trailingslashit(LicenseServer::baseUrl()).$urlPath);
 }
 
 /**

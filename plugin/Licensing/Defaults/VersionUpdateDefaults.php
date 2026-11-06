@@ -1,11 +1,12 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Defaults\Updater;
+namespace GeminiLabs\SiteReviews\Licensing\Defaults;
 
+use GeminiLabs\SiteReviews\Addons\UpdateNotice;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 use GeminiLabs\SiteReviews\Helper;
 
-class VersionDefaults extends DefaultsAbstract
+class VersionUpdateDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be cast before sanitization is run.
@@ -13,14 +14,8 @@ class VersionDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'banners' => 'array',
-        'contributors' => 'array',
-        'faq' => 'array',
         'icons' => 'array',
-        'screenshots' => 'array',
-        'sections' => 'array',
-        'tags' => 'array',
         'translations' => 'array',
-        'warnings' => 'array',
     ];
 
     /**
@@ -37,23 +32,18 @@ class VersionDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
-        'donate_link' => 'url',
-        'download_link' => 'url',
-        'homepage' => 'url',
-        'last_updated' => 'date',
-        'license' => 'text',
-        'msg' => 'text',
-        'name' => 'text',
-        'new_version' => 'version',
+        'id' => 'slug',
+        'license_renewal_url' => 'url',
+        'license_status' => 'key',
         'package' => 'url',
+        'replaced_by' => 'slug',
+        'replaced_by_name' => 'text',
+        'replaced_by_url' => 'url',
         'requires' => 'version',
         'requires_php' => 'version',
-        'short_description' => 'text',
         'slug' => 'slug',
-        'stable_tag' => 'version',
-        'stable_version' => 'version',
         'tested' => 'version',
-        'upgrade_notice' => 'text-html',
+        'upgrade_notice' => 'text',
         'url' => 'url',
         'version' => 'version',
     ];
@@ -61,33 +51,23 @@ class VersionDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'banners' => [],
-            'contributors' => [],
-            'donate_link' => '',
-            'download_link' => '',
-            'faq' => [],
-            'homepage' => '',
-            'icons' => [],
-            'last_updated' => '',
-            'license' => '',
-            'msg' => '',
-            'name' => '',
-            'new_version' => '',
+            'banners' => '',
+            'icons' => '',
+            'id' => '',
+            'license_renewal_url' => '',
+            'license_status' => '',
             'package' => '',
+            'replaced_by' => '', // the slug of the plugin that replaces a retired addon, from the store
+            'replaced_by_name' => '',
+            'replaced_by_url' => '',
             'requires' => '',
             'requires_php' => '',
-            'screenshots' => [],
-            'sections' => [],
-            'short_description' => '',
             'slug' => '',
-            'stable_tag' => '',
-            'stable_version' => '',
-            'tags' => [],
             'tested' => '',
-            'translations' => [],
+            'translations' => '',
             'upgrade_notice' => '',
             'url' => '',
-            'warnings' => [],
+            'version' => '',
         ];
     }
 
@@ -104,6 +84,13 @@ class VersionDefaults extends DefaultsAbstract
         $wp = Helper::version($wp_version, 'minor');
         if (version_compare($tested, $wp, '=')) {
             $values['tested'] = $wp_version;
+        }
+        if (empty($values['package'])) {
+            $licenseNotice = (new UpdateNotice($values['license_status']))->text();
+            $values['upgrade_notice'] = trim(sprintf('‼️ %s %s',
+                $licenseNotice,
+                $values['upgrade_notice']
+            ));
         }
         return $values;
     }

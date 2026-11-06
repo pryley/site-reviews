@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Request;
 
 /**
@@ -30,7 +31,7 @@ class Deactivate extends AbstractCommand
             return;
         }
         if (!$this->delete) {
-            $license->updater($key, true)->deactivateLicense();
+            glsr(LicenseServer::class)->deactivate(static::ADDON_ID, $key);
         }
         $license->flush();
         if ($this->delete) {

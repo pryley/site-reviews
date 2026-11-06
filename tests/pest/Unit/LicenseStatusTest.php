@@ -1,6 +1,6 @@
 <?php
 
-use GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults;
+use GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults;
 use GeminiLabs\SiteReviews\Licensing\LicenseStatus;
 
 test('each answer of the licence server resolves to one status', function (array $answer, string $status) {
@@ -22,6 +22,6 @@ test('each answer of the licence server resolves to one status', function (array
 
 test('no answer is unreachable, whatever the success flag', function () {
     $check = glsr(CheckLicenseDefaults::class)->restrict([]);
-    $check['license'] = 'unknown'; // Updater::checkLicense() sets it after the defaults run
+    $check['license'] = 'unknown'; // LicenseServer::check() sets it after the defaults run
     expect(LicenseStatus::of($check))->toBe(LicenseStatus::UNREACHABLE);
 });

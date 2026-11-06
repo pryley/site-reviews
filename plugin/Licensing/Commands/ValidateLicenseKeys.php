@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Commands\AbstractCommand as AbstractBaseCommand;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Licensing\LicenseStatus;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -17,9 +17,10 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class ValidateLicenseKeys extends AbstractBaseCommand
 {
     public array $licenses;
+    protected string $addonId = '';
     protected array $check = [];
+    protected string $license = '';
     protected array $posted;
-    protected Updater $updater;
 
     public function __construct(array $saved, array $posted)
     {
@@ -30,11 +31,10 @@ class ValidateLicenseKeys extends AbstractBaseCommand
     public function handle(): void
     {
         foreach ($this->posted as $addonId => $license) {
-            $this->updater = new Updater($addonId, [
-                'force' => true,
-                'license' => $license,
-            ]);
-            $this->check = $this->updater->checkLicense();
+            $this->addonId = $addonId;
+            $this->license = $license;
+            // A person saved the key: ask the server now.
+            $this->check = glsr(LicenseServer::class)->check($addonId, $license, true);
             $method = Helper::buildMethodName('onStatus', LicenseStatus::of($this->check));
             if (!method_exists($this, $method)) {
                 $method = 'onStatusExhausted'; // unknown status fallback
@@ -45,7 +45,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
 
     protected function drop(): void
     {
-        $this->licenses[$this->updater->addonId] = '';
+        $this->licenses[$this->addonId] = '';
     }
 
     protected function notice(string $error, string $message = ''): void
@@ -56,7 +56,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
 
     protected function onStatusDisabled(): void
     {
-        glsr_log()->error("Disabled license: {$this->updater->license} ({$this->updater->addonId})");
+        glsr_log()->error("Disabled license: {$this->license} ({$this->addonId})");
         $this->notice(
             _x('A license you entered has been disabled.', 'admin-text', 'site-reviews'),
             /* translators: %s: link with the text "contact support" */
@@ -95,7 +95,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
 
     protected function onStatusInactive(): void
     {
-        $activation = $this->updater->activateLicense();
+        $activation = glsr(LicenseServer::class)->activate($this->addonId, $this->license);
         if ('valid' !== $activation['license']) {
             glsr_log($activation);
             $this->drop();
@@ -106,7 +106,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
 
     protected function onStatusInvalid(): void
     {
-        glsr_log()->error("Invalid license: {$this->updater->license} ({$this->updater->addonId})");
+        glsr_log()->error("Invalid license: {$this->license} ({$this->addonId})");
         $this->notice(_x('A license you entered is invalid.', 'admin-text', 'site-reviews'));
         $this->drop();
     }
@@ -125,7 +125,7 @@ class ValidateLicenseKeys extends AbstractBaseCommand
         glsr(Notice::class)->addWarning(
             _x('The license server could not be reached. Please try again later.', 'admin-text', 'site-reviews')
         );
-        $this->licenses[$this->updater->addonId] = glsr(OptionManager::class)->get("settings.licenses.{$this->updater->addonId}", '', 'string');
+        $this->licenses[$this->addonId] = glsr(OptionManager::class)->get("settings.licenses.{$this->addonId}", '', 'string');
     }
 
     protected function onStatusValid(): void

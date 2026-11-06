@@ -1,20 +1,16 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Defaults\Updater;
+namespace GeminiLabs\SiteReviews\Licensing\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 
-class ActivateLicenseDefaults extends DefaultsAbstract
+class DeactivateLicenseDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
      */
     public array $casts = [
-        'activations_left' => 'int',
-        'license_limit' => 'int',
-        'lifetime' => 'bool',
-        'site_count' => 'int',
         'success' => 'bool',
     ];
 
@@ -24,8 +20,7 @@ class ActivateLicenseDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'checksum' => 'text',
-        'error' => 'slug',
-        'expires' => 'text',
+        'expires' => 'date',
         'item_name' => 'slug',
         'license' => 'slug',
     ];
@@ -33,15 +28,10 @@ class ActivateLicenseDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'activations_left' => 0,
             'checksum' => '',
-            'error' => '',
             'expires' => '',
             'item_name' => '',
             'license' => '',
-            'license_limit' => 0,
-            'lifetime' => false,
-            'site_count' => 0,
             'success' => false,
         ];
     }
@@ -56,7 +46,6 @@ class ActivateLicenseDefaults extends DefaultsAbstract
         }
         if ('lifetime' === $values['expires']) {
             $values['expires'] = date('Y-m-d H:i:s', strtotime('+10 years'));
-            $values['lifetime'] = true;
         }
         return $values;
     }

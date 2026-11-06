@@ -1,13 +1,13 @@
 <?php
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The licence, and the update it entitles someone to.
+ * The licence server, and the update it entitles someone to.
  *
  * The code that runs when a person pastes in the key they just paid for, and that decides whether
  * they are offered the addon update afterwards. It speaks an EDD software-licensing dialect: one
@@ -26,13 +26,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(function () {
     resetPluginState();
+    add_filter('site-reviews/updater/base-url', fn () => 'https://updates.example.org'); // a development store; the fixture addon is not installed, so its address is ours
 });
 
-function updater(array $args = []): Updater
+function server(): LicenseServer
 {
-    return new Updater('site-reviews-images', wp_parse_args($args, [
-        'url' => 'https://updates.example.org',
-    ]));
+    return glsr(LicenseServer::class);
+}
+
+function addon(): string
+{
+    return 'site-reviews-images';
 }
 
 /**
@@ -47,35 +51,41 @@ function sentBody(ArrayObject $requests, int $index = 0): array
  * Where it asks, and with what.
  */
 
-test('the licence comes from the settings when it is not passed in', function () {
-    // Which is how every real caller uses it: the key lives in settings.licenses.{addon}.
+test('a version request carries the saved key', function () {
+    // Which is how the update screen asks: the key lives in settings.licenses.{addon}.
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-real-licence-key');
+    $requests = interceptHttp(['body' => (string) wp_json_encode(['new_version' => '2.0.0'])]);
 
-    expect(updater()->license)->toBe('a-real-licence-key');
-    expect(updater(['license' => 'an-explicit-key'])->license)->toBe('an-explicit-key');
+    server()->version(addon(), true);
+
+    expect(sentBody($requests)['license'])->toBe('a-real-licence-key');
 });
 
 test('an addon that is not installed is asked about at the default api', function () {
-    // updateUri() reads the Update URI header of the addon's plugin file. An addon that is
+    // url() reads the Update URI header of the addon's plugin file. An addon that is
     // not installed has no header to read, and niftyplugins.com is where the rest live.
-    expect((new Updater('site-reviews-not-installed'))->apiUrl)->toBe(Updater::BASE_URL);
+    remove_all_filters('site-reviews/updater/base-url');
+
+    expect(server()->url('site-reviews-not-installed'))->toBe(LicenseServer::BASE_URL);
 });
 
 test('the filtered server address replaces niftyplugins.com wherever a header or a caller names it, and nothing else', function () {
     // The filter is how a development store gets the requests; a header naming another server is left alone.
+    remove_all_filters('site-reviews/updater/base-url');
     add_filter('site-reviews/updater/base-url', fn () => 'https://niftyplugins.test/');
 
-    expect(Updater::baseUrl())->toBe('https://niftyplugins.test')
-        ->and(updater(['url' => 'https://niftyplugins.com/'])->apiUrl)->toBe('https://niftyplugins.test')
-        ->and((new Updater('site-reviews-not-installed'))->apiUrl)->toBe('https://niftyplugins.test')
-        ->and(updater(['url' => 'https://updates.example.org'])->apiUrl)->toBe('https://updates.example.org')
+    expect(LicenseServer::baseUrl())->toBe('https://niftyplugins.test')
+        ->and(server()->url(addon(), 'https://niftyplugins.com/'))->toBe('https://niftyplugins.test')
+        ->and(server()->url('site-reviews-not-installed'))->toBe('https://niftyplugins.test')
+        ->and(server()->url(addon(), 'https://updates.example.org'))->toBe('https://updates.example.org')
         ->and(glsr_premium_url('license-keys'))->toBe('https://niftyplugins.test/account/license-keys/');
 });
 
 test('a filtered server address that is not a URL is ignored', function () {
+    remove_all_filters('site-reviews/updater/base-url');
     add_filter('site-reviews/updater/base-url', fn () => 'not a url');
 
-    expect(Updater::baseUrl())->toBe(Updater::BASE_URL);
+    expect(LicenseServer::baseUrl())->toBe(LicenseServer::BASE_URL);
 });
 
 test('activating a licence says which addon, which key, and which site', function () {
@@ -83,7 +93,7 @@ test('activating a licence says which addon, which key, and which site', functio
     // of the activations they paid for on a site that is not theirs.
     $requests = interceptHttp(['body' => (string) wp_json_encode(['success' => true, 'license' => 'valid'])]);
 
-    updater(['license' => 'a-real-licence-key'])->activateLicense();
+    server()->activate(addon(), 'a-real-licence-key');
 
     expect(sentBody($requests))->toMatchArray([
         'edd_action' => 'activate_license',
@@ -91,7 +101,7 @@ test('activating a licence says which addon, which key, and which site', functio
         'license' => 'a-real-licence-key',
         'slug' => 'site-reviews-images',
         // trailing slash included: the licence server keys on the exact string
-        'url' => glsr(\GeminiLabs\SiteReviews\Licensing\License::class)->siteUrl(),
+        'url' => server()->activationUrl(),
     ]);
     expect($requests[0]['url'])->toBe('https://updates.example.org');
 });
@@ -99,8 +109,8 @@ test('activating a licence says which addon, which key, and which site', functio
 test('checking and deactivating are the same request with a different verb', function () {
     $requests = interceptHttp(['body' => (string) wp_json_encode(['success' => true])]);
 
-    updater()->checkLicense();
-    updater()->deactivateLicense();
+    server()->check(addon(), 'a-key', true);
+    server()->deactivate(addon(), 'a-key');
 
     expect(sentBody($requests, 0)['edd_action'])->toBe('check_license')
         ->and(sentBody($requests, 1)['edd_action'])->toBe('deactivate_license');
@@ -111,9 +121,9 @@ test('every version call is the same get_version request', function () {
     // plugin-information modal, and the addons page.
     $requests = interceptHttp(['body' => (string) wp_json_encode(['new_version' => '2.0.0'])]);
 
-    updater()->version();
-    updater()->versionDetails();
-    updater()->versionUpdate();
+    server()->version(addon(), true);
+    server()->versionDetails(addon(), true);
+    server()->versionUpdate(addon(), true);
 
     foreach ([0, 1, 2] as $i) {
         expect(sentBody($requests, $i)['edd_action'])->toBe('get_version');
@@ -136,7 +146,7 @@ test('a licence response is restricted to the keys the plugin knows about', func
         'malicious_key' => '<script>alert(1)</script>',
     ])]);
 
-    $result = updater(['license' => 'a-real-licence-key'])->activateLicense();
+    $result = server()->activate(addon(), 'a-real-licence-key');
 
     expect($result['success'])->toBeTrue()
         ->and($result['license'])->toBe('valid')
@@ -154,7 +164,7 @@ test('an unlicensed check comes back invalid rather than empty', function () {
     // checked" is how an unlicensed site ends up being offered a premium download.
     interceptHttp(['body' => (string) wp_json_encode(['success' => false])]);
 
-    $result = updater()->checkLicense();
+    $result = server()->check(addon(), 'a-key', true);
 
     expect($result['license'])->toBe('invalid')
         ->and($result['success'])->toBeFalse()
@@ -166,7 +176,7 @@ test('a check with no answer comes back unknown, and still unlicensed', function
     // and it grants nothing: success and is_premium_license stay false.
     interceptHttp(['body' => (string) wp_json_encode([])]);
 
-    $result = updater()->checkLicense();
+    $result = server()->check(addon(), 'a-key', true);
 
     expect($result['license'])->toBe('unknown')
         ->and($result['success'])->toBeFalse()
@@ -188,7 +198,7 @@ test('a server that is down does not become an update', function () {
         'response' => ['code' => 500, 'message' => 'Internal Server Error'],
     ]);
 
-    $version = updater()->versionUpdate();
+    $version = server()->versionUpdate(addon(), true);
 
     expect($version['version'])->toBe('')
         ->and($version['package'])->toBe('')
@@ -205,7 +215,7 @@ test('the details for the plugin-information modal are shaped for wordpress', fu
         'new_version' => '2.0.0', // get_version sends it; the modal has no use for it
     ])]);
 
-    $details = updater()->versionDetails();
+    $details = server()->versionDetails(addon(), true);
 
     expect($details['name'])->toBe('Site Reviews: Images')
         ->and($details['version'])->toBe('2.0.0')
@@ -221,24 +231,23 @@ test('the details for the plugin-information modal are shaped for wordpress', fu
  */
 
 test('activating a licence throws away the cached answer from before they had one', function () {
-    // `force` is true by default on the Updater, which is why the licence calls always go
-    // out. The VERSION check is the one that is allowed to be cached — for a day — and it is
-    // therefore the one that goes stale the moment somebody activates a licence.
+    // The licence actions always go out. The VERSION check is the one that is allowed to be
+    // cached — for a day — and it is therefore the one that goes stale the moment somebody
+    // activates a licence.
     $requests = interceptHttp(['body' => (string) wp_json_encode(['new_version' => '2.0.0'])]);
-    $unlicensed = updater(['force' => false, 'license' => '']);
 
-    $unlicensed->version();
-    $unlicensed->version();
+    server()->version(addon()); // no key saved
+    server()->version(addon());
     expect($requests)->toHaveCount(1); // the second came out of the cache, as it should
 
-    // They paste in the key they have paid for. activateLicense() flushes get_version first,
+    // They paste in the key they have paid for. activate() flushes get_version first,
     // and the answer it is flushing was cached under a body containing the OLD (empty)
     // licence, so its key cannot be worked out — it is found through Api's index.
-    updater(['license' => 'a-real-licence-key'])->activateLicense();
+    server()->activate(addon(), 'a-real-licence-key');
     expect($requests)->toHaveCount(2);
 
     // And the version answer is now asked for again rather than served from yesterday's no.
-    $unlicensed->version();
+    server()->version(addon());
     expect($requests)->toHaveCount(3);
     expect(sentBody($requests, 2)['edd_action'])->toBe('get_version');
 });

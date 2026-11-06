@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Commands\AbstractCommand as AbstractBaseCommand;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Request;
 
 /**
@@ -155,10 +155,10 @@ class Install extends AbstractBaseCommand
 
     protected function package(): string
     {
-        $updater = new Updater(Authorize::ADDON_ID, ['force' => true]);
-        $version = $updater->version();
+        $server = glsr(LicenseServer::class);
+        $version = $server->version(Authorize::ADDON_ID, true); // ask now: this package is about to be installed
         $host = strtolower((string) wp_parse_url($version['package'], \PHP_URL_HOST));
-        if ('' !== $host && $host === strtolower((string) wp_parse_url($updater->apiUrl, \PHP_URL_HOST))) {
+        if ('' !== $host && $host === strtolower((string) wp_parse_url($server->url(Authorize::ADDON_ID), \PHP_URL_HOST))) {
             return $version['package'];
         }
         $this->refuse('package',

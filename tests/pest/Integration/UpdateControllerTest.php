@@ -1,7 +1,7 @@
 <?php
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Controllers\UpdateController;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\licenseServer;
@@ -11,7 +11,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * Addon updates, which do not come from wordpress.org: the plugins_api details modal, and
  * the throttle that decides how often the licence server is asked at all.
  *
- * Updater::isAddon() insists on a real installed addon (a directory in WP_PLUGIN_DIR whose plugin
+ * UpdateController::isAddon() insists on a real installed addon (a directory in WP_PLUGIN_DIR whose plugin
  * file declares the niftyplugins Update URI), so one is staged on disk for the duration —
  * the container's plugin directory, cleaned up in finally, never the repo.
  */
@@ -117,7 +117,7 @@ test('an addon the licence server does not know keeps wordpress\'s own answer', 
 });
 
 test('the licence server is asked at a rate set by where the question comes from', function () {
-    $expired = fn () => Updater::isDue(FAKE_ADDON);
+    $expired = fn () => glsr(LicenseServer::class)->isDue(FAKE_ADDON);
     $lastChecked = glsr()->prefix.'last_checked_'.FAKE_ADDON;
 
     // never asked before: expired, and the asking is recorded

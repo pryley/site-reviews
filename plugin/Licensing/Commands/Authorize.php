@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
-use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
+use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Request;
 
 /**
@@ -47,11 +47,11 @@ class Authorize extends AbstractCommand
             }
             $this->check = $verify->check;
         }
-        $updater = glsr(LicenseRow::class)->updater($this->license, true);
         if (!$this->checkConnectUrl($this->check['connect_url'])) {
             return;
         }
-        if (!$this->checkVersions($updater->version())) {
+        // Ask now: the store is about to install this version.
+        if (!$this->checkVersions(glsr(LicenseServer::class)->version(static::ADDON_ID, true))) {
             return;
         }
         if (!$this->checkFilesystem()) {
@@ -74,7 +74,7 @@ class Authorize extends AbstractCommand
                 'endpoint' => rest_url(glsr()->id.'/v1/premium/install'),
                 'license' => $this->license,
                 'return' => glsr_admin_url('settings', 'general'),
-                'site' => glsr(License::class)->siteUrl(),
+                'site' => glsr(LicenseServer::class)->activationUrl(),
                 'token' => $this->token,
             ],
             'url' => $this->connectUrl,
@@ -116,7 +116,7 @@ class Authorize extends AbstractCommand
      */
     protected function checkAddresses(): bool
     {
-        $host = strtolower((string) wp_parse_url(glsr(License::class)->siteUrl(), \PHP_URL_HOST));
+        $host = strtolower((string) wp_parse_url(glsr(LicenseServer::class)->activationUrl(), \PHP_URL_HOST));
         foreach ([rest_url(), admin_url()] as $url) {
             $other = strtolower((string) wp_parse_url($url, \PHP_URL_HOST));
             if ('' === $host || !$this->isSameHost($host, $other)) {
