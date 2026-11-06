@@ -1,3 +1,7 @@
 import compat from '@/compat/public.js';
+import { listen } from '@/public/core/event.js';
+import report from '@/public/core/report.js';
 
-window.GLSR?.registry?.define('compat.public', compat)
+if (window.GLSR?.load) { // the public script has run
+    compat({ listen, report })
+}

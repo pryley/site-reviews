@@ -1,6 +1,5 @@
-import { adopt, config, dom, Event, feature, isAttached, lib, listen, listeners, report, attachReporter as attach, expect, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
+import { adopt, config, dom, Event, feature, isAttached, lib, listen, expect, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
 import load, { requestShim } from '@/public/bootstrap/load.js';
-import registry, { defined, host } from '@/public/registry.js';
 import { pending, scan, watch } from '@/public/bootstrap/watcher.js';
 
 // The review that a submission or a verification link redirects to.
@@ -27,17 +26,15 @@ const initEvents = () => {
 window.GLSR.Event = adopt(window.GLSR.Event);
 window.GLSR.lib = lib;
 window.GLSR.load = load;
-window.GLSR.registry = registry;
 if (!isAttached('request')) {
     window.GLSR.Request = requestShim(); // the request module replaces it
 }
-host('compat.public', { listen, report })
-host('debug.public', { attach, defined, listeners })
 // debug mode for one page view
 if (config.debug?.url && new URLSearchParams(location.search).has('glsr-debug')) {
     expect()
-    registry.register({ 'debug.public': config.debug.url })
-    registry.load('debug.public').catch(() => {})
+    const script = document.createElement('script');
+    script.src = config.debug.url;
+    document.head.appendChild(script)
 }
 window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 

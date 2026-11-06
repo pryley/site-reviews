@@ -46,7 +46,7 @@ const submit = async (window, json, status = 201) => {
 
 test('GLSR has the plumbing of the bootstrap and the modules the page named, and nothing else', async () => {
     const { GLSR } = (await load()).window;
-    assert.deepEqual(Object.keys(GLSR).sort(), ['Event', 'Form', 'Request', 'Review', 'Summary', 'Util', 'config', 'lib', 'load', 'registry', 'version'])
+    assert.deepEqual(Object.keys(GLSR).sort(), ['Event', 'Form', 'Request', 'Review', 'Summary', 'Util', 'config', 'lib', 'load', 'version'])
     assert.deepEqual(Object.keys(GLSR.Form).sort(), ['destroy', 'find', 'init', 'instances'])
     assert.deepEqual(Object.keys(GLSR.Summary).sort(), ['destroy', 'find', 'init', 'instances'])
     assert.deepEqual(Object.keys(GLSR.Review).sort(), ['destroy', 'excerpts', 'find', 'init', 'instances', 'open', 'pagination'])

@@ -10,19 +10,14 @@ test('without the debug script nothing is logged, added or kept', () => {
     const { infos, read, warnings, window } = loadPublic();
     window.GLSR.Utils
     assert.equal('listeners' in window.GLSR.Event, false)
-    assert.equal('defined' in window.GLSR.registry, false)
     // a debug script that arrives unannounced has nothing to replay
     window.eval(read('site-reviews-debug.js'))
     assert.deepEqual([infos.length, warnings.length], [0, 0])
 });
 
-test('the debug script adds Event.listeners() and registry.defined() to both scripts', () => {
-    const defined = ({ window }) => {
-        assert.equal(typeof window.GLSR.Event.listeners, 'function')
-        return JSON.parse(JSON.stringify(window.GLSR.registry.defined()));
-    };
-    assert.deepEqual(defined(loadPublic({ debug: true })), [{ id: 'compat.public', ran: true }, { id: 'debug.public', ran: true }])
-    assert.deepEqual(defined(loadAdmin({ debug: true })), [{ id: 'compat.admin', ran: true }, { id: 'debug.admin', ran: true }])
+test('the debug script adds Event.listeners() to both scripts', () => {
+    assert.equal(typeof loadPublic({ debug: true }).window.GLSR.Event.listeners, 'function')
+    assert.equal(typeof loadAdmin({ debug: true }).window.GLSR.Event.listeners, 'function')
 });
 
 test('?glsr-debug loads the debug script from the address that PHP printed, and replays what happened meanwhile', () => {

@@ -121,7 +121,7 @@ test('each key that 8.3 printed is a hidden getter onto the config', () => {
     assert.equal(GLSR.validation_config.form_message_success, 'glsr-form-success')
     assert.equal(GLSR.validation_config.field, 'glsr-field')
     assert.equal('strings' in GLSR.validation_config, false)
-    assert.deepEqual(Object.keys(GLSR).filter((key) => /^[a-z]/.test(key)).sort(), ['config', 'lib', 'load', 'registry', 'version'])
+    assert.deepEqual(Object.keys(GLSR).filter((key) => /^[a-z]/.test(key)).sort(), ['config', 'lib', 'load', 'version'])
 });
 
 test('the seven names that 8.0.1 renamed read the same values', () => {

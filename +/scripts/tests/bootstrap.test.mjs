@@ -15,7 +15,7 @@ const FORM = `
 test('the bootstrap carries the plumbing and no behaviour', async () => {
     const { ready, window } = loadPage();
     const { GLSR } = window;
-    assert.deepEqual(Object.keys(GLSR).sort(), ['Event', 'Request', 'Util', 'config', 'lib', 'load', 'registry', 'version'])
+    assert.deepEqual(Object.keys(GLSR).sort(), ['Event', 'Request', 'Util', 'config', 'lib', 'load', 'version'])
     assert.equal(typeof GLSR.load, 'function')
     assert.equal(typeof window.GLSR_init, 'function')
     await ready

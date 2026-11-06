@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
-import { config, adopt, listeners, feature, lib, report, attachReporter as attach, dom, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
+import { config, adopt, feature, lib, dom, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 import ColorPicker from '@/admin/color-picker.js';
 import Filter from '@/admin/filter.js';
@@ -13,11 +13,11 @@ import Notice, { instance as notices } from '@/admin/notice.js';
 import PremiumLicense from '@/admin/premium-license.js';
 import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
-import registry, { defined, host } from '@/public/registry.js';
 import Request from '@/public/modules/request/request.js';
 import Search from '@/admin/search.js';
 import Sections from '@/admin/sections.js';
 import Shortcode from '@/admin/shortcode.js';
+import { share } from '@/admin/shared.js';
 import StarRating from '@/public/modules/form/starrating.js';
 import Status from '@/admin/status.js';
 import Tabs from '@/admin/tabs.js';
@@ -30,9 +30,7 @@ import tippy, { followCursor } from 'tippy.js';
 
 GLSR.Event = adopt(GLSR.Event);
 GLSR.lib = lib;
-GLSR.registry = registry;
-host('compat.admin', { Ajax, notices, report, shortcode: () => shortcode })
-host('debug.admin', { attach, defined, listeners })
+share({ Ajax, notices, shortcode: () => shortcode })
 GLSR.Request = Request;
 GLSR.Notice = Notice;
 GLSR.Rating = StarRating();
