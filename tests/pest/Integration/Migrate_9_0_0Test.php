@@ -23,6 +23,16 @@ test('the migration deletes the list of cached api responses', function () {
     expect(get_site_option(glsr()->prefix.'api_transients'))->toBeFalse();
 });
 
+test('the migration deletes the per-addon rows 8.3.6 kept for the last licence server answer', function () {
+    update_option(glsr()->prefix.'license_answer_site-reviews-images', ['check' => [], 'key' => 'abcdefgh', 'time' => time()]);
+    update_option(glsr()->prefix.'license_answer_site-reviews-forms', ['check' => [], 'key' => 'abcdefgh', 'time' => time()]);
+
+    (new Migrate_9_0_0())->run();
+
+    expect(get_option(glsr()->prefix.'license_answer_site-reviews-images'))->toBeFalse()
+        ->and(get_option(glsr()->prefix.'license_answer_site-reviews-forms'))->toBeFalse();
+});
+
 test('on a single site the migration asks the licence server nothing', function () {
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-saved-key');
     $asked = licenseServer([]);
