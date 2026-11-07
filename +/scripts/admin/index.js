@@ -10,6 +10,7 @@ import Assigned from '@/admin/review/assigned.js';
 import CategoryQuickEdit from '@/admin/category/quick-edit.js';
 import Cards from '@/admin/shared/cards.js';
 import Code from '@/admin/shared/code.js';
+import Copy from '@/admin/documentation/copy.js';
 import ColorPicker from '@/admin/settings/color-picker.js';
 import Console from '@/admin/tools/console.js';
 import Depends from '@/admin/settings/depends.js';
@@ -19,7 +20,6 @@ import Flyout from '@/admin/shared/flyout.js';
 import FooterNotice from '@/admin/shared/footer-notice.js';
 import Import from '@/admin/tools/import.js';
 import IpDetection from '@/admin/tools/ip-detection.js';
-import legacy from '@/admin/legacy.js';
 import Metabox from '@/admin/review/metabox.js';
 import Notice, { Notices } from '@/admin/shared/notice.js';
 import PremiumLicense from '@/admin/settings/premium-license.js';
@@ -42,6 +42,7 @@ import Tooltip from '@/admin/shared/tooltip.js';
 import TrackSelect from '@/admin/settings/track-select.js';
 import UploadForm from '@/admin/shared/upload-form.js';
 import Verification from '@/admin/review/verification.js';
+import Videos from '@/admin/documentation/videos.js';
 import tippy, { followCursor } from 'tippy.js';
 
 GLSR.Event = adopt(GLSR.Event);
@@ -57,10 +58,12 @@ const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, To
 
 // the modules of each screen determined by the classes of its body
 const SCREENS = [
+    { classes: ['dashboard_page_site-reviews-welcome'], modules: [Copy, Videos] },
     { classes: ['edit-php', 'post-type-site-review'], modules: [Assigned, Filter, Filters, QuickEdit, Status, ToggleFlag] },
     { classes: ['edit-tags-php', 'taxonomy-site-review-category'], modules: [CategoryQuickEdit] },
     { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
+    { classes: ['site-review_page_glsr-documentation'], modules: [Copy, Videos] },
     { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, PremiumLicense, ResetButton, Strings, TemplateEditor, TrackSelect] },
     { classes: ['site-review_page_glsr-tools'], modules: [Console, Import, IpDetection, Rollback, SystemInfo] },
 ];
@@ -71,7 +74,6 @@ const init = () => {
     SCREENS.filter(({ classes }) => classes.every(name => classList.contains(name)))
         .forEach(({ modules }) => modules.forEach(module => module.init(document)))
     GLSR.Rating.init('.glsr-field-rating select', { clearable: true })
-    legacy()
 };
 
 if ('loading' === document.readyState) {

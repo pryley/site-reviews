@@ -101,8 +101,7 @@ const load = (file, inline, { after = [], before = '', html = '', url = 'https:/
     return { infos, read, warnings, window };
 };
 
-// the admin script runs at once (the document is ready); `_` serves the modules not yet rewritten
-const DEPENDENCIES = () => JQUERY + 'window._ = { debounce: (fn) => fn, each: (o, fn) => Object.entries(o).forEach(([k, v]) => fn(v, k)) };';
+const DEPENDENCIES = () => JQUERY;
 
 // jsdom has no dialog.showModal(), which the modal needs to count as supported.
 const DIALOG = 'HTMLDialogElement.prototype.showModal = function () {};';
