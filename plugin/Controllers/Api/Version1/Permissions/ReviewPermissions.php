@@ -190,9 +190,6 @@ trait ReviewPermissions
         return true;
     }
 
-    /**
-     * Whether the update approves a review that is not approved yet.
-     */
     protected function is_approving(\WP_REST_Request $request, Review $review): bool
     {
         $values = glsr(UpdateReviewDefaults::class)->restrict($request->get_params()); // the status comes from is_approved
