@@ -19,7 +19,7 @@ class DeactivationController extends AbstractController
         wp_enqueue_style(
             glsr()->id.'/deactivate-plugin',
             glsr()->url('assets/styles/deactivate-plugin.css'),
-            ['wp-list-reusable-blocks'], // load the :root admin theme colors
+            ['wp-components'], // styles the components-button classes the dialog uses
             glsr()->version
         );
         $handle = glsr()->id.'/deactivate-plugin';

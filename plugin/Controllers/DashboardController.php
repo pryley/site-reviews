@@ -8,6 +8,16 @@ use GeminiLabs\SiteReviews\Metaboxes\DashboardMetabox;
 class DashboardController extends AbstractController
 {
     /**
+     * @action admin_enqueue_scripts
+     */
+    public function enqueueAssets(): void
+    {
+        if ('dashboard' === glsr_current_screen()->id) {
+            wp_enqueue_style(glsr()->id.'/dashboard', glsr()->url('assets/styles/admin/dashboard-widget.css'), [], glsr()->version);
+        }
+    }
+
+    /**
      * @action transition_post_status:5
      */
     public function flushMonthlyCountCache(string $newStatus, string $oldStatus, ?\WP_Post $post): void

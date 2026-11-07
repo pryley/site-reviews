@@ -212,7 +212,7 @@ GLSR.config
 ├── captcha      { type, class, sitekey, theme, language, tokenField, urls: { module, nomodule }, … }
 ├── modal        { wrappedBy }
 ├── pagination   { fixed, urlParameter }
-├── rating       { clearable, tooltip }
+├── rating       { clearable, max, min, tooltip }
 ├── validation   { field, form, …, strings }
 ├── text         { closeModal }
 └── {feature}    the values of a Site Reviews Premium feature, e.g. images

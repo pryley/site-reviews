@@ -9,6 +9,7 @@ class DashboardHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(DashboardController::class, [
+            ['enqueueAssets', 'admin_enqueue_scripts'],
             ['flushMonthlyCountCache', 'transition_post_status', 5, 3],
             ['registerMetaBoxes', 'wp_dashboard_setup'],
         ]);

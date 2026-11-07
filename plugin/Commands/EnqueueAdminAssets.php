@@ -75,15 +75,23 @@ class EnqueueAdminAssets extends AbstractCommand
         wp_register_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/admin/admin.css'),
-            ['wp-list-reusable-blocks'], // loads the :root admin theme colors
+            ['wp-components'], // styles the components-button classes
             glsr()->version
         );
         wp_enqueue_style(glsr()->id.'/admin');
         wp_add_inline_style(glsr()->id.'/admin', $this->inlineStyles());
     }
 
+    public function enqueueWidgetStyles(): void
+    {
+        wp_enqueue_style(glsr()->id.'/widgets', glsr()->url('assets/styles/admin/widgets.css'), [], glsr()->version);
+    }
+
     public function handle(): void
     {
+        if ($this->isWidgetsScreen()) {
+            $this->enqueueWidgetStyles();
+        }
         if (!$this->isCurrentScreen()) {
             $this->fail();
             return;
@@ -106,34 +114,25 @@ class EnqueueAdminAssets extends AbstractCommand
     {
         $dependencies = glsr()->filterArray('enqueue/admin/dependencies', []);
         $dependencies = array_merge($dependencies, [
-            'jquery', 'jquery-ui-sortable', 'underscore', 'wp-color-picker', 'wp-util',
+            'jquery', 'jquery-ui-sortable', 'wp-color-picker',
         ]);
         return $dependencies;
     }
 
     protected function isCurrentScreen(): bool
     {
-        if (is_customize_preview()) {
-            return false; // don't load assets in the Customizer preview
-        }
         $screen = glsr_current_screen();
-        $screenIds = [
-            'customize',
-            'dashboard',
-            'dashboard_page_'.glsr()->id.'-welcome',
-            'plugins_page_'.glsr()->id,
-            'site-editor',
-            'widgets',
-        ];
         if ('admin' === $screen->base && str_starts_with((string) filter_input(\INPUT_GET, 'import'), glsr()->post_type)) {
             return true;
         }
         $isCurrentScreen = str_starts_with($screen->post_type, glsr()->post_type)
-            || in_array($screen->id, $screenIds)
-            || 'post' === $screen->base;
-        // A screen that provides its own editor app (the premium form
-        // editor) opts out of the admin bundle here.
+            || 'dashboard_page_'.glsr()->id.'-welcome' === $screen->id;
         return glsr()->filterBool('enqueue/admin/screen', $isCurrentScreen, $screen);
+    }
+
+    protected function isWidgetsScreen(): bool
+    {
+        return in_array(glsr_current_screen()->id, ['customize', 'site-editor', 'widgets']);
     }
 
     /**

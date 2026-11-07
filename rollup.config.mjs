@@ -54,6 +54,8 @@ const jsBundles = [
 
 const cssBundles = [
     css('styles/admin', 'assets/styles/admin'),
+    css('styles/admin/dashboard-widget', 'assets/styles/admin'),
+    css('styles/admin/widgets', 'assets/styles/admin'),
     css('styles/deactivate-plugin'),
     css('styles/inline-styles'),
     // Integrations

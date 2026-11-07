@@ -1,11 +1,10 @@
 /**
- * The screens outside Site Reviews that today's gate loads the admin bundle on: another post type's
- * editor, the posts list and the Site Editor. The assertions pin what loads there today; the gate
- * change edits them deliberately.
+ * The screens outside Site Reviews: another post type's editor, the posts list and the Site Editor
+ * load no admin bundle, and the blocks' controls read the rating range from the public config.
  *
  * Needs wp-env running. Run: npm run test:browser -- foreign-screens
  */
-import { ENGINE, adminUrl, launch, login, pageErrorsOf, reporter, restRequest } from './harness.mjs';
+import { ENGINE, adminUrl, launch, login, pageErrorsOf, reporter, restRequest, wpCli } from './harness.mjs';
 
 const { assert, done, equal, info } = reporter();
 
@@ -27,8 +26,8 @@ try {
     await page.goto(adminUrl(`post.php?post=${post.id}&action=edit`));
     await page.locator('iframe[name="editor-canvas"], .block-editor-block-list__layout').first().waitFor({ timeout: 60000 });
     const editor = await loaded();
-    assert(editor.style && editor.script, 'a post\'s block editor loads the admin bundle and stylesheet today');
-    assert(editor.config && 'min' in editor.config && 'max' in editor.config, 'and the rating min and max the Site Reviews blocks read are in its config');
+    assert(!editor.style && !editor.script, 'a post\'s block editor loads neither the admin bundle nor its stylesheet');
+    assert(editor.config && 'min' in editor.config && 'max' in editor.config, 'and the rating min and max the Site Reviews blocks read are in the public config');
 
     // the posts list
     await page.goto(adminUrl('edit.php'));
@@ -39,14 +38,34 @@ try {
     await page.goto(adminUrl('site-editor.php'));
     await page.locator('.edit-site-layout, .edit-site').first().waitFor({ timeout: 60000 });
     const site = await loaded();
-    assert(site.style && site.script, 'the Site Editor loads the admin bundle and stylesheet today');
+    assert(!site.style && !site.script, 'the Site Editor loads neither');
 
-    // the classic Widgets screen needs a classic theme
-    await page.goto(adminUrl('widgets.php'));
-    if (await page.$('#available-widgets')) {
-        assert(true, 'the classic Widgets screen renders');
-    } else {
-        info(`widgets.php has no widget areas here (${page.url()}): a block theme has no Widgets screen`);
+    // the classic Widgets screen and the Customizer, which exist on a classic theme only
+    let classic = null;
+    try {
+        wpCli(['theme', 'is-installed', 'twentytwentyone']); // exits non-zero when it is not
+        classic = 'twentytwentyone';
+    } catch {
+        info('no classic theme is installed, so the Widgets screen and the Customizer are not covered: wp theme install twentytwentyone');
+    }
+    if (classic) {
+        const active = wpCli(['theme', 'list', '--status=active', '--field=name']);
+        try {
+            wpCli(['theme', 'activate', classic]);
+            await page.goto(adminUrl('widgets.php'));
+            await page.locator('#widgets-editor, #available-widgets').first().waitFor({ timeout: 60000 }); // the block or the classic widgets editor
+            assert(true, 'the Widgets screen renders on a classic theme');
+            assert(null !== await page.$('link#site-reviews\\/widgets-css'), 'and loads the widgets stylesheet');
+            const widgets = await loaded();
+            assert(!widgets.style && !widgets.script, 'and nothing else of ours');
+            await page.goto(adminUrl('customize.php'));
+            await page.locator('#customize-controls').waitFor({ timeout: 60000 });
+            assert(null !== await page.$('link#site-reviews\\/widgets-css'), 'the Customizer loads the widgets stylesheet');
+            const customizer = await loaded();
+            assert(!customizer.style && !customizer.script, 'and nothing else of ours');
+        } finally {
+            wpCli(['theme', 'activate', active]);
+        }
     }
 
     equal(errors, [], 'the pages logged no script error');
@@ -56,4 +75,4 @@ try {
     }
     await browser.close();
 }
-done(`The foreign screens load what they load today in ${ENGINE}`);
+done(`The foreign screens load nothing of the admin in ${ENGINE}`);
