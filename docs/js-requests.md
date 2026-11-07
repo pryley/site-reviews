@@ -13,6 +13,12 @@ const { data, status, success } = await GLSR.Request.send({
 // data is the response of the route, status is its HTTP status, success is true for a 2xx status
 ```
 
+In place of `method` and `path`, `route` names an entry of `GLSR.config.request.routes` (see [The route of a form](#the-route-of-a-form)). A `{placeholder}` in the entry's path is filled from the option of that name:
+
+```js
+GLSR.Request.send({ route: 'status', id: 7, body })   // PUT reviews/7/status, when routes.status is { method: 'PUT', path: 'reviews/{id}/status' }
+```
+
 ## How a request is sent
 
 1. The request goes to the REST API of WordPress, with `Accept: application/json`, so WordPress answers a fatal error as JSON.
@@ -77,6 +83,7 @@ To submit a form of your own, register its route and name it for the action:
 ```php
 add_filter('site-reviews/rest-api/routes', function (array $routes) {
     $routes['my-action'] = 'my-addon/my-action'; // POST site-reviews/v1/my-addon/my-action
+    $routes['my-other-action'] = ['method' => 'PUT', 'path' => 'my-addon/my-thing']; // a route that is not a POST
     return $routes;
 });
 ```

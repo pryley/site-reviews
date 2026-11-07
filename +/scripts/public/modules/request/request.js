@@ -59,9 +59,9 @@ const submit = (formData) => {
         return Promise.resolve(_unconfigured());
     }
     const action = formData.get(`${config.nameprefix}[_action]`) || 'submit-review';
-    const path = (config.request?.routes || ROUTES)[action];
-    if (path) {
-        return send({ body: formData, method: 'POST', path });
+    const route = _route(action);
+    if (route) {
+        return send({ body: formData, ...route });
     }
     if (unrouted) {
         return unrouted(formData, action);
@@ -75,6 +75,26 @@ const _notice = (reason) => {
         console.info(`Site Reviews is using the admin-ajax fallback (${reason}).`);
         noticeShown = true;
     }
+}
+
+// the request to send: a route of the config by its name, or the request's own method and path
+const _request = ({ body, method = 'GET', params, path, route, signal, ...values }) => {
+    const named = route ? _route(route, values) : { method, path };
+    if (!named) {
+        console.error(`Site Reviews: the config names no route "${route}".`)
+        return null;
+    }
+    return { body, params, signal, ...named };
+}
+
+// a route of the config: a path (a POST to it) or { method, path }, with the {placeholders} of the path filled
+const _route = (name, values = {}) => {
+    const route = (config.request?.routes || ROUTES)[name];
+    if (!route) {
+        return null;
+    }
+    const { method = 'POST', path } = 'string' === typeof route ? { path: route } : route;
+    return { method, path: path.replace(/\{(\w+)\}/g, (match, key) => key in values ? encodeURIComponent(values[key]) : match) };
 }
 
 const _unconfigured = () => {
@@ -203,11 +223,15 @@ const _tunnel = async (request, isRetry = false) => {
 }
 
 // REST first, admin-ajax on any sign that the REST API itself is unavailable
-const send = async ({ body, method = 'GET', params, path, signal }) => {
+const send = async (options) => {
     if (!config.request?.ajax?.url) {
         return _unconfigured();
     }
-    const request = { body, method, params, path, signal };
+    const request = _request(options);
+    if (!request) {
+        return { data: { message: `No route is named "${options.route}".` }, status: 0, success: false };
+    }
+    const { method, path } = request;
     const start = Date.now();
     let result;
     let transport = 'REST';
