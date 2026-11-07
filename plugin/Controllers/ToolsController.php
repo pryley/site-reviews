@@ -309,6 +309,12 @@ class ToolsController extends AbstractController
      */
     public function ipAddressDetection(Request $request): void
     {
+        if (!glsr()->can(glsr()->getPermission('settings'))) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to change the IP address detection.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
         if (wp_validate_boolean($request->get('alt', 0))) {
             $this->execute(new DetectIpAddress());
             return;
@@ -321,6 +327,14 @@ class ToolsController extends AbstractController
      */
     public function ipAddressDetectionAjax(Request $request): void
     {
+        if (!glsr()->can(glsr()->getPermission('settings'))) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to change the IP address detection.', 'admin-text', 'site-reviews')
+            );
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
         $command = wp_validate_boolean($request->get('alt', 0))
             ? $this->execute(new DetectIpAddress())
             : $this->execute(new ConfigureIpAddressProxy($request));

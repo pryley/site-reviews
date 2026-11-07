@@ -138,6 +138,18 @@ test('the ip address proxy can be configured, and detected', function () {
         ->toContain('127.0.0.1'); // bootstrap.php pins REMOTE_ADDR
 });
 
+test('the ip address proxy is not configured by somebody without the settings capability', function () {
+    wp_set_current_user(createUser(['role' => 'editor']));
+
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->ipAddressDetectionAjax(
+        new Request(['proxy_http_header' => 'x-forwarded-for', 'trusted_proxies' => '10.0.0.1'])
+    ));
+
+    expect($response['success'])->toBeFalse();
+    expect($response['data']['notices'])->toContain('You do not have permission');
+    expect(get_option(glsr()->prefix.'ip_proxy'))->toBeFalse();
+});
+
 test('converting a table that is already InnoDB is refused with a warning', function () {
     // The custom tables must be InnoDB — the foreign keys the plugin relies on do not
     // exist on MyISAM. This is the tool that fixes a site that was migrated badly; in
