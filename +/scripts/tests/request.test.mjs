@@ -449,6 +449,41 @@ test('a form is posted to the route of its action', async () => {
     assert.equal(calls[1].url, `${REST_URL}submissions`)
 });
 
+test('a form is posted with the method of its route when the route names one', async () => {
+    const routes = { 'update-review': { method: 'PATCH', path: 'authors/update-review' } };
+    const { window } = loadPage({ config: { request: request({ routes }) } });
+    const calls = fakeFetch(window, [{ json: {} }]);
+    await window.GLSR.Request.submit(formOf(window, 'update-review'))
+    assert.equal(calls[0].url, `${REST_URL}authors/update-review`)
+    assert.equal(calls[0].options.method, 'POST')
+    assert.equal(calls[0].options.headers['X-HTTP-Method-Override'], 'PATCH')
+});
+
+test('a request names a route of the config, whose path template is filled from the options', async () => {
+    const routes = { status: { method: 'PUT', path: 'reviews/{id}/status' }, 'submit-review': 'submissions' };
+    const { window } = loadPage({ config: { request: request({ routes }) } });
+    const calls = fakeFetch(window, [{ json: {} }, { json: {} }]);
+    const body = new window.FormData();
+    await window.GLSR.Request.send({ body, id: 7, params: { context: 'list' }, route: 'status' })
+    assert.equal(calls[0].url, `${REST_URL}reviews/7/status?context=list`)
+    assert.equal(calls[0].options.headers['X-HTTP-Method-Override'], 'PUT')
+    assert.equal(calls[0].options.body, body)
+    await window.GLSR.Request.send({ route: 'submit-review' })
+    assert.equal(calls[1].url, `${REST_URL}submissions`)
+    assert.equal(calls[1].options.method, 'POST')
+});
+
+test('a request that names a route the config does not have is not sent', async () => {
+    const { window } = loadPage();
+    const errors = [];
+    window.console.error = (...args) => errors.push(args.join(' '));
+    const calls = fakeFetch(window, []);
+    const result = await window.GLSR.Request.send({ id: 7, route: 'status' });
+    assert.equal(calls.length, 0)
+    assert.deepEqual(plain(result), { data: { message: 'No route is named "status".' }, status: 0, success: false })
+    assert.deepEqual(errors, ['Site Reviews: the config names no route "status".'])
+});
+
 test('a config without routes still posts the review form to submissions', async () => {
     const { routes, ...withoutRoutes } = request();
     const { window } = loadPage({ config: { request: withoutRoutes } });
