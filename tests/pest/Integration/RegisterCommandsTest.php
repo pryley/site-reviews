@@ -5,7 +5,6 @@ use GeminiLabs\SiteReviews\Commands\RegisterUserMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
-use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\CountManager;
 
@@ -13,7 +12,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
  * The registration commands: the review post type, its category taxonomy, the shortcodes, widgets,
- * post meta and TinyMCE popups.
+ * post meta.
  *
  * All six run on init and have ALREADY RUN by the time any test starts, which is why they are called
  * explicitly here. Re-running is harmless: register_post_type(), register_taxonomy(), add_shortcode()
@@ -102,7 +101,7 @@ test('the four shortcodes are registered', function () {
         ->and(shortcode_exists('site_reviews_summary'))->toBeTrue();
 
     // and each is resolvable by its tag, which is how the option manager, the REST
-    // API and the TinyMCE popups all find one. NOT via glsr('site_reviews'): the
+    // API all find one. NOT via glsr('site_reviews'): the
     // alias register() sets holds a CLOSURE as a container instance, and the
     // container hands the closure straight back rather than calling it.
     // Application::shortcode() reads the tag => class map that register() appends to,
@@ -142,23 +141,6 @@ test('the rating meta is exposed to the rest api for every public post type', fu
         expect($keys[CountManager::META_REVIEWS]['show_in_rest'])->toBeTrue();
         expect($keys[CountManager::META_REVIEWS]['single'])->toBeTrue();
     }
-});
-
-test('the tinymce popups are registered, one per shortcode', function () {
-    // The classic editor's "Add Shortcode" button builds its dialogs from these.
-    glsr()->discard('mce');
-
-    (new RegisterTinymcePopups())->handle();
-
-    $popups = glsr()->retrieveAs('array', 'mce');
-    expect(array_keys($popups))->toContain('site_reviews')
-        ->toContain('site_review')
-        ->toContain('site_reviews_form')
-        ->toContain('site_reviews_summary');
-
-    // and each carries the fields the dialog is built from
-    expect($popups['site_reviews'])->toHaveKey('fields')
-        ->and($popups['site_reviews']['fields'])->not->toBeEmpty();
 });
 
 test('the list table filters preference is user meta the REST API edits, limited to the filters that exist', function () {

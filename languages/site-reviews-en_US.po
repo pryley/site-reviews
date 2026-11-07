@@ -819,8 +819,6 @@ msgstr "Scheduled Actions"
 #: plugin/Integrations/Bricks/Controller.php:37
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:82
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:24
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:71
-#: plugin/Tinymce/SiteReviewsTinymce.php:76
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
@@ -924,8 +922,6 @@ msgid "Review Themes"
 msgstr "Review Themes"
 
 #: config/export.php:5
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:22
-#: plugin/Tinymce/SiteReviewsTinymce.php:21
 msgctxt "admin-text"
 msgid "Assigned Categories"
 msgstr "Assigned Categories"
@@ -960,8 +956,6 @@ msgstr "Export as Post IDs"
 #: plugin/Defaults/PostTypeColumnDefaults.php:14
 #: plugin/Defaults/ReviewTagsDefaults.php:51
 #: plugin/Metaboxes/AssignedUsersMetabox.php:19
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:28
-#: plugin/Tinymce/SiteReviewsTinymce.php:27
 #: views/integrations/mycred/preferences.php:186
 #: views/partials/screen/inline-edit.php:118
 msgctxt "admin-text"
@@ -2508,8 +2502,6 @@ msgstr "Avatar"
 
 #: config/forms/metabox-fields.php:35
 #: plugin/Controllers/PrivacyController.php:125
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:35
-#: plugin/Tinymce/SiteReviewsTinymce.php:33
 msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
@@ -3151,7 +3143,7 @@ msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr "Author Unknown"
 
-#: plugin/Commands/EnqueueAdminAssets.php:50
+#: plugin/Commands/EnqueueAdminAssets.php:49
 #: plugin/Overrides/ScheduledActionsTable.php:114
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
@@ -3161,36 +3153,36 @@ msgctxt "admin-text"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: plugin/Commands/EnqueueAdminAssets.php:51
+#: plugin/Commands/EnqueueAdminAssets.php:50
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr "Cancelling, please wait..."
 
 #. translators: %s: maximum file upload size
-#: plugin/Commands/EnqueueAdminAssets.php:53
+#: plugin/Commands/EnqueueAdminAssets.php:52
 #, php-format
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr "Your server restricts file uploads to less than %s in size."
 
-#: plugin/Commands/EnqueueAdminAssets.php:58
+#: plugin/Commands/EnqueueAdminAssets.php:57
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:58
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
 
-#: plugin/Commands/EnqueueAdminAssets.php:66
+#: plugin/Commands/EnqueueAdminAssets.php:65
 #: plugin/Controllers/Api/Version1/RestPluginController.php:172
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr "Unable to fetch the System Info."
 
 #. translators: %s: Site Health Info page URL
-#: plugin/Commands/EnqueueAdminAssets.php:61
+#: plugin/Commands/EnqueueAdminAssets.php:60
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
@@ -3470,12 +3462,12 @@ msgctxt "admin-text"
 msgid "Close Panel"
 msgstr "Close Panel"
 
-#: plugin/Controllers/AdminController.php:214
+#: plugin/Controllers/AdminController.php:203
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr "Try Premium"
 
-#: plugin/Controllers/AdminController.php:222
+#: plugin/Controllers/AdminController.php:211
 #: views/integrations/woocommerce/settings.php:7
 #: views/pages/tools/general/export-reviews.php:19
 #: views/pages/tools/general/import-reviews.php:25
@@ -3483,9 +3475,9 @@ msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
 
-#: plugin/Controllers/AdminController.php:267
-#: plugin/Controllers/AdminController.php:285
-#: plugin/Controllers/AdminController.php:298
+#: plugin/Controllers/AdminController.php:256
+#: plugin/Controllers/AdminController.php:274
+#: plugin/Controllers/AdminController.php:287
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -3750,11 +3742,6 @@ msgstr "TID"
 msgctxt "admin-text"
 msgid "TTID"
 msgstr "TTID"
-
-#: plugin/Controllers/TinymceController.php:47
-msgctxt "admin-text"
-msgid "Okay"
-msgstr "Okay"
 
 #: plugin/Controllers/ToolsController.php:117
 msgctxt "admin-text"
@@ -4054,8 +4041,6 @@ msgstr "Pinned"
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:22
 #: plugin/Defaults/ReviewTagsDefaults.php:195
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:49
-#: plugin/Tinymce/SiteReviewsTinymce.php:47
 #: views/partials/editor/verified.php:5
 msgctxt "admin-text"
 msgid "Verified"
@@ -4418,7 +4403,6 @@ msgid "Enter the Custom ID of a Latest Reviews block or shortcode where the revi
 msgstr "Enter the Custom ID of a Latest Reviews block or shortcode where the review should be displayed after submission."
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:174
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:42
 #: assets/blocks/site_reviews_form/index.js:1
 msgctxt "admin-text"
 msgid "Latest Reviews ID"
@@ -4430,7 +4414,6 @@ msgid "Enter the Custom ID of a Rating Summary block or shortcode where the rati
 msgstr "Enter the Custom ID of a Rating Summary block or shortcode where the rating values should be updated after submission."
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:180
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:48
 #: assets/blocks/site_reviews_form/index.js:1
 msgctxt "admin-text"
 msgid "Rating Summary ID"
@@ -4440,10 +4423,6 @@ msgstr "Rating Summary ID"
 #: plugin/Shortcodes/SiteReviewShortcode.php:65
 #: plugin/Shortcodes/SiteReviewsShortcode.php:149
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:174
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:56
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:91
-#: plugin/Tinymce/SiteReviewsTinymce.php:96
-#: plugin/Tinymce/SiteReviewTinymce.php:30
 #: plugin/Widgets/Widget.php:51
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -4457,10 +4436,6 @@ msgstr "This should be a unique value."
 #: plugin/Shortcodes/SiteReviewShortcode.php:67
 #: plugin/Shortcodes/SiteReviewsShortcode.php:151
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:176
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:54
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:89
-#: plugin/Tinymce/SiteReviewsTinymce.php:94
-#: plugin/Tinymce/SiteReviewTinymce.php:28
 #: plugin/Widgets/Widget.php:52
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -4474,10 +4449,6 @@ msgstr "Custom ID"
 #: plugin/Shortcodes/SiteReviewShortcode.php:71
 #: plugin/Shortcodes/SiteReviewsShortcode.php:155
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:180
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:62
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:97
-#: plugin/Tinymce/SiteReviewsTinymce.php:102
-#: plugin/Tinymce/SiteReviewTinymce.php:36
 #: plugin/Widgets/Widget.php:56
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
@@ -4487,10 +4458,6 @@ msgstr "Separate multiple classes with spaces."
 #: plugin/Shortcodes/SiteReviewShortcode.php:73
 #: plugin/Shortcodes/SiteReviewsShortcode.php:157
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:182
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:60
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:95
-#: plugin/Tinymce/SiteReviewsTinymce.php:100
-#: plugin/Tinymce/SiteReviewTinymce.php:34
 #: plugin/Widgets/Widget.php:57
 msgctxt "admin-text"
 msgid "Additional CSS classes"
@@ -4537,7 +4504,6 @@ msgid "Single Review"
 msgstr "Single Review"
 
 #: plugin/Shortcodes/SiteReviewShortcode.php:53
-#: plugin/Tinymce/SiteReviewTinymce.php:14
 #: plugin/Widgets/SiteReviewWidget.php:15
 #: assets/blocks/site_review/index.js:1
 msgctxt "admin-text"
@@ -4657,8 +4623,6 @@ msgstr "Limit Reviews by Review Author"
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:94
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:109
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:38
-#: plugin/Tinymce/SiteReviewsTinymce.php:36
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:30
 #: plugin/Widgets/SiteReviewsWidget.php:30
 #: assets/blocks/site_reviews/index.js:1
@@ -4695,8 +4659,6 @@ msgstr "Select a Review Type..."
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:108
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:123
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:52
-#: plugin/Tinymce/SiteReviewsTinymce.php:50
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
 msgctxt "admin-text"
@@ -4731,8 +4693,6 @@ msgstr "Reviews Per Page"
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:131
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:131
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:56
-#: plugin/Tinymce/SiteReviewsTinymce.php:54
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:43
 #: plugin/Widgets/SiteReviewsWidget.php:50
 #: assets/blocks/site_reviews/index.js:1
@@ -4767,7 +4727,6 @@ msgstr "Rating Summary"
 
 #. translators: %s: link to the Review Forms addon
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:140
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:65
 #, php-format
 msgctxt "admin-text"
 msgid "Use the %s addon to add custom rating fields."
@@ -4829,50 +4788,12 @@ msgctxt "admin-text"
 msgid "Hide if no reviews are found"
 msgstr "Hide if no reviews are found"
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:14
-msgctxt "admin-text"
-msgid "Assign Pages"
-msgstr "Assign Pages"
-
-#. translators: %s: the text "post_id"
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:17
-#, php-format
-msgctxt "admin-text"
-msgid "Automatically assign reviews to a Post ID. You may also enter %s to use the Post ID of the current page."
-msgstr "Automatically assign reviews to a Post ID. You may also enter %s to use the Post ID of the current page."
-
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:21
-msgctxt "admin-text"
-msgid "Assign Categories"
-msgstr "Assign Categories"
-
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:23
-msgctxt "admin-text"
-msgid "Automatically assign reviews to a category. You may enter a Term ID or slug."
-msgstr "Automatically assign reviews to a category. You may enter a Term ID or slug."
-
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:27
-msgctxt "admin-text"
-msgid "Assign Users"
-msgstr "Assign Users"
-
-#. translators: %s: the text "user_id"
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:30
-#, php-format
-msgctxt "admin-text"
-msgid "Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user."
-msgstr "Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user."
-
 #: plugin/Integrations/Avada/Transformer.php:35
 #: plugin/Integrations/Breakdance/Transformer.php:131
 #: plugin/Integrations/Bricks/Controller.php:36
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:81
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:27
 #: plugin/Integrations/WPBakery/Transformer.php:36
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:36
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:83
-#: plugin/Tinymce/SiteReviewsTinymce.php:88
-#: plugin/Tinymce/SiteReviewTinymce.php:22
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_form/index.js:1
@@ -4881,95 +4802,15 @@ msgctxt "admin-text"
 msgid "Hide"
 msgstr "Hide"
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:44
-msgctxt "admin-text"
-msgid "Enter the Custom ID of a Latest Reviews shortcode where the review should be displayed after submission."
-msgstr "Enter the Custom ID of a Latest Reviews shortcode where the review should be displayed after submission."
-
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:50
-msgctxt "admin-text"
-msgid "Enter the Custom ID of a Rating Summary shortcode where the rating values should be updated after submission."
-msgstr "Enter the Custom ID of a Rating Summary shortcode where the rating values should be updated after submission."
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:15
-#: plugin/Tinymce/SiteReviewsTinymce.php:15
-msgctxt "admin-text"
-msgid "Assigned Pages"
-msgstr "Assigned Pages"
-
-#. translators: %s: the text "post_id"
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:18
-#: plugin/Tinymce/SiteReviewsTinymce.php:17
-#, php-format
-msgctxt "admin-text"
-msgid "Limit reviews to those assigned to a Post ID. You may also enter %s to use the Post ID of the current page."
-msgstr "Limit reviews to those assigned to a Post ID. You may also enter %s to use the Post ID of the current page."
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:24
-#: plugin/Tinymce/SiteReviewsTinymce.php:23
-msgctxt "admin-text"
-msgid "Limit reviews to those assigned to a category. You may enter a Term ID or slug."
-msgstr "Limit reviews to those assigned to a category. You may enter a Term ID or slug."
-
-#. translators: %s: the text "user_id"
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:31
-#: plugin/Tinymce/SiteReviewsTinymce.php:29
-#, php-format
-msgctxt "admin-text"
-msgid "Limit reviews to those assigned to a User ID. You may also enter %s to use the ID of the logged-in user."
-msgstr "Limit reviews to those assigned to a User ID. You may also enter %s to use the ID of the logged-in user."
-
 #: plugin/Defaults/ReviewTagsDefaults.php:183
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:42
-#: plugin/Tinymce/SiteReviewsTinymce.php:40
 msgctxt "admin-text"
 msgid "Review Type"
 msgstr "Review Type"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:45
-#: plugin/Tinymce/SiteReviewsTinymce.php:43
-msgctxt "admin-text"
-msgid "Limit Reviews by review type"
-msgstr "Limit Reviews by review type"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:59
-msgctxt "admin-text"
-msgid "The minimum rating to display (default: 1 star)?"
-msgstr "The minimum rating to display (default: 1 star)?"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:63
-msgctxt "admin-text"
-msgid "Rating Field Name"
-msgstr "Rating Field Name"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:74
-#: plugin/Tinymce/SiteReviewsTinymce.php:79
-msgctxt "admin-text"
-msgid "Disabled"
-msgstr "Disabled"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:75
-#: plugin/Tinymce/SiteReviewsTinymce.php:80
-msgctxt "admin-text"
-msgid "Enabled"
-msgstr "Enabled"
-
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:77
-#: plugin/Tinymce/SiteReviewsTinymce.php:82
-msgctxt "admin-text"
-msgid "Rich snippets are disabled by default."
-msgstr "Rich snippets are disabled by default."
-
-#: plugin/Tinymce/SiteReviewsTinymce.php:57
-msgctxt "admin-text"
-msgid "The minimum rating to display (default: 1 star)"
-msgstr "The minimum rating to display (default: 1 star)"
 
 #: plugin/Integrations/Breakdance/Transformer.php:129
 #: plugin/Integrations/Bricks/Controller.php:35
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:79
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:25
-#: plugin/Tinymce/SiteReviewsTinymce.php:61
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_form/index.js:1
@@ -4978,45 +4819,22 @@ msgctxt "admin-text"
 msgid "Display"
 msgstr "Display"
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:66
-msgctxt "admin-text"
-msgid "The number of reviews to display per page (default: 10)"
-msgstr "The number of reviews to display per page (default: 10)"
-
 #: plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:86
-#: plugin/Tinymce/SiteReviewsTinymce.php:70
 msgctxt "admin-text"
 msgid "Pagination"
 msgstr "Pagination"
 
-#: plugin/Tinymce/SiteReviewTinymce.php:16
-msgctxt "admin-text"
-msgid "Enter the Post ID of the review to display."
-msgstr "Enter the Post ID of the review to display."
-
-#: plugin/Tinymce/TinymceGenerator.php:25
 #: views/partials/notices/upgraded.php:31
 #: views/partials/notices/welcome.php:23
 msgctxt "admin-text"
 msgid "Close"
 msgstr "Close"
 
-#: plugin/Tinymce/TinymceGenerator.php:26
-msgctxt "admin-text"
-msgid "Insert Shortcode"
-msgstr "Insert Shortcode"
-
-#: plugin/Tinymce/TinymceGenerator.php:126
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:32
 #: plugin/Widgets/SiteReviewsWidget.php:32
 msgctxt "admin-text"
 msgid "— Select —"
 msgstr "— Select —"
-
-#: plugin/Tinymce/TinymceGenerator.php:197
-msgctxt "admin-text"
-msgid "Some of the shortcode options are required."
-msgstr "Some of the shortcode options are required."
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:14
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:15
@@ -7923,18 +7741,6 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr "Every %s"
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:66
-msgctxt "addon name (admin-text)"
-msgid "Review Forms"
-msgstr "Review Forms"
-
-#. translators: %s: the option label
-#: plugin/Tinymce/TinymceGenerator.php:203
-#, php-format
-msgctxt "the option label (admin-text)"
-msgid "The \"%s\" option is required."
-msgstr "The \"%s\" option is required."
-
 #: plugin/Integrations/GamiPress/Triggers.php:104
 msgctxt "1 point for ... 1 time"
 msgid "getting a review"
@@ -8466,7 +8272,7 @@ msgid "A number from %1$d-%2$d"
 msgstr ""
 
 #. translators: %1$s: HTTP response status code, %2$s: response error message
-#: plugin/Commands/EnqueueAdminAssets.php:65
+#: plugin/Commands/EnqueueAdminAssets.php:64
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
@@ -9158,12 +8964,12 @@ msgctxt "admin-text"
 msgid "Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:56
+#: plugin/Commands/EnqueueAdminAssets.php:55
 msgctxt "admin-text"
 msgid "Just a moment while we connect your site and install Site Reviews Premium."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:57
+#: plugin/Commands/EnqueueAdminAssets.php:56
 msgctxt "admin-text"
 msgid "Something went wrong. Please try again."
 msgstr ""

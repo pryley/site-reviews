@@ -17,7 +17,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *
  * ShortcodeTest renders the shortcodes; this is the other half — the settings each declares and the
  * options behind them. Nothing here is rendered on the front end: it is what the Gutenberg block's
- * sidebar and the TinyMCE popup are BUILT from, and what the REST endpoint behind their search
+ * sidebar is BUILT from, and what the REST endpoint behind its search
  * fields answers with (RestShortcodeController → ShortcodeOptionManager). Wrong, and the block's
  * controls are missing, mislabelled or unfillable, and no rendering test would notice.
  *

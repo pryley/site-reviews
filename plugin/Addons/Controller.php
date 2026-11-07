@@ -469,13 +469,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @action admin_init
-     */
-    public function registerTinymcePopups(): void
-    {
-    }
-
-    /**
      * @action widgets_init
      */
     public function registerWidgets(): void

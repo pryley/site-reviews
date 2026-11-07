@@ -22,7 +22,6 @@ class EnqueueAdminAssets extends AbstractCommand
                 'console-level' => wp_create_nonce('console-level'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
                 'geolocate-reviews' => wp_create_nonce('geolocate-reviews'),
-                'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
                 'search-strings' => wp_create_nonce('search-strings'),
                 'search-users' => wp_create_nonce('search-users'),

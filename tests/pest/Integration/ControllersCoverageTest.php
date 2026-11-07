@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\AbstractColumnFilter;
 use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
-use GeminiLabs\SiteReviews\Controllers\TinymceController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\VerificationController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
@@ -94,27 +93,6 @@ test('a verification landing whose review has vanished answers with an error', f
     ));
 
     expect($response['success'])->toBeFalse();
-});
-
-test('a tinymce popup that failed to build swaps its buttons for a plain okay', function () {
-    glsr()->append('mce', [
-        'btn_close' => 'Close',
-        'btn_okay' => 'Insert',
-        'errors' => ['<p>The shortcode has required options.</p>'],
-        'fields' => ['<p>The shortcode has required options.</p>'],
-        'label' => 'Broken',
-        'required' => [],
-        'title' => 'Broken',
-    ], 'broken_shortcode');
-    try {
-        $response = $this->jsonSentBy(fn () => glsr(TinymceController::class)->mceShortcodeAjax(
-            new Request(['shortcode' => 'broken_shortcode'])
-        ));
-
-        expect($response['data']['ok'] ?? $response['data']['okay'] ?? '')->not->toBeEmpty();
-    } finally {
-        glsr()->discard('mce.broken_shortcode');
-    }
 });
 
 test('the deactivation survey posts home and thanks the person', function () {

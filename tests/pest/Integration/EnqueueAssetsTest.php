@@ -621,8 +621,6 @@ test('the admin script carries the admin ajax action', function () {
     expect($config['rating'])->toBe(['max' => Rating::max(), 'min' => Rating::min()]);
     expect($config['text'])->toHaveKeys(['cancel', 'importError', 'systemInfo500', 'systemInfoError']);
 
-    // the classic editor's shortcode button adds its subject through the config filter
-    expect(printedConfig('admin')['tinymce'])->toHaveKeys(['plugins', 'required']);
 });
 
 test('what an 8.x filter adds to the admin nonces reaches the config', function () {
@@ -642,7 +640,6 @@ test('what an 8.x filter adds to the admin nonces reaches the config', function 
     expect($config['nonce'])->toHaveKey('toggle-pinned');
     expect($config['text']['importError'])->toBe('Too big.');
     expect($config['text'])->not->toHaveKey('import_error');
-    expect($config['tinymce'])->toHaveKeys(['plugins', 'required']);
     expect((new EnqueueAdminAssets())->inlineScript())
         ->toEndWith(',{addons:{"site-reviews-forms":{options:[]}}})}();');
 });
