@@ -1,0 +1,17 @@
+select[data-glsr-track="minimal"] {
+  border-color: hsl(44 81% 47%) !important;
+  color: hsl(44 81% 42%) !important;
+}
+
+select[data-glsr-track="minimal"]:focus {
+  box-shadow: 0 0 0 1px hsl(44 81% 47%);
+}
+
+select[data-glsr-track="all"] {
+  border-color: #d63638 !important;
+  color: #d63638 !important;
+}
+
+select[data-glsr-track="all"]:focus {
+  box-shadow: 0 0 0 1px #d63638;
+}

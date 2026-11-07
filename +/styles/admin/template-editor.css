@@ -1,0 +1,31 @@
+.glsr-template-editor {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.glsr-template-editor textarea {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin: 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.glsr-template-editor textarea + .quicktags-toolbar {
+  border: 1px solid #8c8f94;
+  border-bottom-color: #dcdcde;
+  border-radius: 4px 4px 0 0;
+  padding: 3px;
+}
+
+.glsr-template-editor textarea:focus + .quicktags-toolbar {
+  border-color: var(--wp-admin-theme-color, #2271b1);
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus,1.5px) var(--wp-admin-theme-color, #2271b1);
+  outline: 2px solid transparent;
+}
+
+.glsr-template-editor .quicktags-toolbar .button-small {
+  margin: 2px;
+}

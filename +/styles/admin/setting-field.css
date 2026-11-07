@@ -1,0 +1,165 @@
+.glsr-setting-field textarea.autosized {
+  field-sizing: content;
+  width: 100%;
+}
+
+.glsr-setting-field .has-reset-button {
+  position: relative;
+}
+
+.glsr-setting-field .has-reset-button textarea.autosized {
+  padding-right: 50px;
+}
+
+.glsr-setting-field button.is-reset-button {
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  z-index: 1;
+}
+
+.glsr-setting-field button.is-reset-button .dashicons {
+  line-height: 1;
+}
+
+@media screen and (max-width: 782px) {
+  .glsr-setting-field textarea.autosized {
+    line-height: 1.5;
+  }
+}
+
+.glsr-setting-field .regular-grid {
+  --grid-gap: 1em;
+  --grid-min-width: 170px;
+  display: grid;
+  column-gap: var(--grid-gap);
+  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fill, minmax(max-content, var(--grid-min-width)));
+  grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+}
+
+@media only screen and (min-width: 1200px) {
+  .glsr-setting-field .regular-grid {
+    grid-template-columns: repeat(4, minmax(max-content, var(--grid-min-width)));
+  }
+}
+
+.glsr-setting-field .regular-grid br {
+  display: none;
+}
+
+/* Field
+ ------------------------- */
+
+tr.glsr-setting-field .glsr-tooltip {
+  margin-right: 6px;
+  margin-left: 0;
+}
+
+tr.glsr-setting-field th {
+  width: 240px;
+}
+
+tr.glsr-setting-field th label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+tr.glsr-setting-field th .tippy-box {
+  font-weight: 400;
+}
+
+@media only screen and (min-width: 783px) {
+  tr.glsr-setting-field .glsr-tooltip {
+    float: left;
+    margin-left: 0;
+    margin-right: 6px;
+  }
+}
+
+tr.glsr-setting-field td .inline br {
+  display: none;
+}
+
+tr.glsr-setting-field td .inline label::after {
+  content: '';
+  margin-right: 1em;
+}
+
+.glsr-setting-field a.button {
+  margin-top: 6px;
+}
+
+.glsr-setting-field {
+  margin: 1em 0;
+  line-height: 1.5;
+
+  small code {
+    font-size: inherit;
+    padding: 0 3px 1px;
+  }
+
+  > label {
+    margin-right: 3px;
+  }
+
+  > ul {
+    margin: 0;
+  }
+
+  > ul li {
+    margin-bottom: 2px;
+  }
+
+  textarea.code {
+    font-family: "Fira Code", Consolas, Monaco, monospace;
+  }
+
+  .glsr-experimental {
+    color: #000;
+    font-weight: 600;
+    font-style: italic;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .glsr-setting-field > label + input.small-text {
+    margin-left: 0;
+  }
+}
+
+.glsr-setting-field .wp-picker-container {
+  position: relative;
+}
+
+.glsr-setting-field .wp-picker-holder {
+  position: absolute;
+  z-index: 5;
+}
+
+.glsr-setting-field button.wp-hide-pw {
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 1px; /* because wp gives inputs a 1px right/left margin */
+  top: 0;
+  width: 40px;
+  z-index: 1;
+}
+
+.glsr-setting-field button.wp-hide-pw .dashicons {
+  line-height: 1;
+}

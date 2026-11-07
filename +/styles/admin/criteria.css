@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .glsr-criteria button.glsr-add-condition,
 .glsr-criteria button.glsr-remove-condition {
   align-items: center;
@@ -11,6 +12,7 @@
   min-width: 30px;
   width: 30px;
 }
+
 .glsr-criteria-option,
 .glsr-criteria-condition {
   align-items: center;
@@ -18,17 +20,21 @@
   display: flex;
   flex-direction: row;
 }
+
 .glsr-criteria-condition > div {
   flex: 1;
 }
+
 .glsr-criteria-conditions {
   display: flex;
   flex-direction: column;
   row-gap: 6px;
 }
+
 .glsr-criteria-conditions > :first-child {
   margin-top: 6px;
 }
+
 .glsr-criteria-condition [data-condition] {
   width: 100%;
 }

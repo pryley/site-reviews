@@ -1,6 +1,7 @@
 .post-type-site-review #titlediv #title {
   margin-bottom: 20px;
 }
+
 .post-type-site-review #contentdiv textarea,
 .post-type-site-review .wp-editor-area {
   display: block;
@@ -14,6 +15,7 @@
   -webkit-font-smoothing: antialiased !important;
   overflow-wrap: break-word;
 }
+
 .post-type-site-review .misc-pub-section[data-action]::before {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -27,21 +29,27 @@
   top: 0;
   vertical-align: top;
 }
+
 body.admin-color-fresh.post-type-site-review .misc-pub-section[data-action]::before {
   color: #8c8f94;
 }
+
 .post-type-site-review .misc-pub-section[data-action="toggle-pinned"]::before {
   content: "\f537";
 }
+
 .post-type-site-review .misc-pub-section[data-action="toggle-verified"]::before {
   content: "\f12a";
 }
+
 .post-type-site-review .misc-pub-text {
   font-weight: 600;
 }
+
 .post-type-site-review .misc-pub-select {
   margin-top: 3px;
 }
+
 .post-type-site-review #side-sortables .misc-pub-select select {
   max-width: 150px;
 }

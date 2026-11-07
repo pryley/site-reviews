@@ -3,11 +3,13 @@ button.glsr-button[data-ajax-import] {
   justify-content: center;
   transition: background-color .2s, border-radius .2s, flex-grow .2s, min-height .2s;
 }
+
 @keyframes glsr-progress-animation {
   0% {
     background-position: -100px 0;
   }
 }
+
 .wp-core-ui button.glsr-progress {
   align-items: center;
   animation: glsr-progress-animation 2.5s linear infinite;
@@ -29,11 +31,13 @@ button.glsr-button[data-ajax-import] {
   transition: background-color .2s, border-radius .2s, flex-grow .2s, min-height .2s;
   width: 100%;
 }
+
 @media screen and (max-width: 782px) {
   .wp-core-ui button.glsr-progress {
     min-height: 30px !important;
   }
 }
+
 button.glsr-progress .glsr-progress__bar {
   background-color: rgba(var(--wp-admin-theme-color--rgb, 0,124,186), .8);
   border-radius: 24px;
@@ -60,15 +64,16 @@ button.glsr-progress .glsr-progress__bar {
     width: inherit;
   }
 }
+
 button.glsr-progress .glsr-progress__bar + .glsr-progress__bar {
   background-color: var(--wp-admin-theme-color-darker-20, #005a87);
   z-index: 20;
 }
 
-
 button.glsr-progress .glsr-progress__percent {
   animation: components-animate__loading 1.6s ease-in-out infinite;
 }
+
 /*
 div.glsr-progress {
   background-color: #dcdcde;

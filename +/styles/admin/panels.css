@@ -7,6 +7,7 @@
     flex-direction: column;
   }
 }
+
 .glsr-panel-tabs button {
   align-items: center;
   background: transparent;
@@ -67,6 +68,7 @@
     outline: 2px solid transparent;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .glsr-panel-tabs button::after,
   .glsr-panel-tabs button::before {
