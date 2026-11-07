@@ -103,7 +103,8 @@ const _refreshNonce = async () => {
     }
 }
 
-const _rest = async (method, path, params, body, isRetry = false) => {
+const _rest = async (request, isRetry = false) => {
+    const { body, method, params, path, signal } = request;
     if (restUnavailable) {
         throw restUnavailable;
     }
@@ -111,7 +112,7 @@ const _rest = async (method, path, params, body, isRetry = false) => {
         throw new RestUnavailableError('no REST URL');
     }
     const headers = nonce ? { ...HEADERS, 'X-WP-Nonce': nonce } : HEADERS;
-    const response = await fetch(_restUrl(path, params), { body, headers, method });
+    const response = await fetch(_restUrl(path, params), { body, headers, method, signal });
     if ('function' !== typeof response?.json) {
         throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
@@ -124,7 +125,7 @@ const _rest = async (method, path, params, body, isRetry = false) => {
     const json = await response.json();
     if (isInvalidNonce(json) && !isRetry) {
         await _refreshNonce()
-        return _rest(method, path, params, body, true); // once more, with the fresh nonce
+        return _rest(request, true); // once more, with the fresh nonce
     }
     if (!response.ok && !isFinal(json)) {
         if ('rest_no_route' === json.code) {
@@ -152,7 +153,8 @@ const _restUrl = (path, params) => {
 }
 
 // the same request over admin-ajax (RestController::ajaxResponse)
-const _tunnel = async (method, path, params, body, isRetry = false) => {
+const _tunnel = async (request, isRetry = false) => {
+    const { body, method, params, path, signal } = request;
     const data = new FormData();
     if (body instanceof FormData) {
         body.forEach((value, key) => data.append(key, value))
@@ -171,11 +173,11 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
         data.append('_rest_nonce', nonce)
     }
     try {
-        const { ok, status, text } = await xhr(config.request.ajax.url, { body: data });
+        const { ok, status, text } = await xhr(config.request.ajax.url, { body: data, signal });
         const json = JSON.parse(text);
         if (isInvalidNonce(json) && !isRetry) {
             await _refreshNonce()
-            return _tunnel(method, path, params, body, true); // once more, with the fresh nonce
+            return _tunnel(request, true); // once more, with the fresh nonce
         }
         return { data: json, status, success: ok };
     } catch (e) {
@@ -184,22 +186,26 @@ const _tunnel = async (method, path, params, body, isRetry = false) => {
 }
 
 // REST first, admin-ajax on any sign that the REST API itself is unavailable
-const send = async ({ body, method = 'GET', params, path }) => {
+const send = async ({ body, method = 'GET', params, path, signal }) => {
     if (!config.request?.ajax?.url) {
         return _unconfigured();
     }
+    const request = { body, method, params, path, signal };
     const start = Date.now();
     let result;
     let transport = 'REST';
     try {
-        result = await _rest(method, path, params, body);
+        result = await _rest(request);
     } catch (e) {
+        if ('AbortError' === e.name) {
+            return { data: { message: e.message }, status: 0, success: false }; // the page gave the request up
+        }
         _notice(e.message);
         if (e instanceof RestUnavailableError) {
             restUnavailable = e;
         }
         transport = 'admin-ajax';
-        result = await _tunnel(method, path, params, body);
+        result = await _tunnel(request);
     }
     report('request', { method, ms: Date.now() - start, path, status: result.status, transport })
     return result;
