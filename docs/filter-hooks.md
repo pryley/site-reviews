@@ -174,6 +174,7 @@ site-reviews/rendered/partial                               (string $partial, st
 site-reviews/rendered/partial/<partial_path>                (string $partial, array $args): string
 site-reviews/rendered/template                              (string $template, string $templatePath, array $data): string
 site-reviews/rendered/template/<template_path>              (string $template, array $data): string
+site-reviews/rest-api/render/reviews                        (array $response, Modules\Html\ReviewsHtml $html, \WP_REST_Request $request): array
 site-reviews/rest-api/reviews/args                          (array $args, \WP_REST_Request $request): array
 site-reviews/rest-api/reviews/endpoint_args_for_schema      (array $args, string $method): array
 site-reviews/rest-api/reviews/parameters                    (array $parameters): array

@@ -25,6 +25,11 @@ class FetchPagedReviews extends AbstractCommand
             ->buildReviewsHtml();
     }
 
+    public function html(): ?ReviewsHtml
+    {
+        return $this->html;
+    }
+
     public function response(): array
     {
         if (is_null($this->html)) {
