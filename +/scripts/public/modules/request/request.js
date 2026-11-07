@@ -6,7 +6,8 @@ import xhr from '@/public/modules/request/xhr.js';
 // codes that say the REST API is unavailable (security plugin, login requirement, etc.)
 const REST_UNAVAILABLE_CODES = ['rest_disabled', 'rest_forbidden', 'rest_not_logged_in'];
 
-const HEADERS = { 'X-Requested-With': 'XMLHttpRequest' };
+// with Accept, WordPress answers a fatal error as JSON
+const HEADERS = { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
 
 let nonce = config.request?.nonce;
 let noticeShown = false;
@@ -115,6 +116,9 @@ const _rest = async (method, path, params, body, isRetry = false) => {
         throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
     if (!(response.headers.get('content-type') || '').includes('application/json')) {
+        if (500 <= response.status) {
+            return { data: { message: `HTTP ${response.status}` }, status: response.status, success: false }; // the route failed: not run a second time over admin-ajax
+        }
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
     }
     const json = await response.json();
