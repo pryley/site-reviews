@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Metaboxes\AuthorMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\DashboardMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\DetailsMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
+use GeminiLabs\SiteReviews\Modules\Html\MetaboxForm;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -139,6 +140,22 @@ test('the details box holds everything about a review that is not a post', funct
         ->toContain('name="site-reviews[email]"')
         ->toContain('value="Jane Doe"')
         ->toContain('value="jane@example.org"');
+});
+
+test('the details fields of a saved review are disabled until they are asked for editable', function () {
+    // The Edit Details toggle enables them on the screen; a route that rebuilds them for another
+    // form (premium's) asks for them enabled, since the toggle is already on when it is called.
+    $review = createReview(['name' => 'Jane Doe']);
+    $GLOBALS['post'] = get_post($review->ID);
+    set_current_screen(glsr()->post_type); // an existing review: the screen's action is not "add"
+
+    $disabled = (new MetaboxForm($review))->build();
+    $editable = (new MetaboxForm($review, ['editable' => true]))->build();
+
+    expect($disabled)->toMatch('/<input[^>]*name="site-reviews\[name\]"[^>]*\sdisabled/')
+        ->and($editable)->toContain('name="site-reviews[name]"')
+        ->and($editable)->not->toMatch('/<(input|select|textarea)[^>]*\sdisabled/');
+    unset($GLOBALS['post']);
 });
 
 test('the assigned pages box lists the pages, and can be posted back', function () {

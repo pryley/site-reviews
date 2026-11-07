@@ -3,14 +3,18 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 class MetaboxForm extends Form
 {
+    public bool $editable;
     public Review $review;
 
     public function __construct(Review $review, array $args = [])
     {
+        // the fields of a saved review are disabled until Edit Details is ticked
+        $this->editable = Cast::toBool($args['editable'] ?? 'add' === glsr_current_screen()->action);
         $this->review = $review;
         parent::__construct($args, array_merge(
             $review->toArray(),
@@ -77,13 +81,9 @@ class MetaboxForm extends Form
         $this->normalizeFieldValue($field);
     }
 
-    /**
-     * Set the disabled attribute of the field from the \WP_Screen action.
-     */
     protected function normalizeFieldDisabled(FieldContract $field): void
     {
-        $field->disabled = 'add' !== glsr_current_screen()->action
-            && !wp_doing_ajax();
+        $field->disabled = !$this->editable;
     }
 
     protected function signForm(): void
