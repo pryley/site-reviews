@@ -83,7 +83,7 @@ enumeration below is a map, not the authority —
   effect, not in isolation. (A committed `runAll()` also loses its final
   migration-record write to the rollback; `purgeCommittedRows()` repairs it.)
 - the TRUNCATE and repair tools: `MaintenanceTest` ×3 and
-  `PrivacyCommandsTest` ×2 and `ToolsAjaxTest` ×1 (`TableStats::empty()`
+  `PrivacyCommandsTest` ×2 and `ToolsAjaxTest` ×1 and `RestReviewPartsApiTest` ×1 (`TableStats::empty()`
   TRUNCATEs, which is DDL), and `InstallTest` ×1 (drops and recreates the
   custom tables).
 

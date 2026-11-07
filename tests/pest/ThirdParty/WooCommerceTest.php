@@ -247,3 +247,17 @@ test('a hold status comment query answers with unapproved reviews only', functio
     expect($comments)->toHaveCount(1);
     expect($comments[0]->comment_approved)->toBe('0');
 });
+
+test('the import route runs the product review stages and the ratings migration for the WooCommerce sources', function () {
+    $stages = apply_filters('site-reviews/import/stages', [], 'woocommerce');
+    expect($stages)->toBe([
+        1 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\CountProductReviews::class,
+        2 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews::class,
+        3 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsAttachments::class,
+        4 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsCleanup::class,
+    ]);
+    expect(apply_filters('site-reviews/import/stages', [], 'woocommerce-ratings'))->toBe([
+        1 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\MigrateProductRatings::class,
+    ]);
+    expect(apply_filters('site-reviews/import/stages', ['csv'], 'csv'))->toBe(['csv']); // another source is left alone
+});
