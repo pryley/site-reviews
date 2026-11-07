@@ -24,6 +24,7 @@ class MainHooks extends AbstractHooks
             ['registerReviewTypes', 'init', 5],
             ['registerShortcodes', 'init'],
             ['registerTaxonomy', 'init'],
+            ['registerUserMeta', 'init'],
             ['registerWidgets', 'widgets_init'],
         ]);
     }

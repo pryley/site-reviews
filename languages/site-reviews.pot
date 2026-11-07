@@ -3196,6 +3196,11 @@ msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr ""
 
+#: plugin/Commands/RegisterUserMeta.php:16
+msgctxt "admin-text"
+msgid "The filters shown above the reviews table."
+msgstr ""
+
 #: plugin/Commands/RemoveLocationData.php:26
 msgctxt "admin-text"
 msgid "Successfully removed the geolocation data from all reviews."
@@ -4240,7 +4245,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:177
+#: plugin/Controllers/MainController.php:178
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
