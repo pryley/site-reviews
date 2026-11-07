@@ -149,6 +149,29 @@ test('a translatable string can be searched for', function () {
         ->and($response['data']['empty'])->toContain('Nothing found');
 });
 
+test('the searches refuse somebody who cannot edit reviews', function () {
+    // The nonces for these are printed with the admin script, which the dashboard loads for every
+    // logged-in user, so the nonce proves intent and nothing else.
+    $this->setUpAjax();
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    $handlers = [
+        'searchAssignedPostsAjax',
+        'searchAssignedUsersAjax',
+        'searchAuthorsAjax',
+        'searchPostsAjax',
+        'searchStringsAjax',
+        'searchUsersAjax',
+    ];
+
+    foreach ($handlers as $handler) {
+        $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->$handler(
+            new Request(['search' => 'a'])
+        ));
+        expect($response['success'])->toBeFalse();
+        expect($response['data']['notices'])->toContain('You do not have permission');
+    }
+});
+
 /*
  * The list table toggles.
  */

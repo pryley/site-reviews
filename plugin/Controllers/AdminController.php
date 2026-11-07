@@ -261,6 +261,7 @@ class AdminController extends AbstractController
      */
     public function searchAssignedPostsAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchAssignedPosts($search)->results();
         wp_send_json_success([
@@ -273,6 +274,7 @@ class AdminController extends AbstractController
      */
     public function searchAssignedUsersAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchAssignedUsers($search)->results();
         array_walk($results, function ($user) {
@@ -288,6 +290,7 @@ class AdminController extends AbstractController
      */
     public function searchAuthorsAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchUsers($search)->results();
         array_walk($results, function ($user) {
@@ -303,6 +306,7 @@ class AdminController extends AbstractController
      */
     public function searchPostsAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchPosts($search)->render();
         wp_send_json_success([
@@ -316,6 +320,7 @@ class AdminController extends AbstractController
      */
     public function searchStringsAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $exclude = Arr::consolidate($request->exclude);
         $results = glsr(Translation::class)
@@ -334,6 +339,7 @@ class AdminController extends AbstractController
      */
     public function searchUsersAjax(Request $request): void
     {
+        $this->checkSearchPermission();
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchUsers($search)->render();
         wp_send_json_success([
@@ -370,5 +376,21 @@ class AdminController extends AbstractController
     public function toggleStatusAjax(Request $request): void
     {
         $this->execute(new ToggleStatus($request))->sendJsonResponse();
+    }
+
+    /**
+     * Refuse the request with an error notice unless the user can edit reviews.
+     */
+    protected function checkSearchPermission(): void
+    {
+        if (glsr()->can('edit_posts')) {
+            return;
+        }
+        glsr(Notice::class)->addError(
+            _x('You do not have permission to search.', 'admin-text', 'site-reviews')
+        );
+        wp_send_json_error([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
     }
 }
