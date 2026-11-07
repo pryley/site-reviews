@@ -20,7 +20,7 @@ class MigrateProductRatings extends AbstractCommand
     public function __construct(Request $request)
     {
         $this->db = glsr(Query::class)->db;
-        $this->revert = wp_validate_boolean($request->alt);
+        $this->revert = wp_validate_boolean($request->revert);
     }
 
     public function handle(): void

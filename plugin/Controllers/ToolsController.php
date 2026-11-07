@@ -164,7 +164,7 @@ class ToolsController extends AbstractController
      */
     public function ipAddressDetection(Request $request): void
     {
-        if (wp_validate_boolean($request->get('alt', 0))) {
+        if (wp_validate_boolean($request->get('detect', 0))) {
             $this->execute(new DetectIpAddress());
             return;
         }

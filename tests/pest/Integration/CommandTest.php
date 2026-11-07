@@ -426,7 +426,7 @@ test('the alt flag makes a repair a hard reset of every role', function () {
     // scratch, which is what a site reaches for when a role's caps have been mangled beyond a top-up.
     get_role('editor')->remove_cap('edit_others_site-reviews');
 
-    $command = new RepairPermissions(new Request(['alt' => 1]));
+    $command = new RepairPermissions(new Request(['all' => 1]));
     $command->handle();
 
     expect($command->successful())->toBeTrue()
