@@ -94,9 +94,9 @@ export default class Assigned {
         document.body.classList.add('glsr-focus')
     }
 
-    onSelect (item) {
+    onSelect (item, el) {
         if (item) {
-            this.add({ ...item, title: 'nickname' in item ? `${item.title} (${item.nickname})` : item.title })
+            this.add({ ...item, title: el.textContent })
         }
         this.reset()
         this.input.focus()

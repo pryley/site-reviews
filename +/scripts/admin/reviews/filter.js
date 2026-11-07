@@ -92,7 +92,7 @@ export default class Filter {
 
     onSelect (item, el) {
         this.selected.title = el.title;
-        this.selected.textContent = item.title;
+        this.selected.textContent = el.textContent; // the label as listed, so a shared name keeps what told it apart
         this.value.value = item.id;
         this.hide()
         window.setTimeout(() => this.selected.focus(), 10)
