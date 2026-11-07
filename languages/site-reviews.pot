@@ -3392,7 +3392,7 @@ msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
-#: plugin/Controllers/Api/Version1/RestSearchController.php:19
+#: plugin/Controllers/Api/Version1/RestSearchController.php:23
 #: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
@@ -3690,6 +3690,13 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/RestReviewPartsController.php:263
 msgctxt "admin-text"
 msgid "The status could not be changed."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestSearchController.php:103
+#: plugin/Database.php:237
+#: plugin/Database/Search/SearchPosts.php:24
+msgctxt "admin-text"
+msgid "(no title)"
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSummaryController.php:22
@@ -4481,12 +4488,6 @@ msgstr ""
 #: views/partials/notices/upgraded.php:27
 msgctxt "admin-text"
 msgid "Upgrade Guide"
-msgstr ""
-
-#: plugin/Database.php:237
-#: plugin/Database/Search/SearchPosts.php:24
-msgctxt "admin-text"
-msgid "(no title)"
 msgstr ""
 
 #: plugin/Database/ShortcodeOptionManager.php:80
@@ -6962,12 +6963,12 @@ msgid_plural "%s Stars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Translation.php:156
+#: plugin/Modules/Translation.php:172
 msgctxt "admin-text"
 msgid "This custom text is invalid because the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Modules/Translation.php:159
+#: plugin/Modules/Translation.php:175
 msgctxt "admin-text"
 msgid "The placeholder tags are missing in your custom text."
 msgstr ""

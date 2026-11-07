@@ -2438,6 +2438,7 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 
+#: plugin/Controllers/Api/Version1/RestSearchController.php:103
 #: plugin/Database.php:237
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
@@ -4194,12 +4195,12 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr "Show more details"
 
-#: plugin/Modules/Translation.php:159
+#: plugin/Modules/Translation.php:175
 msgctxt "admin-text"
 msgid "The placeholder tags are missing in your custom text."
 msgstr "The placeholder tags are missing in your custom text."
 
-#: plugin/Modules/Translation.php:156
+#: plugin/Modules/Translation.php:172
 msgctxt "admin-text"
 msgid "This custom text is invalid because the original text has been changed or removed."
 msgstr "This custom text is invalid because the original text has been changed or removed."
@@ -6241,7 +6242,7 @@ msgid "Review update failed, please check the Site Reviews console log for more 
 msgstr "Review update failed, please check the Site Reviews console log for more details."
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
-#: plugin/Controllers/Api/Version1/RestSearchController.php:19
+#: plugin/Controllers/Api/Version1/RestSearchController.php:23
 #: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
