@@ -11,6 +11,7 @@
 *.log
 *.map
 CLAUDE.md
+CODING_STANDARDS.md
 coverage.xml
 mix-manifest.json
 npm-debug.log*
