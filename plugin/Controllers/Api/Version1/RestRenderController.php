@@ -115,6 +115,6 @@ class RestRenderController extends AbstractRestController
             'url' => (string) $request['url'],
         ]));
         $command->handle();
-        return $this->respond($command->response());
+        return $this->respond(glsr()->filterArray('rest-api/render/reviews', $command->response(), $command->html(), $request));
     }
 }

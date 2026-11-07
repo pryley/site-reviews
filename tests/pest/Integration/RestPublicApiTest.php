@@ -715,3 +715,23 @@ test('the admin-ajax action sends the body and the status of the route', functio
         ->and(has_action('wp_ajax_nopriv_'.glsr()->prefix.'rest_request'))->toBeTrue();
     $_POST = [];
 });
+
+test('the render/reviews response passes through a filter with the reviews html', function () {
+    createReviews(2);
+    $seen = null;
+    $filter = function (array $response, $html, WP_REST_Request $request) use (&$seen) {
+        $seen = $html;
+        $response['status'] = 'filtered';
+        return $response;
+    };
+    add_filter('site-reviews/rest-api/render/reviews', $filter, 10, 3);
+    try {
+        $response = restRequest('GET', '/site-reviews/v1/render/reviews', ['atts' => [], 'page' => 1]);
+    } finally {
+        remove_filter('site-reviews/rest-api/render/reviews', $filter, 10);
+    }
+    expect($response->get_status())->toBe(200)
+        ->and($response->get_data()['status'])->toBe('filtered')
+        ->and($response->get_data())->toHaveKeys(['max_num_pages', 'pagination', 'reviews'])
+        ->and($seen)->toBeInstanceOf(GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml::class);
+});
