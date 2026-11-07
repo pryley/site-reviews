@@ -25,28 +25,22 @@ class DeactivationController extends AbstractController
         );
         $handle = glsr()->id.'/deactivate-plugin';
         $url = glsr()->url('assets/scripts/deactivate-plugin.js');
-        wp_enqueue_script($handle, $url, ['backbone', 'underscore'], glsr()->version, [
+        wp_enqueue_script($handle, $url, [], glsr()->version, [
             'in_footer' => true,
             'strategy' => 'defer',
         ]);
-        wp_localize_script(glsr()->id.'/deactivate-plugin', '_glsr_deactivate', [
-            'ajax' => [
-                'action' => glsr()->prefix.'admin_action',
-                'nonce' => wp_create_nonce('deactivate'),
-                'prefix' => glsr()->id,
+        wp_add_inline_script($handle, sprintf('window.GLSR = window.GLSR || {}; window.GLSR.config = window.GLSR.config || %s;', wp_json_encode([
+            'nameprefix' => glsr()->id,
+            'request' => [
+                'ajax' => [
+                    'rest' => glsr()->prefix.'rest_request',
+                    'url' => admin_url('admin-ajax.php'),
+                ],
+                'nonce' => wp_create_nonce('wp_rest'),
+                'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
             ],
-            'l10n' => [
-                'buttonDeactivate' => _x('Skip & Deactivate', 'admin-text', 'site-reviews'),
-                'buttonSubmit' => _x('Submit & Deactivate', 'admin-text', 'site-reviews'),
-                'clickHere' => _x('Click here', 'admin-text', 'site-reviews'),
-                'closeDialog' => _x('Close deactivation dialog', 'admin-text', 'site-reviews'),
-                'dialogText' => _x('If you have a moment, please tell me how we can improve.', 'admin-text', 'site-reviews'),
-                /* translators: %s: a link with the text "Click here" */
-                'dialogTextExtra' => _x('%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin.', 'Click here (admin-text)', 'site-reviews'),
-                /* translators: %s: plugin name */
-                'dialogTitle' => _x('Deactivating %s', 'Plugin name (admin-text)', 'site-reviews'),
-                'processing' => _x('Processing...', 'admin-text', 'site-reviews'),
-            ],
+        ])), 'before');
+        wp_localize_script($handle, '_glsr_deactivate', [
             'insight' => $this->deactivateInsight(),
             'plugins' => $this->deactivatePlugins(),
             'reasons' => $this->deactivateReasons(),

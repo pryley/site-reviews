@@ -38,7 +38,7 @@ const jsBundles = [
     js('integrations/gamipress/gamipress', 'assets/scripts/integrations'),
     js('integrations/wpbakery/wpbakery-editor', 'assets/scripts/integrations'),
     js('integrations/wpbakery/wpbakery-inline', 'assets/scripts/integrations'),
-    js('scripts/deactivate-plugin'),
+    js('scripts/admin/plugins/deactivate', 'assets/scripts', 'deactivate-plugin'),
     js('scripts/inline-script'),
     js('scripts/site-reviews', 'assets/scripts', '', { budget: 4096 }), // the bootstrap is on every page
     js('scripts/site-reviews-admin-compat'),

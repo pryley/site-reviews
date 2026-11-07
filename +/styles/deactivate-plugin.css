@@ -17,23 +17,24 @@ p.glsr-update-warning::before {
 
 .glsr-dp-overlay {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+}
+.glsr-dp-overlay[open] {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
 }
-.glsr-dp-backdrop {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+.glsr-dp-overlay::backdrop {
     background: rgba(0,0,0,.5);
-    z-index: 10000;
 }
 .glsr-dp-wrap {
     position: relative;

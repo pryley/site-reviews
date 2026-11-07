@@ -98,13 +98,16 @@ test('a plugins screen with no deactivate link is left alone', function () {
     expect(glsr(DeactivationController::class)->filterActionLinks($links))->toBe($links);
 });
 
-test('the dialog is nonced, and offers the six reasons in the order they were written', function () {
+test('the dialog has the REST nonce, and offers the six reasons in the order they were written', function () {
     onPluginsScreen();
     glsr(DeactivationController::class)->enqueueAssets();
 
     $data = localizedDeactivateData();
+    preg_match('/window\.GLSR\.config = window\.GLSR\.config \|\| (.*);$/', (string) wp_scripts()->get_data('site-reviews/deactivate-plugin', 'before')[1], $matches);
+    $config = json_decode($matches[1] ?? '[]', true);
 
-    expect(wp_verify_nonce($data['ajax']['nonce'], 'deactivate'))->not->toBeFalse();
+    expect(wp_verify_nonce($config['request']['nonce'], 'wp_rest'))->not->toBeFalse();
+    expect($config['request']['url'])->toBe(esc_url_raw(rest_url(glsr()->id.'/v1/')));
     expect(array_column($data['reasons'], 'id'))->toBe([
         'confused', 'found-better', 'not-working', 'temporary', 'feature-missing', 'other-reason',
     ]);
