@@ -9693,7 +9693,7 @@ msgctxt "admin-text"
 msgid "The status could not be changed."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:26
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:25
 msgctxt "admin-text"
 msgid "Invalid shortcode."
 msgstr ""
