@@ -5,17 +5,12 @@
  */
 import { config } from '@/public/core/index.js';
 import ColorPicker from '@/admin/color-picker.js';
-import Filter from '@/admin/filter.js';
-import Filters from '@/admin/filters.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
 import PremiumLicense from '@/admin/premium-license.js';
 import PublishAction from '@/admin/publish-action.js';
 import Search from '@/admin/search.js';
-import Status from '@/admin/status.js';
-import TogglePinned from '@/admin/toggle-pinned.js';
-import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy from 'tippy.js';
 
@@ -55,37 +50,10 @@ export default () => {
     })
 
     ColorPicker();
-    new Filters();
-    $('.glsr-filter').each((index, filterEl) => {
-        new Filter(filterEl);
-    })
     new Forms('form.glsr-form');
     new Import();
     new Metabox();
     new PublishAction();
-    new Search('#glsr-search-posts', {
-        action: 'search-posts',
-        onInit: function () {
-            this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
-        },
-        onResultClick: function (ev) {
-            var result = $(ev.currentTarget);
-            var template = wp.template('glsr-assigned-posts');
-            var entry = {
-                id: result.data('id'),
-                name: 'post_ids[]',
-                url: result.data('url'),
-                title: result.text(),
-            };
-            if (template) {
-                var entryEl = $(template(entry));
-                entryEl.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
-                this.el.find('.glsr-selected-entries').append(entryEl);
-                this.reset_();
-            }
-            this.options.searchEl.focus();
-        },
-    });
     new Search('#glsr-search-translations', {
         action: 'search-strings',
         onInit: function () {
@@ -107,33 +75,7 @@ export default () => {
             this.setVisibility_();
         },
     });
-    new Search('#glsr-search-users', {
-        action: 'search-users',
-        onInit: function () {
-            this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
-        },
-        onResultClick: function (ev) {
-            var result = $(ev.currentTarget);
-            var template = wp.template('glsr-assigned-users');
-            var entry = {
-                id: result.data('id'),
-                name: 'user_ids[]',
-                url: result.data('url'),
-                title: result.text(),
-            };
-            if (template) {
-                var entryEl = $(template(entry));
-                entryEl.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
-                this.el.find('.glsr-selected-entries').append(entryEl);
-                this.reset_();
-            }
-            this.options.searchEl.focus();
-        },
-    });
-    new Status('a.glsr-toggle-status');
     new PremiumLicense();
-    new TogglePinned();
-    new ToggleVerified();
     new Tools();
 
     var trackValue = function () {
@@ -154,22 +96,6 @@ export default () => {
             $('.wp-list-table :input[name="term_priority"]').val(val);
         }
     }
-    if ('undefined' !== typeof inlineEditPost) {
-        $('.post-type-site-review #the-list').on('click', '.editinline', function() {
-            var row = $(this).closest('tr');
-            $(':input[data-name="post_content"]').val('');
-            $(':input[name="_response"]').val('');
-            setTimeout(function () {
-                $(':input[data-name="post_content"]').val(row.find('._post_content').text());
-                $(':input[name="_response"]').val(row.find('._response').text());
-            }, 50);
-        });
-        // allow Enter keypress in the response textarea
-        setTimeout(function () {
-            $('td', '.post-type-site-review #inline-edit').off('keydown');
-        }, 50);
-    }
-
     $('.glsr-videos__playlist a').on('click', function () {
         const playlist = $(this).closest('.glsr-videos__playlist');
         const style = window.getComputedStyle(playlist[0]);

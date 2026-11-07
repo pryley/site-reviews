@@ -24,6 +24,7 @@ const adminConfig = () => ({
         cancel: 'Cancel',
         cancelling: 'Cancelling, please wait...',
         importError: 'Your server restricts file uploads to less than 2 MB in size.',
+        nothingFound: 'Nothing found.',
         rollbackError: 'Rollback failed',
         searching: 'Searching...',
         systemInfo500: 'Site Reviews was unable to fetch the System Info because WordPress crashed.',

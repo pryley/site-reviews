@@ -241,7 +241,7 @@ msgstr ""
 #: plugin/Defaults/ReviewTagsDefaults.php:51
 #: plugin/Metaboxes/AssignedUsersMetabox.php:19
 #: views/integrations/mycred/preferences.php:186
-#: views/partials/screen/inline-edit.php:118
+#: views/partials/screen/inline-edit.php:119
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -2905,7 +2905,7 @@ msgstr ""
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
 #: views/partials/screen/inline-edit.php:31
-#: views/partials/screen/inline-edit.php:132
+#: views/partials/screen/inline-edit.php:134
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
@@ -2923,40 +2923,48 @@ msgid "Your server restricts file uploads to less than %s in size."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:54
+#: plugin/Controllers/AdminController.php:256
+#: plugin/Controllers/AdminController.php:274
+#: plugin/Controllers/AdminController.php:287
 msgctxt "admin-text"
-msgid "Just a moment while we connect your site and install Site Reviews Premium."
+msgid "Nothing found."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:55
 msgctxt "admin-text"
-msgid "Something went wrong. Please try again."
+msgid "Just a moment while we connect your site and install Site Reviews Premium."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:56
 msgctxt "admin-text"
-msgid "Rollback failed"
+msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:57
+msgctxt "admin-text"
+msgid "Rollback failed"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:58
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
 #. translators: %s: Site Health Info page URL
-#: plugin/Commands/EnqueueAdminAssets.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:60
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
 msgstr ""
 
 #. translators: %1$s: HTTP response status code, %2$s: response error message
-#: plugin/Commands/EnqueueAdminAssets.php:63
+#: plugin/Commands/EnqueueAdminAssets.php:64
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:64
+#: plugin/Commands/EnqueueAdminAssets.php:65
 #: plugin/Controllers/Api/Version1/RestPluginController.php:172
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
@@ -3369,13 +3377,6 @@ msgstr ""
 #: views/pages/tools/general/import-reviews.php:25
 msgctxt "admin-text"
 msgid "Import"
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:256
-#: plugin/Controllers/AdminController.php:274
-#: plugin/Controllers/AdminController.php:287
-msgctxt "admin-text"
-msgid "Nothing found."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:62
@@ -8915,7 +8916,7 @@ msgid "Search for a Page, Post, or <abbr title=\"Custom Post Type\">CPT</abbr> t
 msgstr ""
 
 #: views/partials/editor/metabox-assigned-users.php:8
-#: views/partials/screen/inline-edit.php:123
+#: views/partials/screen/inline-edit.php:124
 msgctxt "admin-text"
 msgid "Search by ID or name..."
 msgstr ""
@@ -9172,7 +9173,7 @@ msgid "Your Response"
 msgstr ""
 
 #: views/partials/screen/inline-edit.php:32
-#: views/partials/screen/inline-edit.php:133
+#: views/partials/screen/inline-edit.php:135
 msgctxt "admin-text"
 msgid "Update"
 msgstr ""
