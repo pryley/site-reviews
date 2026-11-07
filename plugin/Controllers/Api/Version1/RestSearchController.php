@@ -19,13 +19,7 @@ class RestSearchController extends AbstractRestController
      */
     public function checkSearchPermission()
     {
-        if (!glsr()->can('edit_posts')) {
-            $error = _x('Sorry, you are not allowed to do that.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_forbidden_context', $error, [
-                'status' => rest_authorization_required_code(),
-            ]);
-        }
-        return true;
+        return $this->permission('edit_posts');
     }
 
     public function registerRoutes(): void

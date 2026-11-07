@@ -2438,7 +2438,7 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 
-#: plugin/Controllers/Api/Version1/RestSearchController.php:103
+#: plugin/Controllers/Api/Version1/RestSearchController.php:97
 #: plugin/Database.php:237
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
@@ -6242,7 +6242,6 @@ msgid "Review update failed, please check the Site Reviews console log for more 
 msgstr "Review update failed, please check the Site Reviews console log for more details."
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
-#: plugin/Controllers/Api/Version1/RestSearchController.php:23
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
