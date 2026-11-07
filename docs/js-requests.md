@@ -14,9 +14,10 @@ const { data, status, success } = await GLSR.Request.send({
 
 ## How a request is sent
 
-1. The request goes to the REST API of WordPress.
+1. The request goes to the REST API of WordPress, with `Accept: application/json`, so WordPress answers a fatal error as JSON.
 2. If the REST API is unavailable on the site (a security plugin blocks it, or the response is not JSON), the same request goes to admin-ajax, and Site Reviews runs the same route there. You pass nothing extra for this, and the response is the same. Some answers say that the REST API as a whole is unavailable: a 401 or a 403, the codes `rest_disabled`, `rest_forbidden` and `rest_not_logged_in`, and a `window.fetch` that another script has replaced. After one of those, the remaining requests of the page go to admin-ajax directly. A removed route, a response that is not JSON or a network error sends only that one request again.
-3. If the nonce of a logged-in visitor has expired, Site Reviews gets a new one and sends the request again.
+3. A status of 500 or above is the final answer, whether the response is JSON or not: the route failed, and it is not run a second time over admin-ajax.
+4. If the nonce of a logged-in visitor has expired, Site Reviews gets a new one and sends the request again.
 
 Under Polylang or WPML, every request carries the language of the page as `lang` (`GLSR.config.request.language`), over the REST API and over admin-ajax alike, so the route answers in that language.
 

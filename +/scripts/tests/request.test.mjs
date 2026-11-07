@@ -92,9 +92,28 @@ test('a request goes to the REST API, with its params in the query', async () =>
     assert.equal(calls.length, 1)
     assert.equal(calls[0].url, `${REST_URL}my-addon/route?page=2&atts%5Bdisplay%5D=5`)
     assert.equal(calls[0].options.method, 'GET')
-    assert.deepEqual(plain(calls[0].options.headers), { 'X-Requested-With': 'XMLHttpRequest' })
+    assert.deepEqual(plain(calls[0].options.headers), { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' })
     assert.deepEqual(plain(result), { data: { reviews: '<div></div>' }, status: 200, success: true })
 });
+
+for (const [reason, failed] of [
+    ['a fatal error, which WordPress answers as JSON because the request accepts it', { status: 500, json: { code: 'internal_server_error', message: 'There has been a critical error on this website.' } }],
+    ['a 500 page that is not JSON', { status: 500, type: 'text/html', text: '<html>Fatal error</html>' }],
+    ['a 502 from the server', { status: 502, type: 'text/html', text: '<html>Bad gateway</html>' }],
+]) {
+    test(`${reason} is the final answer, and the request is not run again over admin-ajax`, async () => {
+        const { infos, window } = loadPage();
+        const calls = fakeFetch(window, [failed]);
+        const sent = fakeXhr(window, [{ json: {} }]);
+        const result = await window.GLSR.Request.send({ method: 'POST', path: 'reviews/import' });
+        assert.equal(calls.length, 1)
+        assert.equal(sent.length, 0)
+        assert.equal(result.success, false)
+        assert.equal(result.status, failed.status)
+        assert.deepEqual(plain(result.data), failed.json ?? { message: `HTTP ${failed.status}` })
+        assert.deepEqual(infos, [])
+    });
+}
 
 test('a logged-in page sends its nonce', async () => {
     const { window } = loadPage({ config: { request: request({ nonce: 'abc123' }) } });
@@ -171,7 +190,7 @@ test('after a replaced window.fetch, the rest of the page goes over admin-ajax w
 
 for (const [reason, blocked] of [
     ['a removed route', { status: 404, json: { code: 'rest_no_route' } }],
-    ['a response that is not JSON', { status: 500, type: 'text/html', text: '<html>' }],
+    ['a response that is not JSON', { status: 404, type: 'text/html', text: '<html>' }],
     ['a network error', { error: 'Failed to fetch' }],
 ]) {
     test(`after ${reason}, only that request goes over admin-ajax and the next one tries the REST API again`, async () => {
