@@ -84,6 +84,7 @@ To submit a form of your own, register its route and name it for the action:
 add_filter('site-reviews/rest-api/routes', function (array $routes) {
     $routes['my-action'] = 'my-addon/my-action'; // POST site-reviews/v1/my-addon/my-action
     $routes['my-other-action'] = ['method' => 'PUT', 'path' => 'my-addon/my-thing']; // a route that is not a POST
+    $routes['my-item-action'] = ['method' => 'PATCH', 'path' => 'my-addon/my-things/{thing_id}']; // {thing_id} is filled from the form's site-reviews[thing_id] field
     return $routes;
 });
 ```

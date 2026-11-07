@@ -47,7 +47,7 @@ const submit = (formData) => {
         return Promise.resolve(_unconfigured());
     }
     const action = formData.get(`${config.nameprefix}[_action]`) || 'submit-review';
-    const route = _route(action);
+    const route = _route(action, _formValues(formData));
     if (route) {
         return send({ body: formData, ...route });
     }
@@ -61,6 +61,18 @@ const _notice = (reason) => {
         noticeShown = true;
     }
 }
+
+// the form's site-reviews[key] fields by key, which fill the {placeholders} of its route's path
+const _formValues = (formData) => {
+    const prefix = `${config.nameprefix}[`;
+    const values = {};
+    for (const [name, value] of formData.entries()) {
+        if (name.startsWith(prefix) && name.endsWith(']')) {
+            values[name.slice(prefix.length, -1)] = value;
+        }
+    }
+    return values;
+};
 
 // the request to send: a route of the config by its name, or the request's own method and path
 const _request = ({ body, method = 'GET', params, path, route, signal, ...values }) => {

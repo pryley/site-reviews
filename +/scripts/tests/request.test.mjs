@@ -476,6 +476,17 @@ test('a form is posted with the method of its route when the route names one', a
     assert.equal(calls[0].options.headers['X-HTTP-Method-Override'], 'PATCH')
 });
 
+test('a {placeholder} in the route of a form is filled from the form\'s field of that name', async () => {
+    const routes = { 'update-review': { method: 'PATCH', path: 'authors/reviews/{review_id}' } };
+    const { window } = loadPage({ config: { request: request({ routes }) } });
+    const calls = fakeFetch(window, [{ json: {} }]);
+    const formData = formOf(window, 'update-review');
+    formData.append('site-reviews[review_id]', '12')
+    await window.GLSR.Request.submit(formData)
+    assert.equal(calls[0].url, `${REST_URL}authors/reviews/12`)
+    assert.equal(calls[0].options.headers['X-HTTP-Method-Override'], 'PATCH')
+});
+
 test('a request names a route of the config, whose path template is filled from the options', async () => {
     const routes = { status: { method: 'PUT', path: 'reviews/{id}/status' }, 'submit-review': 'submissions' };
     const { window } = loadPage({ config: { request: request({ routes }) } });
