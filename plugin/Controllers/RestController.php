@@ -88,6 +88,26 @@ class RestController
     }
 
     /**
+     * Read the path placeholders of a route under site-reviews/v1 before its body and query fields.
+     *
+     * @param string[] $order
+     *
+     * @return string[]
+     *
+     * @filter rest_request_parameter_order
+     */
+    public function filterParameterOrder(array $order, \WP_REST_Request $request): array
+    {
+        if (empty($request->get_url_params())) { // before the route matches, where set_param() writes to the first type
+            return $order;
+        }
+        if (!str_starts_with($request->get_route(), sprintf('/%s/v1/', glsr()->id))) {
+            return $order;
+        }
+        return array_merge(['URL'], array_diff($order, ['URL']));
+    }
+
+    /**
      * @action rest_api_init
      */
     public function registerRoutes(): void
