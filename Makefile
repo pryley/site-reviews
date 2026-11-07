@@ -85,6 +85,10 @@ test\:woocommerce: woocommerce-env ## Run the WooCommerce suite in its own wp-en
 		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/woocommerce -c tests/woocommerce/phpunit.xml --colors=always
 
+.PHONY: test\:browser
+test\:browser: env-check ## Drive the admin screens in Chromium and WebKit on the wp-env site [SCREEN=settings for one] (see tests/browser/README.md)
+	npm run test:browser -- $(SCREEN)
+
 .PHONY: zip
 zip: ## Create a zip archive of Site Reviews from HEAD
 	git archive -o ./$(PLUGIN)-v$(VERSION).zip --prefix=$(PLUGIN)/ HEAD
