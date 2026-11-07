@@ -16,7 +16,7 @@ const errors = pageErrorsOf(page);
 await login(page);
 const loaded = async () => ({
     config: await page.evaluate(() => window.GLSR?.config?.rating ?? null),
-    script: await page.evaluate(() => !!document.querySelector('script[src*="site-reviews-admin"]')),
+    script: await page.evaluate(() => !!document.querySelector('script[src*="scripts/admin/admin"]')),
     style: null !== await page.$('link#site-reviews\\/admin-css'),
 });
 let post = null;

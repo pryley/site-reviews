@@ -250,7 +250,7 @@ GLSR.lib.tippy                   // reads an entry
 
 ## Debug
 
-Debug mode writes information to the browser console. It never changes what the scripts do. It is a script of its own (`site-reviews-debug.js`, and `site-reviews-admin-debug.js` in the admin) that is on the page only when debug mode is on.
+Debug mode writes information to the browser console. It never changes what the scripts do. It is a script of its own (`site-reviews-debug.js`, and `admin/admin-debug.js` in the admin) that is on the page only when debug mode is on.
 
 Debug mode is off by default. Turn it on with the "Debug Mode" setting on the Advanced tab of the settings. `WP_DEBUG` does not turn it on. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
@@ -285,7 +285,7 @@ In debug mode:
 
 Site Reviews 9.0.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
 
-Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. The names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`, the `form` of a form instance) are gone: those add-ons do not run on this version, and a name of a module cannot be kept before the module has loaded. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
+Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. The names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`, the `form` of a form instance) are gone: those add-ons do not run on this version, and a name of a module cannot be kept before the module has loaded. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
 ```php
 add_filter('site-reviews/compat/assets', '__return_false');

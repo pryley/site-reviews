@@ -30,7 +30,7 @@ const moduleBundles = [
 // ------------------------------------------------------------------
 
 const jsBundles = [
-    commonJs('scripts/admin/index', 'assets/scripts', 'site-reviews-admin'),
+    commonJs('scripts/admin/index', 'assets/scripts/admin', 'admin'),
     js('integrations/elementor/elementor-editor', 'assets/scripts/integrations'),
     js('integrations/elementor/elementor-frontend', 'assets/scripts/integrations'),
     js('integrations/flatsome/flatsome-inline', 'assets/scripts/integrations'),
@@ -38,11 +38,11 @@ const jsBundles = [
     js('integrations/gamipress/gamipress', 'assets/scripts/integrations'),
     js('integrations/wpbakery/wpbakery-editor', 'assets/scripts/integrations'),
     js('integrations/wpbakery/wpbakery-inline', 'assets/scripts/integrations'),
-    js('scripts/admin/plugins/deactivate', 'assets/scripts', 'deactivate-plugin'),
+    js('scripts/admin/plugins/deactivate', 'assets/scripts/admin', 'deactivate'),
     js('scripts/inline-script'),
     js('scripts/site-reviews', 'assets/scripts', '', { budget: 4096 }), // the bootstrap is on every page
-    js('scripts/site-reviews-admin-compat'),
-    js('scripts/site-reviews-admin-debug'),
+    js('scripts/site-reviews-admin-compat', 'assets/scripts/admin', 'admin-compat'),
+    js('scripts/site-reviews-admin-debug', 'assets/scripts/admin', 'admin-debug'),
     js('scripts/site-reviews-compat'),
     js('scripts/site-reviews-debug'),
 ];

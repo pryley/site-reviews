@@ -53,7 +53,7 @@ test('the admin script does not read ?glsr-debug', () => {
 
 test('the debug scripts send nothing, store nothing and change nothing on the page', () => {
     const { read } = loadPublic();
-    for (const file of ['site-reviews-debug.js', 'site-reviews-admin-debug.js']) {
+    for (const file of ['site-reviews-debug.js', 'admin/admin-debug.js']) {
         const source = read(file);
         for (const forbidden of ['fetch(', 'XMLHttpRequest', 'sendBeacon', 'localStorage', 'sessionStorage', 'indexedDB', 'cookie', 'innerHTML', 'createElement', 'appendChild', 'insertAdjacent', 'classList', 'setAttribute', 'location']) {
             assert.equal(source.includes(forbidden), false, `${file} contains ${forbidden}`)
