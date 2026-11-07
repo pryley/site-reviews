@@ -201,6 +201,7 @@ test('rejects an unknown shortcode', function () {
     expect($response->get_status())->toBe(404);
     expect($response->get_data()['code'])->toBe('glsr_invalid_shortcode');
     expect(restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/not_an_option')->get_data())->toBe([]);
+    expect(restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/get')->get_data())->toBe([]); // a public method of the manager is not an option
 });
 
 test('the option in the path wins over an option in the query', function () {

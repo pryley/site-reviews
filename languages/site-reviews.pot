@@ -3698,7 +3698,7 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:26
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:25
 msgctxt "admin-text"
 msgid "Invalid shortcode."
 msgstr ""
