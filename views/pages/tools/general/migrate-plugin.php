@@ -20,7 +20,7 @@
                     data-ajax-click
                     data-ajax-scroll
                     data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
-                    data-remove-notice="migrate"
+                    data-remove-notice="migration"
                 ><?php echo _x('Migrate Plugin', 'admin-text', 'site-reviews'); ?>
                 </button>
                 <button type="submit" class="glsr-button button button-large"
@@ -28,7 +28,7 @@
                     data-ajax-scroll
                     data-alt
                     data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
-                    data-remove-notice="migrate"
+                    data-remove-notice="migration"
                 ><?php echo _x('Hard Reset', 'admin-text', 'site-reviews'); ?>
                 </button>
             </div>

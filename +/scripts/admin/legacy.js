@@ -1,80 +1,27 @@
-/** global: GLSR, jQuery, StarRating, wp */
+/** global: GLSR, jQuery, wp */
 
-import { config, adopt, feature, lib, dom, debounce, fadeIn, fadeOut, historyState, isEmpty, parseJson, selectText, throttle } from '@/public/core/index.js';
-import Ajax from '@/admin/ajax.js';
+/**
+ * The screen modules not yet rewritten on the admin standard, run as the old entry ran them.
+ */
+import { config } from '@/public/core/index.js';
 import ColorPicker from '@/admin/color-picker.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
-import Flyoutmenu from '@/admin/flyoutmenu.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
-import Notice, { instance as notices } from '@/admin/notice.js';
 import PremiumLicense from '@/admin/premium-license.js';
-import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
-import Request from '@/public/modules/request/request.js';
 import Search from '@/admin/search.js';
-import Sections from '@/admin/sections.js';
-import { share } from '@/admin/shared.js';
-import StarRating from '@/public/modules/form/starrating.js';
 import Status from '@/admin/status.js';
-import Tabs from '@/admin/tabs.js';
-import watchTabs from '@/admin/tabs-wrap.js';
-import TextareaResize from '@/admin/textarea-resize.js';
 import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
-import tippy, { followCursor } from 'tippy.js';
+import tippy from 'tippy.js';
 
-GLSR.Event = adopt(GLSR.Event);
-GLSR.lib = lib;
-share({ Ajax, notices })
-GLSR.Request = Request;
-GLSR.Notice = Notice;
-GLSR.Rating = StarRating();
-lib.register('tippy', { tippy, plugins: { followCursor } })
-GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
-
-Prism.languages.shortcode = {
-    tag: {
-        lookbehind: true,
-        pattern: /^(\[)[^\s]+/i,
-    },
-    string: {
-        greedy: true,
-        pattern: /"(?:\\[\s\S]|[^\\"])*"/,
-    },
-    variable: {
-        pattern: /([a-z_]+(?==))/i,
-    },
-    punctuation: {
-        pattern: /[=\[\]]/i,
-    },
-}
-
-function site_reviews_footer_notice () {
-    if (jQuery('.glsr-notice-footer').length) {
-        jQuery('#wpbody-content').addClass('has-footer-notice');
-    }
-}
-
-jQuery(function ($) {
-    Prism.highlightAll();
-    watchTabs()
-    notices()
-    GLSR.Rating.init('.glsr-field-rating select', { clearable: true });
-
-    tippy('.glsr-tooltip', {appendTo: () => document.body});
-    tippy('.glsr-setting-field button[data-tippy-content]', {appendTo: () => document.body});
-
-    $('.glsr-tooltip').each((i, el) => {
-        const content = el.dataset.tippyContent;
-        const syntax = el.dataset.syntax;
-        if (el._tippy && content && syntax && Prism.languages[syntax]) {
-            el._tippy.setContent('<pre class="language-' + syntax + '"><code>' + Prism.highlight(content, Prism.languages[syntax], syntax) + '</code></pre>')
-        }
-    });
+export default () => {
+    if ('function' !== typeof jQuery) return;
+    const $ = jQuery;
 
     $('.glsr-setting-field button.is-reset-button').click(ev => {
         const btn = $(ev.currentTarget);
@@ -82,7 +29,9 @@ jQuery(function ($) {
         textarea.val(btn.data('default'))
     })
 
-    $('.glsr-nav-tab').on('click:tab', (ev, id, $view) => {
+    $('.glsr-nav-tab').on('site-reviews/tab', (ev) => {
+        const { id, view } = ev.originalEvent.detail;
+        const $view = $(view);
         if ('system-info' !== id || 1 === $view.data('isLoaded')) return;
         const request = wp.ajax.post(config.request.ajax.action, {
             [config.nameprefix]: {
@@ -110,7 +59,6 @@ jQuery(function ($) {
     $('.glsr-filter').each((index, filterEl) => {
         new Filter(filterEl);
     })
-    new Flyoutmenu();
     new Forms('form.glsr-form');
     new Import();
     new Metabox();
@@ -184,9 +132,6 @@ jQuery(function ($) {
     });
     new Status('a.glsr-toggle-status');
     new PremiumLicense();
-    new Sections(); // this goes before Tabs
-    new Tabs();
-    new TextareaResize();
     new TogglePinned();
     new ToggleVerified();
     new Tools();
@@ -196,28 +141,6 @@ jQuery(function ($) {
     };
     $('select[data-glsr-track]').each(trackValue);
     $('select[data-glsr-track]').on('change', trackValue);
-
-    $('.glsr-card.postbox:not(.open)').addClass('closed')
-        .find('.glsr-accordion-trigger').attr('aria-expanded', false)
-        .closest('.glsr-nav-view').addClass('collapsed');
-
-    if ($('.glsr-support-step').not(':checked').length < 1) {
-        $('.glsr-card-result').removeClass('hidden');
-    }
-
-    $('.glsr-support-step').on('change', function () {
-        var action = $('.glsr-support-step').not(':checked').length > 0 ? 'add' : 'remove';
-        $('.glsr-card-result')[action + 'Class']('hidden');
-    });
-
-    $('.glsr-card.postbox .glsr-card-heading').on('click', function () {
-        var parent = $(this).parent();
-        var view = parent.closest('.glsr-nav-view');
-        var action = parent.hasClass('closed') ? 'remove' : 'add';
-        parent[action + 'Class']('closed').find('.glsr-accordion-trigger').attr('aria-expanded', action !== 'add');
-        action = view.find('.glsr-card.postbox').not('.closed').length > 0 ? 'remove' : 'add';
-        view[action + 'Class']('collapsed');
-    });
 
     if ('undefined' !== typeof inlineEditTax && $('.taxonomy-site-review-category').length) {
         let wp_inlineEditTax = inlineEditTax.edit;
@@ -247,8 +170,6 @@ jQuery(function ($) {
         }, 50);
     }
 
-    site_reviews_footer_notice();
-
     $('.glsr-videos__playlist a').on('click', function () {
         const playlist = $(this).closest('.glsr-videos__playlist');
         const style = window.getComputedStyle(playlist[0]);
@@ -265,17 +186,6 @@ jQuery(function ($) {
 
     $('.glsr-youtube-button').on('click', function () {
         loadYouTube($(this));
-    });
-
-    $('.glsr-screen-meta-toggle').on('click', function () {
-        let panel = $('#' + $(this).attr('aria-controls'));
-        if (!panel.length) return;
-        if (panel.is(':visible')) {
-            screenMeta.close(panel, $(this));
-            $('.glsr-screen-meta-toggle').removeClass('screen-meta-active').attr('aria-expanded', false);
-        } else {
-            screenMeta.open(panel, $(this));
-        }
     });
 
     $('#wpbody').on('copy', ev => {
@@ -324,7 +234,7 @@ jQuery(function ($) {
         tippy($btn.get(0)).setContent(label);
         $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
     })
-});
+};
 
 const loadYouTube = function (link) {
     let id = link.data('id');
@@ -341,4 +251,3 @@ const loadYouTube = function (link) {
     ytFrame.find('iframe').remove()
     ytFrame.prepend(iframe);
 }
-

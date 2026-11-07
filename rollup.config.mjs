@@ -30,7 +30,7 @@ const moduleBundles = [
 // ------------------------------------------------------------------
 
 const jsBundles = [
-    commonJs('scripts/site-reviews-admin'),
+    commonJs('scripts/admin/index', 'assets/scripts', 'site-reviews-admin'),
     js('integrations/elementor/elementor-editor', 'assets/scripts/integrations'),
     js('integrations/elementor/elementor-frontend', 'assets/scripts/integrations'),
     js('integrations/flatsome/flatsome-inline', 'assets/scripts/integrations'),

@@ -5,11 +5,6 @@ import Ajax from '@/admin/ajax.js';
 const Tools = function () {
     jQuery('form').on('click', '[data-ajax-click]', this.onAjaxClick_.bind(this))
     jQuery('.glsr-button[data-_action]').on('click', this.onButtonClick_.bind(this))
-    jQuery('.glsr-button').on('click', this.onExpand_)
-    jQuery('form.wp-upload-form').each((index, formEl) => {
-        jQuery(formEl).find('input[type="file"]').on('change', () => this.toggleUploadButton_(formEl))
-        this.toggleUploadButton_(formEl)
-    })
     jQuery('#proxy_http_header').on('change', function (ev) {
         const val = jQuery(this).val();
         jQuery('#custom_http_header').parent()['custom' === val ? 'removeClass' : 'addClass']('hidden')
@@ -25,7 +20,6 @@ Tools.prototype = {
                 jQuery(this).remove();
             });
         jQuery('.glsr-notice[data-notice="' + el.data('remove-notice') + '"]').remove();
-        jQuery('.glsr-notice a').on('click', this.onExpand_);
     },
     onAjaxClick_: function (ev) {
         const el = jQuery(ev.currentTarget);
@@ -49,19 +43,6 @@ Tools.prototype = {
             }
             this.handleNotices_(el)
         })
-    },
-    onExpand_: function (ev) {
-        const el = jQuery(ev.currentTarget);
-        if (el.data('expand')) {
-            localStorage.setItem('glsr-expand', el.data('expand'));
-        }
-    },
-    toggleUploadButton_: function (formEl) {
-        const input = jQuery(formEl).find('input[type="file"]');
-        const submit = jQuery(formEl).find('[type="submit"]');
-        submit.prop('disabled', '' === input.map(function () {
-            return jQuery(this).val();
-        }).get().join(''));
     },
 };
 
