@@ -1,5 +1,7 @@
 includes:
     - vendor/pryley/wp-plugin-tooling/phpstan/base.neon
+rules:
+  - GeminiLabs\SiteReviews\PhpStan\RestPermissionRule
 parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
