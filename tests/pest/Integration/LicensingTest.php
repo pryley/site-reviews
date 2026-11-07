@@ -104,7 +104,7 @@ test('an installed addon with no licence key is told so', function () {
 
     expect(renderedLicenseNotice(LicenseMissingNotice::class))
         ->toContain('glsr-notice-banner')
-        ->toContain(LicenseMissingNotice::class);
+        ->toContain('data-notice="license-missing"');
 });
 
 test('an addon with no key is not ALSO told its licence expired', function () {
@@ -126,7 +126,7 @@ test('an addon whose licence has run out is told to renew it', function () {
 
     expect(renderedLicenseNotice(LicenseExpiredNotice::class))
         ->toContain('glsr-notice-banner')
-        ->toContain(LicenseExpiredNotice::class);
+        ->toContain('data-notice="license-expired"');
     // The key was really read back and the server was really asked — every other test in this
     // file would be satisfied by an empty licence key, so this is the one that proves the path.
     expect($asked->getArrayCopy())->toBe(['check_license']);

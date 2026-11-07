@@ -406,8 +406,7 @@ class ReviewController extends AbstractController
         if (in_array('trash', [$post->post_status, $oldPost->post_status])) {
             return false; // trashed posts cannot be edited
         }
-        $input = 'edit' === glsr_current_screen()->base ? \INPUT_GET : \INPUT_POST;
-        return filter_input($input, 'action') !== glsr()->prefix.'admin_action'; // abort if not a proper post update (i.e. approve/unapprove)
+        return true;
     }
 
     /**

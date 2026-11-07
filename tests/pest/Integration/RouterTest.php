@@ -65,10 +65,10 @@ function recordRoute(string $hook): ArrayObject
  * the presence of the WordPress action — which is the only thing telling the
  * Router that this arrived over admin-ajax.php rather than as a form POST.
  */
-function ajaxPost(array $values, string $type = 'public'): void
+function ajaxPost(array $values): void
 {
     $_POST = [
-        'action' => glsr()->prefix.$type.'_action',
+        'action' => glsr()->prefix.'public_action',
         glsr()->id => $values,
     ];
     $_REQUEST = $_POST;
@@ -186,54 +186,12 @@ test('an unguarded ajax action is routed without a nonce', function () {
     expect($recorded)->toHaveCount(1);
 });
 
-test('the unguarded actions are the four a cached page needs, and the one the admin does', function () {
+test('the unguarded actions are the four a cached page needs', function () {
     // Named, because adding to this list is how a nonce check gets removed, and it
     // should not be possible to do that by accident.
     $public = protectedMethod(Router::class, 'unguardedPublicActions')->invoke(glsr(Router::class));
-    $admin = protectedMethod(Router::class, 'unguardedAdminActions')->invoke(glsr(Router::class));
 
     expect($public)->toBe(['approved-review', 'fetch-paged-reviews', 'submit-review', 'verified-review']);
-    expect($admin)->toBe(['dismiss-notice']);
-});
-
-test('an admin ajax request is nonced, and its errors are shown as an admin notice', function () {
-    // The admin router refuses the same request the public one would, and adds the
-    // one thing the admin has that the front end does not: a notice, rendered into
-    // the response so the admin JS can put it on the page.
-    $this->setUpAjax();
-    wp_set_current_user(createUser(['role' => 'administrator']));
-    ajaxPost(['_action' => 'test-route', '_nonce' => wp_create_nonce('some-other-route')], 'admin');
-
-    $response = $this->jsonSentBy(fn () => glsr(Router::class)->routeAdminAjaxRequest());
-
-    expect($response['data']['code'])->toBe(403)
-        ->and($response['data']['notices'])->toContain('There was an error')
-        ->and($response['data']['notices'])->toContain('reloading'); // with a way out of it
-});
-
-test('an admin ajax action with its own nonce is routed', function () {
-    $this->setUpAjax();
-    wp_set_current_user(createUser(['role' => 'administrator']));
-    ajaxPost(['_action' => 'test-route', '_nonce' => wp_create_nonce('test-route')], 'admin');
-    $recorded = recordRoute('route/ajax/test-route');
-
-    $this->jsonSentBy(fn () => glsr(Router::class)->routeAdminAjaxRequest());
-
-    expect($recorded)->toHaveCount(1);
-});
-
-test('the ajax router reaches the controller that answers the action', function () {
-    // The one that proves the two halves meet: the Router's `route/ajax/{action}`
-    // and the table in ToolsHooks that puts ToolsController on the other end of it.
-    $this->setUpAjax();
-    wp_set_current_user(createUser(['role' => 'administrator']));
-    glsr_log()->error('an error worth clearing');
-    ajaxPost(['_action' => 'clear-console', '_nonce' => wp_create_nonce('clear-console')], 'admin');
-
-    $response = $this->jsonSentBy(fn () => glsr(Router::class)->routeAdminAjaxRequest());
-
-    expect($response['success'])->toBeTrue();
-    expect(glsr(Console::class)->get())->toContain('Console is empty');
 });
 
 /*
@@ -274,7 +232,7 @@ test('admin_init ignores a request that is not the plugin\'s', function () {
     $_REQUEST = $_POST;
     glsr(Router::class)->routeAdminPostRequest();
 
-    ajaxPost(['_action' => 'test-route'], 'admin'); // ours, but it is an ajax request
+    ajaxPost(['_action' => 'test-route']); // ours, but it is an ajax request
     glsr(Router::class)->routeAdminPostRequest();
 
     // a REST request that admin-ajax carries: admin_init fires in admin-ajax too

@@ -19,7 +19,7 @@ test('a listener added before the admin script runs is kept', () => {
 test('the config is the one PHP printed, deep-frozen', () => {
     const { window } = loadAdmin();
     assert.deepEqual(plain(window.GLSR.config), adminConfig())
-    assert.equal(Object.isFrozen(window.GLSR.config.nonce), true)
+    assert.equal(Object.isFrozen(window.GLSR.config.rating), true)
 });
 
 test('Util has the same ten helpers as the public script', () => {
@@ -32,16 +32,14 @@ test('each key that 8.3 printed is a hidden getter onto the config', () => {
     const { GLSR } = window;
     const { config } = GLSR;
     assert.equal(GLSR.Utils, GLSR.Util)
-    assert.equal(GLSR.action, config.request.ajax.action)
     assert.equal(GLSR.addonsurl, config.urls.addons)
     assert.equal(GLSR.maxrating, 5)
     assert.equal(GLSR.minrating, 0)
     assert.equal(GLSR.nameprefix, config.nameprefix)
-    assert.equal(GLSR.nonce, config.nonce)
     assert.equal(GLSR.text.import_error, config.text.importError)
     assert.equal(GLSR.text.system_info_500, config.text.systemInfo500)
     assert.equal(GLSR.text.searching, 'Searching...')
-    assert.equal(Object.getOwnPropertyDescriptor(GLSR, 'nonce').enumerable, false)
+    assert.equal(Object.getOwnPropertyDescriptor(GLSR, 'addonsurl').enumerable, false)
 });
 
 test('GLSR.addons holds what an 8.x filter wrote', () => {
@@ -52,7 +50,7 @@ test('GLSR.addons holds what an 8.x filter wrote', () => {
 test('no deprecated key is defined when the layer is off', () => {
     const { window } = loadAdmin({ compat: false });
     assert.equal('Utils' in window.GLSR, false)
-    assert.equal('nonce' in window.GLSR, false)
+    assert.equal('addonsurl' in window.GLSR, false)
 });
 
 test('the admin script has its two modules and the tippy library', () => {

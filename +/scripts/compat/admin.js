@@ -15,12 +15,10 @@ const KEYS = {
 
 // A key before 9.0.0 => its path in the config.
 const PATHS = {
-    action: 'request.ajax.action',
     addonsurl: 'urls.addons',
     maxrating: 'rating.max',
     minrating: 'rating.min',
     nameprefix: 'nameprefix',
-    nonce: 'nonce',
     text: 'text',
 };
 

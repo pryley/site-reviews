@@ -55,8 +55,8 @@ class Request extends Arguments
     {
         $action = Helper::filterInput('action');
         $values = Helper::filterInputArray(glsr()->id);
-        if (in_array($action, [glsr()->prefix.'admin_action', glsr()->prefix.'public_action'])) {
-            $values['_ajax_request'] = true;
+        if (glsr()->prefix.'public_action' === $action) {
+            $values['_ajax_request'] = true; // this is a public AJAX request
         }
         $requestAction = Helper::filterInput('_action', $values);
         if (in_array($requestAction, glsr(Captcha::class)->actions())) {

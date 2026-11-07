@@ -12,7 +12,6 @@ class NoticeHooks extends AbstractHooks
             ['activatePlugin', 'current_screen'],
             ['adminNotices', 'admin_head'],
             ['dismissNotice', 'site-reviews/route/admin/dismiss-notice'],
-            ['dismissNoticeAjax', 'site-reviews/route/ajax/dismiss-notice'],
             ['injectAfterNotices', 'admin_notices', \PHP_INT_MAX],
             ['injectBeforeNotices', 'admin_notices', -9999],
         ]);

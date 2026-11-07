@@ -12,7 +12,6 @@ class DeactivationHooks extends AbstractHooks
             ['enqueueAssets', 'admin_enqueue_scripts'],
             ['filterActionLinks', "plugin_action_links_{$this->basename}"],
             ['renderTemplate', 'admin_footer'],
-            ['submitDeactivateReasonAjax', 'site-reviews/route/ajax/deactivate'],
         ]);
     }
 }

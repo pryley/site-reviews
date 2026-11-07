@@ -118,7 +118,7 @@ test('the licensing hooks are registered apart from those of plugin/Hooks, and p
     }
 });
 
-test('the review post type is registered on init, and the routes on the ajax actions', function () {
+test('the review post type is registered on init, and the public routes on the ajax actions', function () {
     // A spot check that the tables say what they are supposed to say — the two hooks
     // the whole plugin hangs off. MainHooks' entries go through HookProxy (init is
     // WordPress's hook, not the plugin's), so the callback is a closure and cannot be
@@ -141,7 +141,7 @@ test('the review post type is registered on init, and the routes on the ajax act
     expect($hookNames)
         ->toContain('wp_ajax_'.glsr()->prefix.'public_action')
         ->toContain('wp_ajax_nopriv_'.glsr()->prefix.'public_action')
-        ->toContain('wp_ajax_'.glsr()->prefix.'admin_action');
+        ->not->toContain('wp_ajax_'.glsr()->prefix.'admin_action');
 });
 
 /*

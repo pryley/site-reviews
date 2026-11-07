@@ -19,7 +19,7 @@ test('both scripts run on one page without an error, in either order', () => {
 test('the config holds the subjects of both scripts', () => {
     for (const order of ORDERS) {
         const { config } = loadBoth({ order }).window.GLSR;
-        assert.equal(config.nonce['toggle-filters'], 'abc123') // admin
+        assert.equal(config.urls.addons, 'https://example.org/wp-admin/edit.php?post_type=site-review&page=glsr-addons') // admin
         assert.equal(config.validation.field, 'glsr-field') // public
         assert.deepEqual(plain(config.rating), { clearable: false, max: 5, min: 0, tooltip: 'Select a Rating' })
         assert.equal(config.text.cancel, 'Cancel')

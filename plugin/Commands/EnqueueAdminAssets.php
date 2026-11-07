@@ -17,27 +17,12 @@ class EnqueueAdminAssets extends AbstractCommand
     {
         return [
             'nameprefix' => glsr()->id,
-            'nonce' => [
-                'clear-console' => wp_create_nonce('clear-console'),
-                'console-level' => wp_create_nonce('console-level'),
-                'fetch-console' => wp_create_nonce('fetch-console'),
-                'geolocate-reviews' => wp_create_nonce('geolocate-reviews'),
-                'search-posts' => wp_create_nonce('search-posts'),
-                'search-strings' => wp_create_nonce('search-strings'),
-                'search-users' => wp_create_nonce('search-users'),
-                'system-info' => wp_create_nonce('system-info'),
-                'toggle-filters' => wp_create_nonce('toggle-filters'),
-                'toggle-pinned' => wp_create_nonce('toggle-pinned'),
-                'toggle-status' => wp_create_nonce('toggle-status'),
-                'toggle-verified' => wp_create_nonce('toggle-verified'),
-            ],
             'rating' => [
                 'max' => Rating::max(),
                 'min' => Rating::min(),
             ],
             'request' => [
                 'ajax' => [
-                    'action' => glsr()->prefix.'admin_action',
                     'rest' => glsr()->prefix.'rest_request',
                     'url' => admin_url('admin-ajax.php'),
                 ],

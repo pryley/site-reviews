@@ -4,24 +4,10 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Modules\Mutex;
-use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router implements ControllerContract
 {
     use HookProxy;
-
-    /**
-     * @action wp_ajax_glsr_admin_action
-     */
-    public function routeAdminAjaxRequest(): void
-    {
-        $request = Request::inputPost();
-        $this->checkAjaxRequest($request);
-        $this->checkAjaxNonce($request, 'admin');
-        $this->checkMutexRequest($request);
-        $this->post('ajax', $request);
-        wp_die();
-    }
 
     /**
      * A routed admin GET request will look like this: /wp-admin/?glsr_=.
@@ -60,7 +46,7 @@ class Router implements ControllerContract
     {
         $request = Request::inputPost();
         $this->checkAjaxRequest($request);
-        $this->checkAjaxNonce($request, 'public');
+        $this->checkAjaxNonce($request);
         $this->checkMutexRequest($request);
         $this->post('ajax', $request);
         wp_die();
@@ -103,12 +89,9 @@ class Router implements ControllerContract
         $this->post('public', $request);
     }
 
-    protected function checkAjaxNonce(Request $request, string $type): void
+    protected function checkAjaxNonce(Request $request): void
     {
-        $unguardedActions = 'admin' === $type
-            ? $this->unguardedAdminActions()
-            : $this->unguardedPublicActions();
-        if (in_array($request->_action, $unguardedActions)) {
+        if (in_array($request->_action, $this->unguardedPublicActions())) {
             return;
         }
         if (empty($request->_nonce)) {
@@ -230,27 +213,10 @@ class Router implements ControllerContract
         if ('submit-review' === $request->_action) {
             $data['message'] = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
         }
-        if (glsr()->prefix.'admin_action' === Helper::filterInput('action')) {
-            $message = _x('There was an error', 'admin-text', 'site-reviews');
-            $advice = sprintf(
-                /* translators: %s: a button with the text "reloading" */
-                _x('Try %s the page.', 'try reloading the page (admin-text)', 'site-reviews'),
-                sprintf('<button type="button" class="button-link" onclick="location.reload()">%s</button>', _x('reloading', '(admin-text) e.g. try reloading the page', 'site-reviews')),
-            );
-            glsr(Notice::class)->addError("{$message}: <code>{$error}</code>, {$advice}");
-            $data['notices'] = glsr(Notice::class)->get();
-        }
         if (429 !== $errCode) {
             glsr_log()->debug($request->toArray());
         }
         wp_send_json_error($data);
-    }
-
-    protected function unguardedAdminActions(): array
-    {
-        return glsr()->filterArray('router/admin/unguarded-actions', [
-            'dismiss-notice',
-        ]);
     }
 
     protected function unguardedPublicActions(): array

@@ -10,9 +10,7 @@ class VerificationHooks extends AbstractHooks
     {
         $this->hook(VerificationController::class, [
             ['renderVerifyAction', 'post_submitbox_misc_actions', 20],
-            ['resendVerificationEmailAjax', 'site-reviews/route/ajax/request-verification'],
             ['sendVerificationEmail', 'site-reviews/review/created', 10, 2],
-            ['toggleVerifiedAjax', 'site-reviews/route/ajax/toggle-verified'],
             ['verifyReview', 'site-reviews/route/get/public/verify'],
         ]);
     }

@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Commands\DeactivatePlugin;
 use GeminiLabs\SiteReviews\Helpers\Svg;
-use GeminiLabs\SiteReviews\Request;
 
 class DeactivationController extends AbstractController
 {
@@ -68,15 +66,6 @@ class DeactivationController extends AbstractController
         if ('plugins.php' === $pagenow) {
             glsr()->render('tmpl-deactivate-plugin');
         }
-    }
-
-    /**
-     * @action site-reviews/route/ajax/deactivate
-     */
-    public function submitDeactivateReasonAjax(Request $request): void
-    {
-        $this->execute(new DeactivatePlugin($request));
-        wp_send_json_success();
     }
 
     protected function deactivatePlugins(): array

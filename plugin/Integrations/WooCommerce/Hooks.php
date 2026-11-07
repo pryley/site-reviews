@@ -35,8 +35,6 @@ class Hooks extends IntegrationHooks
         $this->hook(ImportController::class, [
             ['filterImportStages', 'site-reviews/import/stages', 10, 2],
             ['filterTools', 'site-reviews/tools/general'],
-            ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
-            ['migrateProductRatingsAjax', 'site-reviews/route/ajax/migrate-product-ratings'],
         ]);
         if ($this->isEnabled()) {
             $this->runIfEnabled();
