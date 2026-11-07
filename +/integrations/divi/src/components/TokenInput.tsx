@@ -30,13 +30,12 @@ const TokenInput: React.FC<TokenInputProps> = ({
     try {
       const params = new URLSearchParams({
         include: value.join(','),
-        option,
         ...(querySearch && { search: querySearch }),
       });
 
       const response = await loggedFetch({
         method:    'GET',
-        restRoute: `/site-reviews/v1/shortcode/${shortcode}?${params.toString()}`,
+        restRoute: `/site-reviews/v1/shortcodes/${shortcode}/options/${option}?${params.toString()}`,
       });
 
       setOptions(

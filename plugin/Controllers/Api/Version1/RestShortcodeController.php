@@ -5,6 +5,9 @@ namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 
+/**
+ * The options of a shortcode's editor controls used by blocks and page builder integrations.
+ */
 class RestShortcodeController extends AbstractRestController
 {
     /**
@@ -15,16 +18,12 @@ class RestShortcodeController extends AbstractRestController
      */
     public function checkShortcodePermission(\WP_REST_Request $request)
     {
-        if (!glsr()->can('edit_posts')) {
-            $error = _x('Sorry, you are not allowed to do that.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_forbidden_context', $error, [
-                'status' => rest_authorization_required_code(),
-            ]);
+        $permission = $this->permission('edit_posts');
+        if (is_wp_error($permission)) {
+            return $permission;
         }
         if (!glsr()->shortcode($request['shortcode'])) {
-            return new \WP_Error('rest_invalid_shortcode', 'Invalid shortcode', [
-                'status' => 400,
-            ]);
+            return $this->refuse('invalid_shortcode', _x('Invalid shortcode.', 'admin-text', 'site-reviews'), 404);
         }
         return true;
     }
@@ -45,8 +44,18 @@ class RestShortcodeController extends AbstractRestController
 
     public function registerRoutes(): void
     {
-        register_rest_route($this->restNamespace(), '/shortcode/(?P<shortcode>[a-z_]+)', [
+        register_rest_route($this->restNamespace(), '/shortcodes/(?P<shortcode>[a-z_]+)/options/(?P<option>[a-z_]+)', [
             [
+                'args' => [
+                    'include' => [
+                        'default' => '',
+                        'type' => 'string', // ids joined by commas
+                    ],
+                    'search' => [
+                        'default' => '',
+                        'type' => 'string',
+                    ],
+                ],
                 'callback' => [$this, 'fetchOptions'],
                 'methods' => \WP_REST_Server::READABLE,
                 'permission_callback' => [$this, 'checkShortcodePermission'],

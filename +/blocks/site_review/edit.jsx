@@ -9,7 +9,7 @@ const Edit = (props) => {
     const { style_rating_color, style_rating_color_custom } = attributes;
     const controls = {
         hide: <AjaxToggleGroupControl
-            endpoint='/site-reviews/v1/shortcode/site_review?option=hide'
+            endpoint='/site-reviews/v1/shortcodes/site_review/options/hide'
             key='hide'
             onChange={ (hide) => setAttributes({ hide }) }
             value={ attributes.hide }
@@ -24,7 +24,7 @@ const Edit = (props) => {
             value={ attributes.id }
         />,
         post_id: <AjaxSearchControl
-            endpoint='/site-reviews/v1/shortcode/site_review?option=post_id'
+            endpoint='/site-reviews/v1/shortcodes/site_review/options/post_id'
             help={ _x('Search for a review to display.', 'admin-text', 'site-reviews') }
             key='post_id'
             label={ _x('Review Post ID', 'admin-text', 'site-reviews') }

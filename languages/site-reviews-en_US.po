@@ -6243,7 +6243,6 @@ msgstr "Review update failed, please check the Site Reviews console log for more
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
 #: plugin/Controllers/Api/Version1/RestSearchController.php:23
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
@@ -9692,4 +9691,9 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/RestReviewPartsController.php:263
 msgctxt "admin-text"
 msgid "The status could not be changed."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:26
+msgctxt "admin-text"
+msgid "Invalid shortcode."
 msgstr ""

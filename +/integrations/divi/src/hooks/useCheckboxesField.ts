@@ -13,9 +13,8 @@ export const useCheckboxesField = (shortcode: string, option: string) => {
     const fetchOptions = async () => {
         try {
             const response = await loggedFetch({
-                data: { option },
                 method: 'GET',
-                restRoute: `/site-reviews/v1/shortcode/${shortcode}`,
+                restRoute: `/site-reviews/v1/shortcodes/${shortcode}/options/${option}`,
             });
             setOptions(response.map(transformItem));
         } catch (error) {

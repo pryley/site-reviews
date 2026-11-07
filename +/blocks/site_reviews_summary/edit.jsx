@@ -23,7 +23,7 @@ const Edit = (props) => {
     }, []);
     const controls = {
         assigned_posts: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=assigned_posts'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/assigned_posts'
             key='assigned_posts'
             label={ _x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews') }
             onChange={ (assigned_posts) => setAttributes({ assigned_posts }) }
@@ -32,7 +32,7 @@ const Edit = (props) => {
             value={ attributes.assigned_posts }
         />,
         assigned_terms: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=assigned_terms'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/assigned_terms'
             key='assigned_terms'
             label={ _x('Limit Reviews by Categories', 'admin-text', 'site-reviews') }
             onChange={ (assigned_terms) => setAttributes({ assigned_terms }) }
@@ -40,7 +40,7 @@ const Edit = (props) => {
             value={ attributes.assigned_terms }
         />,
         assigned_users: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=assigned_users'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/assigned_users'
             key='assigned_users'
             label={ _x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews') }
             onChange={ (assigned_users) => setAttributes({ assigned_users }) }
@@ -49,7 +49,7 @@ const Edit = (props) => {
             value={ attributes.assigned_users }
         />,
         author: <AjaxSearchControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=author'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/author'
             key='author'
             label={ _x('Limit Reviews by Review Author', 'admin-text', 'site-reviews') }
             onChange={ (author) => setAttributes({ author }) }
@@ -58,7 +58,7 @@ const Edit = (props) => {
             value={ attributes.author }
         />,
         hide: <AjaxToggleGroupControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=hide'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/hide'
             key='hide'
             onChange={ (hide) => setAttributes({ hide }) }
             value={ attributes.hide }
@@ -144,7 +144,7 @@ const Edit = (props) => {
             props={ props }
         />,
         terms: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=terms'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/terms'
             key='terms'
             label={ _x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews') }
             onChange={ (terms) => setAttributes({ terms }) }
@@ -167,7 +167,7 @@ const Edit = (props) => {
             </Notice>
         </BaseControl>,
         type: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=type'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/type'
             hideIfEmpty={ true }
             key='type'
             label={ _x('Limit Reviews by Type', 'admin-text', 'site-reviews') }
@@ -176,7 +176,7 @@ const Edit = (props) => {
             value={ attributes.type }
         />,
         verified: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=verified'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_summary/options/verified'
             key='verified'
             label={ _x('Limit Reviews by Verified Status', 'admin-text', 'site-reviews') }
             onChange={ (verified) => setAttributes({ verified }) }

@@ -11,14 +11,13 @@ export const useFormTokenField = (shortcode: string, option: string, value: stri
 
     const data = () => {
         const data = {
-            ...Object.fromEntries(new URLSearchParams(`option=${option}`)),
             include: value.join(','),
             search,
         };
         return {
             data: pickBy(data, value => '' !== value),
             method: 'GET',
-            restRoute: `/site-reviews/v1/shortcode/${shortcode}`,
+            restRoute: `/site-reviews/v1/shortcodes/${shortcode}/options/${option}`,
         }
     };
 
