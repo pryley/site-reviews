@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -125,4 +126,72 @@ test('a verification request is refused for somebody who may not edit the review
     expect($response->get_status())->toBe(403);
     expect($response->get_data()['code'])->toBe('glsr_forbidden');
     expect(sentMail())->toBe([]);
+});
+
+/*
+ * The parts of the collection the Tools page acts on.
+ */
+
+test('registers the collection part routes', function () {
+    $routes = $GLOBALS['wp_rest_server']->get_routes();
+    foreach (['counts', 'import', 'locations', 'relations'] as $part) {
+        expect($routes)->toHaveKey(REVIEWS_NS.'/'.$part);
+    }
+});
+
+test('every collection part refuses a subscriber with a glsr_ code', function () {
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    foreach ([
+        ['DELETE', '/locations'],
+        ['DELETE', '/relations', ['invalid' => true]],
+        ['POST', '/counts'],
+        ['POST', '/import', ['stage' => 4]],
+        ['POST', '/locations'],
+    ] as $call) {
+        [$method, $route, $params] = $call + [2 => []];
+        $response = restRequest($method, REVIEWS_NS.$route, $params);
+        expect($response->get_status())->toBe(403, $route);
+        expect($response->get_data()['code'])->toBe('glsr_forbidden', $route);
+    }
+});
+
+test('the reviews are geolocated', function () {
+    $response = restRequest('POST', REVIEWS_NS.'/locations');
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data()['notices'])->toContain('already been geolocated'); // no review has an IP address here
+});
+
+test('the location data is removed', function () {
+    commitsTransaction(); // RemoveLocationData empties the stats table with a TRUNCATE, which is DDL
+    $response = restRequest('DELETE', REVIEWS_NS.'/locations');
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data()['notices'])->toContain('Successfully removed the geolocation data');
+});
+
+test('the assignment counts are recalculated', function () {
+    $response = restRequest('POST', REVIEWS_NS.'/counts');
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data())->toHaveKey('notices');
+});
+
+test('the invalid relations are removed, and the argument has to say so', function () {
+    $response = restRequest('DELETE', REVIEWS_NS.'/relations', ['invalid' => true]);
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data()['notices'])->toContain('repaired');
+
+    expect(restRequest('DELETE', REVIEWS_NS.'/relations')->get_status())->toBe(400);
+    expect(restRequest('DELETE', REVIEWS_NS.'/relations', ['invalid' => false])->get_status())->toBe(400);
+});
+
+test('an import runs one stage of its source, and knows no other source', function () {
+    // The stages themselves are CsvImportTest's; stage 4 is the cleanup, which needs no file.
+    $response = restRequest('POST', REVIEWS_NS.'/import', ['stage' => 4]);
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data())->toHaveKey('notices');
+
+    expect(restRequest('POST', REVIEWS_NS.'/import', ['stage' => 5])->get_status())->toBe(400);
+    expect(restRequest('POST', REVIEWS_NS.'/import')->get_status())->toBe(400); // the stage is required
+    $unknown = restRequest('POST', REVIEWS_NS.'/import', ['source' => 'tripadvisor', 'stage' => 1]);
+    expect($unknown->get_status())->toBe(404);
+    expect($unknown->get_data()['code'])->toBe('glsr_invalid_import_source');
 });

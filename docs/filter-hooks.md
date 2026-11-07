@@ -135,6 +135,7 @@ site-reviews/gamipress/posts/post_types                     (array $postTypes): 
 site-reviews/hook/rethrow                                   (bool $rethrow, Throwable $error, string $method): bool
 site-reviews/import/review/attachments                      (int $attachmentUrls, Request $request, Review $review, bool $isNewReview): int
 site-reviews/import/reviews/attachments                     (array $result, int $limit, int $offset): array
+site-reviews/import/stages                                  (array $stages, string $source): array
 site-reviews/integration/subsubsub                          (array $subsubsub): array
 site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
 site-reviews/is-local-server                                (bool $bool): bool

@@ -15,6 +15,27 @@ use GeminiLabs\SiteReviews\Request;
 class ImportController extends AbstractController
 {
     /**
+     * @filter site-reviews/import/stages
+     */
+    public function filterImportStages(array $stages, string $source): array
+    {
+        if ('woocommerce' === $source) {
+            return [
+                1 => CountProductReviews::class,
+                2 => ImportProductReviews::class,
+                3 => ImportProductReviewsAttachments::class,
+                4 => ImportProductReviewsCleanup::class,
+            ];
+        }
+        if ('woocommerce-ratings' === $source) {
+            return [
+                1 => MigrateProductRatings::class,
+            ];
+        }
+        return $stages;
+    }
+
+    /**
      * @filter site-reviews/tools/general
      */
     public function filterTools(array $paths): array
