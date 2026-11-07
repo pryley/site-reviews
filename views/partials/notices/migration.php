@@ -15,6 +15,7 @@
             <button type="submit" class="glsr-button button button-primary"
                 data-ajax-click
                 data-remove-notice="migration"
+                data-route="migrations"
                 data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Run Migration', 'admin-text', 'site-reviews'); ?>
             </button>

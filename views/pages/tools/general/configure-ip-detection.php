@@ -34,7 +34,6 @@ $trustedProxies = implode("\n", $trustedProxies);
         <form method="post">
             <?php wp_nonce_field('ip-address-detection'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="ip-address-detection">
-            <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
             <fieldset>
                 <div>
                     <label for="proxy_http_header">
@@ -67,13 +66,14 @@ $trustedProxies = implode("\n", $trustedProxies);
                     data-ajax-click
                     data-ajax-scroll
                     data-loading="<?php echo esc_attr_x('Saving, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-route="ip-address-proxy"
                 ><?php echo _x('Save', 'admin-text', 'site-reviews'); ?>
                 </button>
                 <button type="submit" class="glsr-button button button-large"
                     data-ajax-click
                     data-ajax-scroll
-                    data-alt
                     data-loading="<?php echo esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-route="ip-address"
                 ><?php echo _x('Test IP Address Detection', 'admin-text', 'site-reviews'); ?>
                 </button>
             </div>

@@ -225,7 +225,6 @@ class MenuController extends AbstractController
                 ],
                 'myisam_tables' => Arr::get(glsr(Tables::class)->tableEngines(), 'MyISAM', []),
                 'rollback_locked' => glsr(UpdateLock::class)->isLocked(glsr()->basename),
-                'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
                 'rollback_stops' => $this->rollbackStops(glsr(Cache::class)->getPluginVersions()),
                 'rollback_versions' => glsr(Cache::class)->getPluginVersions(),
             ],

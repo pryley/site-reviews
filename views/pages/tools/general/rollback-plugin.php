@@ -34,7 +34,6 @@
                     glsr()->name
                 ); ?>
             </p>
-            <script><?php echo $rollback_script; ?></script>
             <div id="rollback-dialog" class="notification-dialog-wrap hidden">
                 <div class="notification-dialog-background"></div>
                 <div class="notification-dialog" role="dialog" aria-modal="true" aria-labelledby="rollback-dialog-title">

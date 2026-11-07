@@ -171,7 +171,6 @@ test('the rollback card shows a notice in place of the form on a locked checkout
     wp_set_current_user(createUser(['role' => 'administrator'])); // the card needs update_plugins
     $page = glsr()->build('pages/tools/general/rollback-plugin', [
         'rollback_locked' => true,
-        'rollback_script' => '',
         'rollback_versions' => ['8.0.0'],
         'rollback_stops' => [],
     ]);
@@ -184,7 +183,6 @@ test('the rollback card shows the form when the checkout is not locked', functio
     wp_set_current_user(createUser(['role' => 'administrator']));
     $page = glsr()->build('pages/tools/general/rollback-plugin', [
         'rollback_locked' => false,
-        'rollback_script' => '',
         'rollback_versions' => ['8.0.0'],
         'rollback_stops' => [],
     ]);

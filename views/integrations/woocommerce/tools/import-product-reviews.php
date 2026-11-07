@@ -28,6 +28,7 @@
             <div>
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-ajax-import
+                    data-args='{"source":"woocommerce"}'
                     data-loading="<?php echo esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"
                     data-per_page="50"
                 ><?php echo _x('Import Reviews', 'admin-text', 'site-reviews'); ?>
@@ -42,21 +43,23 @@
         <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('migrate-product-ratings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="migrate-product-ratings">
-            <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
             <div>
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-ajax-click
                     data-ajax-scroll
+                    data-args='{"source":"woocommerce-ratings","stage":1}'
                     data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
                     data-remove-notice="migrate-product-ratings"
+                    data-route="import"
                 ><?php echo _x('Migrate Product Ratings', 'admin-text', 'site-reviews'); ?>
                 </button>
                 <button type="submit" class="glsr-button button button-large"
                     data-ajax-click
                     data-ajax-scroll
-                    data-alt
+                    data-args='{"revert":1,"source":"woocommerce-ratings","stage":1}'
                     data-loading="<?php echo esc_attr_x('Reverting, please wait...', 'admin-text', 'site-reviews'); ?>"
                     data-remove-notice="migrate-product-ratings"
+                    data-route="import"
                 ><?php echo _x('Revert', 'admin-text', 'site-reviews'); ?>
                 </button>
             </div>

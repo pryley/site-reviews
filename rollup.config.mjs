@@ -40,7 +40,6 @@ const jsBundles = [
     js('integrations/wpbakery/wpbakery-inline', 'assets/scripts/integrations'),
     js('scripts/deactivate-plugin'),
     js('scripts/inline-script'),
-    js('scripts/rollback'),
     js('scripts/site-reviews', 'assets/scripts', '', { budget: 4096 }), // the bootstrap is on every page
     js('scripts/site-reviews-admin-compat'),
     js('scripts/site-reviews-admin-debug'),

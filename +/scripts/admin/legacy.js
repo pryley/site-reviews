@@ -3,41 +3,11 @@
 /**
  * The screen modules not yet rewritten on the admin standard, run as the old entry ran them.
  */
-import { config } from '@/public/core/index.js';
-import Import from '@/admin/import.js';
-import Tools from '@/admin/tools.js';
 
 export default () => {
     if ('function' !== typeof jQuery) return;
     const $ = jQuery;
 
-    $('.glsr-nav-tab').on('site-reviews/tab', (ev) => {
-        const { id, view } = ev.originalEvent.detail;
-        const $view = $(view);
-        if ('system-info' !== id || 1 === $view.data('isLoaded')) return;
-        const request = wp.ajax.post(config.request.ajax.action, {
-            [config.nameprefix]: {
-                _action: id,
-                _nonce: config.nonce[id],
-            },
-        }).done(response => {
-            $view.data('isLoaded', 1)
-            $view.find('textarea').val(response.data);
-            $view.find('button').removeAttr('disabled');
-        }).fail((response, textStatus, errorThrown) => {
-            $view.find('textarea').val(config.text.systemInfoFailed);
-            if (response?.notices) {
-                GLSR.Notice.error(response.notices);
-                return;
-            }
-            const error = (500 === response.status) ? config.text.systemInfo500 : wp.i18n.sprintf(config.text.systemInfoError, response.status, response.responseText);
-            GLSR.Notice.error(error);
-            console.error({ response, textStatus, errorThrown });
-        })
-    })
-
-    new Import();
-    new Tools();
 
     $('.glsr-videos__playlist a').on('click', function () {
         const playlist = $(this).closest('.glsr-videos__playlist');

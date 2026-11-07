@@ -28,7 +28,9 @@
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-ajax-click
                     data-ajax-scroll
+                    data-args='{"invalid":1}'
                     data-loading="<?php echo esc_attr_x('Repairing relations, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-route="relations-remove"
                 ><?php echo _x('Repair Relations', 'admin-text', 'site-reviews'); ?>
                 </button>
             </div>
