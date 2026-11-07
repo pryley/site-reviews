@@ -35,9 +35,5 @@
     <input type="hidden" name="{{ database_key }}[settings][strings][]">
 </div>
 
-<script type="text/html" id="tmpl-glsr-string-plural">
-<?php include glsr()->path('views/partials/strings/plural.php'); ?>
-</script>
-<script type="text/html" id="tmpl-glsr-string-single">
-<?php include glsr()->path('views/partials/strings/single.php'); ?>
-</script>
+<template id="tmpl-glsr-string-plural"><?php include glsr()->path('views/partials/strings/plural.php'); ?></template>
+<template id="tmpl-glsr-string-single"><?php include glsr()->path('views/partials/strings/single.php'); ?></template>
