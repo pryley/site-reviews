@@ -7,9 +7,7 @@ import { config } from '@/public/core/index.js';
 import ColorPicker from '@/admin/color-picker.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
-import Metabox from '@/admin/metabox.js';
 import PremiumLicense from '@/admin/premium-license.js';
-import PublishAction from '@/admin/publish-action.js';
 import Search from '@/admin/search.js';
 import Tools from '@/admin/tools.js';
 import tippy from 'tippy.js';
@@ -52,8 +50,6 @@ export default () => {
     ColorPicker();
     new Forms('form.glsr-form');
     new Import();
-    new Metabox();
-    new PublishAction();
     new Search('#glsr-search-translations', {
         action: 'search-strings',
         onInit: function () {
@@ -84,18 +80,6 @@ export default () => {
     $('select[data-glsr-track]').each(trackValue);
     $('select[data-glsr-track]').on('change', trackValue);
 
-    if ('undefined' !== typeof inlineEditTax && $('.taxonomy-site-review-category').length) {
-        let wp_inlineEditTax = inlineEditTax.edit;
-        inlineEditTax.edit = function (id) {
-            wp_inlineEditTax.apply(this, arguments);
-            if ('object' === typeof(id)) {
-                id = this.getId(id);
-            }
-            let row = $(this.what+id);
-            let val = $('td.term_priority', row).text();
-            $('.wp-list-table :input[name="term_priority"]').val(val);
-        }
-    }
     $('.glsr-videos__playlist a').on('click', function () {
         const playlist = $(this).closest('.glsr-videos__playlist');
         const style = window.getComputedStyle(playlist[0]);

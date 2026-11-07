@@ -40,6 +40,16 @@ try {
     await users.locator('.glsr-search-results span').first().click();
     assert(1 === await users.locator('.glsr-selected-entries input[name="user_ids[]"]').count(), 'choosing a user result assigns the user');
 
+    // the Author box is the list table's dropdown with a users search
+    const author = page.locator('#post_author_override');
+    await author.locator('.glsr-filter__selected').dispatchEvent('mousedown');
+    await page.waitForFunction(() => 'true' === document.querySelector('#post_author_override')?.getAttribute('aria-expanded'));
+    await author.locator('.glsr-filter__search').fill('admin');
+    await author.locator('.glsr-filter__results > span[data-id]:not([data-id="0"])').first().waitFor();
+    await author.locator('.glsr-filter__results > span[data-id]:not([data-id="0"])').first().dispatchEvent('mousedown');
+    equal(await author.locator('.glsr-filter__value').inputValue(), '1', 'choosing a user in the Author box writes its id into the field the form posts');
+    assert((await author.locator('.glsr-filter__selected').innerText()).trim().length > 0, 'and shows the user as the selected author');
+
     // the pinned control in the publish box
     const pinned = page.locator('#misc-pub-pinned');
     assert(await pinned.locator('#pinned-status-select').isHidden(), 'the pinned select starts hidden');

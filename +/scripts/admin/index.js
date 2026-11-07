@@ -7,6 +7,7 @@
 import { adopt, debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, lib, parseJson, selectText, throttle } from '@/public/core/index.js';
 import Ajax from '@/admin/ajax.js';
 import Assigned from '@/admin/review/assigned.js';
+import CategoryQuickEdit from '@/admin/category/quick-edit.js';
 import Cards from '@/admin/shared/cards.js';
 import Code from '@/admin/shared/code.js';
 import Filter from '@/admin/reviews/filter.js';
@@ -14,7 +15,9 @@ import Filters from '@/admin/reviews/filters.js';
 import Flyout from '@/admin/shared/flyout.js';
 import FooterNotice from '@/admin/shared/footer-notice.js';
 import legacy from '@/admin/legacy.js';
+import Metabox from '@/admin/review/metabox.js';
 import Notice, { Notices } from '@/admin/shared/notice.js';
+import PublishAction from '@/admin/review/publish-action.js';
 import QuickEdit from '@/admin/reviews/quick-edit.js';
 import Request from '@/public/modules/request/request.js';
 import ScreenMeta from '@/admin/shared/screen-meta.js';
@@ -25,6 +28,7 @@ import Tabs from '@/admin/shared/tabs.js';
 import ToggleFlag from '@/admin/reviews/toggle-flag.js';
 import Tooltip from '@/admin/shared/tooltip.js';
 import UploadForm from '@/admin/shared/upload-form.js';
+import Verification from '@/admin/review/verification.js';
 import tippy, { followCursor } from 'tippy.js';
 
 GLSR.Event = adopt(GLSR.Event);
@@ -41,8 +45,9 @@ const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, To
 // the modules of each screen determined by the classes of its body
 const SCREENS = [
     { classes: ['edit-php', 'post-type-site-review'], modules: [Assigned, Filter, Filters, QuickEdit, Status, ToggleFlag] },
-    { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned] },
-    { classes: ['post-php', 'post-type-site-review'], modules: [Assigned] },
+    { classes: ['edit-tags-php', 'taxonomy-site-review-category'], modules: [CategoryQuickEdit] },
+    { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
+    { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
 ];
 
 const init = () => {

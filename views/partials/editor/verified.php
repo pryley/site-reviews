@@ -39,8 +39,6 @@
             <!-- The "position:sticky" style fixes the ".is-busy" animation when an ancestor element has a white background -->
             <button type="button" id="glsr-request-verification" class="glsr-button button" style="position:sticky;"
                 aria-busy="false"
-                data-_action="request-verification"
-                data-_nonce="<?php echo wp_create_nonce('request-verification'); ?>"
                 data-loading="Sending email..."
                 data-post_id="<?php echo (int) get_the_ID(); ?>"
             ><?php echo $text; ?></button>
