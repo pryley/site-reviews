@@ -16,6 +16,9 @@ const fakeFetch = (window, responses) => {
     const calls = [];
     window.fetch = async (url, options = {}) => {
         calls.push({ url: String(url), options })
+        if (options.signal?.aborted) {
+            throw new DOMException('The operation was aborted.', 'AbortError');
+        }
         const { error, json, status = 200, text, type = 'application/json' } = responses.shift();
         if (error) {
             throw new Error(error);
@@ -205,6 +208,31 @@ for (const [reason, blocked] of [
         assert.deepEqual(plain(result), { data: { reviews: '<div>REST</div>' }, status: 200, success: true })
     });
 }
+
+test('an aborted request is given up, and is not sent again over admin-ajax', async () => {
+    const { infos, window } = loadPage();
+    const controller = new AbortController();
+    const calls = fakeFetch(window, [{ json: {} }]);
+    const sent = fakeXhr(window, [{ json: {} }]);
+    controller.abort()
+    const result = await window.GLSR.Request.send({ path: 'search/posts', params: { search: 'a' }, signal: controller.signal });
+    assert.equal(calls.length, 1)
+    assert.equal(calls[0].options.signal, controller.signal)
+    assert.equal(sent.length, 0)
+    assert.deepEqual(plain(result), { data: { message: 'The operation was aborted.' }, status: 0, success: false })
+    assert.deepEqual(infos, [])
+});
+
+test('over admin-ajax too, an aborted request is given up', async () => {
+    const { url, ...withoutUrl } = request();
+    const { window } = loadPage({ config: { request: withoutUrl } });
+    const controller = new AbortController();
+    const sent = fakeXhr(window, [{ json: {} }]);
+    controller.abort()
+    const result = await window.GLSR.Request.send({ path: 'search/posts', signal: controller.signal });
+    assert.equal(sent.length, 0)
+    assert.deepEqual(plain(result), { data: { message: 'The request was aborted.' }, status: 0, success: false })
+});
 
 test('a config without a REST URL goes straight to admin-ajax', async () => {
     // the guard for an inline config that has no REST URL, such as a page cached by an earlier version
