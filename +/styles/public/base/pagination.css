@@ -1,6 +1,9 @@
 :--base .glsr-pagination {
     position: relative;
 }
+:--base .glsr-pagination:empty {
+    display: none; /* a list with one page, or a load-more box that ran out */
+}
 :--base .glsr-pagination:not(.glsr-ajax-loadmore) {
     align-items: center;
     display: flex;

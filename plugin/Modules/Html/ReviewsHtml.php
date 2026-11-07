@@ -63,7 +63,7 @@ class ReviewsHtml extends \ArrayObject
             'total' => $this->max_num_pages,
             'type' => $this->args->pagination, // we use this to pass the pagination setting
         ]);
-        if (!$wrap || empty($html)) { // only display the pagination when it's needed
+        if (!$wrap) {
             return $html;
         }
         $classes = 'glsr-pagination';

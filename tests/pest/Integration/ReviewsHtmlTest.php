@@ -56,3 +56,12 @@ test('ajax and load-more pagination each mark the wrapper for their script', fun
     expect((string) reviewsHtml(['display' => 1, 'pagination' => 'loadmore']))
         ->toContain('glsr-ajax-loadmore');
 });
+
+test('a list with one page prints its pagination box empty, for the scripts that fill it', function () {
+    createReview();
+    $html = (string) reviewsHtml(['display' => 5, 'pagination' => 'ajax']);
+
+    expect($html)->toContain('<div class="glsr-pagination glsr-ajax-pagination"')
+        ->and($html)->toMatch('/<div class="glsr-pagination glsr-ajax-pagination"[^>]*><\/div>/') // nothing inside, so :empty applies
+        ->and(reviewsHtml(['display' => 5, 'pagination' => 'ajax'])->getPagination($wrap = false))->toBe('');
+});
