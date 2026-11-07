@@ -3184,7 +3184,7 @@ msgid "Searching..."
 msgstr "Searching..."
 
 #: plugin/Commands/EnqueueAdminAssets.php:66
-#: plugin/Controllers/Api/Version1/RestPluginController.php:120
+#: plugin/Controllers/Api/Version1/RestPluginController.php:150
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr "Unable to fetch the System Info."
@@ -3776,7 +3776,7 @@ msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr "You do not have permission to reload the console."
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:101
+#: plugin/Controllers/Api/Version1/RestPluginController.php:131
 #: plugin/Controllers/ToolsController.php:191
 msgctxt "admin-text"
 msgid "Console reloaded."
@@ -3807,21 +3807,21 @@ msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr "You do not have permission to import settings."
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:250
+#: plugin/Controllers/Api/Version1/RestPluginController.php:299
 #: plugin/Controllers/ToolsController.php:365
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/Api/Version1/RestPluginController.php:254
+#: plugin/Controllers/Api/Version1/RestPluginController.php:303
 #: plugin/Controllers/ToolsController.php:370
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr "The permissions have been repaired, please %s for them to take effect."
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:54
+#: plugin/Controllers/Api/Version1/RestPluginController.php:75
 #: plugin/Controllers/ToolsController.php:426
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
@@ -6242,6 +6242,7 @@ msgid "Review update failed, please check the Site Reviews console log for more 
 msgstr "Review update failed, please check the Site Reviews console log for more details."
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
+#: plugin/Controllers/Api/Version1/RestPluginController.php:52
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
@@ -9167,7 +9168,7 @@ msgctxt "admin-text"
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:60
+#: plugin/Controllers/Api/Version1/RestPluginController.php:81
 #: plugin/Controllers/ToolsController.php:431
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
@@ -9675,6 +9676,11 @@ msgstr ""
 #: plugin/Commands/RegisterUserMeta.php:16
 msgctxt "admin-text"
 msgid "The filters shown above the reviews table."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestPluginController.php:55
+msgctxt "admin-text"
+msgid "Invalid notice."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestReviewPartsController.php:71

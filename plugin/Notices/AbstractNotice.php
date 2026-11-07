@@ -55,6 +55,14 @@ abstract class AbstractNotice
         update_user_meta($userId, static::USER_META_KEY, $dismissed);
     }
 
+    /**
+     * The class name without "Notice" in dash case.
+     */
+    public function key(): string
+    {
+        return $this->key;
+    }
+
     public function path(): string
     {
         return "partials/notices/{$this->key}";

@@ -1,7 +1,9 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\UpdateLock;
+use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -165,4 +167,47 @@ test('the rollback is refused while the plugin folder is a git repository, and f
     expect(get_transient(glsr()->prefix.'rollback_version'))->toBeFalse();
 
     expect(restRequest('POST', PLUGIN_NS.'/rollback', ['version' => 'latest'])->get_status())->toBe(400);
+});
+
+/*
+ * The notices: a dismissal is the logged-in user's own meta, so the route asks for a login and nothing else.
+ */
+
+test('a notice is dismissed by its key, for the logged-in user only', function () {
+    wp_set_current_user($userId = createUser(['role' => 'administrator']));
+    glsr(OptionManager::class)->set('version_upgraded_from', '0.0.0'); // the welcome notice shows on a new site
+
+    $response = restRequest('DELETE', PLUGIN_NS.'/notices/welcome');
+
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data())->toBe(['key' => 'welcome']);
+    $dismissed = get_user_meta($userId, AbstractNotice::USER_META_KEY, true);
+    expect($dismissed)->toHaveKey('welcome');
+    expect($dismissed['welcome']['version'])->toBe(glsr()->version('minor'));
+    expect(get_user_meta(createUser(['role' => 'administrator']), AbstractNotice::USER_META_KEY, true))->toBe('');
+});
+
+test('a notice is snoozed until its interval has passed', function () {
+    wp_set_current_user($userId = createUser(['role' => 'administrator']));
+
+    $response = restRequest('PUT', PLUGIN_NS.'/notices/write-review', ['until' => 'interval']);
+
+    expect($response->get_status())->toBe(200);
+    $dismissed = get_user_meta($userId, AbstractNotice::USER_META_KEY, true);
+    expect($dismissed['write-review']['version'])->toBe('');
+    expect($dismissed['write-review']['timestamp'])->toBeGreaterThan(0);
+    expect(restRequest('PUT', PLUGIN_NS.'/notices/write-review', ['until' => 'forever'])->get_status())->toBe(400);
+    expect(restRequest('PUT', PLUGIN_NS.'/notices/write-review')->get_status())->toBe(400);
+});
+
+test('a notice dismissal needs a login, and a notice that exists', function () {
+    $visitor = restRequest('DELETE', PLUGIN_NS.'/notices/welcome');
+    expect($visitor->get_status())->toBe(401);
+    expect($visitor->get_data()['code'])->toBe('glsr_not_logged_in');
+
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    $unknown = restRequest('DELETE', PLUGIN_NS.'/notices/not-a-notice');
+    expect($unknown->get_status())->toBe(404);
+    expect($unknown->get_data()['code'])->toBe('glsr_invalid_notice');
+    expect(restRequest('DELETE', PLUGIN_NS.'/notices/GeminiLabs%5CSiteReviews%5CNotices%5CWelcomeNotice')->get_status())->toBe(404); // the key, not the class
 });
