@@ -3,7 +3,7 @@
     "defaults"
   ],
   "dependencies": {
-    "prismjs": "^1.30.0",
+    "microlighter": "^2.2.0",
     "star-rating.js": "^4.3.1",
     "tippy.js": "^6.3.7"
   },
@@ -47,7 +47,6 @@
     "@wordpress/icons": "15.3.0",
     "@wordpress/scripts": "34.0.0",
     "autoprefixer": "10.6.1",
-    "babel-plugin-prismjs": "^2.1.0",
     "browser-sync": "^3.0.4",
     "classnames": "^2.5.1",
     "fast-deep-equal": "^3.1.3",

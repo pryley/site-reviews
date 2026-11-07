@@ -25,9 +25,10 @@ try {
     assert(await tab('faq').evaluate(el => el.classList.contains('nav-tab-active')) && await page.locator('#faq').isVisible(), 'clicking FAQ shows its view');
     await tab('shortcodes').click();
 
-    // a highlighted code sample
+    // a highlighted code sample: the highlights are registered by category, the markup is untouched
     const sample = page.locator('#shortcodes pre code[class*="language-"]').first();
-    assert(await sample.locator('.token').count() > 0, 'a code sample is highlighted into tokens');
+    assert(await sample.evaluate(el => 0 === el.children.length), 'a code sample holds only text');
+    assert(await page.evaluate(() => CSS.highlights.get('tag')?.size > 0 && CSS.highlights.get('string')?.size > 0), 'the shortcode samples are highlighted by category');
 
     // copying a code sample gives plain text
     const example = page.locator('#shortcodes .shortcode-example').first();

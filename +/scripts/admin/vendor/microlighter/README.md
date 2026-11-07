@@ -1,0 +1,3 @@
+# microlighter
+
+`highlight.js` is a copy of `dist/highlight.js` from [microlighter](https://github.com/davatron5000/microlighter) 2.2.0 (MIT, `LICENSE`). The package's own copy loads its grammars with a dynamic `import()`, which an IIFE bundle cannot carry; this copy takes an `importLanguage` option on `highlightAll()` instead, and `shared/code.js` passes one that imports the grammars statically. Everything else is the package's: the grammar loader and the grammars are imported from `microlighter/`. To update, copy the file again and reapply the option (the `importLanguage` property, the `createGrammarLoader(importLanguage)` line).

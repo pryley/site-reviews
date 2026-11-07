@@ -24,3 +24,4 @@ node_modules
 tests/bin/plugins
 tests/bin/zips
 vendor
+!+/scripts/admin/vendor/

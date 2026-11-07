@@ -1,4 +1,4 @@
-import Prism from 'prismjs';
+import Code from '@/admin/shared/code.js';
 import tippy from 'tippy.js';
 
 /**
@@ -11,8 +11,14 @@ export default class Tooltip {
         tippy(els, { appendTo: () => document.body })
         els.forEach(el => {
             const { syntax, tippyContent } = el.dataset;
-            if (el._tippy && tippyContent && syntax && Prism.languages[syntax]) {
-                el._tippy.setContent(`<pre class="language-${syntax}"><code>${Prism.highlight(tippyContent, Prism.languages[syntax], syntax)}</code></pre>`)
+            if (el._tippy && tippyContent && Code.supports(syntax)) {
+                const code = document.createElement('code');
+                code.className = `language-${syntax}`;
+                code.textContent = tippyContent;
+                const pre = document.createElement('pre');
+                pre.append(code);
+                el._tippy.setContent(pre)
+                el._tippy.setProps({ onShown: () => Code.init() }) // the popup is in the body so the whole document is scanned again
             }
         })
     }
