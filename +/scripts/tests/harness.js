@@ -18,6 +18,12 @@ const adminConfig = () => ({
     request: {
         ajax: { action: 'glsr_admin_action', rest: 'glsr_rest_request', url: 'https://example.org/wp-admin/admin-ajax.php' },
         nonce: 'def456',
+        routes: {
+            console: { method: 'GET', path: 'plugin/console' },
+            import: { method: 'POST', path: 'reviews/import' },
+            rollback: { method: 'POST', path: 'plugin/rollback' },
+            'table-engine': { method: 'PUT', path: 'plugin/tables/{table}/engine' },
+        },
         url: 'https://example.org/wp-json/site-reviews/v1/',
     },
     text: {
@@ -91,6 +97,7 @@ const load = (file, inline, { after = [], before = '', html = '', url = 'https:/
     window.eval(before)
     window.eval(fs.readFileSync(path.join(ASSETS, file), 'utf8'))
     after.forEach(name => window.eval(read(name)))
+    window.document.dispatchEvent(new window.Event('DOMContentLoaded')) // the admin script starts here, before the test looks
     return { infos, read, warnings, window };
 };
 

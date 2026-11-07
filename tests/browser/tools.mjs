@@ -18,22 +18,23 @@ const errors = pageErrorsOf(page);
 await login(page);
 const TOOLS = adminUrl('edit.php?post_type=site-review&page=glsr-tools');
 const tab = id => page.locator(`a.glsr-nav-tab[data-id="${id}"]`);
-const ajax = action => page.waitForResponse(response => response.url().includes('admin-ajax.php') && response.request().postData()?.includes(action));
+// a request to one of our routes: PUT and DELETE travel as a POST with the X-HTTP-Method-Override header
+const rest = (method, path) => page.waitForResponse(response => decodeURIComponent(response.url()).includes(`/site-reviews/v1/${path}`) && method === (response.request().headers()['x-http-method-override'] || response.request().method()).toUpperCase());
 const TITLE = 'Browser suite import probe';
 
 try {
     // the console
     await page.goto(`${TOOLS}&tab=console`);
-    await Promise.all([ajax('fetch-console'), page.click('#glsr-fetch-console')]);
+    await Promise.all([rest('GET', 'plugin/console'), page.click('#glsr-fetch-console')]);
     assert((await page.inputValue('#glsr-log-file')).length > 0, 'Reload fills the console textarea');
     const level = page.locator('select[name$="[level]"]');
     const levelBefore = await level.inputValue();
     await level.selectOption('1' === levelBefore ? '2' : '1');
-    await Promise.all([ajax('console-level'), page.click('#glsr-console-level')]);
+    await Promise.all([rest('PUT', 'plugin/console/level'), page.click('#glsr-console-level')]);
     assert(await page.locator('#glsr-notices .notice, .glsr-notice').count() > 0, 'changing the level shows a notice');
     await level.selectOption(levelBefore);
-    await Promise.all([ajax('console-level'), page.click('#glsr-console-level')]);
-    await Promise.all([ajax('clear-console'), page.click('#glsr-clear-console')]);
+    await Promise.all([rest('PUT', 'plugin/console/level'), page.click('#glsr-console-level')]);
+    await Promise.all([rest('DELETE', 'plugin/console'), page.click('#glsr-clear-console')]);
     assert((await page.inputValue('#glsr-log-file')).includes('Console is empty'), 'Clear empties the console');
 
     // System Info
@@ -55,7 +56,7 @@ try {
     if (await card.evaluate(el => el.classList.contains('closed'))) {
         await card.locator('.glsr-card-heading').click();
     }
-    await Promise.all([ajax('reset-assigned-meta'), card.locator('button[data-ajax-click]').click()]);
+    await Promise.all([rest('POST', 'reviews/counts'), card.locator('button[data-ajax-click]').click()]);
     await page.locator('#glsr-notices .notice').first().waitFor();
     assert(await page.locator('#glsr-notices .notice-success').count() > 0, 'running a tool shows its success notice');
     const expand = page.locator('a[data-expand]').first();

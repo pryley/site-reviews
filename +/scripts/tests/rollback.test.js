@@ -1,16 +1,15 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
-const { loadRollback } = require('./harness.js');
+const { loadAdmin } = require('./harness.js');
 
 // Values that cross the jsdom realm are compared as JSON.
 const plain = (value) => JSON.parse(JSON.stringify(value));
 
-// The markup of views/pages/tools/general/rollback-plugin.php that the script reads.
+// The markup of views/pages/tools/general/rollback-plugin.php that the module reads.
 const HTML = `
 <div id="wpwrap">
+    <hr class="wp-header-end">
     <form id="rollback-plugin">
-        <input type="hidden" name="_wpnonce" value="abc123">
-        <input type="hidden" name="action" value="rollback-site-reviews">
         <select id="rollback_version" name="version">
             <option value="8.4.0" data-stops="[]">Site Reviews 8.4.0</option>
             <option value="7.9.0" data-stops="[&quot;Test Addon&quot;]">Site Reviews 7.9.0</option>
@@ -39,11 +38,23 @@ const HTML = `
     </div>
 </div>`;
 
+// the Tools page's body class, and a fetch that keeps each request and answers from `responses`
+const BEFORE = `
+document.body.className = 'site-review_page_glsr-tools';
+window.sent = [];
+window.responses = [];
+window.fetch = async (url, options = {}) => {
+    window.sent.push({ url: String(url), options });
+    const { json = {}, status = 200 } = window.responses.shift() || {};
+    return { headers: { get: () => 'application/json' }, json: async () => json, ok: status < 300, status, statusText: 'Status' };
+};`;
+
 const page = (version = '8.4.0') => {
-    const { window } = loadRollback({ html: HTML });
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
     const { document } = window;
     const dialog = document.querySelector('#rollback-dialog');
     const form = document.querySelector('#rollback-plugin');
+    form.version = form.elements.namedItem('version'); // browsers give a form its fields as properties, jsdom does not
     form.version.value = version;
     return {
         cancel: dialog.querySelector('[data-cancel]'),
@@ -57,6 +68,7 @@ const page = (version = '8.4.0') => {
             return event;
         },
         names: () => [...dialog.querySelectorAll('[data-warning] li')].map(item => item.textContent),
+        settle: () => new Promise(resolve => setTimeout(resolve, 10)),
         submit: () => form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true })),
         submitButton: form.querySelector('button'),
         warning: dialog.querySelector('[data-warning]'),
@@ -104,23 +116,29 @@ test('the Escape key does nothing after the popup is closed', () => {
     assert.equal(document.activeElement, form.version)
 });
 
-test('the confirm button closes the popup and sends the rollback request', () => {
-    const { confirm, dialog, document, form, submit, submitButton, window } = page('7.9.0');
+test('the confirm button closes the popup, stores the version through the route and posts the update request WordPress answered with', async () => {
+    const { confirm, dialog, document, form, settle, submit, submitButton, window } = page('7.9.0');
+    const update = { _ajax_nonce: 'updates-nonce', action: 'update-plugin', plugin: 'site-reviews/site-reviews.php', slug: 'site-reviews' };
+    window.responses.push({ json: { data: update, url: 'https://example.org/wp-admin/edit.php?page=glsr-welcome' } })
+    window.responses.push({ status: 500, json: { success: false, data: { errorMessage: 'Update failed.' } } }) // so the page stays
     submit()
     confirm.click()
     assert.equal(dialog.classList.contains('hidden'), true)
     assert.equal(document.body.classList.contains('modal-open'), false)
-    assert.equal(window.sent.length, 1)
-    assert.deepEqual(plain(window.sent[0].data), {
-        _ajax_request: true,
-        action: 'glsr_admin_action',
-        'site-reviews': { _action: 'rollback-site-reviews', _nonce: 'abc123', version: '7.9.0' },
-    })
     assert.equal(submitButton.disabled, true)
     assert.equal(submitButton.getAttribute('aria-busy'), 'true')
     assert.equal(submitButton.textContent, 'Rolling back to v7.9.0, please wait...')
     // The disabled button cannot hold the focus.
     assert.equal(document.activeElement, form.version)
+    await settle()
+    assert.equal(window.sent.length, 2)
+    assert.equal(window.sent[0].url, 'https://example.org/wp-json/site-reviews/v1/plugin/rollback')
+    assert.equal(window.sent[0].options.method, 'POST')
+    assert.deepEqual(JSON.parse(window.sent[0].options.body), { version: '7.9.0' })
+    assert.equal(window.sent[1].url, 'https://example.org/wp-admin/admin-ajax.php')
+    assert.deepEqual(plain(Object.fromEntries(window.sent[1].options.body)), update)
+    assert.equal(submitButton.disabled, false) // the update failed, so the button is back
+    assert.match(document.querySelector('#glsr-notices')?.textContent || '', /Rollback failed: Update failed\./)
 });
 
 test('the popup lists the plugins that the version stops', () => {

@@ -408,7 +408,6 @@ test('the rollback popup is told which registered addons each version stops', fu
 
         $page = glsr()->build('pages/tools/general/rollback-plugin', [
             'rollback_locked' => false,
-            'rollback_script' => '',
             'rollback_stops' => $stops,
             'rollback_versions' => ['8.4.0', '7.9.0'],
         ]);
@@ -431,7 +430,6 @@ test('the rollback popup is told when a version stops Site Reviews Premium', fun
 
         $page = glsr()->build('pages/tools/general/rollback-plugin', [
             'rollback_locked' => false,
-            'rollback_script' => '',
             'rollback_stops' => $stops,
             'rollback_versions' => ['8.4.0', '7.9.0'],
         ]);
@@ -441,12 +439,11 @@ test('the rollback popup is told when a version stops Site Reviews Premium', fun
 });
 
 /*
- * rollback.js reads each of these from the page.
+ * The rollback module reads each of these from the page.
  */
 test('the rollback card prints the popup that confirms the rollback', function () {
     $page = glsr()->build('pages/tools/general/rollback-plugin', [
         'rollback_locked' => false,
-        'rollback_script' => '',
         'rollback_stops' => [],
         'rollback_versions' => ['8.4.0'],
     ]);

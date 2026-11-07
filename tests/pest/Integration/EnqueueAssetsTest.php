@@ -608,15 +608,19 @@ test('the admin script carries the admin ajax action', function () {
 
     expect(array_keys($config))->toBe(['nameprefix', 'nonce', 'rating', 'request', 'text', 'urls']);
     expect(array_filter(array_keys($config['nonce']), fn ($action) => str_starts_with($action, 'filter-')))->toBe([]);
-    expect($config['request'])->toBe([
-        'ajax' => [
-            'action' => glsr()->prefix.'admin_action',
-            'rest' => glsr()->prefix.'rest_request',
-            'url' => admin_url('admin-ajax.php'),
-        ],
-        'nonce' => wp_create_nonce('wp_rest'),
-        'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
+    expect($config['request']['ajax'])->toBe([
+        'action' => glsr()->prefix.'admin_action',
+        'rest' => glsr()->prefix.'rest_request',
+        'url' => admin_url('admin-ajax.php'),
     ]);
+    expect($config['request']['nonce'])->toBe(wp_create_nonce('wp_rest'));
+    expect($config['request']['url'])->toBe(esc_url_raw(rest_url(glsr()->id.'/v1/')));
+    // the routes the Tools page's buttons name, each a method and a path template
+    expect($config['request']['routes']['table-engine'])->toBe(['method' => 'PUT', 'path' => 'plugin/tables/{table}/engine']);
+    expect($config['request']['routes']['console-clear'])->toBe(['method' => 'DELETE', 'path' => 'plugin/console']);
+    foreach ($config['request']['routes'] as $route) {
+        expect($route)->toHaveKeys(['method', 'path']);
+    }
     expect($config['nonce'])->toHaveKey('toggle-pinned');
     expect($config['rating'])->toBe(['max' => Rating::max(), 'min' => Rating::min()]);
     expect($config['text'])->toHaveKeys(['cancel', 'importError', 'systemInfo500', 'systemInfoError']);

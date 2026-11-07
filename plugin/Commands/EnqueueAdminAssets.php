@@ -42,6 +42,7 @@ class EnqueueAdminAssets extends AbstractCommand
                     'url' => admin_url('admin-ajax.php'),
                 ],
                 'nonce' => wp_create_nonce('wp_rest'),
+                'routes' => $this->routes(),
                 'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
             ],
             'text' => [
@@ -155,5 +156,31 @@ class EnqueueAdminAssets extends AbstractCommand
         // A screen that provides its own editor app (the premium form
         // editor) opts out of the admin bundle here.
         return glsr()->filterBool('enqueue/admin/screen', $isCurrentScreen, $screen);
+    }
+
+    /**
+     * The route names sent by the admin script with method and path template.
+     *
+     * @return array<string, array{method: string, path: string}>
+     */
+    protected function routes(): array
+    {
+        return [
+            'console' => ['method' => 'GET', 'path' => 'plugin/console'],
+            'console-clear' => ['method' => 'DELETE', 'path' => 'plugin/console'],
+            'console-level' => ['method' => 'PUT', 'path' => 'plugin/console/level'],
+            'counts' => ['method' => 'POST', 'path' => 'reviews/counts'],
+            'import' => ['method' => 'POST', 'path' => 'reviews/import'],
+            'ip-address' => ['method' => 'GET', 'path' => 'plugin/ip-address'],
+            'ip-address-proxy' => ['method' => 'PUT', 'path' => 'plugin/ip-address/proxy'],
+            'locations' => ['method' => 'POST', 'path' => 'reviews/locations'],
+            'locations-remove' => ['method' => 'DELETE', 'path' => 'reviews/locations'],
+            'migrations' => ['method' => 'POST', 'path' => 'plugin/migrations'],
+            'permissions' => ['method' => 'PUT', 'path' => 'plugin/permissions'],
+            'relations-remove' => ['method' => 'DELETE', 'path' => 'reviews/relations'],
+            'rollback' => ['method' => 'POST', 'path' => 'plugin/rollback'],
+            'system-info' => ['method' => 'GET', 'path' => 'plugin/system-info'],
+            'table-engine' => ['method' => 'PUT', 'path' => 'plugin/tables/{table}/engine'],
+        ];
     }
 }

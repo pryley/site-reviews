@@ -1,7 +1,7 @@
 /** global: GLSR */
 
 import { config } from '@/public/core/index.js';
-import Button from '@/admin/button.js';
+import BusyButton from '@/admin/shared/busy-button.js';
 import Serializer from '@/admin/serializer.js';
 
 const Ajax = function (request, ev, form) { // object
@@ -48,7 +48,7 @@ Ajax.prototype = {
 
     doPost_: function (callback, el) {
         if (el) {
-            Button(el).loading()
+            BusyButton(el.get(0)).loading()
         }
         // wp.ajax.post(config.request.ajax.action, this.buildData_(el)).done(response => {
         jQuery.post(ajaxurl, this.buildData_(el)).done(response => {
@@ -62,7 +62,7 @@ Ajax.prototype = {
                 GLSR.Notice.error('Unknown error.'); // triggers scroll
             }
             if (el) {
-                Button(el).loaded()
+                BusyButton(el.get(0)).loaded()
             }
         });
     },

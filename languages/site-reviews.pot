@@ -745,7 +745,7 @@ msgid "This will completely replace the default WooCommerce review system with S
 msgstr ""
 
 #: config/integrations/woocommerce.php:10
-#: views/integrations/woocommerce/tools/import-product-reviews.php:33
+#: views/integrations/woocommerce/tools/import-product-reviews.php:34
 #: views/pages/tools/general/import-reviews.php:6
 #: views/pages/tools/general/import-reviews.php:128
 msgctxt "admin-text"
@@ -1613,7 +1613,7 @@ msgid "Product"
 msgstr ""
 
 #: config/settings.php:519
-#: views/pages/tools/general/configure-ip-detection.php:48
+#: views/pages/tools/general/configure-ip-detection.php:47
 msgctxt "admin-text"
 msgid "Custom"
 msgstr ""
@@ -2900,7 +2900,7 @@ msgctxt "link to addon page (admin-text)"
 msgid "%s required."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:48
+#: plugin/Commands/EnqueueAdminAssets.php:49
 #: plugin/Overrides/ScheduledActionsTable.php:114
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
@@ -2910,19 +2910,19 @@ msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:49
+#: plugin/Commands/EnqueueAdminAssets.php:50
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr ""
 
 #. translators: %s: maximum file upload size
-#: plugin/Commands/EnqueueAdminAssets.php:51
+#: plugin/Commands/EnqueueAdminAssets.php:52
 #, php-format
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:54
+#: plugin/Commands/EnqueueAdminAssets.php:55
 #: plugin/Controllers/AdminController.php:256
 #: plugin/Controllers/AdminController.php:274
 #: plugin/Controllers/AdminController.php:287
@@ -2930,41 +2930,41 @@ msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:55
+#: plugin/Commands/EnqueueAdminAssets.php:56
 msgctxt "admin-text"
 msgid "Just a moment while we connect your site and install Site Reviews Premium."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:56
+#: plugin/Commands/EnqueueAdminAssets.php:57
 msgctxt "admin-text"
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:57
+#: plugin/Commands/EnqueueAdminAssets.php:58
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:58
+#: plugin/Commands/EnqueueAdminAssets.php:59
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
 #. translators: %s: Site Health Info page URL
-#: plugin/Commands/EnqueueAdminAssets.php:60
+#: plugin/Commands/EnqueueAdminAssets.php:61
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
 msgstr ""
 
 #. translators: %1$s: HTTP response status code, %2$s: response error message
-#: plugin/Commands/EnqueueAdminAssets.php:64
+#: plugin/Commands/EnqueueAdminAssets.php:65
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:65
+#: plugin/Commands/EnqueueAdminAssets.php:66
 #: plugin/Controllers/Api/Version1/RestPluginController.php:172
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
@@ -3356,7 +3356,7 @@ msgid "Community support"
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:117
-#: views/pages/tools/console.php:58
+#: views/pages/tools/console.php:61
 msgctxt "admin-text"
 msgid "Apply"
 msgstr ""
@@ -8070,41 +8070,41 @@ msgctxt "admin-text"
 msgid "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:31
+#: views/integrations/woocommerce/tools/import-product-reviews.php:32
 #: views/pages/tools/general/import-reviews.php:126
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:39
+#: views/integrations/woocommerce/tools/import-product-reviews.php:40
 msgctxt "admin-text"
 msgid "Step 2:"
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:40
+#: views/integrations/woocommerce/tools/import-product-reviews.php:41
 msgctxt "admin-text"
 msgid "Migrate the product rating counts. This allows third-party plugins to filter your products by rating."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:50
-#: views/pages/tools/general/migrate-plugin.php:22
+#: views/integrations/woocommerce/tools/import-product-reviews.php:51
+#: views/pages/tools/general/migrate-plugin.php:21
 #: views/pages/tools/general/migrate-plugin.php:30
-#: views/partials/notices/migration.php:18
+#: views/partials/notices/migration.php:19
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:52
+#: views/integrations/woocommerce/tools/import-product-reviews.php:54
 msgctxt "admin-text"
 msgid "Migrate Product Ratings"
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:58
+#: views/integrations/woocommerce/tools/import-product-reviews.php:60
 msgctxt "admin-text"
 msgid "Reverting, please wait..."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:60
+#: views/integrations/woocommerce/tools/import-product-reviews.php:63
 msgctxt "admin-text"
 msgid "Revert"
 msgstr ""
@@ -8270,77 +8270,77 @@ msgctxt "admin-text"
 msgid "Download Log"
 msgstr ""
 
-#: views/pages/tools/console.php:20
+#: views/pages/tools/console.php:21
 msgctxt "admin-text"
 msgid "Reloading..."
 msgstr ""
 
-#: views/pages/tools/console.php:21
+#: views/pages/tools/console.php:22
 msgctxt "admin-text"
 msgid "Reload"
 msgstr ""
 
-#: views/pages/tools/console.php:30
+#: views/pages/tools/console.php:32
 msgctxt "admin-text"
 msgid "Clearing..."
 msgstr ""
 
-#: views/pages/tools/console.php:31
+#: views/pages/tools/console.php:33
 msgctxt "admin-text"
 msgid "Clear"
 msgstr ""
 
-#: views/pages/tools/console.php:40
+#: views/pages/tools/console.php:42
 msgctxt "admin-text"
 msgid "Here you can change the <u>minimum</u> log level used by the Console. Site Reviews uses the Console to log various details and events throughout the plugin. The log level determines the importance of the logged entry: the higher the level, the more important the entry."
 msgstr ""
 
-#: views/pages/tools/console.php:42
+#: views/pages/tools/console.php:44
 msgctxt "admin-text"
 msgid "Level 0: Entries used for debugging."
 msgstr ""
 
-#: views/pages/tools/console.php:43
+#: views/pages/tools/console.php:45
 msgctxt "admin-text"
 msgid "Level 1: Informational entries."
 msgstr ""
 
-#: views/pages/tools/console.php:44
+#: views/pages/tools/console.php:46
 msgctxt "admin-text"
 msgid "Level 2: Deprecation notices."
 msgstr ""
 
-#: views/pages/tools/console.php:45
+#: views/pages/tools/console.php:47
 msgctxt "admin-text"
 msgid "Level 4: Warnings and errors."
 msgstr ""
 
-#: views/pages/tools/console.php:47
+#: views/pages/tools/console.php:49
 msgctxt "admin-text"
 msgid "Level 0: Debugging"
 msgstr ""
 
-#: views/pages/tools/console.php:48
+#: views/pages/tools/console.php:50
 msgctxt "admin-text"
 msgid "Level 1: Informational"
 msgstr ""
 
-#: views/pages/tools/console.php:49
+#: views/pages/tools/console.php:51
 msgctxt "admin-text"
 msgid "Level 2: Notices"
 msgstr ""
 
-#: views/pages/tools/console.php:50
+#: views/pages/tools/console.php:52
 msgctxt "admin-text"
 msgid "Level 4: Warnings"
 msgstr ""
 
-#: views/pages/tools/console.php:52
+#: views/pages/tools/console.php:54
 msgctxt "admin-text"
 msgid "Unknown Level"
 msgstr ""
 
-#: views/pages/tools/console.php:57
+#: views/pages/tools/console.php:60
 msgctxt "admin-text"
 msgid "Please wait..."
 msgstr ""
@@ -8377,27 +8377,27 @@ msgctxt "admin-text"
 msgid "Here you can select the Proxy HTTP header that contains the real visitor IP address and the list of trusted IP addresses used by the proxy service."
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:41
+#: views/pages/tools/general/configure-ip-detection.php:40
 msgctxt "admin-text"
 msgid "Proxy HTTP Header"
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:53
+#: views/pages/tools/general/configure-ip-detection.php:52
 msgctxt "admin-text"
 msgid "Custom HTTP Header"
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:59
+#: views/pages/tools/general/configure-ip-detection.php:58
 msgctxt "admin-text"
 msgid "Trusted Proxies"
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:62
+#: views/pages/tools/general/configure-ip-detection.php:61
 msgctxt "admin-text"
 msgid "Enter the IP addresses (or CIDR ranges) of your proxy servers, one per line. The proxy HTTP header is only used when a request comes from one of these addresses."
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:69
+#: views/pages/tools/general/configure-ip-detection.php:68
 msgctxt "admin-text"
 msgid "Saving, please wait..."
 msgstr ""
@@ -8407,7 +8407,7 @@ msgctxt "admin-text"
 msgid "Save"
 msgstr ""
 
-#: views/pages/tools/general/configure-ip-detection.php:76
+#: views/pages/tools/general/configure-ip-detection.php:75
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr ""
@@ -8487,12 +8487,12 @@ msgctxt "admin-text"
 msgid "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
 msgstr ""
 
-#: views/pages/tools/general/geolocate-reviews.php:31
+#: views/pages/tools/general/geolocate-reviews.php:30
 msgctxt "admin-text"
 msgid "Queueing geolocation, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/geolocate-reviews.php:38
+#: views/pages/tools/general/geolocate-reviews.php:37
 msgctxt "admin-text"
 msgid "Removing all geolocated data, please wait..."
 msgstr ""
@@ -8640,8 +8640,8 @@ msgctxt "admin-text"
 msgid "If Site Reviews stopped working after cloning your website or after restoring your website from a backup, click the <strong>Hard Reset</strong> button."
 msgstr ""
 
-#: views/pages/tools/general/migrate-plugin.php:32
-#: views/pages/tools/general/repair-permissions.php:30
+#: views/pages/tools/general/migrate-plugin.php:33
+#: views/pages/tools/general/repair-permissions.php:31
 msgctxt "admin-text"
 msgid "Hard Reset"
 msgstr ""
@@ -8677,12 +8677,12 @@ msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/optimise-db-tables.php:46
+#: views/pages/tools/general/optimise-db-tables.php:47
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr ""
 
-#: views/pages/tools/general/optimise-db-tables.php:57
+#: views/pages/tools/general/optimise-db-tables.php:58
 msgctxt "admin-text"
 msgid "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
 msgstr ""
@@ -8703,7 +8703,7 @@ msgctxt "admin-text"
 msgid "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, click the <strong>Hard Reset</strong> button."
 msgstr ""
 
-#: views/pages/tools/general/repair-permissions.php:22
+#: views/pages/tools/general/repair-permissions.php:21
 #: views/pages/tools/general/repair-permissions.php:29
 msgctxt "admin-text"
 msgid "Repairing, please wait..."
@@ -8731,12 +8731,12 @@ msgctxt "admin-text"
 msgid "This tool will repair the review relationships in your database by removing any review details in the custom database table that do not point to a valid review."
 msgstr ""
 
-#: views/pages/tools/general/repair-review-relations.php:31
+#: views/pages/tools/general/repair-review-relations.php:32
 msgctxt "admin-text"
 msgid "Repairing relations, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/repair-review-relations.php:32
+#: views/pages/tools/general/repair-review-relations.php:34
 msgctxt "admin-text"
 msgid "Repair Relations"
 msgstr ""
@@ -8756,15 +8756,15 @@ msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/reset-assigned-meta.php:21
+#: views/pages/tools/general/reset-assigned-meta.php:22
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr ""
 
 #. translators: %s: the selected plugin version
 #: views/pages/tools/general/rollback-plugin.php:7
-#: views/pages/tools/general/rollback-plugin.php:60
-#: views/pages/tools/general/rollback-plugin.php:92
+#: views/pages/tools/general/rollback-plugin.php:59
+#: views/pages/tools/general/rollback-plugin.php:91
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr ""
@@ -8796,41 +8796,41 @@ msgid "You currently have version %1$s installed of %2$s. Run this tool to rollb
 msgstr ""
 
 #. translators: %s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:43
+#: views/pages/tools/general/rollback-plugin.php:42
 #, php-format
 msgctxt "admin-text"
 msgid "Roll back Site Reviews to version %s?"
 msgstr ""
 
 #. translators: %1$s: installed plugin version, %2$s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:48
+#: views/pages/tools/general/rollback-plugin.php:47
 #, php-format
 msgctxt "admin-text"
 msgid "You are rolling back from version %1$s. The plugin files will be replaced with version %2$s from wordpress.org."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:54
+#: views/pages/tools/general/rollback-plugin.php:53
 msgctxt "admin-text"
 msgid "These plugins will stop working until Site Reviews is updated again:"
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:56
+#: views/pages/tools/general/rollback-plugin.php:55
 msgctxt "admin-text"
 msgid "The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:67
+#: views/pages/tools/general/rollback-plugin.php:66
 msgctxt "admin-text"
 msgid "The Rollback Plugin tool needs JavaScript."
 msgstr ""
 
-#: views/pages/tools/general/rollback-plugin.php:77
+#: views/pages/tools/general/rollback-plugin.php:76
 msgctxt "admin-text"
 msgid "Rollback Version To"
 msgstr ""
 
 #. translators: %s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:91
+#: views/pages/tools/general/rollback-plugin.php:90
 #, php-format
 msgctxt "admin-text"
 msgid "Rolling back to %s, please wait..."
@@ -9041,7 +9041,7 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: views/partials/notices/migration.php:19
+#: views/partials/notices/migration.php:20
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr ""

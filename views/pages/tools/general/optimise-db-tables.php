@@ -43,6 +43,7 @@
                                     <button type="submit" class="glsr-button button button-small"
                                         data-ajax-click
                                         data-loading="<?php echo esc_attr_x('Converting, please wait...', 'admin-text', 'site-reviews'); ?>"
+                                        data-route="table-engine"
                                     ><?php echo _x('Convert table engine to InnoDB', 'admin-text', 'site-reviews'); ?>
                                     </button>
                                 </div>

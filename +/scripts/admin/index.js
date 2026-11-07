@@ -11,11 +11,14 @@ import CategoryQuickEdit from '@/admin/category/quick-edit.js';
 import Cards from '@/admin/shared/cards.js';
 import Code from '@/admin/shared/code.js';
 import ColorPicker from '@/admin/settings/color-picker.js';
+import Console from '@/admin/tools/console.js';
 import Depends from '@/admin/settings/depends.js';
 import Filter from '@/admin/reviews/filter.js';
 import Filters from '@/admin/reviews/filters.js';
 import Flyout from '@/admin/shared/flyout.js';
 import FooterNotice from '@/admin/shared/footer-notice.js';
+import Import from '@/admin/tools/import.js';
+import IpDetection from '@/admin/tools/ip-detection.js';
 import legacy from '@/admin/legacy.js';
 import Metabox from '@/admin/review/metabox.js';
 import Notice, { Notices } from '@/admin/shared/notice.js';
@@ -24,13 +27,16 @@ import PublishAction from '@/admin/review/publish-action.js';
 import QuickEdit from '@/admin/reviews/quick-edit.js';
 import Request from '@/public/modules/request/request.js';
 import ResetButton from '@/admin/settings/reset-button.js';
+import Rollback from '@/admin/tools/rollback.js';
 import ScreenMeta from '@/admin/shared/screen-meta.js';
 import { share } from '@/admin/shared.js';
 import StarRating from '@/public/modules/form/starrating.js';
 import Status from '@/admin/reviews/status.js';
 import Strings from '@/admin/settings/strings.js';
+import SystemInfo from '@/admin/tools/system-info.js';
 import Tabs from '@/admin/shared/tabs.js';
 import TemplateEditor from '@/admin/settings/template-editor.js';
+import ToolButton from '@/admin/tools/tool-button.js';
 import ToggleFlag from '@/admin/reviews/toggle-flag.js';
 import Tooltip from '@/admin/shared/tooltip.js';
 import TrackSelect from '@/admin/settings/track-select.js';
@@ -47,7 +53,7 @@ GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, pa
 lib.register('tippy', { tippy, plugins: { followCursor } })
 share({ Ajax, notices: () => Notice })
 
-const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, Tooltip, UploadForm];
+const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, ToolButton, Tooltip, UploadForm]; // ToolButton: the migration notice has one on every screen
 
 // the modules of each screen determined by the classes of its body
 const SCREENS = [
@@ -56,6 +62,7 @@ const SCREENS = [
     { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, PremiumLicense, ResetButton, Strings, TemplateEditor, TrackSelect] },
+    { classes: ['site-review_page_glsr-tools'], modules: [Console, Import, IpDetection, Rollback, SystemInfo] },
 ];
 
 const init = () => {
@@ -68,7 +75,7 @@ const init = () => {
 };
 
 if ('loading' === document.readyState) {
-    document.addEventListener('DOMContentLoaded', init)
+    document.addEventListener('DOMContentLoaded', init, { once: true })
 } else {
     init()
 }

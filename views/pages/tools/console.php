@@ -17,6 +17,7 @@
             <button type="submit" id="glsr-fetch-console" class="glsr-button button"
                 data-ajax-click
                 data-console
+                data-route="console"
                 data-loading="<?php echo esc_attr_x('Reloading...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Reload', 'admin-text', 'site-reviews'); ?>
             </button>
@@ -27,6 +28,7 @@
             <button type="submit" id="glsr-clear-console" class="glsr-button button"
                 data-ajax-click
                 data-console
+                data-route="console-clear"
                 data-loading="<?php echo esc_attr_x('Clearing...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Clear', 'admin-text', 'site-reviews'); ?>
             </button>
@@ -54,6 +56,7 @@
             </select>
             <button type="submit" id="glsr-console-level" class="glsr-button button"
                 data-ajax-click
+                data-route="console-level"
                 data-loading="<?php echo esc_attr_x('Please wait...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Apply', 'admin-text', 'site-reviews'); ?>
             </button>
