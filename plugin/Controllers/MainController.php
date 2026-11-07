@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterPostMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
+use GeminiLabs\SiteReviews\Commands\RegisterUserMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Tables;
@@ -193,6 +194,14 @@ class MainController extends AbstractController
     public function registerTaxonomy(): void
     {
         $this->execute(new RegisterTaxonomy());
+    }
+
+    /**
+     * @action init
+     */
+    public function registerUserMeta(): void
+    {
+        $this->execute(new RegisterUserMeta());
     }
 
     /**

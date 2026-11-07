@@ -130,8 +130,8 @@ test('the review post type is registered on init, and the routes on the ajax act
 
     $init = array_filter(registeredHooks(), fn ($hook) => 'init' === $hook[0]);
     // onInit, registerPostMeta, registerPostType, registerReviewTypes,
-    // registerShortcodes, registerTaxonomy
-    expect($init)->toHaveCount(6);
+    // registerShortcodes, registerTaxonomy, registerUserMeta
+    expect($init)->toHaveCount(7);
 
     $GLOBALS['wp_filter'] = [];
     glsr()->singleton(GeminiLabs\SiteReviews\Hooks\RouterHooks::class);

@@ -746,3 +746,33 @@ test('the summary declares its schema', function () {
     expect($schema)->toHaveKey('properties');
     expect($controller->schema())->toBe($schema); // memoised
 });
+
+/*
+ * The list table's filter preference: registered user meta, saved through WordPress's own users route.
+ */
+
+test('the filters a user switches on are saved through wp/v2/users/me, and only filters that exist', function () {
+    $userId = actAsAdmin();
+    $key = 'edit_'.glsr()->post_type.'_filters';
+
+    $saved = restRequest('PUT', '/wp/v2/users/me', ['meta' => [$key => ['author', 'rating']]]);
+    expect($saved->get_status())->toBe(200);
+    expect($saved->get_data()['meta'][$key])->toBe(['author', 'rating']);
+    expect(get_user_meta($userId, $key, true))->toBe(['author', 'rating']);
+
+    $emptied = restRequest('PUT', '/wp/v2/users/me', ['meta' => [$key => []]]);
+    expect($emptied->get_status())->toBe(200);
+    expect(get_user_meta($userId, $key, true))->toBe([]);
+
+    $refused = restRequest('PUT', '/wp/v2/users/me', ['meta' => [$key => ['invented']]]);
+    expect($refused->get_status())->toBe(400);
+    expect(get_user_meta($userId, $key, true))->toBe([]);
+});
+
+test('the filter preference shows in the edit context only', function () {
+    actAsAdmin();
+    $key = 'edit_'.glsr()->post_type.'_filters';
+
+    expect(restRequest('GET', '/wp/v2/users/me', ['context' => 'edit'])->get_data()['meta'])->toHaveKey($key);
+    expect(restRequest('GET', '/wp/v2/users/me', ['context' => 'view'])->get_data()['meta'] ?? [])->not->toHaveKey($key);
+});

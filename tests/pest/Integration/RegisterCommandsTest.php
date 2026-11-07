@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Commands\RegisterPostMeta;
+use GeminiLabs\SiteReviews\Commands\RegisterUserMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
@@ -158,4 +159,19 @@ test('the tinymce popups are registered, one per shortcode', function () {
     // and each carries the fields the dialog is built from
     expect($popups['site_reviews'])->toHaveKey('fields')
         ->and($popups['site_reviews']['fields'])->not->toBeEmpty();
+});
+
+test('the list table filters preference is user meta the REST API edits, limited to the filters that exist', function () {
+    // Saved through PUT wp/v2/users/me, so WordPress validates it against this schema; `edit` keeps it
+    // off the public users API.
+    (new RegisterUserMeta())->handle();
+
+    $keys = get_registered_meta_keys('user');
+    $key = 'edit_'.glsr()->post_type.'_filters';
+    expect($keys)->toHaveKey($key);
+    expect($keys[$key]['single'])->toBeTrue();
+    expect($keys[$key]['type'])->toBe('array');
+    expect($keys[$key]['default'])->toBe(['rating']);
+    expect($keys[$key]['show_in_rest']['schema']['context'])->toBe(['edit']);
+    expect($keys[$key]['show_in_rest']['schema']['items']['enum'])->toContain('assigned_post', 'author', 'rating', 'type');
 });
