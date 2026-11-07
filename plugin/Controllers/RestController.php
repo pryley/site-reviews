@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestPluginController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestRenderController;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestReviewPartsController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSearchController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestShortcodeController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSubmissionController;
@@ -93,6 +94,7 @@ class RestController
     {
         (new RestPluginController())->registerRoutes();
         (new RestRenderController())->registerRoutes();
+        (new RestReviewPartsController())->registerRoutes();
         (new RestSearchController())->registerRoutes();
         (new RestShortcodeController())->registerRoutes();
         (new RestSubmissionController())->registerRoutes();

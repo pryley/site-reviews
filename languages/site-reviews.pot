@@ -3551,6 +3551,8 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45
 #: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68
 #: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:121
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:27
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:39
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr ""
@@ -3668,6 +3670,16 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/RestReviewController.php:252
 msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:55
+msgctxt "admin-text"
+msgid "Verification is not enabled on this site."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:148
+msgctxt "admin-text"
+msgid "The status could not be changed."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSummaryController.php:22
