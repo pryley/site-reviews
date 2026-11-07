@@ -44,6 +44,22 @@ class Translation
         return $this->entries;
     }
 
+    public function entryData(string $id, array $entry): array
+    {
+        $data = [
+            'desc' => $this->getEntryString($entry, 'msgctxt'),
+            'domain' => $this->getEntryString($entry, 'domain'),
+            'id' => $id,
+            'p1' => $this->getEntryString($entry, 'msgid_plural'),
+            's1' => $this->getEntryString($entry, 'msgid'),
+        ];
+        $text = !empty($data['p1'])
+            ? sprintf('%s | %s', $data['s1'], $data['p1'])
+            : $data['s1'];
+        $data['text'] = wp_strip_all_tags($text);
+        return $data;
+    }
+
     /**
      * @return static
      */

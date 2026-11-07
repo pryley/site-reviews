@@ -52,6 +52,8 @@ test('registers its routes', function () {
         ->toHaveKey('/'.REST_NS.'/shortcode/(?P<shortcode>[a-z_]+)')
         ->toHaveKey('/'.REST_NS.'/search/assigned-posts')
         ->toHaveKey('/'.REST_NS.'/search/assigned-users')
+        ->toHaveKey('/'.REST_NS.'/search/posts')
+        ->toHaveKey('/'.REST_NS.'/search/strings')
         ->toHaveKey('/'.REST_NS.'/search/users');
 });
 
@@ -228,7 +230,7 @@ test('the option lists, which include the users of the site, are refused to a us
  */
 
 test('the admin searches are refused to a visitor and to a user who cannot see the reviews', function () {
-    foreach (['assigned-posts', 'assigned-users', 'users'] as $subject) {
+    foreach (['assigned-posts', 'assigned-users', 'posts', 'users'] as $subject) {
         $route = '/'.REST_NS.'/search/'.$subject;
         wp_set_current_user(0);
         expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(401);
@@ -262,19 +264,53 @@ test('the assigned users search only offers users that have a review', function 
 
     $response = restRequest('GET', '/'.REST_NS.'/search/assigned-users', ['search' => 'Person']);
 
-    expect($response->get_data())->toBe([['id' => $assigned, 'title' => 'Reviewed Person']]);
+    expect($response->get_data())->toBe([[
+        'id' => $assigned,
+        'nickname' => get_userdata($assigned)->user_nicename,
+        'title' => 'Reviewed Person',
+        'url' => get_author_posts_url($assigned),
+    ]]);
 });
 
-test('the users search offers every user, by name or by ID', function () {
-    // The author of a review may have no review assigned to them.
+test('the users search offers every user, by name or by ID, with what the editor prints', function () {
+    // The author of a review may have no review assigned to them. The editor's assigned users
+    // box prints the nicename beside the name and links the author page.
     actAsAdmin();
-    $userId = createUser(['display_name' => 'Jane Author']);
+    $userId = createUser(['display_name' => 'Jane Author', 'user_nicename' => 'jane']);
+    $user = ['id' => $userId, 'nickname' => 'jane', 'title' => 'Jane Author', 'url' => get_author_posts_url($userId)];
 
     $byName = restRequest('GET', '/'.REST_NS.'/search/users', ['search' => 'Jane Author'])->get_data();
     $byId = restRequest('GET', '/'.REST_NS.'/search/users', ['search' => (string) $userId])->get_data();
 
-    expect($byName)->toContain(['id' => $userId, 'title' => 'Jane Author']);
-    expect($byId)->toBe([['id' => $userId, 'title' => 'Jane Author']]);
+    expect($byName)->toContain($user);
+    expect($byId)->toBe([$user]);
+});
+
+test('the posts search offers every published post, reviewed or not, with its link', function () {
+    actAsAdmin();
+    $postId = createPost(['post_title' => 'Unreviewed Page']);
+    createPost(['post_status' => 'draft', 'post_title' => 'Unreviewed Draft']);
+
+    $response = restRequest('GET', '/'.REST_NS.'/search/posts', ['search' => 'Unreviewed']);
+
+    expect($response->get_data())->toBe([['id' => $postId, 'title' => 'Unreviewed Page', 'url' => get_permalink($postId)]]);
+    expect(restRequest('GET', '/'.REST_NS.'/search/posts', ['search' => (string) $postId])->get_data())->toHaveCount(1); // a number is searched as an ID
+});
+
+test('the strings search is for whoever may change the settings, and leaves out the excluded ids', function () {
+    wp_set_current_user(createUser(['role' => 'editor'])); // may see the reviews, may not change the settings
+    $refused = restRequest('GET', '/'.REST_NS.'/search/strings', ['search' => 'Your review']);
+    expect($refused->get_status())->toBe(403);
+    expect($refused->get_data()['code'])->toBe('glsr_forbidden');
+
+    actAsAdmin();
+    $found = restRequest('GET', '/'.REST_NS.'/search/strings', ['search' => 'Your review'])->get_data();
+    expect($found)->not->toBeEmpty();
+    expect($found[0])->toHaveKeys(['desc', 'domain', 'id', 'p1', 's1', 'text']);
+    expect($found[0]['text'])->toMatch('/your review/i');
+
+    $excluded = restRequest('GET', '/'.REST_NS.'/search/strings', ['exclude' => [$found[0]['id']], 'search' => 'Your review'])->get_data();
+    expect(array_column($excluded, 'id'))->not->toContain($found[0]['id']);
 });
 
 /*

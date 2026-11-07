@@ -99,12 +99,15 @@ A dropdown that is rendered with `views/partials/listtable/filter.php` searches 
 ```text
 GET site-reviews/v1/search/assigned-posts?search=…   posts that have a review assigned
 GET site-reviews/v1/search/assigned-users?search=…   users that have a review assigned
-GET site-reviews/v1/search/users?search=…            every user
+GET site-reviews/v1/search/posts?search=…            every published post, with its url
+GET site-reviews/v1/search/users?search=…            every user, with the nickname and the url of the author page
 ```
 
-- Each answers with `[{ id, title }]`, and searches a number as an ID.
+- Each answers with `[{ id, title }]` and the fields named above, and searches a number as an ID.
 - Each requires the capability that shows the reviews in the admin.
 - A filter of the reviews table names its route in `searchRoute()`.
+
+The Strings tab of the settings searches the translatable strings of the plugin with `GET site-reviews/v1/search/strings?search=…&exclude[]=…`, which answers with `[{ desc, domain, id, p1, s1, text }]` and requires the capability that shows the settings.
 
 ## Debug
 
