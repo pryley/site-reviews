@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RepairPermissions;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
-use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
@@ -414,16 +413,11 @@ test('the register commands fail rather than fatal when their directory is missi
     $shortcodes = new RegisterShortcodes();
     $shortcodes->handle();
 
-    $missDir('plugin/Tinymce');
-    $tinymce = new RegisterTinymcePopups();
-    $tinymce->handle();
-
     $missDir('plugin/Widgets');
     $widgets = new RegisterWidgets();
     $widgets->handle();
 
     expect($shortcodes->successful())->toBeFalse()
-        ->and($tinymce->successful())->toBeFalse()
         ->and($widgets->successful())->toBeFalse();
 });
 

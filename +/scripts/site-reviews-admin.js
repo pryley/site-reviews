@@ -16,7 +16,6 @@ import PublishAction from '@/admin/publish-action.js';
 import Request from '@/public/modules/request/request.js';
 import Search from '@/admin/search.js';
 import Sections from '@/admin/sections.js';
-import Shortcode from '@/admin/shortcode.js';
 import { share } from '@/admin/shared.js';
 import StarRating from '@/public/modules/form/starrating.js';
 import Status from '@/admin/status.js';
@@ -30,11 +29,10 @@ import tippy, { followCursor } from 'tippy.js';
 
 GLSR.Event = adopt(GLSR.Event);
 GLSR.lib = lib;
-share({ Ajax, notices, shortcode: () => shortcode })
+share({ Ajax, notices })
 GLSR.Request = Request;
 GLSR.Notice = Notice;
 GLSR.Rating = StarRating();
-GLSR.Tinymce = { create: (editorId) => shortcode?.create(editorId) };
 lib.register('tippy', { tippy, plugins: { followCursor } })
 GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 
@@ -55,8 +53,6 @@ Prism.languages.shortcode = {
     },
 }
 
-let shortcode = null;
-
 function site_reviews_footer_notice () {
     if (jQuery('.glsr-notice-footer').length) {
         jQuery('#wpbody-content').addClass('has-footer-notice');
@@ -67,7 +63,6 @@ jQuery(function ($) {
     Prism.highlightAll();
     watchTabs()
     notices()
-    shortcode = new Shortcode('.glsr-mce');
     GLSR.Rating.init('.glsr-field-rating select', { clearable: true });
 
     tippy('.glsr-tooltip', {appendTo: () => document.body});

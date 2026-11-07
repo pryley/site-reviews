@@ -424,13 +424,12 @@ test('the addon config path is normalized only when it points inside the addon',
 });
 
 test('the base lifecycle hooks are safe no-ops', function () {
-    // install/registerShortcodes/registerTinymcePopups/registerWidgets are empty in the base — an
+    // install/registerShortcodes/registerWidgets are empty in the base — an
     // addon overrides the ones it needs — but the base wires every one to a hook, so each must be
     // callable without doing anything.
     expect(function () {
         $this->controller->install();
         $this->controller->registerShortcodes();
-        $this->controller->registerTinymcePopups();
         $this->controller->registerWidgets();
     })->not->toThrow(\Throwable::class);
 });

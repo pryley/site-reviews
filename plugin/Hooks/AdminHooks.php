@@ -16,7 +16,6 @@ class AdminHooks extends AbstractHooks
             ['filterExportArgs', 'export_args', 11],
             ['filterRowMeta', 'plugin_row_meta', 10, 2],
             ['filterScreenOptionsButton', 'screen_options_show_submit', 20],
-            ['filterTinymcePlugins', 'mce_external_plugins', 15],
             ['onActivation', 'admin_init'],
             ['onDeactivation', "deactivate_{$this->basename}"],
             ['onImportEnd', 'import_end'],

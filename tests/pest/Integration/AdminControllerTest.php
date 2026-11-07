@@ -244,15 +244,6 @@ test('the row meta is added to the plugin\'s own row and to nobody else\'s', fun
         ->toBe(['details' => 'View details']);
 });
 
-test('the shortcode button is added to tinymce for somebody who may write posts', function () {
-    expect(glsr(AdminController::class)->filterTinymcePlugins([]))
-        ->toHaveKey('glsr_shortcode');
-
-    wp_set_current_user(createUser(['role' => 'subscriber']));
-
-    expect(glsr(AdminController::class)->filterTinymcePlugins([]))->toBe([]);
-});
-
 test('the screen options panel gets a close button, and only on our screens', function () {
     // WordPress's own submit button is replaced with a submit + close pair, because
     // the plugin's admin styling hides the default way of closing the panel.

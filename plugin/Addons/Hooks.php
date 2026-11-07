@@ -63,7 +63,6 @@ abstract class Hooks extends AbstractHooks
             ['onUpgrade', 'admin_init', 11],
             ['registerLanguages', 'after_setup_theme'],
             ['registerShortcodes', 'init'],
-            ['registerTinymcePopups', 'admin_init'],
             ['registerWidgets', 'widgets_init'],
             ['renderSettings', "site-reviews/settings/{$this->slug()}"],
         ];

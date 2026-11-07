@@ -52,9 +52,7 @@ class LocalizeFilters
             'minrating' => 'rating.min',
             'nameprefix' => 'nameprefix',
             'nonce' => 'nonce',
-            'shortcodes' => 'tinymce.required',
             'text' => 'text',
-            'tinymce' => 'tinymce.plugins',
         ],
         'public' => [
             'action' => 'request.ajax.action',

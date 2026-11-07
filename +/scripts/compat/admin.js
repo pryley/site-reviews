@@ -21,9 +21,7 @@ const PATHS = {
     minrating: 'rating.min',
     nameprefix: 'nameprefix',
     nonce: 'nonce',
-    shortcodes: 'tinymce.required',
     text: 'text',
-    tinymce: 'tinymce.plugins',
 };
 
 // Review Forms 3.1 calls GLSR.autosize(), which does nothing: a textarea grows with CSS field-sizing.
@@ -31,7 +29,7 @@ const autosize = Object.assign(() => {}, { destroy: () => {}, update: () => {} }
 
 const keys = { ALT: 18, DOWN: 40, ENTER: 13, ESC: 27, SPACE: 32, TAB: 9, UP: 38 };
 
-export default ({ Ajax, notices, report, shortcode }) => {
+export default ({ Ajax, notices, report }) => {
     const { GLSR } = window;
     reportTo(report)
     aliasPaths(PATHS, KEYS)
@@ -39,7 +37,6 @@ export default ({ Ajax, notices, report, shortcode }) => {
     alias(GLSR, 'autosize', 'GLSR.autosize', null, () => autosize)
     alias(GLSR, 'keys', 'GLSR.keys', 'event.key', () => keys)
     alias(GLSR, 'notices', 'GLSR.notices', 'GLSR.Notice', notices)
-    alias(GLSR, 'shortcode', 'GLSR.shortcode', 'GLSR.Tinymce', shortcode)
     alias(GLSR, 'stars', 'GLSR.stars', 'GLSR.Rating', () => GLSR.Rating)
     alias(GLSR, 'Tippy', 'GLSR.Tippy', 'GLSR.lib.tippy', () => GLSR.lib.tippy)
     alias(GLSR, 'Utils', 'GLSR.Utils', 'GLSR.Util', () => GLSR.Util)

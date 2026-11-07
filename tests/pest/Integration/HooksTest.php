@@ -82,7 +82,7 @@ test('a hooks class registers hooks, and every one of them points at a method th
     'GeolocationHooks', 'ImportHooks', 'ListTableHooks', 'MainHooks',
     'MenuHooks', 'MetaboxHooks', 'NetworkHooks', 'NoticeHooks', 'PrivacyHooks',
     'PublicHooks', 'QueueHooks', 'RestHooks', 'ReviewHooks', 'RevisionHooks',
-    'RouterHooks', 'SettingsHooks', 'TaxonomyHooks', 'TinymceHooks', 'ToolsHooks',
+    'RouterHooks', 'SettingsHooks', 'TaxonomyHooks', 'ToolsHooks',
     'TranslationHooks', 'UpdateHooks', 'UserHooks', 'VerificationHooks', 'WelcomeHooks',
 ]);
 
@@ -354,15 +354,6 @@ test('the rest routes stand down while wordpress is installing', function () {
     }
 
     expect(registeredHooks())->toBe([]);
-});
-
-test('the tinymce button can be switched off by filter', function () {
-    $GLOBALS['wp_filter'] = [];
-    add_filter('site-reviews/register/tinymce', '__return_false');
-
-    glsr(GeminiLabs\SiteReviews\Hooks\TinymceHooks::class)->run();
-
-    expect(has_action('media_buttons'))->toBeFalse();
 });
 
 test('a licensed addon gets its update message hooked at init', function () {

@@ -129,17 +129,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @filter mce_external_plugins
-     */
-    public function filterTinymcePlugins(array $plugins): array
-    {
-        if (glsr()->can('edit_posts')) {
-            $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
-        }
-        return $plugins;
-    }
-
-    /**
      * @action admin_init
      */
     public function onActivation(): void

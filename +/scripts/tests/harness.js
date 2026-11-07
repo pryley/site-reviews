@@ -30,10 +30,6 @@ const adminConfig = () => ({
         systemInfoError: 'Site Reviews was unable to fetch the System Info: %1$s %2$s',
         systemInfoFailed: 'Unable to fetch the System Info.',
     },
-    tinymce: {
-        plugins: { glsr_shortcode: 'https://example.org/wp-content/plugins/site-reviews/assets/scripts/mce-plugin.js' },
-        required: { site_review: { post_id: 'Enter a Review Post ID' } },
-    },
     urls: { addons: 'https://example.org/wp-admin/edit.php?post_type=site-review&page=glsr-addons' },
 });
 

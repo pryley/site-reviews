@@ -166,14 +166,11 @@ GLSR.Util     // { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpt
 ```js
 GLSR.Notice      // { add(notices), error(message), notice(level, message) }
 GLSR.Rating      // { init(selector, options), rebuild(), destroy() }
-GLSR.Tinymce     // { create(editorId) }
 GLSR.Event
 GLSR.Request
 GLSR.Util
 GLSR.lib.tippy   // { tippy, plugins: { followCursor } }
 ```
-
-`GLSR.Tinymce` is the shortcode button of the classic editor. Site Reviews 9.0 removes the button, and `GLSR.Tinymce` and `GLSR.config.tinymce` with it.
 
 ## An editor screen
 
@@ -236,7 +233,6 @@ GLSR.config
 ├── nonce        { 'clear-console', 'fetch-console', … }
 ├── rating       { min, max }
 ├── text         { cancel, cancelling, importError, rollbackError, searching, … }
-├── tinymce      { plugins, required }
 ├── urls         { addons }
 └── {feature}
 ```
@@ -336,16 +332,14 @@ The admin script:
 | `GLSR.nameprefix` | `GLSR.config.nameprefix` |
 | `GLSR.nonce` | `GLSR.config.nonce` |
 | `GLSR.notices` | `GLSR.Notice` |
-| `GLSR.shortcode` | `GLSR.Tinymce` |
-| `GLSR.shortcodes` | `GLSR.config.tinymce.required` |
 | `GLSR.stars` | `GLSR.Rating` |
 | `GLSR.text` | `GLSR.config.text` (the keys are camelCase) |
-| `GLSR.tinymce` | `GLSR.config.tinymce.plugins` |
 | `GLSR.Tippy` | `GLSR.lib.tippy` |
 | `GLSR.Utils` | `GLSR.Util` |
 
-Three keys are removed in 9.0.0 with no replacement:
+These keys are removed in 9.0.0 with no replacement:
 
 - `GLSR.state`, which nothing read.
 - `GLSR.Event.events`, which was never meant to be public (use `GLSR.Event.listeners()` in debug mode).
 - `GLSR.filters` in the admin script. The fixed choices of a searchable dropdown are now on its element, in `data-options`.
+- `GLSR.shortcode`, `GLSR.shortcodes`, `GLSR.tinymce` and `GLSR.config.tinymce` in the admin script, with the shortcode button of the classic editor. A classic editor types the shortcode.

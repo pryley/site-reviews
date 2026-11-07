@@ -168,7 +168,6 @@ site-reviews/rating/ranking                                 (float $ranking, arr
 site-reviews/rating/round-by                                (int $roundBy): int
 site-reviews/ratings                                        (array $ratings, array $args): array
 site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
-site-reviews/register/tinymce                               (bool $register): bool
 site-reviews/register/widgets                               (bool $register): bool
 site-reviews/render/view                                    (string $view, array $data): string
 site-reviews/rendered/field                                 (string $field, string $fieldType, array $field): string
@@ -250,8 +249,6 @@ site-reviews/summary/wrap/<tag_or_field_key>                (string $value, stri
 site-reviews/support/deprecated/v6                          (bool $supportDeprecated): bool
 site-reviews/system-info/section/<key>                      (array $details, array $systemData): array
 site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
-site-reviews/tinymce/editor-ids                             (array $editorIds, string $editorId): array
-site-reviews/tinymce/fields/<shortcode>                     (array $fields): array
 site-reviews/tools/general                                  (array $paths): array
 site-reviews/translation/entries                            (array $entries): array
 site-reviews/translator/domains                             (array $domains): array
