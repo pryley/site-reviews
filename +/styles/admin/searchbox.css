@@ -5,15 +5,19 @@
   max-width: 800px;
   position: relative;
 }
+
 .glsr-search-box * {
   box-sizing: border-box;
 }
+
 .glsr-search-box.is-active .spinner {
   visibility: visible;
 }
+
 .glsr-search-box.is-active .glsr-search-input::-webkit-search-cancel-button {
   display: none !important;
 }
+
 .glsr-search-box .glsr-remove-button {
   position: absolute;
   left: -4px;
@@ -26,6 +30,7 @@
   cursor: pointer;
   text-indent: 0;
 }
+
 .glsr-search-box .glsr-remove-icon::before {
   margin-left: 0px;
   border-radius: 50%;
@@ -42,6 +47,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .glsr-search-box .glsr-remove-button:hover .glsr-remove-icon::before,
 .glsr-search-box .glsr-remove-button:focus .glsr-remove-icon::before {
   color: #1e1e1e;
@@ -59,19 +65,24 @@
     z-index: 20;
   }
 }
+
 .glsr-search-box .glsr-search-box-wrap {
   align-items: center;
   display: flex;
   position: relative;
 }
+
 .glsr-search-box .glsr-search-box-wrap .glsr-spinner {
   top: auto;
   right: 6px;
 }
+
 .glsr-search-box .description {
   display: block;
 }
+
 .glsr-search-box .glsr-selected-entries {}
+
 .glsr-search-box .glsr-multibox-entry {
   color: #444;
   display: block;
@@ -112,6 +123,7 @@
     right: -1px;
   }
 }
+
 .glsr-search-box .glsr-search-results > div,
 .glsr-search-box .glsr-search-results > span {
   position: relative;
@@ -128,9 +140,11 @@
   margin-top: -1px;
   overflow: hidden;
 }
+
 .glsr-search-box .glsr-search-results > div {
   background-color: #f6fbfd;
 }
+
 .glsr-search-box .glsr-search-results > span:hover,
 .glsr-search-box .glsr-search-results > span:active,
 .glsr-search-box .glsr-search-results > span:focus {
@@ -138,30 +152,4 @@
   background-color: var(--glsr-theme-color);
   cursor: pointer;
   outline: none;
-}
-
-.site-review_page_settings .glsr-search-box .glsr-search-input {
-  font-size: 16px;
-  height: 32px;
-}
-
-.glsr-strings-form .glsr-search-box .glsr-search-input {
-  font-size: 1.2em;
-}
-.glsr-strings-form .glsr-search-results > span::after {
-  align-items: center;
-  background: rgba(0,0,0,.07);
-  border-radius: 2px;
-  content: attr(data-domain);
-  display: inline-flex;
-  flex: 0;
-  font-family: "Fira Code", Consolas, Monaco, monospace;
-  font-size: 11px;
-  line-height: 1.2;
-  padding: 4px 6px;
-}
-.glsr-strings-form .glsr-search-results > span > span  {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

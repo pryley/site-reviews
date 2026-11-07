@@ -1,25 +1,42 @@
+@media screen and (max-width: 720px) {
+  nav a.glsr-nav-tab,
+  nav a.glsr-nav-tab.nav-tab-active:hover {
+    transition-property: background, color;
+    border-bottom: 1px solid #ccc !important; /* fixes tabs on welcome page */
+    margin: 10px 10px 0 0;
+  }
+  .wrap nav.glsr-nav-tab-wrapper {
+    border-bottom: 0;
+  }
+}
+
 .wrap nav.glsr-nav-tab-wrapper {
   margin-top: 12px;
   padding-top: 0;
 }
+
 nav.glsr-nav-tab-wrapper a.glsr-nav-tab:focus {
   box-shadow: none;
   outline-offset: -1px;
   outline: 2px solid #0071a1;
 }
+
 /* The same buttons as on a narrow screen (settings.css), for a row that wraps at any width: tabs-wrap.js */
 .wrap nav.glsr-nav-tab-wrapper.is-wrapped {
   border-bottom: 0;
 }
+
 nav.glsr-nav-tab-wrapper.is-wrapped a.glsr-nav-tab,
 nav.glsr-nav-tab-wrapper.is-wrapped a.glsr-nav-tab.nav-tab-active:hover {
   transition-property: background, color;
   border-bottom: 1px solid #ccc !important;
   margin: 10px 10px 0 0;
 }
+
 .wrap > .glsr-nav-view {
   margin-top: 20px;
 }
+
 .glsr-subsubsub {
   display: flex;
   flex-wrap: wrap;
@@ -27,16 +44,20 @@ nav.glsr-nav-tab-wrapper.is-wrapped a.glsr-nav-tab.nav-tab-active:hover {
   margin-top: 0.5em;
   text-align: left;
 }
+
 .glsr-subsubsub li {
   align-items: center;
   display: flex;
 }
+
 .glsr-subsubsub li a {
   padding: 0 .2em;
 }
+
 .glsr-subsubsub li span {
   margin: 0 .2em;
 }
+
 .glsr-subsubsub li:last-child span {
   display: none;
 }

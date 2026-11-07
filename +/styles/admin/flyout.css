@@ -10,20 +10,24 @@
   transition: opacity 0.2s ease-in-out;
   z-index: 99999;
 }
+
 #glsr-flyout:not(.is-open) {
   pointer-events: none;
 }
+
 @media (max-width: 782px) { /* 959px */
   #glsr-flyout {
     display: none;
   }
 }
+
 @media (min-width: 960px) {
   body[class*="post-type-site-review"].edit-php #wpbody-content,
   body[class*="site-review_page_"] #wpbody-content {
     padding-bottom: 115px; /* 65px + 50px */
   }
 }
+
 #glsr-flyout .glsr-flyout-mascot {
   align-items: center;
   background-color: var(--glsr-primary);
@@ -33,17 +37,21 @@
   pointer-events: auto;
   transition: box-shadow 0.2s ease-in-out;
 }
+
 #glsr-flyout .glsr-flyout-mascot svg {
   color: var(--glsr-primary-950);
   display: block;
 }
+
 #glsr-flyout path.glsr-icon-svg__bg {
   fill: #fff;
 }
+
 #glsr-flyout path:is(.glsr-icon-svg__eye_l,.glsr-icon-svg__eye_r) {
   transform: translateY(0);
   transition: transform 0.2s ease-in-out;
 }
+
 #glsr-flyout.is-open path:is(.glsr-icon-svg__eye_l,.glsr-icon-svg__eye_r) {
   animation: none;
   transform: translateY(-4%);
@@ -60,6 +68,7 @@
   transition: all 0.2s ease-out;
   white-space: nowrap;
 }
+
 #glsr-flyout .glsr-flyout-label > div {
   background-color: rgba(44 51 56/.9);
   border-radius: 3px;
@@ -70,24 +79,29 @@
   position: relative;
   transition: background-color 0.2s ease-out;
 }
+
 #glsr-flyout .glsr-flyout-button:is(:hover,:focus) .glsr-flyout-label > div,
 #glsr-flyout .glsr-flyout-item:is(:hover,:focus) .glsr-flyout-label > div {
   background-color: rgba(44 51 56/1);
 }
+
 #glsr-flyout .glsr-flyout-mascot .glsr-flyout-label {
   opacity: 1;
   transform: scale(1);
   transform-origin: right;
 }
+
 #glsr-flyout.is-open .glsr-flyout-mascot .glsr-flyout-label {
   opacity: 0;
   transform: scale(0);
 }
+
 #glsr-flyout .glsr-flyout-items {
   display: flex;
   flex-direction: column;
   row-gap: 10px;
 }
+
 #glsr-flyout .glsr-flyout-item {
   align-items: center;
   background-color: rgba(44 51 56/.9);
@@ -113,6 +127,7 @@
     background-color: rgba(44 51 56/1);
   }
 }
+
 #glsr-flyout .glsr-flyout-item.glsr-flyout-premium i {
   align-items: center;
   color: var(--glsr-primary);
@@ -120,17 +135,20 @@
   justify-content: center;
   position: relative;
 }
+
 #glsr-flyout.is-open .glsr-flyout-item {
   opacity: 1;
   /*visibility: visible;*/
   transform: scale(1);
 }
+
 #glsr-flyout .glsr-flyout-item i {
   color: #fff;
   font-size: 26px;
   height: 26px;
   width: 26px;
 }
+
 #glsr-flyout .glsr-flyout-item i.dashicons-editor-help {
   transform: scale(1.3);
 }

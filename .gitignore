@@ -25,3 +25,4 @@ tests/bin/plugins
 tests/bin/zips
 vendor
 !+/scripts/admin/vendor/
+!+/styles/admin/vendor/

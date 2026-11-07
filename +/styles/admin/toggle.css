@@ -1,0 +1,65 @@
+/* Toggle Control */
+.glsr-toggle {
+  --size: 18px;
+  height: var(--size);
+  position: relative;
+  width: calc(var(--size) * 2);
+}
+
+.glsr-toggle .glsr-toggle__track {
+  background-color: #fff;
+  border: 1px solid #1e1e1e;
+  border-radius: var(--size);
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  transition: background-color .2s ease;
+  width: 100%;
+}
+
+.glsr-toggle .glsr-toggle__thumb {
+  background-color: #1e1e1e;
+  border-radius: var(--size);
+  box-sizing: border-box;
+  display: block;
+  height: calc(var(--size) / 1.5);
+  left: calc(var(--size) / 6);
+  position: absolute;
+  top: calc(var(--size) / 6);
+  transition: transform .1s ease;
+  width: calc(var(--size) / 1.5);
+}
+
+.glsr-toggle input {
+  appearance: none;
+  cursor: pointer;
+  height: 100%;
+  inset: 0;
+  margin: 0;
+  opacity: 0 !important;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.glsr-toggle input:checked ~ .glsr-toggle__track {
+  background-color: var(--wp-admin-theme-color, #2271b1);
+  border: calc(var(--size) / 2) solid transparent;
+}
+
+.glsr-toggle input:checked ~ .glsr-toggle__thumb {
+  background-color: #fff;
+  border-width: 0;
+  transform: translateX(var(--size));
+}
+
+.glsr-toggle input:focus ~ .glsr-toggle__track {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--wp-admin-theme-color, #2271b1);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.glsr-toggle input:disabled ~ .glsr-toggle__track,
+.glsr-toggle input:disabled ~ .glsr-toggle__thumb {
+  opacity: 0.5;
+}

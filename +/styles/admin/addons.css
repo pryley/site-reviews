@@ -1,15 +1,18 @@
 .glsr-premium > h2 {
   text-align: center;
 }
+
 .glsr-premium > p {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   width: clamp(320px, 80%, 100%);
 }
+
 .glsr-premium__features {
   display: grid;
 }
+
 .glsr-premium__banner {
   display: flex;
   justify-content: center;
@@ -34,11 +37,13 @@
     width: calc(100% - 48px);
   }
 }
+
 @media only screen and (max-width: 600px) {
   .glsr-premium__banner svg {
     width: calc(100% - 2rem);
   }
 }
+
 .glsr-premium__table {
   background-color: #fff;
   border: 1px solid #000;
@@ -46,11 +51,13 @@
   box-sizing: border-box;
   padding: 1.5rem;
 }
+
 @media only screen and (max-width: 600px) {
   .glsr-premium__table {
     padding-inline: 1rem;
   }
 }
+
 .glsr-premium__table table {
   border: none;
   border-spacing: 0;
@@ -58,67 +65,77 @@
   margin: 0;
   width: 100%;
 }
+
 .glsr-premium__table th div {
   display: flex;
   align-items: last baseline;
   justify-content: center;
 }
+
 .glsr-premium__table td div {
   display: flex;
   gap: .5em;
   align-items: first baseline;
   justify-content: center;
 }
+
 .glsr-premium__table :is(td,th):first-of-type div {
   justify-content: start;
   text-align: start;
   text-wrap: balance;
 }
+
 .glsr-premium__table th {
   font-size: 1.125rem;
   font-weight: 700;
   padding: 0 .5rem calc(.5 * 2rem);
   vertical-align: baseline;
 }
+
 .glsr-premium__table th:first-of-type {
   font-size: 1.625rem;
   padding-inline: 0;
 }
+
 .glsr-premium__table th:last-of-type {
   padding-inline: 0;
 }
+
 @media only screen and (max-width:480px) {
   .glsr-premium__table th:first-of-type {
     font-size: 1.5rem;
     line-height: 1.16;
   }
 }
+
 .glsr-premium__table td {
   border-top: 1px solid #000;
   font-size: 1rem;
   line-height: 1.5;
   padding: 12px;
 }
+
 .glsr-premium__table tbody > :nth-child(odd) {
   background-color: var(--glsr-secondary-100);
 }
+
 .glsr-premium__table td .dashicons-before::before {
   height: 1.5rem;
   width: 1.5rem;
   font-size: 1.5rem;
 }
+
 .glsr-premium__table td .dashicons-no-alt {
   color: #CC1818;
 }
+
 .glsr-premium__table td .dashicons-yes {
   color: #00D48B;
 }
+
 .glsr-premium__table td .glsr-tooltip {
   color: #000;
 }
-
-
-
 
 .glsr-addons {
   box-sizing: border-box;
@@ -129,12 +146,14 @@
   max-width: 1000px;
   width: 100%;
 }
+
 @media only screen and (min-width: 783px) {
   .glsr-addons {
     gap: 20px;
     grid-auto-rows: 1fr;
   }
 }
+
 .glsr-addon {
   background-color: #fff;
   border-radius: 2px;
@@ -144,16 +163,20 @@
   grid-template-rows: auto max-content;
   position: relative;
 }
+
 .glsr-addon-description {
   padding: 20px 20px 0;
 }
+
 .glsr-addon-description p {
   margin: 0;
 }
+
 .glsr-addon-name {
   font-size: 16px;
   margin-top: 0;
 }
+
 .glsr-addon-footer {
   box-sizing: border-box;
   display: flex;
@@ -163,6 +186,7 @@
   overflow: hidden;
   padding: 10px;
 }
+
 .glsr-addon-screenshot {
   background-color: currentColor;
   border-radius: 2px;
@@ -178,11 +202,13 @@
     outline-offset: -6px;
   }
 }
+
 .glsr-addon-link {
   align-items: center;
   display: inline-flex;
   margin: 3px !important;
 }
+
 .glsr-addon-link.glsr-external::after {
   content: "\00a0\f504";
   font-family: dashicons;
@@ -203,6 +229,7 @@
   top: -3px;
   vertical-align: baseline;
 }
+
 @media screen and (max-width: 782px) {
   #glsr-premium-button {
     font-size: 14px;

@@ -1,3 +1,37 @@
+/* Console
+ ------------------------- */
+
+.glsr-code[readonly] {
+  width: 100%;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  font-weight: 300;
+  white-space: pre;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.glsr-code-large {
+  min-height: 60vh;
+}
+
+.post-type-site-review code,
+.post-type-site-review .code {
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+}
+
+a[data-expand]:not(.components-button):not(.button):not(.glsr-notice *) {
+  background-color: rgba(0,0,0,.07);
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  hyphens: none;
+  margin: 0 1px;
+  padding: 3px 5px 2px;
+  word-break: normal;
+  word-spacing: normal;
+}
+
+.description a[data-expand]:not(.components-button):not(.button) {
+  font-size: 13px;
+}
+
 /* Code samples
  ------------------------- */
 

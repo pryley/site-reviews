@@ -3,12 +3,15 @@
   margin: 0;
   position: relative;
 }
+
 .glsr-search-multibox.is-active .spinner {
   visibility: visible;
 }
+
 .glsr-search-multibox.is-active .glsr-search-input::-webkit-search-cancel-button {
   display: none !important;
 }
+
 .glsr-search-multibox .glsr-remove-button {
   background: 0 0;
   border: none;
@@ -41,6 +44,7 @@
     color: #1e1e1e;
   }
 }
+
 .glsr-search-multibox .glsr-search-input {
   background: transparent;
   border: none;
@@ -54,6 +58,7 @@
     box-shadow: none;
   }
 }
+
 .glsr-search-multibox .glsr-search-multibox-entries {
   background-color: #fff;
   border-radius: 4px;
@@ -67,28 +72,33 @@
   width: 100%;
   z-index: 2;
 }
+
 .glsr-search-multibox .glsr-search-multibox-entries:focus-within {
   border-color: var(--glsr-theme-color);
   box-shadow: 0 0 0 1px var(--glsr-theme-color);
   outline: 2px solid transparent;
   z-index: 20;
 }
+
 .glsr-search-multibox .glsr-search-multibox-entries:focus-within + .glsr-search-results {
   border-color: var(--glsr-theme-color);
   box-shadow: 1px 1px 0 0 var(--glsr-theme-color),
              -1px 1px 0 0 var(--glsr-theme-color);
   z-index: 25;
 }
+
 .glsr-search-multibox .glsr-selected-entries {
   column-gap: 6px;
   display: flex;
   flex-wrap: wrap;
   padding: 0 6px;
 }
+
 .glsr-search-multibox .glsr-selected-entries a {
   color: inherit;
   pointer-events: none;
 }
+
 .glsr-search-multibox .glsr-selected-entries > span {
   align-items: center;
   background: rgba(0,0,0,.07);
@@ -103,6 +113,7 @@
   position: relative;
   margin: 6px 0 0;
 }
+
 .glsr-search-multibox .glsr-search-results {
   -webkit-overflow-scrolling: touch;
   background-color: #fff;
@@ -138,6 +149,7 @@
     width: 100%;
   }
 }
+
 .glsr-search-multibox .glsr-search-results > * {
   align-items: center;
   box-sizing: border-box;
@@ -155,6 +167,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .glsr-search-multibox .glsr-search-results > span {
   &:hover,
   &:active,
@@ -166,11 +179,13 @@
     outline: none;
   }
 }
+
 .glsr-search-multibox .glsr-multibox-entry {
   color: #444;
   display: block;
   margin-left: 20px;
 }
+
 .glsr-search-multibox .glsr-spinner {
   top: auto;
   bottom: 5px;

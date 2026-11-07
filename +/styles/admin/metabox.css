@@ -14,9 +14,11 @@
   padding: 2px 12px;
   width: calc(100% + 24px);
 }
+
 .glsr-metabox-footer p {
   margin: 6px 0;
 }
+
 .glsr-metabox-footer code {
   border-radius: 3px;
   font-size: 12px;
@@ -29,12 +31,14 @@
   padding: 0;
   margin: 0;
 }
+
 .glsr-metabox-fields {
   container-name: fields-grid;
   container-type: inline-size;
   display: grid;
   grid-template-columns: auto 1fr;
 }
+
 .glsr-metabox-field {
   border-top: 1px solid rgba(0,0,0,.1);
   display: grid;
@@ -44,10 +48,12 @@
     border-top: none;
   }
 }
+
 .glsr-metabox-field .glsr-label {
   box-sizing: border-box;
   padding: 12px 12px 0;
 }
+
 .glsr-metabox-field .glsr-input {
   box-sizing: border-box;
   display: flex;
@@ -55,15 +61,18 @@
   gap: 6px;
   padding: 0 12px 12px;
 }
+
 .glsr-metabox-field .glsr-input input,
 .glsr-metabox-field .glsr-input input > * {
   margin: 0;
 }
+
 .glsr-metabox-field .glsr-label label {
   font-weight: 600;
   margin: 0;
   padding: 0;
 }
+
 .glsr-metabox-field .glsr-input img {
   border-radius: 3px;
 }
@@ -99,16 +108,19 @@
     margin: auto 0;
   }
 }
+
 @container fields-grid (min-width:600px) {
   .glsr-metabox-field .glsr-label {
     max-width: 200px;
   }
 }
+
 @container fields-grid (min-width:720px) {
   .glsr-metabox-field .glsr-label {
     max-width: 250px;
   }
 }
+
 @container fields-grid (min-width:960px) {
   .glsr-metabox-field .glsr-label {
     max-width: none;
@@ -123,65 +135,6 @@
   }
 }
 
-/* Toggle Control */
-.glsr-toggle {
-  --size: 18px;
-  height: var(--size);
-  position: relative;
-  width: calc(var(--size) * 2);
-}
-.glsr-toggle .glsr-toggle__track {
-  background-color: #fff;
-  border: 1px solid #1e1e1e;
-  border-radius: var(--size);
-  box-sizing: border-box;
-  display: block;
-  height: 100%;
-  transition: background-color .2s ease;
-  width: 100%;
-}
-.glsr-toggle .glsr-toggle__thumb {
-  background-color: #1e1e1e;
-  border-radius: var(--size);
-  box-sizing: border-box;
-  display: block;
-  height: calc(var(--size) / 1.5);
-  left: calc(var(--size) / 6);
-  position: absolute;
-  top: calc(var(--size) / 6);
-  transition: transform .1s ease;
-  width: calc(var(--size) / 1.5);
-}
-.glsr-toggle input {
-  appearance: none;
-  cursor: pointer;
-  height: 100%;
-  inset: 0;
-  margin: 0;
-  opacity: 0 !important;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-}
-.glsr-toggle input:checked ~ .glsr-toggle__track {
-  background-color: var(--wp-admin-theme-color, #2271b1);
-  border: calc(var(--size) / 2) solid transparent;
-}
-.glsr-toggle input:checked ~ .glsr-toggle__thumb {
-  background-color: #fff;
-  border-width: 0;
-  transform: translateX(var(--size));
-}
-.glsr-toggle input:focus ~ .glsr-toggle__track {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--wp-admin-theme-color, #2271b1);
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-.glsr-toggle input:disabled ~ .glsr-toggle__track,
-.glsr-toggle input:disabled ~ .glsr-toggle__thumb {
-  opacity: 0.5;
-}
-
 /* Form Control */
 .glsr-metabox-field > input,
 .glsr-metabox-field textarea,
@@ -191,13 +144,16 @@
   max-width: none;
   width: 100%;
 }
+
 .glsr-metabox-field textarea {
   field-sizing: content;
   min-height: 2lh;
 }
+
 .glsr-metabox-field select {
   padding-right: 20px;
 }
+
 .glsr-metabox-field:not(.glsr-field-choice) input:disabled,
 .glsr-metabox-field select:disabled,
 .glsr-metabox-field textarea:disabled {
@@ -207,12 +163,14 @@
   cursor: default;
   opacity: 1;
 }
+
 .glsr-metabox-field select:focus {
   /* This fixes the focus color to match admin color theme because WP doesn't */
   border-color: var(--wp-admin-theme-color, #2271b1);
   color: var(--wp-admin-theme-color-darker-20, #0a4b78);
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #2271b1);
 }
+
 .glsr-metabox-field input[type="number"] {
   appearance: textfield;
 }
@@ -250,6 +208,7 @@
   gap: 6px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+
 .glsr-metabox-field .glsr-input-group .glsr-input-value {
   width: 100%;
 }
@@ -277,10 +236,12 @@
     color: var(--wp-admin-theme-color-darker-20);
   }
 }
+
 .glsr-metabox-field .glsr-icon-select i {
   flex-shrink: 0;
   width: 32px;
 }
+
 .glsr-metabox-field .glsr-icon-select select {
   border-bottom-left-radius: 0;
   border-left-width: 0;
@@ -303,13 +264,16 @@
   white-space: nowrap !important;
   width: 1px !important;
 }
+
 .glsr-metabox-field [data-star-rating] > select::before,
 .glsr-metabox-field [data-star-rating] > select::after {
   display: none !important;
 }
+
 .glsr-metabox-field .glsr-star-rating:not([data-star-rating]) .glsr-star-rating--stars {
   display: none !important;
 }
+
 .glsr-metabox-field .glsr-star-rating--stars {
   align-items: center;
   color: #555d66;
@@ -319,10 +283,12 @@
   position: relative;
   white-space: nowrap;
 }
+
 .glsr-metabox-field [data-star-rating] > select[disabled] + .glsr-star-rating--stars {
   color: #72777c;
   cursor: default;
 }
+
 .glsr-metabox-field .glsr-star-rating--stars > span {
   -webkit-font-smoothing: antialiased;
   font-family: dashicons;
@@ -332,14 +298,17 @@
   text-align: center;
   transition: color .1s ease-in;
 }
+
 @media screen and (min-width: 783px) {
   .glsr-metabox-field .glsr-star-rating--stars > span {
     font-size: 24px;
   }
 }
+
 .glsr-metabox-field .glsr-star-rating--stars[class*=" s"] > span::before {
   content: "\f154";
 }
+
 .glsr-metabox-field .glsr-star-rating--stars[class*=" s"] > span.gl-active::before,
 .glsr-metabox-field .glsr-star-rating--stars[class*=" s"] > span.gl-active.gl-selected::before {
   content: "\f155";
@@ -357,23 +326,22 @@
   position: absolute;
   width: 100%;
 }
+
 @media screen and (min-width: 783px) {
   .glsr-metabox-field [data-star-rating] > select:focus + .glsr-star-rating--stars::before {
     height: 30px;
   }
 }
 
-
-
-
-
 /* Panel */
 .glsr-metabox-fields[data-panel] .glsr-metabox-field {
   border-top: none;
 }
+
 .glsr-metabox-fields[data-panel] .glsr-metabox-field > div {
   padding-bottom: 0;
 }
+
 @container fields-grid (min-width:480px) {
   .glsr-metabox-fields[data-panel] .glsr-metabox-field > div {
     padding-top: 12px;
@@ -382,6 +350,7 @@
     padding: 12px;
   }
 }
+
 @media screen and (max-width: 782px) {
   @container fields-grid (min-width:480px) {
     .glsr-metabox-fields[data-panel] .glsr-metabox-field .glsr-label label {
@@ -395,6 +364,7 @@
     }
   }
 }
+
 @media screen and (min-width: 783px) {
   @container fields-grid (min-width:480px) {
     .glsr-metabox-fields[data-panel] .glsr-metabox-field .glsr-label label {
