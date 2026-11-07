@@ -4,7 +4,6 @@ import Ajax from '@/admin/ajax.js';
 
 const Tools = function () {
     jQuery('form').on('click', '[data-ajax-click]', this.onAjaxClick_.bind(this))
-    jQuery('.glsr-button[data-_action]').on('click', this.onButtonClick_.bind(this))
     jQuery('#proxy_http_header').on('change', function (ev) {
         const val = jQuery(this).val();
         jQuery('#custom_http_header').parent()['custom' === val ? 'removeClass' : 'addClass']('hidden')
@@ -31,15 +30,6 @@ Tools.prototype = {
             }
             if (void(0) !== el.data('ajax-scroll')) {
                 jQuery('html, body').animate({ scrollTop: 0 }, 500);
-            }
-            this.handleNotices_(el)
-        })
-    },
-    onButtonClick_: function (ev) {
-        const el = jQuery(ev.currentTarget);
-        (new Ajax(el.data(), ev)).post((response, success) => {
-            if (response.text) {
-                el.data('text', response.text) // replace the text that is shown in the button after `Button(el).loaded()`
             }
             this.handleNotices_(el)
         })
