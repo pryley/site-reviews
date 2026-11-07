@@ -12,7 +12,7 @@ class RepairPermissions extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $this->resetAll = wp_validate_boolean($request->alt);
+        $this->resetAll = wp_validate_boolean($request->all);
     }
 
     public function handle(): void

@@ -3677,12 +3677,12 @@ msgctxt "admin-text"
 msgid "Nothing can be imported from this source."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:101
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:100
 msgctxt "admin-text"
 msgid "The import failed."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:263
+#: plugin/Controllers/Api/Version1/RestReviewPartsController.php:262
 msgctxt "admin-text"
 msgid "The status could not be changed."
 msgstr ""

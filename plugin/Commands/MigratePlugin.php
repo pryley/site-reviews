@@ -14,7 +14,7 @@ class MigratePlugin extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $this->runAll = wp_validate_boolean($request->get('alt', 0));
+        $this->runAll = wp_validate_boolean($request->get('all', 0));
     }
 
     public function handle(): void

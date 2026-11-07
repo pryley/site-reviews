@@ -178,7 +178,7 @@ class RestPluginController extends AbstractRestController
 
     public function migratePlugin(\WP_REST_Request $request): \WP_REST_Response
     {
-        return $this->handle(new MigratePlugin(new Request(['alt' => $request['all']])));
+        return $this->handle(new MigratePlugin(new Request(['all' => $request['all']])));
     }
 
     public function registerRoutes(): void
@@ -338,7 +338,7 @@ class RestPluginController extends AbstractRestController
 
     public function repairPermissions(\WP_REST_Request $request): \WP_REST_Response
     {
-        $command = new RepairPermissions(new Request(['alt' => $request['all']]));
+        $command = new RepairPermissions(new Request(['all' => $request['all']]));
         $command->handle();
         if ($command->successful()) {
             $reloadLink = glsr(Builder::class)->a([

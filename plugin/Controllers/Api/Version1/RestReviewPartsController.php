@@ -93,7 +93,6 @@ class RestReviewPartsController extends AbstractRestController
         require_once \ABSPATH.'wp-admin/includes/image.php';
         require_once \ABSPATH.'wp-admin/includes/media.php'; // stage 3 saves attachments
         $values = $request->get_params();
-        $values['alt'] = $request['revert'];
         try {
             return $this->handle(new $stages[$request['stage']](new Request($values)));
         } catch (\Throwable $e) {

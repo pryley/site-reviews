@@ -170,7 +170,7 @@ class ToolsController extends AbstractController
             );
             return;
         }
-        if (wp_validate_boolean($request->get('alt', 0))) {
+        if (wp_validate_boolean($request->get('detect', 0))) {
             $this->execute(new DetectIpAddress());
             return;
         }

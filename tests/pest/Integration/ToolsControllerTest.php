@@ -280,7 +280,7 @@ test('the alt flag detects the ip address instead of configuring the proxy', fun
     // the suite's loopback REMOTE_ADDR — it reports back and saves no proxy header.
     glsr(Notice::class)->clear();
 
-    glsr(ToolsController::class)->ipAddressDetection(new Request(['alt' => 1]));
+    glsr(ToolsController::class)->ipAddressDetection(new Request(['detect' => 1]));
 
     expect(glsr(Notice::class)->get())->not->toBeEmpty();
 });
@@ -426,7 +426,7 @@ test('migrating the plugin through the admin route re-runs the migrations', func
     commitsTransaction();
     delete_option(glsr()->prefix.'last_migration_run');
 
-    glsr(ToolsController::class)->migratePlugin(new Request(['alt' => 1]));
+    glsr(ToolsController::class)->migratePlugin(new Request(['all' => 1]));
 
     // The ladder stamps 1.4 (Migrate_7_1_0) before Migrate_8_0_0 overwrites
     // it, so the final value proves the tail re-stamp without seeding a
