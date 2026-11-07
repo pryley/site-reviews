@@ -60,7 +60,7 @@ class EnqueueAdminAssets extends AbstractCommand
     {
         wp_register_script(
             glsr()->id.'/admin',
-            glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
+            glsr()->url('assets/scripts/admin/admin.js'),
             $this->getDependencies(),
             glsr()->version,
             ['strategy' => 'defer']

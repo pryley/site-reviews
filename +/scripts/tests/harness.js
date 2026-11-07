@@ -117,9 +117,9 @@ const scripts = (name, modes) => ['compat', 'debug'].filter(mode => modes[mode])
  * @param {string} options.inline The whole inline script, in place of the default
  */
 const loadAdmin = ({ added, before = '', compat = true, config = {}, debug = false, html, inline } = {}) => load(
-    'site-reviews-admin.js',
+    'admin/admin.js',
     inline ?? inlineScript({ ...adminConfig(), ...config, compat, debug: { enabled: debug, ...config.debug } }, added),
-    { after: scripts('site-reviews-admin', { compat, debug }), before: DEPENDENCIES() + before, html }
+    { after: scripts('admin/admin', { compat, debug }), before: DEPENDENCIES() + before, html }
 );
 
 const loadPublic = ({ added, before = '', inline, compat = !inline, config = {}, debug = false, html, url } = {}) => load(
@@ -161,7 +161,7 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
         admin: inlineScript({ ...adminConfig(), compat: true, debug: { enabled: debug } }),
         public: inlineScript({ ...publicConfig(), compat: true, debug: { enabled: debug } }),
     };
-    const names = { admin: 'site-reviews-admin', public: 'site-reviews' };
+    const names = { admin: 'admin/admin', public: 'site-reviews' };
     window.eval(DEPENDENCIES() + DIALOG)
     // PHP prints the admin's inline script first
     window.eval(inline.admin)

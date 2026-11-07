@@ -22,7 +22,7 @@ class DeactivationController extends AbstractController
             glsr()->version
         );
         $handle = glsr()->id.'/deactivate-plugin';
-        $url = glsr()->url('assets/scripts/deactivate-plugin.js');
+        $url = glsr()->url('assets/scripts/admin/deactivate.js');
         wp_enqueue_script($handle, $url, [], glsr()->version, [
             'in_footer' => true,
             'strategy' => 'defer',

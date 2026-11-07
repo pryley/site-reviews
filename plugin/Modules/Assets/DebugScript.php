@@ -36,8 +36,10 @@ class DebugScript
      */
     public function url(string $bundle): string
     {
-        $name = str_replace('/', '-', $this->scriptHandle($bundle));
-        return glsr()->url("assets/scripts/{$name}.js");
+        if ('admin' === $bundle) {
+            return glsr()->url('assets/scripts/admin/admin-debug.js');
+        }
+        return glsr()->url(sprintf('assets/scripts/%s-debug.js', glsr()->id));
     }
 
     /**
