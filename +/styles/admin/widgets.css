@@ -1,0 +1,3 @@
+#available-widgets [class*="site-reviews"] .widget-title::before {
+  content: "\f459";
+}

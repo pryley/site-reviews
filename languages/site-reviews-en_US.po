@@ -101,12 +101,12 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
-#: plugin/Commands/EnqueuePublicAssets.php:45
+#: plugin/Commands/EnqueuePublicAssets.php:48
 #: plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr "Select a Rating"
 
-#: plugin/Commands/EnqueuePublicAssets.php:61
+#: plugin/Commands/EnqueuePublicAssets.php:64
 msgid "Close Modal"
 msgstr "Close Modal"
 
@@ -4144,21 +4144,21 @@ msgid "This custom text is invalid because the original text has been changed or
 msgstr "This custom text is invalid because the original text has been changed or removed."
 
 #. translators: %s: the plugin name
-#: plugin/Notices/GatekeeperNotice.php:114
+#: plugin/Notices/GatekeeperNotice.php:117
 #, php-format
 msgctxt "admin-text"
 msgid "Activate %s"
 msgstr "Activate %s"
 
 #. translators: %s: the plugin name
-#: plugin/Notices/GatekeeperNotice.php:133
+#: plugin/Notices/GatekeeperNotice.php:136
 #, php-format
 msgctxt "admin-text"
 msgid "Install %s"
 msgstr "Install %s"
 
 #. translators: %s: the plugin name
-#: plugin/Notices/GatekeeperNotice.php:149
+#: plugin/Notices/GatekeeperNotice.php:152
 #, php-format
 msgctxt "admin-text"
 msgid "Update %s"
@@ -8328,7 +8328,7 @@ msgid "Rated %1$s out of %2$s stars"
 msgstr ""
 
 #. translators: %1$s: this plugin's name, %2$s: link(s) to the required plugin(s)
-#: plugin/Notices/GatekeeperNotice.php:43
+#: plugin/Notices/GatekeeperNotice.php:46
 #, php-format
 msgctxt "admin-text"
 msgid "%1$s requires the latest version of %2$s to enable the integration."
@@ -8510,7 +8510,7 @@ msgid "Whether the reviewer has been verified."
 msgstr ""
 
 #. translators: %1$s: this plugin's name, %2$s: link(s) to the untested plugin(s)
-#: plugin/Notices/GatekeeperNotice.php:56
+#: plugin/Notices/GatekeeperNotice.php:59
 #, php-format
 msgctxt "admin-text"
 msgid "%1$s has not been tested with the installed version of %2$s and may need an update."

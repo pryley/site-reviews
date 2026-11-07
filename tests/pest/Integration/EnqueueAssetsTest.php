@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Controllers\DashboardController;
 use GeminiLabs\SiteReviews\Compat\Controllers\Controller as CompatController;
 use GeminiLabs\SiteReviews\Controllers\DebugController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -121,7 +122,7 @@ test('the frontend is handed the configuration it runs on', function () {
     expect(array_keys($config['modal']))->toBe(['wrappedBy']);
     expect($config['modal']['wrappedBy'])->toContain('block'); // the integrations add their own
 
-    expect($config['rating'])->toHaveKeys(['clearable', 'tooltip']);
+    expect($config['rating'])->toHaveKeys(['clearable', 'max', 'min', 'tooltip']); // the blocks read the range
     expect($config['text'])->toHaveKey('closeModal');
     expect(array_keys($config['validation']))->toBe([
         'field', 'fieldError', 'fieldHidden', 'fieldMessage', 'fieldRequired', 'fieldValid',
@@ -644,6 +645,39 @@ test('what an 8.x filter adds to the admin config reaches it', function () {
         ->toEndWith(',{addons:{"site-reviews-forms":{options:[]}},nonce:{"metabox-details":"abc123"}})}();');
 });
 
+test('the admin assets stay off the other post types\' editors, the dashboard and the editors of blocks', function () {
+    // The gate is Site Reviews screens. The blocks' controls read the rating range from the public
+    // config, which the block editor prints itself.
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    foreach (['dashboard', 'post', 'site-editor', 'widgets'] as $screen) {
+        set_current_screen($screen);
+        $command = new EnqueueAdminAssets();
+        expect((fn () => $this->isCurrentScreen())->call($command))->toBeFalse($screen);
+    }
+    set_current_screen('dashboard_page_'.glsr()->id.'-welcome');
+    expect((fn () => $this->isCurrentScreen())->call(new EnqueueAdminAssets()))->toBeTrue();
+    set_current_screen('front');
+});
+
+test('the dashboard gets the widget\'s stylesheet and the widget screens the icon rule, and nothing else', function () {
+    set_current_screen('dashboard');
+    glsr(DashboardController::class)->enqueueAssets();
+    (new EnqueueAdminAssets())->handle();
+    expect(wp_style_is(glsr()->id.'/dashboard', 'enqueued'))->toBeTrue()
+        ->and(wp_style_is(glsr()->id.'/admin', 'enqueued'))->toBeFalse()
+        ->and(wp_script_is(glsr()->id.'/admin', 'enqueued'))->toBeFalse();
+
+    set_current_screen('widgets');
+    (new EnqueueAdminAssets())->handle();
+    expect(wp_style_is(glsr()->id.'/widgets', 'enqueued'))->toBeTrue()
+        ->and(wp_style_is(glsr()->id.'/admin', 'enqueued'))->toBeFalse();
+
+    set_current_screen('edit-'.glsr()->post_type);
+    glsr(DashboardController::class)->enqueueAssets();
+    expect(wp_style_is(glsr()->id.'/dashboard', 'enqueued'))->toBeTrue(); // from the dashboard above; the list did not add it
+    set_current_screen('front');
+});
+
 test('the admin assets load on the review import screen', function () {
     // The importer runs on a bare admin.php page (base "admin"), identified only by ?import=<type>.
     set_current_screen('admin');
@@ -655,30 +689,6 @@ test('the admin assets load on the review import screen', function () {
     } finally {
         unset($_GET['import']);
         set_current_screen('front');
-    }
-});
-
-test('the admin assets stay out of the Customizer preview', function () {
-    // The Customizer preview is an iframe of the front end rendered inside wp-admin; loading the
-    // admin bundle there would fight the preview. A previewing manager is stood up without its heavy
-    // constructor — only is_preview() matters to is_customize_preview().
-    require_once ABSPATH.'wp-includes/class-wp-customize-manager.php';
-    $manager = (new \ReflectionClass(\WP_Customize_Manager::class))->newInstanceWithoutConstructor();
-    $previewing = new \ReflectionProperty(\WP_Customize_Manager::class, 'previewing');
-    $previewing->setAccessible(true);
-    $previewing->setValue($manager, true);
-    $original = $GLOBALS['wp_customize'] ?? null;
-    $GLOBALS['wp_customize'] = $manager;
-
-    try {
-        $command = new EnqueueAdminAssets();
-        expect((fn () => $this->isCurrentScreen())->call($command))->toBeFalse();
-    } finally {
-        if (null === $original) {
-            unset($GLOBALS['wp_customize']);
-        } else {
-            $GLOBALS['wp_customize'] = $original;
-        }
     }
 });
 

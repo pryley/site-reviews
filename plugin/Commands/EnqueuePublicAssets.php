@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
 use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 use GeminiLabs\SiteReviews\Modules\Captcha;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets extends AbstractCommand
@@ -42,6 +43,8 @@ class EnqueuePublicAssets extends AbstractCommand
             ],
             'rating' => [
                 'clearable' => false,
+                'max' => Rating::max(), // read by the blocks
+                'min' => Rating::min(),
                 'tooltip' => __('Select a Rating', 'site-reviews'),
             ],
             'request' => [

@@ -14,6 +14,9 @@ class GatekeeperNotice extends AbstractNotice
     protected array $errors = [];
     protected string $type = 'notice-error';
 
+    /**
+     * This notice can render on screens without the admin script.
+     */
     protected function canLoad(): bool
     {
         if (!parent::canLoad()) {

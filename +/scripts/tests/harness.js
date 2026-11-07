@@ -47,7 +47,7 @@ const publicConfig = () => ({
     modal: { wrappedBy: ['block'] },
     nameprefix: 'site-reviews',
     pagination: { fixed: ['#wpadminbar', '.site-navigation-fixed'], urlParameter: 'reviews-page' },
-    rating: { clearable: false, tooltip: 'Select a Rating' },
+    rating: { clearable: false, max: 5, min: 0, tooltip: 'Select a Rating' },
     request: {
         ajax: { action: 'glsr_public_action', rest: 'glsr_rest_request', url: 'https://example.org/wp-admin/admin-ajax.php' },
         nonce: false,

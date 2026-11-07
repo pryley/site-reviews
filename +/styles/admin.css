@@ -2,7 +2,6 @@
 @import "admin/addons";
 @import "admin/button";
 @import "admin/criteria";
-@import "admin/dashboard-widget";
 @import "admin/edit-review";
 @import "admin/filters";
 @import "admin/flyoutmenu";
@@ -21,10 +20,6 @@
 @import "admin/videos";
 @import "admin/welcome";
 @import "admin/wp-list-table";
-
-#available-widgets [class*="site-reviews"] .widget-title::before {
-  content: "\f459";
-}
 
 .star-rating .glsr-star {
   width: 16px;
