@@ -2969,7 +2969,7 @@ msgid "Site Reviews was unable to fetch the System Info because your server thre
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:66
-#: plugin/Controllers/Api/Version1/RestPluginController.php:150
+#: plugin/Controllers/Api/Version1/RestPluginController.php:172
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr ""
@@ -3397,7 +3397,7 @@ msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
-#: plugin/Controllers/Api/Version1/RestPluginController.php:52
+#: plugin/Controllers/Api/Version1/RestPluginController.php:61
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
@@ -3592,38 +3592,38 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update the review as this user."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:55
+#: plugin/Controllers/Api/Version1/RestPluginController.php:64
 msgctxt "admin-text"
 msgid "Invalid notice."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:75
+#: plugin/Controllers/Api/Version1/RestPluginController.php:84
 #: plugin/Controllers/ToolsController.php:426
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:81
+#: plugin/Controllers/Api/Version1/RestPluginController.php:90
 #: plugin/Controllers/ToolsController.php:431
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
 msgid "Rollback is unavailable because the Site Reviews folder is a git repository."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:131
+#: plugin/Controllers/Api/Version1/RestPluginController.php:153
 #: plugin/Controllers/ToolsController.php:191
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestPluginController.php:299
+#: plugin/Controllers/Api/Version1/RestPluginController.php:346
 #: plugin/Controllers/ToolsController.php:365
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/Api/Version1/RestPluginController.php:303
+#: plugin/Controllers/Api/Version1/RestPluginController.php:350
 #: plugin/Controllers/ToolsController.php:370
 #, php-format
 msgctxt "admin-text"
