@@ -5,7 +5,7 @@
 
 PLUGIN := site-reviews
 TEST_DIR := tests/pest
-WP_ENV_PORT := 8890
+WP_ENV_PORT ?= 8890
 MULTISITE_PORT := 8892
 MULTISITE_TITLE := Site Reviews Network
 WOOCOMMERCE_PORT := 8894
@@ -70,7 +70,7 @@ release: ## Release a new version
 	sh ./release.sh
 
 .PHONY: test\:install
-test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
+test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it [WP_ENV_PORT=8896 for a second worktree]
 	@test ! -d vendor/pryley/wp-plugin-tooling/.git || test -z "$$(git -C vendor/pryley/wp-plugin-tooling status --porcelain)" || { \
 		printf '\nvendor/pryley/wp-plugin-tooling has uncommitted changes. Commit or discard them first.\n\n'; \
 		exit 1; \
