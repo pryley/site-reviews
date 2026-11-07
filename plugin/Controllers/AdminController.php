@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Commands\ApproveReview;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\ExportRatings;
 use GeminiLabs\SiteReviews\Commands\ImportRatings;
-use GeminiLabs\SiteReviews\Commands\TogglePinned;
-use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Install;
@@ -18,8 +15,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
-use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
 
 class AdminController extends AbstractController
@@ -243,79 +238,5 @@ class AdminController extends AbstractController
             return;
         }
         glsr(Queue::class)->once(time() + \MINUTE_IN_SECONDS, 'queue/migration');
-    }
-
-    /**
-     * @action site-reviews/route/ajax/search-posts
-     */
-    public function searchPostsAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $results = glsr(Database::class)->searchPosts($search)->render();
-        wp_send_json_success([
-            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
-            'items' => $results,
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/ajax/search-strings
-     */
-    public function searchStringsAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $exclude = Arr::consolidate($request->exclude);
-        $results = glsr(Translation::class)
-            ->search($search)
-            ->exclude()
-            ->exclude($exclude)
-            ->renderResults();
-        wp_send_json_success([
-            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
-            'items' => $results,
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/ajax/search-users
-     */
-    public function searchUsersAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $results = glsr(Database::class)->searchUsers($search)->render();
-        wp_send_json_success([
-            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
-            'items' => $results,
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/ajax/toggle-filters
-     */
-    public function toggleFiltersAjax(Request $request): void
-    {
-        if ($userId = get_current_user_id()) {
-            $filters = array_keys(glsr(ColumnFilterbyDefaults::class)->defaults());
-            $enabled = glsr(Sanitizer::class)->sanitizeArrayString($request->enabled);
-            $enabled = array_intersect($filters, $enabled);
-            update_user_meta($userId, 'edit_'.glsr()->post_type.'_filters', $enabled);
-        }
-        wp_send_json_success();
-    }
-
-    /**
-     * @action site-reviews/route/ajax/toggle-pinned
-     */
-    public function togglePinnedAjax(Request $request): void
-    {
-        $this->execute(new TogglePinned($request))->sendJsonResponse();
-    }
-
-    /**
-     * @action site-reviews/route/ajax/toggle-status
-     */
-    public function toggleStatusAjax(Request $request): void
-    {
-        $this->execute(new ToggleStatus($request))->sendJsonResponse();
     }
 }

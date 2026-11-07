@@ -46,12 +46,10 @@ class LocalizeFilters
      */
     protected const PATHS = [
         'admin' => [
-            'action' => 'request.ajax.action',
             'addonsurl' => 'urls.addons',
             'maxrating' => 'rating.max',
             'minrating' => 'rating.min',
             'nameprefix' => 'nameprefix',
-            'nonce' => 'nonce',
             'text' => 'text',
         ],
         'public' => [

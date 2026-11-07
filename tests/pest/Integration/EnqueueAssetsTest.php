@@ -600,16 +600,14 @@ test('the admin assets are loaded on the review list table', function () {
     expect(wp_style_is('wp-color-picker', 'enqueued'))->toBeTrue();
 });
 
-test('the admin script carries the admin ajax action', function () {
+test('the admin script carries the request config and its routes', function () {
     wp_set_current_user(createUser(['role' => 'administrator']));
     set_current_screen('edit-'.glsr()->post_type);
 
     $config = (new EnqueueAdminAssets())->config();
 
-    expect(array_keys($config))->toBe(['nameprefix', 'nonce', 'rating', 'request', 'text', 'urls']);
-    expect(array_filter(array_keys($config['nonce']), fn ($action) => str_starts_with($action, 'filter-')))->toBe([]);
+    expect(array_keys($config))->toBe(['nameprefix', 'rating', 'request', 'text', 'urls']);
     expect($config['request']['ajax'])->toBe([
-        'action' => glsr()->prefix.'admin_action',
         'rest' => glsr()->prefix.'rest_request',
         'url' => admin_url('admin-ajax.php'),
     ]);
@@ -621,14 +619,14 @@ test('the admin script carries the admin ajax action', function () {
     foreach ($config['request']['routes'] as $route) {
         expect($route)->toHaveKeys(['method', 'path']);
     }
-    expect($config['nonce'])->toHaveKey('toggle-pinned');
     expect($config['rating'])->toBe(['max' => Rating::max(), 'min' => Rating::min()]);
     expect($config['text'])->toHaveKeys(['cancel', 'importError', 'systemInfo500', 'systemInfoError']);
 
 });
 
-test('what an 8.x filter adds to the admin nonces reaches the config', function () {
-    // Review Forms 3.1.2 writes nonce[...] and addons[...] here and reads the nonce through GLSR.nonce.
+test('what an 8.x filter adds to the admin config reaches it', function () {
+    // Review Forms 3.1.2 writes nonce[...] and addons[...] here. The config has no home for either,
+    // so both are printed as keys of their own, and the addon reads them through GLSR.nonce and GLSR.addons.
     wp_set_current_user(createUser(['role' => 'administrator']));
     set_current_screen('edit-'.glsr()->post_type);
     add_filter('site-reviews/enqueue/admin/localize', function (array $variables) {
@@ -640,12 +638,10 @@ test('what an 8.x filter adds to the admin nonces reaches the config', function 
 
     $config = printedConfig('admin');
 
-    expect($config['nonce']['metabox-details'])->toBe('abc123');
-    expect($config['nonce'])->toHaveKey('toggle-pinned');
     expect($config['text']['importError'])->toBe('Too big.');
     expect($config['text'])->not->toHaveKey('import_error');
     expect((new EnqueueAdminAssets())->inlineScript())
-        ->toEndWith(',{addons:{"site-reviews-forms":{options:[]}}})}();');
+        ->toEndWith(',{addons:{"site-reviews-forms":{options:[]}},nonce:{"metabox-details":"abc123"}})}();');
 });
 
 test('the admin assets load on the review import screen', function () {

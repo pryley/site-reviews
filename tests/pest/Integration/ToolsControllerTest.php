@@ -461,15 +461,6 @@ test('importing settings refuses without permission', function () {
     set_current_screen('front');
 });
 
-test('the non-ajax fetch-console is an intentional no-op', function () {
-    // The reload is only ever done over ajax; the routed admin action exists so the route resolves
-    // but prints nothing. Pinned so it stays a no-op and nobody wires output into it.
-    ob_start();
-    glsr(ToolsController::class)->fetchConsole();
-
-    expect(ob_get_clean())->toBe('');
-});
-
 /*
  * The downloads. Each ends the request through glsr_exit() after echoing raw
  * bytes; capturesDownload() catches the shadow's throw and hands the bytes back.
@@ -527,3 +518,76 @@ test('the review export is a csv of the reviews', function () {
     expect($bytes)->toContain('An exportable review body.');
 });
 
+/*
+ * The "update" that a rollback rides on.
+ *
+ * A rollback downloads nothing itself. The tool stores the version to go back to, and the page
+ * then sends WordPress's own update-plugin request; filterUpdatePluginsTransient hands that one
+ * request the stored version as the plugin's available update. Nothing else gets it: the Plugins
+ * page, a second admin or an automatic update read the list as it really is.
+ */
+
+function updatePluginRequest(string $plugin): void
+{
+    add_filter('wp_doing_ajax', '__return_true'); // the updater's request is admin-ajax (hooks restore per test)
+    $_POST = ['action' => 'update-plugin', 'plugin' => $plugin];
+}
+
+test('the update-plugin request for this plugin is handed the stored rollback version', function () {
+    set_transient(glsr()->prefix.'rollback_version', '8.0.0', MINUTE_IN_SECONDS);
+    updatePluginRequest(glsr()->basename);
+
+    $filtered = glsr(ToolsController::class)->filterUpdatePluginsTransient((object) ['response' => []]);
+
+    $update = $filtered->response[glsr()->basename];
+    expect($update->new_version)->toBe('8.0.0')
+        ->and($update->slug)->toBe(glsr()->id)
+        ->and($update->package)->toBe('https://downloads.wordpress.org/plugin/'.glsr()->id.'.8.0.0.zip');
+});
+
+test('the same request for another plugin, and a read outside ajax, get the list as it is', function () {
+    set_transient(glsr()->prefix.'rollback_version', '8.0.0', MINUTE_IN_SECONDS);
+    $list = ['unrelated/unrelated.php' => 'kept'];
+
+    updatePluginRequest('other/other.php');
+    $other = glsr(ToolsController::class)->filterUpdatePluginsTransient((object) ['response' => $list]);
+
+    updatePluginRequest(glsr()->basename);
+    remove_filter('wp_doing_ajax', '__return_true');
+    $page = glsr(ToolsController::class)->filterUpdatePluginsTransient((object) ['response' => $list]);
+
+    expect($other->response)->toBe($list)
+        ->and($page->response)->toBe($list);
+});
+
+test('with no rollback stored, the update-plugin request gets the list as it is', function () {
+    delete_transient(glsr()->prefix.'rollback_version');
+    updatePluginRequest(glsr()->basename);
+
+    $filtered = glsr(ToolsController::class)->filterUpdatePluginsTransient((object) ['response' => ['unrelated/unrelated.php' => 'kept']]);
+
+    expect($filtered->response)->toBe(['unrelated/unrelated.php' => 'kept']);
+});
+
+test('a cleared update list is handed back as it is', function () {
+    // wp_clean_plugins_cache() deletes the transient, so the filter can receive false.
+    updatePluginRequest(glsr()->basename);
+
+    expect(glsr(ToolsController::class)->filterUpdatePluginsTransient(false))->toBeFalse();
+});
+
+test('the stored rollback version is forgotten once this plugin has been processed', function () {
+    // A finished upgrade asks wordpress.org for fresh update data; the suite blocks HTTP, so
+    // detach core's checks (hooks restore per test).
+    remove_action('upgrader_process_complete', 'wp_version_check');
+    remove_action('upgrader_process_complete', 'wp_update_plugins');
+    remove_action('upgrader_process_complete', 'wp_update_themes');
+    set_transient(glsr()->prefix.'rollback_version', '8.0.0', MINUTE_IN_SECONDS);
+    $options = ['action' => 'update', 'type' => 'plugin', 'bulk' => true];
+
+    do_action('upgrader_process_complete', null, $options + ['plugins' => ['other/other.php']]);
+    expect(get_transient(glsr()->prefix.'rollback_version'))->toBe('8.0.0');
+
+    do_action('upgrader_process_complete', null, $options + ['plugins' => [glsr()->basename]]);
+    expect(get_transient(glsr()->prefix.'rollback_version'))->toBeFalse();
+});

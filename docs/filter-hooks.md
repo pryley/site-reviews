@@ -206,7 +206,6 @@ site-reviews/review/wrapped                                 (string $value, stri
 site-reviews/reviews/fallback                               (string $fallback, array $args): string
 site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewsHtml $reviewsxsHtml): mixed
 site-reviews/roles                                          (array $roles): array
-site-reviews/router/admin/unguarded-actions                 (array $unguardedActions): array
 site-reviews/router/mutex/actions                           (array $mutexActions): array
 site-reviews/router/mutex/expiration                        (int $seconds, string $ipAddress): int
 site-reviews/router/public/unguarded-actions                (array $unguardedActions): array

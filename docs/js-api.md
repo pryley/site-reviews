@@ -229,8 +229,7 @@ The admin script:
 ```text
 GLSR.config
 ├── nameprefix, debug, compat
-├── request      { url, nonce, ajax: { url, action, rest } }
-├── nonce        { 'clear-console', 'fetch-console', … }
+├── request      { url, nonce, routes, ajax: { url, rest } }
 ├── rating       { min, max }
 ├── text         { cancel, cancelling, importError, rollbackError, searching, … }
 ├── urls         { addons }
@@ -321,7 +320,6 @@ The admin script:
 
 | Deprecated | Use instead |
 | --- | --- |
-| `GLSR.action` | `GLSR.config.request.ajax.action` |
 | `GLSR.addons` | `GLSR.config.{feature}` and the feature's module |
 | `GLSR.addonsurl` | `GLSR.config.urls.addons` |
 | `GLSR.ajax` | `GLSR.Request` |
@@ -330,7 +328,6 @@ The admin script:
 | `GLSR.maxrating` | `GLSR.config.rating.max` |
 | `GLSR.minrating` | `GLSR.config.rating.min` |
 | `GLSR.nameprefix` | `GLSR.config.nameprefix` |
-| `GLSR.nonce` | `GLSR.config.nonce` |
 | `GLSR.notices` | `GLSR.Notice` |
 | `GLSR.stars` | `GLSR.Rating` |
 | `GLSR.text` | `GLSR.config.text` (the keys are camelCase) |
@@ -343,3 +340,4 @@ These keys are removed in 9.0.0 with no replacement:
 - `GLSR.Event.events`, which was never meant to be public (use `GLSR.Event.listeners()` in debug mode).
 - `GLSR.filters` in the admin script. The fixed choices of a searchable dropdown are now on its element, in `data-options`.
 - `GLSR.shortcode`, `GLSR.shortcodes`, `GLSR.tinymce` and `GLSR.config.tinymce` in the admin script, with the shortcode button of the classic editor. A classic editor types the shortcode.
+- `GLSR.action`, `GLSR.nonce` and `GLSR.config.nonce` in the admin script, with the admin-ajax actions of wp-admin: the admin calls REST routes, which carry the `wp_rest` nonce in `GLSR.config.request.nonce`.

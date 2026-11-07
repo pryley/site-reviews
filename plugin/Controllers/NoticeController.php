@@ -55,15 +55,6 @@ class NoticeController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/ajax/dismiss-notice
-     */
-    public function dismissNoticeAjax(Request $request): void
-    {
-        $this->dismissNotice($request);
-        wp_send_json_success();
-    }
-
-    /**
      * Close the hidden div used to prevent notices from flickering before
      * they are moved elsewhere in the page by WordPress Core.
      *

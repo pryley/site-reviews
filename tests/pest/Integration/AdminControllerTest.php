@@ -4,7 +4,6 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Request;
-use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
 
@@ -13,29 +12,16 @@ use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
-uses(InteractsWithAjax::class, InteractsWithExits::class);
+uses(InteractsWithExits::class);
 
 /*
- * The admin side: the searches behind the token fields, the list-table toggles, the approval link
- * in the notification email, and the handful of places the plugin writes itself into WordPress's
- * admin chrome. Most of it is ajax, so most runs in the ajax harness.
- */
-
-/*
- * admin-ajax.php loads wp-admin/includes/admin.php before firing the wp_ajax_* hooks, so an ajax
- * handler may use anything in it. This process is not an admin request and loads none of it that
- * way, and two libraries are reached from here:
+ * The admin side: the approval link in the notification email, and the handful of places the plugin
+ * writes itself into WordPress's admin chrome. The searches and the list-table toggles are REST routes
+ * (RestApiTest, RestReviewPartsApiTest).
  *
- *   post.php      _draft_or_post_title(), get_available_post_statuses()  (ToggleStatus)
- *   template.php  _post_states(), get_submit_button()                    (ToggleStatus, screen-options button)
- *
- * Neither registers a hook on load (they are function libraries; the admin's hooks live in
- * admin-filters.php), so requiring them cannot perturb Pest.php's $wp_filter baseline, and
- * require_once is idempotent if bootstrap.php already pulled them in. WP_Posts_List_Table needs no
- * help — the plugin's autoloader has a classmap for it, which is how ToggleStatus::getStatusLinks()
- * can `new` it in an ajax request.
+ * template.php holds get_submit_button(), which the screen-options button uses. It is a function
+ * library and registers no hook on load, so requiring it cannot perturb Pest.php's $wp_filter baseline.
  */
-require_once ABSPATH.'wp-admin/includes/post.php';
 require_once ABSPATH.'wp-admin/includes/template.php';
 
 beforeEach(function () {
@@ -44,145 +30,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
-    $this->tearDownAjax();
     set_current_screen('front');
-});
-
-/*
- * The searches. Each one backs a token field in the admin — "assigned to", the
- * author filter, the review editor's page search — and each returns the shape its
- * own field expects, which is why there are six of them and not one.
- */
-
-test('a page can be searched for by title and by id', function () {
-    $this->setUpAjax();
-    $postId = createPost(['post_title' => 'A Findable Page']);
-
-    $byTitle = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchPostsAjax(
-        new Request(['search' => 'Findable'])
-    ));
-    $byId = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchPostsAjax(
-        new Request(['search' => (string) $postId])
-    ));
-
-    expect($byTitle['success'])->toBeTrue()
-        ->and($byTitle['data']['items'])->toContain('A Findable Page')
-        ->and($byId['data']['items'])->toContain('A Findable Page'); // AbstractSearch::search() branches on is_numeric
-});
-
-test('an untitled page is listed as (no title) rather than as a blank row', function () {
-    $this->setUpAjax();
-    $postId = createPost(['post_title' => '']);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchPostsAjax(
-        new Request(['search' => (string) $postId])
-    ));
-
-    expect($response['data']['items'])->toContain('(no title)');
-});
-
-test('a search with nothing to find says so rather than returning an empty box', function () {
-    $this->setUpAjax();
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchPostsAjax(
-        new Request(['search' => 'nothing here by that name'])
-    ));
-
-    expect($response['data']['items'])->toBe('')
-        ->and($response['data']['empty'])->toContain('Nothing found');
-});
-
-test('a user can be searched for from the review editor', function () {
-    $this->setUpAjax();
-    createUser(['display_name' => 'Jane Author']);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchUsersAjax(
-        new Request(['search' => 'Jane Author'])
-    ));
-
-    expect($response['data']['items'])->toContain('Jane Author'); // rendered, not raw rows
-});
-
-test('a translatable string can be searched for', function () {
-    $this->setUpAjax();
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchStringsAjax(
-        new Request(['search' => 'Your review'])
-    ));
-
-    expect($response['success'])->toBeTrue()
-        ->and($response['data'])->toHaveKey('items')
-        ->and($response['data']['empty'])->toContain('Nothing found');
-});
-
-/*
- * The list table toggles.
- */
-
-test('the filters an administrator has switched on are remembered, and nothing else is', function () {
-    // The list is intersected with the filters that exist, so a name invented by
-    // whatever posted this does not end up in the user's meta.
-    $this->setUpAjax();
-    $userId = get_current_user_id();
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->toggleFiltersAjax(
-        new Request(['enabled' => ['rating', 'category', 'not_a_filter']])
-    ));
-
-    expect($response['success'])->toBeTrue();
-    expect(array_keys(glsr(ColumnFilterbyDefaults::class)->defaults()))
-        ->not->toContain('not_a_filter'); // which is what makes the next line meaningful
-
-    // array_intersect() keeps the keys of its FIRST argument, so what is stored is
-    // the known filters in the plugin's own order, not the order they were posted in.
-    $stored = get_user_meta($userId, 'edit_'.glsr()->post_type.'_filters', true);
-    expect(array_values($stored))->toBe(['category', 'rating']);
-});
-
-test('pinning a review over ajax answers with the new state and a notice', function () {
-    $this->setUpAjax();
-    $review = createReview();
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->togglePinnedAjax(
-        new Request(['post_id' => $review->ID, 'pinned' => 1])
-    ));
-
-    expect($response['success'])->toBeTrue()
-        ->and($response['data']['value'])->toBe(1)      // the star the JS redraws
-        ->and($response['data']['notices'])->toContain('Review pinned');
-    expect(glsr_get_review($review->ID)->is_pinned)->toBeTrue();
-});
-
-test('approving a review over ajax answers with everything the row needs redrawn', function () {
-    // The response is what the list table's JS paints back: the row title, the
-    // status links above the table with their new counts, and the pending count for
-    // the menu bubble. Any one of them missing leaves the page lying about itself.
-    $this->setUpAjax();
-    $review = createReview(['is_approved' => false]);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->toggleStatusAjax(
-        new Request(['post_id' => $review->ID, 'status' => 'approve'])
-    ));
-
-    expect($response['success'])->toBeTrue()
-        ->and($response['data']['class'])->toBe('status-publish')
-        ->and($response['data']['link'])->toContain('row-title')
-        ->and($response['data']['counts'])->toContain('Approved') // relabelled from "Published"
-        ->and((int) $response['data']['pending'])->toBe(0);
-    expect(get_post_status($review->ID))->toBe('publish');
-});
-
-test('a review is not approved over ajax by somebody who may not approve it', function () {
-    $this->setUpAjax();
-    $review = createReview(['is_approved' => false]);
-    wp_set_current_user(createUser(['role' => 'subscriber']));
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->toggleStatusAjax(
-        new Request(['post_id' => $review->ID, 'status' => 'approve'])
-    ));
-
-    expect($response['success'])->toBeFalse();
-    expect(get_post_status($review->ID))->toBe('pending');
 });
 
 /*

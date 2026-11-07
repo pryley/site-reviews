@@ -35,8 +35,8 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
  *                         Public and unguarded, so the `verified` token must decrypt to the review
  *                         id asked for.
  *
- * The rest is the admin's side: a button in the editor that sends (or re-sends) the email, and a
- * toggle that marks a review verified by hand.
+ * The admin's side, a button in the editor that sends (or re-sends) the email and a toggle that
+ * marks a review verified by hand, is REST routes (RestReviewPartsApiTest); the editor's button is drawn here.
  */
 
 beforeEach(function () {
@@ -182,39 +182,6 @@ test('a request with no review id is refused before anything is decrypted', func
  * The admin's side.
  */
 
-test('an admin can re-send the verification email', function () {
-    // The button exists because the first email goes to spam sometimes, and the person who wrote
-    // the review then emails support instead. The setting is enabled AFTER the review is created,
-    // so the creation-time verification email does not land in the mailbox first.
-    $review = createReview(['email' => 'jane@example.org']);
-    glsr(OptionManager::class)->set('settings.general.request_verification', 'yes');
-
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->resendVerificationEmailAjax(
-        new Request(['post_id' => $review->ID])
-    ));
-
-    expect($response['success'])->toBeTrue();
-    expect(sentMail())->toHaveCount(1);
-    expect(sentTo())->toBe(['jane@example.org']);
-    expect(sentMail()[0]['subject'])->toBe('Please verify your review');
-});
-
-test('the verification email is not re-sent while the setting is off', function () {
-    // Off is the DEFAULT. The command fails with a notice naming the setting — but note the
-    // envelope: resendVerificationEmailAjax() ends in an unconditional wp_send_json_success(),
-    // so `success` is true even here and the admin's feedback is only the notice. Pinned as
-    // current behaviour; reported alongside this batch as a plugin-side observation.
-    $review = createReview(['email' => 'jane@example.org']);
-
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->resendVerificationEmailAjax(
-        new Request(['post_id' => $review->ID])
-    ));
-
-    expect(sentMail())->toBe([]);
-    expect($response['success'])->toBeTrue(); // unconditional — see above
-    expect($response['data']['notices'])->toContain('Request Verification setting is disabled');
-});
-
 test('the editor offers to send a verification request, and then to send it again', function () {
     // The label is the only feedback the admin gets that the first one went — the review does not
     // become verified until the person clicks the link, so an unchanged button reads as a button
@@ -247,36 +214,3 @@ test('the verify action is not drawn on anything that is not a review', function
     expect((string) ob_get_clean())->toBe('');
 });
 
-test('an admin cannot mark a review verified by hand, because core does not do verification', function () {
-    // `verification/enabled` defaults to FALSE and NOTHING in the plugin ever filters it true —
-    // it is an addon's hook. So on a stock install this route exists, is reachable, and refuses.
-    //
-    // That is not an oversight, and the refusal is the thing worth testing: a "verified" badge
-    // that an admin could switch on at will would mean nothing, so core will not let them. The
-    // only way a review becomes verified here is the person clicking the link in their email.
-    $review = createReview();
-
-    $this->jsonSentBy(fn () => glsr(VerificationController::class)->toggleVerifiedAjax(
-        new Request(['post_id' => $review->ID])
-    ));
-
-    expect(glsr_get_review($review->ID)->is_verified)->toBeFalse();
-});
-
-test('an addon that enables verification can toggle it, and toggle it back', function () {
-    // The addon's path: with the filter on, the ajax route flips the flag — and flips it back,
-    // because ToggleVerifiedDefaults defaults `verified` to -1, which means "the other one".
-    add_filter('site-reviews/verification/enabled', '__return_true');
-    $review = createReview();
-    expect($review->is_verified)->toBeFalse();
-
-    $this->jsonSentBy(fn () => glsr(VerificationController::class)->toggleVerifiedAjax(
-        new Request(['post_id' => $review->ID])
-    ));
-    expect(glsr_get_review($review->ID)->is_verified)->toBeTrue();
-
-    $this->jsonSentBy(fn () => glsr(VerificationController::class)->toggleVerifiedAjax(
-        new Request(['post_id' => $review->ID])
-    ));
-    expect(glsr_get_review($review->ID)->is_verified)->toBeFalse();
-});

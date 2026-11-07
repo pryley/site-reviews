@@ -22,12 +22,6 @@ class AdminHooks extends AbstractHooks
             ['printInlineStyle', 'admin_head'],
             ['renderPageHeader', 'in_admin_header'],
             ['scheduleMigration', 'admin_init'],
-            ['searchPostsAjax', 'site-reviews/route/ajax/search-posts'],
-            ['searchStringsAjax', 'site-reviews/route/ajax/search-strings'],
-            ['searchUsersAjax', 'site-reviews/route/ajax/search-users'],
-            ['toggleFiltersAjax', 'site-reviews/route/ajax/toggle-filters'],
-            ['togglePinnedAjax', 'site-reviews/route/ajax/toggle-pinned'],
-            ['toggleStatusAjax', 'site-reviews/route/ajax/toggle-status'],
         ]);
     }
 }

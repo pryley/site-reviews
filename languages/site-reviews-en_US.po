@@ -40,7 +40,7 @@ msgid "Anonymous"
 msgstr "Anonymous"
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:62
-#: plugin/Router.php:231
+#: plugin/Router.php:214
 #: views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
@@ -87,7 +87,7 @@ msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
 #: plugin/Commands/CreateReview.php:208
-#: views/pages/documentation/support/common-problems-and-solutions.php:95
+#: views/pages/documentation/support/common-problems-and-solutions.php:94
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 
@@ -437,12 +437,12 @@ msgstr "Submit Review"
 
 #: plugin/Modules/Validator/AkismetValidator.php:41
 #: plugin/Modules/Validator/HoneypotValidator.php:20
-#: views/pages/documentation/support/common-problems-and-solutions.php:83
+#: views/pages/documentation/support/common-problems-and-solutions.php:82
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
 #: plugin/Modules/Validator/BlacklistValidator.php:30
-#: views/pages/documentation/support/common-problems-and-solutions.php:77
+#: views/pages/documentation/support/common-problems-and-solutions.php:76
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
@@ -455,7 +455,7 @@ msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
 #: plugin/Modules/Validator/CustomValidator.php:21
-#: views/pages/documentation/support/common-problems-and-solutions.php:127
+#: views/pages/documentation/support/common-problems-and-solutions.php:126
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -476,7 +476,7 @@ msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
 #: plugin/Modules/Validator/SignatureValidator.php:27
-#: views/pages/documentation/support/common-problems-and-solutions.php:89
+#: views/pages/documentation/support/common-problems-and-solutions.php:88
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr "This review cannot be submitted, please refresh the page and try again."
 
@@ -582,7 +582,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:133
+#: views/pages/documentation/support/common-problems-and-solutions.php:132
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
@@ -823,7 +823,7 @@ msgstr "Schema"
 
 #: helpers.php:125
 #: plugin/Addons/Controller.php:45
-#: plugin/Controllers/AdminController.php:72
+#: plugin/Controllers/AdminController.php:67
 #: plugin/Controllers/MenuController.php:66
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -2442,11 +2442,6 @@ msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: plugin/Router.php:234
-msgctxt "admin-text"
-msgid "There was an error"
-msgstr "There was an error"
-
 #: plugin/Upload.php:47
 msgctxt "admin-text"
 msgid "There was nothing found to import."
@@ -2888,7 +2883,7 @@ msgid "This will filter the output of the wp_comments() function when used to qu
 msgstr "This will filter the output of the wp_comments() function when used to query WooCommerce product reviews."
 
 #: plugin/Addons/Controller.php:278
-#: plugin/Controllers/AdminController.php:98
+#: plugin/Controllers/AdminController.php:93
 #: views/partials/notices/welcome.php:19
 msgctxt "admin-text"
 msgid "Documentation"
@@ -3139,7 +3134,7 @@ msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr "Author Unknown"
 
-#: plugin/Commands/EnqueueAdminAssets.php:49
+#: plugin/Commands/EnqueueAdminAssets.php:34
 #: plugin/Overrides/ScheduledActionsTable.php:114
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
@@ -3149,36 +3144,36 @@ msgctxt "admin-text"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: plugin/Commands/EnqueueAdminAssets.php:50
+#: plugin/Commands/EnqueueAdminAssets.php:35
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr "Cancelling, please wait..."
 
 #. translators: %s: maximum file upload size
-#: plugin/Commands/EnqueueAdminAssets.php:52
+#: plugin/Commands/EnqueueAdminAssets.php:37
 #, php-format
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr "Your server restricts file uploads to less than %s in size."
 
-#: plugin/Commands/EnqueueAdminAssets.php:58
+#: plugin/Commands/EnqueueAdminAssets.php:43
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:44
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
 
-#: plugin/Commands/EnqueueAdminAssets.php:66
+#: plugin/Commands/EnqueueAdminAssets.php:51
 #: plugin/Controllers/Api/Version1/RestPluginController.php:172
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr "Unable to fetch the System Info."
 
 #. translators: %s: Site Health Info page URL
-#: plugin/Commands/EnqueueAdminAssets.php:61
+#: plugin/Commands/EnqueueAdminAssets.php:46
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
@@ -3385,7 +3380,7 @@ msgid "The verification request email was sent."
 msgstr "The verification request email was sent."
 
 #: plugin/Commands/SendVerificationEmail.php:71
-#: plugin/Controllers/VerificationController.php:34
+#: plugin/Controllers/VerificationController.php:33
 msgctxt "admin-text"
 msgid "Resend Verification Request"
 msgstr "Resend Verification Request"
@@ -3437,33 +3432,33 @@ msgctxt "admin-text"
 msgid "Review verified."
 msgstr "Review verified."
 
-#: plugin/Controllers/AdminController.php:101
+#: plugin/Controllers/AdminController.php:96
 msgctxt "admin-text"
 msgid "Visit community forums"
 msgstr "Visit community forums"
 
-#: plugin/Controllers/AdminController.php:103
+#: plugin/Controllers/AdminController.php:98
 msgctxt "admin-text"
 msgid "Community support"
 msgstr "Community support"
 
-#: plugin/Controllers/AdminController.php:117
+#: plugin/Controllers/AdminController.php:112
 #: views/pages/tools/console.php:61
 msgctxt "admin-text"
 msgid "Apply"
 msgstr "Apply"
 
-#: plugin/Controllers/AdminController.php:121
+#: plugin/Controllers/AdminController.php:116
 msgctxt "admin-text"
 msgid "Close Panel"
 msgstr "Close Panel"
 
-#: plugin/Controllers/AdminController.php:203
+#: plugin/Controllers/AdminController.php:198
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr "Try Premium"
 
-#: plugin/Controllers/AdminController.php:211
+#: plugin/Controllers/AdminController.php:206
 #: views/integrations/woocommerce/settings.php:7
 #: views/pages/tools/general/export-reviews.php:19
 #: views/pages/tools/general/import-reviews.php:25
@@ -3471,10 +3466,7 @@ msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
 
-#: plugin/Commands/EnqueueAdminAssets.php:55
-#: plugin/Controllers/AdminController.php:256
-#: plugin/Controllers/AdminController.php:274
-#: plugin/Controllers/AdminController.php:287
+#: plugin/Commands/EnqueueAdminAssets.php:40
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -3510,57 +3502,57 @@ msgctxt "admin-text"
 msgid "Processing..."
 msgstr "Processing..."
 
-#: plugin/Controllers/DeactivationController.php:100
+#: plugin/Controllers/DeactivationController.php:89
 msgctxt "admin-text"
 msgid "If you would like me to help, please include your email so I can contact you."
 msgstr "If you would like me to help, please include your email so I can contact you."
 
-#: plugin/Controllers/DeactivationController.php:101
+#: plugin/Controllers/DeactivationController.php:90
 msgctxt "admin-text"
 msgid "It's too complicated"
 msgstr "It's too complicated"
 
-#: plugin/Controllers/DeactivationController.php:106
+#: plugin/Controllers/DeactivationController.php:95
 msgctxt "admin-text"
 msgid "Which plugin is better?"
 msgstr "Which plugin is better?"
 
-#: plugin/Controllers/DeactivationController.php:107
+#: plugin/Controllers/DeactivationController.php:96
 msgctxt "admin-text"
 msgid "I found something better"
 msgstr "I found something better"
 
-#: plugin/Controllers/DeactivationController.php:112
+#: plugin/Controllers/DeactivationController.php:101
 msgctxt "admin-text"
 msgid "What isn't working? Please let me know so I can fix it."
 msgstr "What isn't working? Please let me know so I can fix it."
 
-#: plugin/Controllers/DeactivationController.php:113
+#: plugin/Controllers/DeactivationController.php:102
 msgctxt "admin-text"
 msgid "It's not working for me"
 msgstr "It's not working for me"
 
-#: plugin/Controllers/DeactivationController.php:119
+#: plugin/Controllers/DeactivationController.php:108
 msgctxt "admin-text"
 msgid "It's only temporary"
 msgstr "It's only temporary"
 
-#: plugin/Controllers/DeactivationController.php:124
+#: plugin/Controllers/DeactivationController.php:113
 msgctxt "admin-text"
 msgid "Which feature are you looking for?"
 msgstr "Which feature are you looking for?"
 
-#: plugin/Controllers/DeactivationController.php:125
+#: plugin/Controllers/DeactivationController.php:114
 msgctxt "admin-text"
 msgid "Missing a specific feature"
 msgstr "Missing a specific feature"
 
-#: plugin/Controllers/DeactivationController.php:130
+#: plugin/Controllers/DeactivationController.php:119
 msgctxt "admin-text"
 msgid "Could you tell me a bit more?"
 msgstr "Could you tell me a bit more?"
 
-#: plugin/Controllers/DeactivationController.php:131
+#: plugin/Controllers/DeactivationController.php:120
 msgctxt "admin-text"
 msgid "Other Reason"
 msgstr "Other Reason"
@@ -3734,73 +3726,44 @@ msgctxt "admin-text"
 msgid "TTID"
 msgstr "TTID"
 
-#: plugin/Controllers/ToolsController.php:117
+#: plugin/Controllers/ToolsController.php:72
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr "You do not have permission to download the console."
 
-#: plugin/Controllers/ToolsController.php:139
+#: plugin/Controllers/ToolsController.php:94
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr "You do not have permission to download the system info report."
 
-#: plugin/Controllers/ToolsController.php:161
+#: plugin/Controllers/ToolsController.php:116
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr "You do not have permission to export settings."
 
-#: plugin/Controllers/ToolsController.php:184
-msgctxt "admin-text"
-msgid "You do not have permission to reload the console."
-msgstr "You do not have permission to reload the console."
-
 #: plugin/Controllers/Api/Version1/RestPluginController.php:153
-#: plugin/Controllers/ToolsController.php:191
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:206
-msgctxt "admin-text"
-msgid "Your user role does not have permission to view the system info."
-msgstr "Your user role does not have permission to view the system info."
-
-#: plugin/Controllers/ToolsController.php:248
-msgctxt "admin-text"
-msgid "You do not have permission to remove location data from reviews."
-msgstr "You do not have permission to remove location data from reviews."
-
-#: plugin/Controllers/ToolsController.php:249
-msgctxt "admin-text"
-msgid "You do not have permission to geolocate reviews."
-msgstr "You do not have permission to geolocate reviews."
-
-#: plugin/Controllers/ToolsController.php:270
-msgctxt "admin-text"
-msgid "You do not have permission to import reviews."
-msgstr "You do not have permission to import reviews."
-
-#: plugin/Controllers/ToolsController.php:297
+#: plugin/Controllers/ToolsController.php:153
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr "You do not have permission to import settings."
 
 #: plugin/Controllers/Api/Version1/RestPluginController.php:346
-#: plugin/Controllers/ToolsController.php:365
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
 #. translators: %s: a link with the text "reload the page"
 #: plugin/Controllers/Api/Version1/RestPluginController.php:350
-#: plugin/Controllers/ToolsController.php:370
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr "The permissions have been repaired, please %s for them to take effect."
 
 #: plugin/Controllers/Api/Version1/RestPluginController.php:84
-#: plugin/Controllers/ToolsController.php:426
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr "You do not have permission to rollback the plugin."
@@ -3888,7 +3851,7 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr "Approved on:"
 
-#: plugin/Controllers/VerificationController.php:35
+#: plugin/Controllers/VerificationController.php:34
 msgctxt "admin-text"
 msgid "Send Verification Request"
 msgstr "Send Verification Request"
@@ -7166,18 +7129,6 @@ msgctxt "link to License Keys page (admin-text)"
 msgid "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
 msgstr "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
 
-#. translators: %s: a button with the text "reloading"
-#: plugin/Router.php:237
-#, php-format
-msgctxt "try reloading the page (admin-text)"
-msgid "Try %s the page."
-msgstr "Try %s the page."
-
-#: plugin/Router.php:238
-msgctxt "(admin-text) e.g. try reloading the page"
-msgid "reloading"
-msgstr "reloading"
-
 #. translators: %s: the expected file extension
 #: plugin/Upload.php:27
 #, php-format
@@ -8234,7 +8185,7 @@ msgid "A number from %1$d-%2$d"
 msgstr ""
 
 #. translators: %1$s: HTTP response status code, %2$s: response error message
-#: plugin/Commands/EnqueueAdminAssets.php:65
+#: plugin/Commands/EnqueueAdminAssets.php:50
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
@@ -8926,18 +8877,17 @@ msgctxt "admin-text"
 msgid "Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:56
+#: plugin/Commands/EnqueueAdminAssets.php:41
 msgctxt "admin-text"
 msgid "Just a moment while we connect your site and install Site Reviews Premium."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:57
+#: plugin/Commands/EnqueueAdminAssets.php:42
 msgctxt "admin-text"
 msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestPluginController.php:90
-#: plugin/Controllers/ToolsController.php:431
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
 msgid "Rollback is unavailable because the Site Reviews folder is a git repository."

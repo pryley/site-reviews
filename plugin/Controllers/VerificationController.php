@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\SendVerificationEmail;
-use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Commands\VerifyReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\PostMeta;
@@ -41,18 +40,6 @@ class VerificationController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/ajax/request-verification
-     */
-    public function resendVerificationEmailAjax(Request $request): void
-    {
-        $review = glsr(ReviewManager::class)->get($request->cast('post_id', 'int'));
-        $pathPostId = $review->meta()->cast('_submitted._post_id', 'int');
-        $path = Cast::toString(wp_parse_url((string) get_permalink($pathPostId), \PHP_URL_PATH));
-        $command = $this->execute(new SendVerificationEmail($review, $review->verifyUrl($path)));
-        wp_send_json_success($command->response());
-    }
-
-    /**
      * @action site-reviews/review/created
      */
     public function sendVerificationEmail(Review $review, CreateReview $command): void
@@ -68,14 +55,6 @@ class VerificationController extends AbstractController
         if (!empty($verifyUrl)) {
             $this->execute(new SendVerificationEmail($review, $verifyUrl));
         }
-    }
-
-    /**
-     * @action site-reviews/route/ajax/toggle-verified
-     */
-    public function toggleVerifiedAjax(Request $request): void
-    {
-        $this->execute(new ToggleVerified($request))->sendJsonResponse();
     }
 
     /**

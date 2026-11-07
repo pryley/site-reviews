@@ -13,10 +13,9 @@ const adminConfig = () => ({
     compat: true,
     debug: { enabled: false },
     nameprefix: 'site-reviews',
-    nonce: { 'toggle-filters': 'abc123' },
     rating: { max: 5, min: 0 },
     request: {
-        ajax: { action: 'glsr_admin_action', rest: 'glsr_rest_request', url: 'https://example.org/wp-admin/admin-ajax.php' },
+        ajax: { rest: 'glsr_rest_request', url: 'https://example.org/wp-admin/admin-ajax.php' },
         nonce: 'def456',
         routes: {
             console: { method: 'GET', path: 'plugin/console' },

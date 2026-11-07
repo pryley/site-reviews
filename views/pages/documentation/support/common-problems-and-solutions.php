@@ -70,7 +70,6 @@
                     <li>The Form Request was submitted multiple times in parallel (possible single-packet attack)</li>
                 </ul>
                 <p>To fix the nonce errors, ensure you are not caching the review page for logged-in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that helps to prevent malicious form submissions. Still, they will not work if your web pages are cached because the nonce tokens are time-sensitive, and their validity expires after 12 hours.</p>
-                <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <?php echo glsr_admin_link('documentation.faq', 'How do I remove the WordPress Nonce check for logged-in users?', '#faq-remove-nonce-check'); ?>.</p>
             </li>
             <li>
                 <h4 class="glsr-error-message">

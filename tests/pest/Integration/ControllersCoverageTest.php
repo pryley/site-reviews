@@ -95,16 +95,6 @@ test('a verification landing whose review has vanished answers with an error', f
     expect($response['success'])->toBeFalse();
 });
 
-test('the deactivation survey posts home and thanks the person', function () {
-    interceptHttp(); // the survey is a remote POST; nothing leaves the container
-
-    $response = $this->jsonSentBy(fn () => glsr(DeactivationController::class)->submitDeactivateReasonAjax(
-        new Request(['reason' => 'other', 'details' => 'testing'])
-    ));
-
-    expect($response['success'])->toBeTrue();
-});
-
 test('the public assets enqueue through the controller, and the welcome page knows its slug', function () {
     glsr(PublicController::class)->enqueueAssets();
     expect(wp_script_is(glsr()->id, 'enqueued'))->toBeTrue();
