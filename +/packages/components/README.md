@@ -8,7 +8,7 @@ Display a single-select (non-searchable) dropdown control with values fetched vi
 
 ```jsx
 <AjaxSelectControl
-    endpoint="/site-reviews/v1/shortcode/site_reviews?option=type"
+    endpoint="/site-reviews/v1/shortcodes/site_reviews/options/type"
     fallback={
         <BaseControl __nextHasNoMarginBottom>
             <Notice status="warning" politeness="polite" isDismissible={ false }>
@@ -29,7 +29,7 @@ Display a single-select (searchable) dropdown control with values fetched via aj
 
 ```jsx
 <AjaxComboboxControl
-    endpoint="/site-reviews/v1/shortcode/site_reviews?option=type"
+    endpoint="/site-reviews/v1/shortcodes/site_reviews/options/type"
     fallback={
         <BaseControl __nextHasNoMarginBottom>
             <Notice status="warning" politeness="polite" isDismissible={ false }>
@@ -50,7 +50,7 @@ Display a single-select (searchable) dropdown control with values fetched via aj
 
 ```jsx
 <AjaxSearchControl
-    endpoint="/site-reviews/v1/shortcode/site_reviews?option=author"
+    endpoint="/site-reviews/v1/shortcodes/site_reviews/options/author"
     help={ _x('The control description.', 'admin-text', 'site-reviews') }
     onChange={(author) => setAttributes({ author })}
     prefetch={true}
@@ -65,7 +65,7 @@ Display a multi-select (searchable) dropdown control with values fetched via aja
 
 ```jsx
 <AjaxFormTokenField
-    endpoint="/site-reviews/v1/shortcode/site_reviews?option=assigned_posts"
+    endpoint="/site-reviews/v1/shortcodes/site_reviews/options/assigned_posts"
     help={ _x('The control description.', 'admin-text', 'site-reviews') }
     onChange={(assigned_posts) => setAttributes({ assigned_posts })}
     prefetch={true}
@@ -80,7 +80,7 @@ Display a group of toggle controls with labels and values fetched via ajax.
 
 ```jsx
 <AjaxToggleGroupControl
-    endpoint="/site-reviews/v1/shortcode/site_review?option=hide"
+    endpoint="/site-reviews/v1/shortcodes/site_review/options/hide"
     onChange={(hide) => setAttributes({ hide })}
     value={attributes.hide}
 />

@@ -17,7 +17,7 @@ use function GeminiLabs\SiteReviews\Tests\restRequest;
  *   site-reviews/v1/reviews/<id>       because the post type declares it as its rest_controller_class
  *   site-reviews/v1/summary            RestSummaryController  ) both registered by
  *   site-reviews/v1/summary/rating                            ) RestController::registerRoutes
- *   site-reviews/v1/shortcode/<name>   RestShortcodeController
+ *   site-reviews/v1/shortcodes/<name>/options/<option>   RestShortcodeController
  *
  * Every one requires a logged-in user (ReviewPermissions, get_summary_permissions_check,
  * get_items_permissions_check), so the logged-out cases are part of the contract.
@@ -49,7 +49,7 @@ test('registers its routes', function () {
         ->toHaveKey('/'.REST_NS.'/reviews/(?P<id>[\d]+)')
         ->toHaveKey('/'.REST_NS.'/summary')
         ->toHaveKey('/'.REST_NS.'/summary/rating')
-        ->toHaveKey('/'.REST_NS.'/shortcode/(?P<shortcode>[a-z_]+)')
+        ->toHaveKey('/'.REST_NS.'/shortcodes/(?P<shortcode>[a-z_]+)/options/(?P<option>[a-z_]+)')
         ->toHaveKey('/'.REST_NS.'/search/assigned-posts')
         ->toHaveKey('/'.REST_NS.'/search/assigned-users')
         ->toHaveKey('/'.REST_NS.'/search/posts')
@@ -184,8 +184,7 @@ test('fetches a shortcode option list', function () {
     // matching pages.
     actAsAdmin();
     $postId = createPost(['post_title' => 'Fetched through the shortcode endpoint']);
-    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', [
-        'option' => 'assigned_posts',
+    $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/assigned_posts', [
         'search' => 'Fetched through',
     ]);
     expect($response->get_status())->toBe(200);
@@ -198,29 +197,29 @@ test('fetches a shortcode option list', function () {
 
 test('rejects an unknown shortcode', function () {
     actAsAdmin();
-    $response = restRequest('GET', '/'.REST_NS.'/shortcode/not_a_shortcode');
-    expect($response->get_status())->toBe(400);
-    expect($response->get_data()['code'])->toBe('rest_invalid_shortcode');
+    $response = restRequest('GET', '/'.REST_NS.'/shortcodes/not_a_shortcode/options/hide');
+    expect($response->get_status())->toBe(404);
+    expect($response->get_data()['code'])->toBe('glsr_invalid_shortcode');
+    expect(restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/not_an_option')->get_data())->toBe([]);
 });
 
-test('refuses to render a shortcode for a logged out visitor', function () {
-    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews');
+test('refuses a shortcode option list to a logged out visitor', function () {
+    $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/hide');
     expect($response->get_status())->toBe(401);
+    expect($response->get_data()['code'])->toBe('glsr_forbidden');
 });
 
 test('the option lists, which include the users of the site, are refused to a user who cannot see the reviews', function () {
     createUser(['display_name' => 'Somebody Searchable', 'role' => 'subscriber']);
-    $search = ['option' => 'assigned_users', 'search' => 'Searchable'];
-
     wp_set_current_user(createUser(['role' => 'subscriber']));
     foreach (['assigned_posts', 'assigned_users', 'author'] as $option) {
-        $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', ['option' => $option]);
+        $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/'.$option);
         expect($response->get_status())->toBe(403);
-        expect($response->get_data()['code'])->toBe('rest_forbidden_context');
+        expect($response->get_data()['code'])->toBe('glsr_forbidden');
     }
 
     wp_set_current_user(createUser(['role' => 'contributor']));
-    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', $search);
+    $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/assigned_users', ['search' => 'Searchable']);
     expect($response->get_status())->toBe(200);
     expect(array_column($response->get_data(), 'title'))->toContain('Somebody Searchable');
 });

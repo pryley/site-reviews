@@ -3393,7 +3393,6 @@ msgstr ""
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
 #: plugin/Controllers/Api/Version1/RestSearchController.php:23
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
@@ -3697,6 +3696,11 @@ msgstr ""
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:26
+msgctxt "admin-text"
+msgid "Invalid shortcode."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSummaryController.php:22

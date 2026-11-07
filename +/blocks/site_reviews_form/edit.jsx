@@ -9,7 +9,7 @@ const Edit = (props) => {
     const { style_rating_color, style_rating_color_custom } = attributes;
     const controls = {
         assigned_posts: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=assigned_posts'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_form/options/assigned_posts'
             key='assigned_posts'
             label={ _x('Assign Reviews to Pages', 'admin-text', 'site-reviews') }
             onChange={ (assigned_posts) => setAttributes({ assigned_posts }) }
@@ -18,7 +18,7 @@ const Edit = (props) => {
             value={ attributes.assigned_posts }
         />,
         assigned_terms: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=assigned_terms'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_form/options/assigned_terms'
             key='assigned_terms'
             label={ _x('Assign Reviews to Categories', 'admin-text', 'site-reviews') }
             onChange={ (assigned_terms) => setAttributes({ assigned_terms }) }
@@ -26,7 +26,7 @@ const Edit = (props) => {
             value={ attributes.assigned_terms }
         />,
         assigned_users: <AjaxFormTokenField
-            endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=assigned_users'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_form/options/assigned_users'
             key='assigned_users'
             label={ _x('Assign Reviews to Users', 'admin-text', 'site-reviews') }
             onChange={ (assigned_users) => setAttributes({ assigned_users }) }
@@ -35,7 +35,7 @@ const Edit = (props) => {
             value={ attributes.assigned_users }
         />,
         hide: <AjaxToggleGroupControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=hide'
+            endpoint='/site-reviews/v1/shortcodes/site_reviews_form/options/hide'
             key='hide'
             onChange={ (hide) => setAttributes({ hide }) }
             value={ attributes.hide }
