@@ -268,7 +268,6 @@ test('with compat mode each old name fires beside its replacement, with the argu
         'site-reviews/modal/init',
         'site-reviews/pagination/init',
         'site-reviews/review/initialized',
-        'site-reviews/forms/init',
         'site-reviews/form/initialized',
         'site-reviews/loaded',
         'site-reviews/initialized',
@@ -323,7 +322,7 @@ test('with compat mode site-reviews/modal/open still fires before the dialog is 
     assert.deepEqual(fired, [['open', 0, 'glsr-modal-probe', undefined], ['opened', 1], ['close', 'glsr-modal-probe']])
 });
 
-test('with compat mode a block name sets the block up, and GLSR_init(el) tells the listeners of that name', async () => {
+test('with compat mode a block name sets nothing up, and GLSR_init(el) fires no block name', async () => {
     const { ready, window } = start({ html: PAGE.replace('data-glsr-modules="form"', '') });
     await ready
     const { document, GLSR } = window;
@@ -333,24 +332,25 @@ test('with compat mode a block name sets the block up, and GLSR_init(el) tells t
 
     window.GLSR_init('block:site-reviews/form', form, { hide: [] })
     await settle(10)
-    assert.equal(GLSR.Form.instances.length, 1)
-    assert.equal(GLSR.Review.instances.length, 1)
-    assert.deepEqual(fired.map(([name, el]) => [name, el.id]), [['block:site-reviews/form', 'form']])
+    assert.equal(GLSR.Form?.instances.length ?? 0, 0)
+    // only the listener itself hears the name that GLSR_init triggered
+    assert.deepEqual(names(fired), ['block:site-reviews/form'])
 
     fired.length = 0;
     await window.GLSR_init(document.getElementById('reviews'))
-    assert.deepEqual(fired.map(([name, el, attributes]) => [name, el.id, JSON.stringify(attributes)]), [['block:site-reviews/reviews', 'reviews', '{}']])
+    assert.deepEqual(fired, [])
 });
 
 test('with compat mode an old name that a script triggers reaches each listener once', async () => {
     const { window } = await load();
     const { GLSR } = window;
     let heard = 0;
-    GLSR.Event.on('site-reviews/forms/init', () => heard++)
-    window.document.querySelector('form').insertAdjacentHTML('afterend', '<form class="glsr-review-form"><button type="submit">Submit</button></form>')
-    GLSR.Event.trigger('site-reviews/forms/init')
+    GLSR.Event.on('site-reviews/pagination/init', () => heard++)
+    const count = GLSR.Review.instances.length;
+    window.document.getElementById('reviews').insertAdjacentHTML('afterend', `<div class="glsr glsr-default" id="more" data-shortcode="site_reviews">${REVIEWS()}</div>`)
+    GLSR.Event.trigger('site-reviews/pagination/init')
     await settle()
-    assert.equal(GLSR.Form.instances.length, 2)
+    assert.equal(GLSR.Review.instances.length, count + 1)
     assert.equal(heard, 1)
 });
 
@@ -371,12 +371,18 @@ test('debug mode names the replacement of an old name, of a removed name, and of
     GLSR.Event.on('site-reviews/form/handle', () => {})
     GLSR.Event.once('site-reviews/loaded', () => {})
     GLSR.Event.on('site-reviews/pagination/popstate', () => {})
+    GLSR.Event.on('block:site-reviews/form', () => {})
+    GLSR.Event.trigger('site-reviews/modal/init')
     GLSR.Event.trigger('site-reviews/forms/init')
+    window.GLSR_init('block:site-reviews/form')
     assert.deepEqual(warnings, [
         '[site-reviews] A script listens to site-reviews/form/handle, which is deprecated; use site-reviews/form/submitted instead.',
         '[site-reviews] A script listens to site-reviews/loaded, which is deprecated; use site-reviews/initialized instead.',
         "[site-reviews] A script listens to site-reviews/pagination/popstate, which Site Reviews 9.0.0 removed; use window.addEventListener('popstate', …) instead.",
-        '[site-reviews] Triggering site-reviews/forms/init is deprecated; use GLSR.Form.init(root) instead.',
+        '[site-reviews] A script listens to block:site-reviews/form, which Site Reviews 9.0.0 removed; use site-reviews/initialized instead.',
+        '[site-reviews] Triggering site-reviews/modal/init is deprecated; use GLSR.Review.init(root) instead.',
+        '[site-reviews] Triggering site-reviews/forms/init was removed in Site Reviews 9.0.0; use GLSR.Form.init(root) instead.',
+        '[site-reviews] Triggering block:site-reviews/form was removed in Site Reviews 9.0.0; use GLSR_init(root) instead.',
     ])
 });
 

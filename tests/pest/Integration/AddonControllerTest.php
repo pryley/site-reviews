@@ -329,12 +329,6 @@ test('the addon adds the strings from its own pot file', function () {
         ->and(array_values(array_unique(array_column($entries, 'domain'))))->toBe(['site-reviews-test-addon']);
 });
 
-test('the addon announces itself to the public javascript', function () {
-    // The frontend script branches on which addons are present.
-    expect($this->controller->filterLocalizedPublicVariables([]))
-        ->toBe(['addons' => ['site-reviews-test-addon' => null]]);
-});
-
 /*
  * The wiring. Addon::init() finds the Hooks class by name, and every hook above is
  * registered from it — so a rename that misses one is a feature that silently stops

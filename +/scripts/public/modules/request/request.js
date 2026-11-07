@@ -12,18 +12,12 @@ const HEADERS = { Accept: 'application/json', 'X-Requested-With': 'XMLHttpReques
 let nonce = config.request?.nonce;
 let noticeShown = false;
 let restUnavailable = null;
-let unrouted = null;
 
 // this request goes to admin-ajax
 class FallbackError extends Error {}
 
 // this request and the rest of the page go to admin-ajax
 class RestUnavailableError extends FallbackError {}
-
-// the compat script submits a form whose action has no route
-export const submitUnrouted = (fn) => {
-    unrouted = fn;
-}
 
 // the answer of the route is final regardless of status
 const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith('glsr_');
@@ -48,12 +42,6 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-// for config without routes: admin script or page was cached before 9.0.0
-const ROUTES = { 'submit-review': 'submissions' };
-
-// for config without rest action: page was cached before 9.0.0
-const REST_ACTION = 'glsr_rest_request';
-
 const submit = (formData) => {
     if (!config.request?.ajax?.url) {
         return Promise.resolve(_unconfigured());
@@ -62,9 +50,6 @@ const submit = (formData) => {
     const route = _route(action);
     if (route) {
         return send({ body: formData, ...route });
-    }
-    if (unrouted) {
-        return unrouted(formData, action);
     }
     console.error(`Site Reviews: the form action "${action}" has no REST route.`)
     return Promise.resolve({ data: { message: `No route is registered for the form action "${action}".` }, status: 0, success: false });
@@ -89,7 +74,7 @@ const _request = ({ body, method = 'GET', params, path, route, signal, ...values
 
 // a route of the config: a path (a POST to it) or { method, path }, with the {placeholders} of the path filled
 const _route = (name, values = {}) => {
-    const route = (config.request?.routes || ROUTES)[name];
+    const route = config.request?.routes?.[name];
     if (!route) {
         return null;
     }
@@ -206,7 +191,7 @@ const _tunnel = async (request, isRetry = false) => {
     } else if (isJsonBody(body)) {
         data.append('_rest_body', JSON.stringify(body))
     }
-    data.append('action', config.request.ajax.rest || REST_ACTION)
+    data.append('action', config.request.ajax.rest)
     data.append('_rest_method', method)
     data.append('_rest_path', path)
     data.append('_rest_query', _query(params).toString())

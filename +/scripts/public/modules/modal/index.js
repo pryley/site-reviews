@@ -7,7 +7,7 @@ import Modal, { Instance, hooks } from './modal.js';
 window.GLSR.Modal = Modal;
 
 // no root names the modal's stylesheet: the modal is built client-side
-attach('modal', () => ensureStyles(['modal']), { Instance, hooks })
+attach('modal', () => ensureStyles(['modal']), { hooks })
 
 export { Instance, hooks }
 

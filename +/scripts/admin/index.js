@@ -5,7 +5,6 @@
  * class names.
  */
 import { adopt, debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, lib, parseJson, selectText, throttle } from '@/public/core/index.js';
-import Ajax from '@/admin/ajax.js';
 import Assigned from '@/admin/review/assigned.js';
 import CategoryQuickEdit from '@/admin/category/quick-edit.js';
 import Cards from '@/admin/shared/cards.js';
@@ -52,7 +51,7 @@ GLSR.Rating = StarRating();
 GLSR.Request = Request;
 GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
 lib.register('tippy', { tippy, plugins: { followCursor } })
-share({ Ajax, notices: () => Notice })
+share()
 
 const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, ToolButton, Tooltip, UploadForm]; // ToolButton: the migration notice has one on every screen
 

@@ -139,7 +139,7 @@ It does not fire after a review is submitted: the form only sets up the list and
 
 ## Deprecated names
 
-Site Reviews 9.0.0 renamed its events. The old names are deprecated: use the new ones in anything you write. They keep firing, with the arguments they had, through compat mode, which is on by default (see [js-api.md](js-api.md#deprecated-keys)). In debug mode, a script that listens to an old name logs a warning that names its replacement.
+Site Reviews 9.0.0 renamed its events. The old names are deprecated: use the new ones in anything you write. They keep firing, with the arguments they had, through compat mode, which is on by default (see [js-api.md](js-api.md#removed-keys)). In debug mode, a script that listens to an old name logs a warning that names its replacement.
 
 | Deprecated | Arguments | Use instead |
 | --- | --- | --- |
@@ -148,16 +148,22 @@ Site Reviews 9.0.0 renamed its events. The old names are deprecated: use the new
 | `site-reviews/modal/init` | none | `site-reviews/review/initialized` |
 | `site-reviews/pagination/init` | none | `site-reviews/review/initialized` |
 | `site-reviews/pagination/handle` | `(response, pagination)` | `site-reviews/review/paginated` |
-| `site-reviews/forms/init` | none | `site-reviews/form/initialized` |
 | `site-reviews/form/handle` | `(response, formEl)` | `site-reviews/form/submitted` |
 | `site-reviews/modal/open` | `(modal, event)` | `site-reviews/modal/opened` |
 | `site-reviews/modal/close` | `(modal, event)` | `site-reviews/modal/closed` |
-| `block:site-reviews/form`, `…/review`, `…/reviews`, `…/summary` | `(el, attributes)` | `site-reviews/initialized` |
 
 - `site-reviews/modal/open` still fires before the dialog is shown; `site-reviews/modal/opened` fires after.
-- Triggering `site-reviews/excerpts/init`, `site-reviews/modal/init`, `site-reviews/pagination/init`, `site-reviews/forms/init` or a `block:` name still starts that work. Call `GLSR.Review.init(root)`, `GLSR.Form.init(root)` or `GLSR_init(root)` instead.
+- Triggering `site-reviews/excerpts/init`, `site-reviews/modal/init` or `site-reviews/pagination/init` still starts that work. Call `GLSR.Review.init(root)` instead.
 
-One event is removed: `site-reviews/pagination/popstate`. It repeated the browser's own event, which you can listen to directly:
+These events are removed. They no longer fire and triggering one starts nothing. In debug mode a script that listens to one logs a warning that names its replacement, and so does a script that triggers `site-reviews/forms/init` or a `block:` name while compat mode is on:
+
+| Removed | Use instead |
+| --- | --- |
+| `site-reviews/forms/init` | listen to `site-reviews/form/initialized`; call `GLSR.Form.init(root)` |
+| `block:site-reviews/form`, `…/review`, `…/reviews`, `…/summary` | listen to `site-reviews/initialized`; call `GLSR_init(root)` |
+| `site-reviews/pagination/popstate` | the browser's own `popstate` event |
+
+`site-reviews/pagination/popstate` repeated the browser's own event, which you can listen to directly:
 
 ```js
 window.addEventListener('popstate', (event) => {

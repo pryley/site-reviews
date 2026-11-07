@@ -58,6 +58,9 @@ export default ({ attach, listeners }, events = null) => {
         },
         listen: ({ name }) => events && checkName(name),
         pagination: ({ id, page, url }) => info(`pagination: page ${page} of #${id || '(no id)'}, ${url}`),
+        removed: ({ name, replacement }) => {
+            warn(`removed:${name}`, `${name} was removed in Site Reviews 9.0.0; ${replacement ? `use ${replacement} instead` : 'it has no replacement'}.`)
+        },
         request: ({ method, ms, path, status, transport }) => info(`${method} ${path}: ${transport}, ${status}, ${ms}ms`),
         validation: ({ isValid, name, rule, value }) => info(`validation: ${name}, ${rule}, "${value}", ${isValid ? 'pass' : 'fail'}`),
     };

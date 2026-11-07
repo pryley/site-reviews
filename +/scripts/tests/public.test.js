@@ -2,6 +2,12 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { loadPublic, publicConfig } = require('./harness.js');
 
+const REMOVED = [
+    'action', 'addons', 'ajax', 'ajax_pagination', 'ajax_url', 'ajaxpagination', 'ajaxurl', 'captcha', 'forms', 'modal_wrapped_by',
+    'nameprefix', 'pagination', 'request', 'rest_nonce', 'rest_url', 'stars_config', 'starsconfig', 'text', 'url_parameter',
+    'urlparameter', 'Utils', 'validation_config', 'validation_strings', 'validationconfig', 'validationstrings',
+];
+
 const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'historyState', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
 
 // Values that cross the jsdom realm are compared as JSON.
@@ -89,51 +95,15 @@ test('Util.feature builds a module with the four members of Review, Form and Sum
     assert.deepEqual(calls, ['init a', 'init c', 'destroy c', 'init c', 'destroy a', 'destroy c'])
 });
 
-test('GLSR.Utils is a hidden getter onto GLSR.Util', () => {
-    const { window } = loadPublic();
-    const descriptor = Object.getOwnPropertyDescriptor(window.GLSR, 'Utils');
-    assert.equal(window.GLSR.Utils, window.GLSR.Util)
-    assert.equal(descriptor.configurable, true) // the admin script defines the key too when both share a page
-    assert.equal(descriptor.enumerable, false)
-});
-
-test('each key that 8.3 printed is a hidden getter onto the config', () => {
-    const { window } = loadPublic({
-        config: {
-            captcha: { captchaType: 'frictionless', class: 'procaptcha', tokenField: 'procaptcha-response', type: 'procaptcha' },
-        },
-    });
-    const { GLSR } = window;
-    const { config } = GLSR;
-    assert.equal(GLSR.action, config.request.ajax.action)
-    assert.equal(GLSR.ajax_pagination, config.pagination.fixed)
-    assert.equal(GLSR.ajax_url, config.request.ajax.url)
-    assert.equal(GLSR.modal_wrapped_by, config.modal.wrappedBy)
-    assert.equal(GLSR.nameprefix, config.nameprefix)
-    assert.equal(GLSR.rest_nonce, config.request.nonce)
-    assert.equal(GLSR.rest_url, config.request.url)
-    assert.equal(GLSR.stars_config, config.rating)
-    assert.equal(GLSR.url_parameter, config.pagination.urlParameter)
-    assert.equal(GLSR.validation_strings, config.validation.strings)
-    assert.deepEqual(plain(GLSR.captcha), { captcha_type: 'frictionless', class: 'procaptcha', token_field: 'procaptcha-response', type: 'procaptcha' })
-    assert.deepEqual(plain(GLSR.text), { close_modal: 'Close Modal', closemodal: 'Close Modal' })
-    assert.equal(GLSR.validation_config.field_error, 'glsr-field-is-invalid')
-    assert.equal(GLSR.validation_config.form_message_success, 'glsr-form-success')
-    assert.equal(GLSR.validation_config.field, 'glsr-field')
-    assert.equal('strings' in GLSR.validation_config, false)
-    assert.deepEqual(Object.keys(GLSR).filter((key) => /^[a-z]/.test(key)).sort(), ['config', 'lib', 'load', 'version'])
-});
-
-test('the seven names that 8.0.1 renamed read the same values', () => {
+test('each key that 8.x printed is a hidden getter that gives undefined', () => {
     const { GLSR } = loadPublic().window;
-    assert.equal(GLSR.ajaxurl, GLSR.config.request.ajax.url)
-    assert.deepEqual(plain(GLSR.ajaxpagination), plain(GLSR.config.pagination.fixed))
-    assert.deepEqual(plain(GLSR.starsconfig), plain(GLSR.config.rating))
-    assert.equal(GLSR.urlparameter, 'reviews-page')
-    assert.deepEqual(plain(GLSR.validationconfig), plain(GLSR.validation_config))
-    assert.deepEqual(plain(GLSR.validationstrings), plain(GLSR.config.validation.strings))
-    assert.equal(GLSR.text.closemodal, 'Close Modal')
-    assert.equal(Object.keys(GLSR).includes('ajaxurl'), false)
+    for (const key of REMOVED) {
+        const descriptor = Object.getOwnPropertyDescriptor(GLSR, key);
+        assert.equal(GLSR[key], undefined, key)
+        assert.equal(descriptor.configurable, true, key) // the admin script defines some of them too when both share a page
+        assert.equal(descriptor.enumerable, false, key)
+    }
+    assert.deepEqual(Object.keys(GLSR).filter((key) => /^[a-z]/.test(key)).sort(), ['config', 'lib', 'load', 'version'])
 });
 
 test('the compat script is handed its pieces, and puts none of them on GLSR', () => {
@@ -156,7 +126,7 @@ test('a key that an 8.x filter added, and 9.0.0 does not know, stays a plain key
     assert.deepEqual(plain(window.GLSR.my_snippet), { value: 1 })
 });
 
-test('a deprecated key warns once, and only in debug mode', () => {
+test('a removed key warns once, and only in debug mode', () => {
     const quiet = loadPublic();
     quiet.window.GLSR.Utils
     quiet.window.GLSR.ajax_url
@@ -167,11 +137,11 @@ test('a deprecated key warns once, and only in debug mode', () => {
     debug.window.GLSR.Utils
     debug.window.GLSR.ajax_url
     assert.equal(debug.warnings.length, 2)
-    assert.match(debug.warnings[0], /GLSR\.Utils is deprecated; use GLSR\.Util instead\.$/)
-    assert.match(debug.warnings[1], /GLSR\.ajax_url is deprecated; use GLSR\.config\.request\.ajax\.url instead\.$/)
+    assert.match(debug.warnings[0], /GLSR\.Utils was removed in Site Reviews 9\.0\.0; use GLSR\.Util instead\.$/)
+    assert.match(debug.warnings[1], /GLSR\.ajax_url was removed in Site Reviews 9\.0\.0; use GLSR\.config\.request\.ajax\.url instead\.$/)
 });
 
-test('no deprecated key is defined when the layer is off', () => {
+test('no removed key is defined when the layer is off', () => {
     const { window } = loadPublic({ compat: false });
     assert.equal('Utils' in window.GLSR, false)
     assert.equal('ajax_url' in window.GLSR, false)

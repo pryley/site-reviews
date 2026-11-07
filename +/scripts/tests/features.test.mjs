@@ -129,9 +129,14 @@ test('with compat mode, Review.init triggers the three events it always did, onc
         ['site-reviews/modal/init', undefined],
         ['site-reviews/pagination/init', undefined],
     ])
-    calls.length = 0;
+});
+
+test('with compat mode, Form.init no longer triggers site-reviews/forms/init', async () => {
+    const { GLSR } = (await load()).window;
+    const calls = [];
+    GLSR.Event.on('site-reviews/forms/init', () => calls.push('site-reviews/forms/init'))
     GLSR.Form.init()
-    assert.deepEqual(calls, [['site-reviews/forms/init', undefined]])
+    assert.deepEqual(calls, [])
 });
 
 test('with compat mode, a script can still start an init by triggering one of those events', async () => {
@@ -144,7 +149,7 @@ test('with compat mode, a script can still start an init by triggering one of th
     assert.equal(container.querySelectorAll('.glsr-read-more a').length, 1)
     GLSR.Event.trigger('site-reviews/forms/init')
     await settle()
-    assert.equal(GLSR.Form.instances.length, 2)
+    assert.equal(GLSR.Form.instances.length, 1) // site-reviews/forms/init was removed
     const pagination = GLSR.Review.pagination.instances[0];
     GLSR.Event.trigger('site-reviews/pagination/init')
     await settle()
@@ -246,15 +251,12 @@ test('an invalid form shows the messages and classes that the config names', asy
     assert.equal(document.querySelector('.glsr-form-message').classList.contains('glsr-form-failed'), true)
 });
 
-test('GLSR.Modal.modify and a modal\'s dom are kept for 8.x while compat mode is on, and gone without it', async () => {
+test('GLSR.Modal.modify and a modal\'s dom are gone, with compat mode and without it', async () => {
     const { window } = await load();
     await window.GLSR.load('modal')
-    let received = null;
     window.GLSR.Modal.init('glsr-modal-probe')
-    window.GLSR.Modal.modify('glsr-modal-probe', (modal) => (received = modal))
-    assert.notEqual(received, null)
-    assert.equal(received, window.GLSR.Modal.get('glsr-modal-probe'))
-    assert.deepEqual(Object.keys(received.dom).sort(), ['body', 'close', 'content', 'dialog', 'footer', 'header'])
+    assert.equal('modify' in window.GLSR.Modal, false)
+    assert.equal('dom' in window.GLSR.Modal.get('glsr-modal-probe'), false)
 
     const plain = await load({ compat: false });
     await plain.window.GLSR.load('modal')

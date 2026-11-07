@@ -1,41 +1,30 @@
 /** global: GLSR */
 
-import { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
+import { removed, reportTo } from '@/compat/deprecated.js';
 
-// The name of a member before 9.0.0 => its name in the config.
-const KEYS = {
-    text: {
-        import_error: 'importError',
-        rollback_error: 'rollbackError',
-        system_info_500: 'systemInfo500',
-        system_info_error: 'systemInfoError',
-        system_info_failed: 'systemInfoFailed',
-    },
+// A key before 9.0.0 that 9.0.0 removed => what to use.
+const REMOVED = {
+    action: null,
+    addons: 'GLSR.config.{feature}',
+    addonsurl: 'GLSR.config.urls.addons',
+    ajax: 'GLSR.Request',
+    autosize: null,
+    keys: 'event.key',
+    maxrating: 'GLSR.config.rating.max',
+    minrating: 'GLSR.config.rating.min',
+    nameprefix: 'GLSR.config.nameprefix',
+    nonce: null,
+    notices: 'GLSR.Notice',
+    shortcode: null,
+    shortcodes: null,
+    stars: 'GLSR.Rating',
+    text: 'GLSR.config.text',
+    tinymce: null,
+    Tippy: 'GLSR.lib.tippy',
+    Utils: 'GLSR.Util',
 };
 
-// A key before 9.0.0 => its path in the config.
-const PATHS = {
-    addonsurl: 'urls.addons',
-    maxrating: 'rating.max',
-    minrating: 'rating.min',
-    nameprefix: 'nameprefix',
-    text: 'text',
-};
-
-// Review Forms 3.1 calls GLSR.autosize(), which does nothing: a textarea grows with CSS field-sizing.
-const autosize = Object.assign(() => {}, { destroy: () => {}, update: () => {} });
-
-const keys = { ALT: 18, DOWN: 40, ENTER: 13, ESC: 27, SPACE: 32, TAB: 9, UP: 38 };
-
-export default ({ Ajax, notices, report }) => {
-    const { GLSR } = window;
+export default ({ report }) => {
     reportTo(report)
-    aliasPaths(PATHS, KEYS)
-    alias(GLSR, 'ajax', 'GLSR.ajax', 'GLSR.Request', () => Ajax)
-    alias(GLSR, 'autosize', 'GLSR.autosize', null, () => autosize)
-    alias(GLSR, 'keys', 'GLSR.keys', 'event.key', () => keys)
-    alias(GLSR, 'notices', 'GLSR.notices', 'GLSR.Notice', notices)
-    alias(GLSR, 'stars', 'GLSR.stars', 'GLSR.Rating', () => GLSR.Rating)
-    alias(GLSR, 'Tippy', 'GLSR.Tippy', 'GLSR.lib.tippy', () => GLSR.lib.tippy)
-    alias(GLSR, 'Utils', 'GLSR.Utils', 'GLSR.Util', () => GLSR.Util)
+    Object.entries(REMOVED).forEach(([key, replacement]) => removed(window.GLSR, key, `GLSR.${key}`, replacement))
 }

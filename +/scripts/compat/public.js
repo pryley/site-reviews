@@ -1,61 +1,42 @@
 /** global: GLSR */
 
-import { whenAttached } from '@/public/core/index.js';
-import Ajax from '@/public/modules/request/ajax.js';
 import events from '@/compat/events.js';
-import { KEYS, PATHS } from '@/compat/keys.js';
-import { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
+import { removed, reportTo } from '@/compat/deprecated.js';
 
-// A key before 8.0.1 => its path in the config. 8.0.1 renamed these without an alias.
-const PATHS_80 = {
-    ajaxpagination: 'pagination.fixed',
-    ajaxurl: 'request.ajax.url',
-    starsconfig: 'rating',
-    urlparameter: 'pagination.urlParameter',
-    validationconfig: 'validation',
-    validationstrings: 'validation.strings',
+// A key before 9.0.0 that 9.0.0 removed => what to use.
+const REMOVED = {
+    action: 'GLSR.config.request.ajax.action',
+    addons: 'GLSR.config.{feature}',
+    ajax: 'GLSR.Request',
+    ajax_pagination: 'GLSR.config.pagination.fixed',
+    ajax_url: 'GLSR.config.request.ajax.url',
+    ajaxpagination: 'GLSR.config.pagination.fixed', // before 8.0.1
+    ajaxurl: 'GLSR.config.request.ajax.url', // before 8.0.1
+    captcha: 'GLSR.config.captcha',
+    forms: 'GLSR.Form.instances',
+    modal_wrapped_by: 'GLSR.config.modal.wrappedBy',
+    nameprefix: 'GLSR.config.nameprefix',
+    pagination: 'GLSR.Review.pagination.instances',
+    request: 'GLSR.Request',
+    rest_nonce: 'GLSR.config.request.nonce',
+    rest_url: 'GLSR.config.request.url',
+    stars_config: 'GLSR.config.rating',
+    starsconfig: 'GLSR.config.rating', // before 8.0.1
+    text: 'GLSR.config.text',
+    url_parameter: 'GLSR.config.pagination.urlParameter',
+    urlparameter: 'GLSR.config.pagination.urlParameter', // before 8.0.1
+    Utils: 'GLSR.Util',
+    validation_config: 'GLSR.config.validation',
+    validation_strings: 'GLSR.config.validation.strings',
+    validationconfig: 'GLSR.config.validation', // before 8.0.1
+    validationstrings: 'GLSR.config.validation.strings', // before 8.0.1
 };
 
-const withoutStrings = ({ strings, ...classes }) => classes;
-
 /**
- * Define the modal's 8.x globals once the modal module has attached.
- */
-const aliasModal = ({ Instance }) => {
-    const { Modal } = window.GLSR;
-    alias(Modal, 'modify', 'GLSR.Modal.modify()', 'GLSR.Modal.get()', () => (id, callback) => {
-        const modal = Modal.get(id);
-        if (modal) {
-            callback(modal)
-        }
-    })
-    alias(Instance.prototype, 'dom', 'The dom of a modal', 'its header(), content(), footer(), style() and hideClose()', function () {
-        return {
-            body: this._body,
-            close: this._close,
-            content: this._regions ? this._regions.content : null,
-            dialog: this._dialog,
-            footer: this._regions ? this._regions.footer : null,
-            header: this._regions ? this._regions.header : null,
-        }
-    })
-}
-
-/**
- * Define the 8.x globals that the bootstrap can serve before any module has loaded.
+ * Report the 8.x globals that 9.0.0 removed, and trigger the 8.x event names.
  */
 export default ({ listen, report }) => {
     reportTo(report)
-    events({ listen })
-    whenAttached('modal').then(aliasModal)
-    alias(window.GLSR, 'ajax', 'GLSR.ajax', 'GLSR.Request', () => Ajax)
-    alias(window.GLSR, 'request', 'GLSR.request', 'GLSR.Request', () => ({ ...window.GLSR.Request, data: Ajax.data }))
-    aliasPaths(PATHS, KEYS, {
-        text: (text) => ({ ...text, closemodal: text.close_modal }), // close_modal was closemodal before 8.0.1
-        validation_config: withoutStrings,
-    })
-    aliasPaths(PATHS_80, { validationconfig: KEYS.validation_config }, {
-        validationconfig: withoutStrings,
-    })
-    alias(window.GLSR, 'Utils', 'GLSR.Utils', 'GLSR.Util', () => window.GLSR.Util)
+    events({ listen, report })
+    Object.entries(REMOVED).forEach(([key, replacement]) => removed(window.GLSR, key, `GLSR.${key}`, replacement))
 }

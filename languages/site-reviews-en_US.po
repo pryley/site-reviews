@@ -847,7 +847,7 @@ msgid "Strings"
 msgstr "Strings"
 
 #: helpers.php:128
-#: plugin/Addons/Controller.php:283
+#: plugin/Addons/Controller.php:274
 #: plugin/Controllers/MenuController.php:116
 #: plugin/Controllers/WelcomeController.php:66
 msgctxt "admin-text"
@@ -2882,14 +2882,14 @@ msgctxt "admin-text"
 msgid "This will filter the output of the wp_comments() function when used to query WooCommerce product reviews."
 msgstr "This will filter the output of the wp_comments() function when used to query WooCommerce product reviews."
 
-#: plugin/Addons/Controller.php:278
+#: plugin/Addons/Controller.php:269
 #: plugin/Controllers/AdminController.php:93
 #: views/partials/notices/welcome.php:19
 msgctxt "admin-text"
 msgid "Documentation"
 msgstr "Documentation"
 
-#: plugin/Addons/Controller.php:282
+#: plugin/Addons/Controller.php:273
 msgctxt "admin-text"
 msgid "Visit premium customer support"
 msgstr "Visit premium customer support"

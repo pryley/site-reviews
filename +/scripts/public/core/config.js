@@ -1,7 +1,5 @@
 /** global: GLSR */
 
-import { flatConfig } from '@/compat/keys.js';
-
 const freeze = (value) => {
     if (value && 'object' === typeof value && !Object.isFrozen(value)) {
         Object.values(value).forEach(freeze)
@@ -11,6 +9,6 @@ const freeze = (value) => {
 }
 
 window.GLSR = window.GLSR || {};
-window.GLSR.config = freeze(window.GLSR.config || flatConfig(window.GLSR));
+window.GLSR.config = freeze(window.GLSR.config || {});
 
 export default window.GLSR.config
