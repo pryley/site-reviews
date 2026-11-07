@@ -16,7 +16,7 @@ export default class Typeahead {
      * @param {Function} options.onSearching   called when a search starts
      * @param {Function} options.onSelect      called with the chosen item and its element
      * @param {Function} options.params        the other query parameters of the search
-     * @param {Function} options.render        an item's element
+     * @param {Function} options.render        an item's element, given the item and the list it is in
      * @param {string} options.route           the path searched
      */
     constructor (input, list, options) {
@@ -44,13 +44,26 @@ export default class Typeahead {
         list.addEventListener('mousedown', this.onMousedown.bind(this))
     }
 
-    static render ({ id, title }) {
+    /**
+     * An item's text in its list: the title, with the nickname (a user) or the id after it when another
+     * item of the list has the same title.
+     */
+    static label (item, items = []) {
+        const shared = items.some(other => other !== item && other.title === item.title);
+        if (!shared) {
+            return item.title;
+        }
+        return `${item.title} (${item.nickname ?? `ID: ${item.id}`})`;
+    }
+
+    static render (item, items = []) {
+        const { id, title } = item;
         const el = document.createElement('span');
         el.setAttribute('aria-selected', 'false');
         el.dataset.id = id;
         el.title = ['', '0'].includes(String(id)) ? title : `ID: ${id}`;
         const text = document.createElement('span');
-        text.textContent = title;
+        text.textContent = Typeahead.label(item, items);
         el.append(text);
         return el;
     }
@@ -152,6 +165,6 @@ export default class Typeahead {
     show (items) {
         this.index = -1;
         this.items = items;
-        this.list.replaceChildren(...items.map(item => this.options.render(item)))
+        this.list.replaceChildren(...items.map(item => this.options.render(item, items)))
     }
 }
