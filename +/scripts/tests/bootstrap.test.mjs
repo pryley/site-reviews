@@ -109,17 +109,15 @@ test('site-reviews/initialized fires once the modules the page names have set it
     assert.deepEqual(heard, [[true, true, 1]])
 });
 
-test('the compat script keeps the old request names on the shim, and no module name', async () => {
+test('the compat script turns the 8.x globals into hidden getters that give undefined', async () => {
     const { ready, window } = loadPage();
     await ready
     const { GLSR } = window;
-    assert.deepEqual(Object.keys(GLSR.ajax).sort(), ['data', 'get', 'post'])
-    assert.equal(typeof GLSR.request.send, 'function')
-    assert.equal(GLSR.Utils, GLSR.Util)
-    assert.equal(GLSR.ajax_url, 'https://example.org/wp-admin/admin-ajax.php')
-    assert.equal('forms' in GLSR, false)
-    assert.equal('pagination' in GLSR, false)
-    assert.equal('addons' in GLSR, false)
+    for (const key of ['addons', 'ajax', 'ajax_url', 'forms', 'pagination', 'request', 'Utils']) {
+        assert.equal(GLSR[key], undefined, key)
+        assert.equal(Object.getOwnPropertyDescriptor(GLSR, key).enumerable, false, key)
+    }
+    assert.equal(typeof GLSR.Request.send, 'function')
 });
 
 test('GLSR_init is a bare global function that binds the plugin listeners once, and resolves when the page is set up', async () => {

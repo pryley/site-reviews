@@ -30,7 +30,7 @@ test('?glsr-debug loads the debug script from the address that PHP printed, and 
     assert.equal(warnings.length, 0)
     window.eval(read('site-reviews-debug.js'))
     assert.equal(warnings.length, 1)
-    assert.match(warnings[0], /GLSR\.Utils is deprecated/)
+    assert.match(warnings[0], /GLSR\.Utils was removed/)
 });
 
 test('only the presence of ?glsr-debug is read, never its value', () => {

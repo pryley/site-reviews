@@ -2,6 +2,8 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { adminConfig, loadAdmin } = require('./harness.js');
 
+const REMOVED = ['action', 'addons', 'addonsurl', 'ajax', 'autosize', 'keys', 'maxrating', 'minrating', 'nameprefix', 'nonce', 'notices', 'shortcode', 'shortcodes', 'stars', 'text', 'tinymce', 'Tippy', 'Utils'];
+
 const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'historyState', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
 
 // Values that cross the jsdom realm are compared as JSON.
@@ -27,30 +29,21 @@ test('Util has the same ten helpers as the public script', () => {
     assert.deepEqual(Object.keys(window.GLSR.Util).sort(), UTIL)
 });
 
-test('each key that 8.3 printed is a hidden getter onto the config', () => {
-    const { window } = loadAdmin();
-    const { GLSR } = window;
-    const { config } = GLSR;
-    assert.equal(GLSR.Utils, GLSR.Util)
-    assert.equal(GLSR.addonsurl, config.urls.addons)
-    assert.equal(GLSR.maxrating, 5)
-    assert.equal(GLSR.minrating, 0)
-    assert.equal(GLSR.nameprefix, config.nameprefix)
-    assert.equal(GLSR.text.import_error, config.text.importError)
-    assert.equal(GLSR.text.system_info_500, config.text.systemInfo500)
-    assert.equal(GLSR.text.searching, 'Searching...')
-    assert.equal(Object.getOwnPropertyDescriptor(GLSR, 'addonsurl').enumerable, false)
+test('each key that the 8.x admin script had is a hidden getter that gives undefined, and is gone without compat mode', () => {
+    const { GLSR } = loadAdmin().window;
+    for (const key of REMOVED) {
+        assert.equal(GLSR[key], undefined, key)
+        assert.equal(Object.getOwnPropertyDescriptor(GLSR, key).enumerable, false, key)
+    }
+    const off = loadAdmin({ compat: false }).window.GLSR;
+    for (const key of REMOVED) {
+        assert.equal(key in off, false, key)
+    }
 });
 
 test('GLSR.addons holds what an 8.x filter wrote', () => {
     const { window } = loadAdmin({ added: { addons: { 'site-reviews-forms': { options: [] } } } });
     assert.deepEqual(plain(window.GLSR.addons['site-reviews-forms']), { options: [] })
-});
-
-test('no deprecated key is defined when the layer is off', () => {
-    const { window } = loadAdmin({ compat: false });
-    assert.equal('Utils' in window.GLSR, false)
-    assert.equal('addonsurl' in window.GLSR, false)
 });
 
 test('the admin script has its two modules and the tippy library', () => {
@@ -61,29 +54,17 @@ test('the admin script has its two modules and the tippy library', () => {
     assert.equal(typeof GLSR.lib.tippy.plugins.followCursor, 'object')
 });
 
-test('the keys that the admin script set are deprecated getters, and are gone without compat mode', () => {
-    const OLD = ['ajax', 'autosize', 'keys', 'notices', 'stars', 'Tippy'];
-    const { GLSR } = loadAdmin().window;
-    assert.equal(typeof GLSR.ajax, 'function') // Review Notifications 3.0.3: new GLSR.ajax(data, ev).post()
-    assert.equal(GLSR.keys.ENTER, 13)
-    assert.equal(GLSR.stars, GLSR.Rating)
-    assert.equal(GLSR.Tippy, GLSR.lib.tippy)
-    assert.equal(GLSR.autosize.update(), undefined)
-    for (const key of OLD) {
-        assert.equal(Object.getOwnPropertyDescriptor(GLSR, key).enumerable, false, key)
-    }
-    const off = loadAdmin({ compat: false }).window.GLSR;
-    for (const key of OLD) {
-        assert.equal(key in off, false, key)
-    }
-});
-
-test('debug mode names the replacement of an admin key', () => {
+test('debug mode names the replacement of a removed admin key, once', () => {
     const { warnings, window } = loadAdmin({ debug: true });
     window.GLSR.stars
     window.GLSR.autosize
+    window.GLSR.ajax
+    window.GLSR.nonce
+    window.GLSR.stars
     assert.deepEqual(warnings, [
-        '[site-reviews] GLSR.stars is deprecated; use GLSR.Rating instead.',
-        '[site-reviews] GLSR.autosize is deprecated; it has no replacement.',
+        '[site-reviews] GLSR.stars was removed in Site Reviews 9.0.0; use GLSR.Rating instead.',
+        '[site-reviews] GLSR.autosize was removed in Site Reviews 9.0.0; it has no replacement.',
+        '[site-reviews] GLSR.ajax was removed in Site Reviews 9.0.0; use GLSR.Request instead.',
+        '[site-reviews] GLSR.nonce was removed in Site Reviews 9.0.0; it has no replacement.',
     ])
 });

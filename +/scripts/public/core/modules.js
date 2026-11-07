@@ -25,7 +25,7 @@ if (!window.GLSR[KEY]) {
 const { attached, done, handed, loading, ready } = state;
 
 /**
- * Register a module's init(root) and the internals the compat script aliases, which are not
+ * Register a module's init(root) and the internals the compat script reads, which are not
  * reachable from GLSR; a module calls this once, as it evaluates.
  */
 export const attach = (token, init, pieces = {}) => {

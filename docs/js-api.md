@@ -1,6 +1,6 @@
 # Javascript API
 
-Site Reviews keeps its javascript in one global, `GLSR`. This page describes it as of Site Reviews 9.0.0. The keys that 9.0.0 replaces keep working while compat mode is on; they are listed under [Deprecated keys](#deprecated-keys).
+Site Reviews keeps its javascript in one global, `GLSR`. This page describes it as of Site Reviews 9.0.0. The keys that 9.0.0 removed are listed under [Removed keys](#removed-keys), with what to use instead.
 
 ```text
 window.GLSR
@@ -68,8 +68,6 @@ GLSR.load('form').then(() => GLSR.Form.find(el))
 A feature of Site Reviews Premium registers its module the same way (`@site-reviews/{token}`) and adds its token to a root through the `site-reviews/shortcode/attributes` filter.
 
 Every shortcode, block and page-builder element prints its root with the attribute. A theme that prints a list or a review through `glsr_get_reviews()` or `glsr_get_review()` prints the root from the `attributes` of the built object, as the functions' documentation shows, and that string carries the attribute too. A star rating on its own (`glsr_star_rating()`, the WooCommerce ratings) needs no module.
-
-`GLSR_init(eventName, ...args)` triggers the event with that name. It exists for the deprecated `block:` event names (see [js-events.md](js-events.md#deprecated-names)).
 
 ## Reviews, forms and summaries
 
@@ -207,7 +205,7 @@ The public script:
 GLSR.config
 ├── nameprefix   'site-reviews'
 ├── debug        { enabled, url } (see Debug)
-├── compat       true when PHP printed the compat script (see Deprecated keys)
+├── compat       true when PHP printed the compat script (see Removed keys)
 ├── request      { url, nonce, routes, language, ajax: { url, action, rest } }
 ├── captcha      { type, class, sitekey, theme, language, tokenField, urls: { module, nomodule }, … }
 ├── modal        { wrappedBy }
@@ -278,14 +276,14 @@ In debug mode:
 - `GLSR.Request` logs each request: the path, whether it used the REST API or the fallback, the status, and the time it took.
 - `GLSR.Form` logs each field's validation when a form is submitted (the rule, the value, pass or fail) and the response code.
 - `GLSR.Review.pagination` logs each page change.
-- A deprecated key logs a warning, once, that names its replacement. So does a script that listens to a deprecated or a removed event name, or that triggers one.
+- A removed key logs a warning, once, that names its replacement. So does a script that listens to a deprecated or a removed event name, or that triggers one.
 - A script that listens to an event of Site Reviews that nothing fires, such as a misspelt name, logs a warning that lists the events of that module.
 
-## Deprecated keys
+## Removed keys
 
-Site Reviews 9.0.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
+Site Reviews 9.0.0 removed the keys below: use the replacement in anything you write. While compat mode is on, reading a removed key gives `undefined`, and in debug mode the first read logs a warning that names its replacement. Compat mode is on by default: it is the "Compatibility Mode" setting on the Advanced tab of the settings. A script that assigns one of these keys keeps what it assigned.
 
-Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. The names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`, the `form` of a form instance) are gone: those add-ons do not run on this version, and a name of a module cannot be kept before the module has loaded. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
+Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. It also keeps the previous event names firing (see [js-events.md](js-events.md#deprecated-names)). To check that a site no longer uses an old name, turn on debug mode and look for warnings in the browser console; when none are left, turn compat mode off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
 ```php
 add_filter('site-reviews/compat/assets', '__return_false');
@@ -293,15 +291,18 @@ add_filter('site-reviews/compat/assets', '__return_false');
 
 The public script:
 
-| Deprecated | Use instead |
+| Removed | Use instead |
 | --- | --- |
 | `GLSR.action` | `GLSR.config.request.ajax.action` |
+| `GLSR.addons` | `GLSR.config.{feature}` and the feature's module |
 | `GLSR.ajax` | `GLSR.Request`, with a REST route |
 | `GLSR.ajax_pagination`, `GLSR.ajaxpagination` | `GLSR.config.pagination.fixed` |
 | `GLSR.ajax_url`, `GLSR.ajaxurl` | `GLSR.config.request.ajax.url` |
 | `GLSR.captcha` | `GLSR.config.captcha` (`captcha_type` is `captchaType`, `token_field` is `tokenField`) |
+| `GLSR.forms` | `GLSR.Form.instances` |
 | `GLSR.modal_wrapped_by` | `GLSR.config.modal.wrappedBy` |
 | `GLSR.nameprefix` | `GLSR.config.nameprefix` |
+| `GLSR.pagination` | `GLSR.Review.pagination.instances` |
 | `GLSR.request` | `GLSR.Request` (`send` no longer takes `legacy`, and `data` has no replacement) |
 | `GLSR.rest_nonce` | `GLSR.config.request.nonce` |
 | `GLSR.rest_url` | `GLSR.config.request.url` |
@@ -311,15 +312,14 @@ The public script:
 | `GLSR.Utils` | `GLSR.Util` |
 | `GLSR.validation_config`, `GLSR.validationconfig` | `GLSR.config.validation` |
 | `GLSR.validation_strings`, `GLSR.validationstrings` | `GLSR.config.validation.strings` |
-| `GLSR.Modal.modify(id, callback)` | `GLSR.Modal.get(id)` |
-| `dom` of a modal instance | the instance's `header`, `content`, `footer`, `style` and `hideClose` |
 
-The names without an underscore (`GLSR.ajaxurl`) are those that Site Reviews had before 8.0.1.
+The names without an underscore (`GLSR.ajaxurl`) are those that Site Reviews had before 8.0.1. A site that hooks `site-reviews/enqueue/public/localize` or `site-reviews/enqueue/admin/localize` gets a plain `GLSR.addons` from that filter, which does not warn.
 
 The admin script:
 
-| Deprecated | Use instead |
+| Removed | Use instead |
 | --- | --- |
+| `GLSR.action`, `GLSR.nonce` | nothing; the admin calls REST routes through `GLSR.Request`, which carry the `wp_rest` nonce in `GLSR.config.request.nonce` |
 | `GLSR.addons` | `GLSR.config.{feature}` and the feature's module |
 | `GLSR.addonsurl` | `GLSR.config.urls.addons` |
 | `GLSR.ajax` | `GLSR.Request` |
@@ -329,15 +329,18 @@ The admin script:
 | `GLSR.minrating` | `GLSR.config.rating.min` |
 | `GLSR.nameprefix` | `GLSR.config.nameprefix` |
 | `GLSR.notices` | `GLSR.Notice` |
+| `GLSR.shortcode`, `GLSR.shortcodes`, `GLSR.tinymce` | nothing; the shortcode button of the classic editor is gone, and a classic editor types the shortcode |
 | `GLSR.stars` | `GLSR.Rating` |
 | `GLSR.text` | `GLSR.config.text` (the keys are camelCase) |
 | `GLSR.Tippy` | `GLSR.lib.tippy` |
 | `GLSR.Utils` | `GLSR.Util` |
 
-These keys are removed in 9.0.0 with no replacement:
+These are removed with no warning:
 
 - `GLSR.state`, which nothing read.
 - `GLSR.Event.events`, which was never meant to be public (use `GLSR.Event.listeners()` in debug mode).
 - `GLSR.filters` in the admin script. The fixed choices of a searchable dropdown are now on its element, in `data-options`.
-- `GLSR.shortcode`, `GLSR.shortcodes`, `GLSR.tinymce` and `GLSR.config.tinymce` in the admin script, with the shortcode button of the classic editor. A classic editor types the shortcode.
-- `GLSR.action`, `GLSR.nonce` and `GLSR.config.nonce` in the admin script, with the admin-ajax actions of wp-admin: the admin calls REST routes, which carry the `wp_rest` nonce in `GLSR.config.request.nonce`.
+- `GLSR.config.nonce` and `GLSR.config.tinymce` in the admin script, with the two rows above them.
+- The `form` of a form instance: use its `el`.
+- `GLSR.Modal.modify(id, callback)`: use `GLSR.Modal.get(id)`.
+- The `dom` of a modal instance: use the instance's `header`, `content`, `footer`, `style` and `hideClose`.

@@ -42,13 +42,13 @@ test('the compat script of each script runs, whichever loads first', () => {
     for (const order of ORDERS) {
         const { window } = loadBoth({ debug: true, order });
         // a key of the public script, a key of the admin script, and one that both define
-        assert.equal(window.GLSR.ajax_url, window.GLSR.config.request.ajax.url)
-        assert.equal(window.GLSR.addonsurl, window.GLSR.config.urls.addons)
-        assert.equal(window.GLSR.nameprefix, 'site-reviews')
+        for (const key of ['ajax_url', 'addonsurl', 'nameprefix']) {
+            assert.equal(typeof Object.getOwnPropertyDescriptor(window.GLSR, key)?.get, 'function', key)
+        }
     }
 });
 
-test('a deprecated key can be assigned, and then holds what was assigned', () => {
+test('a removed key can be assigned, and then holds what was assigned', () => {
     const { errors, window } = loadBoth();
     window.eval('"use strict"; GLSR.validation_strings = { required: "Mine" }; GLSR.Utils = 1;')
     assert.deepEqual(errors, [])

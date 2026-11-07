@@ -235,7 +235,7 @@ test('over admin-ajax too, an aborted request is given up', async () => {
 });
 
 test('a config without a REST URL goes straight to admin-ajax', async () => {
-    // the guard for an inline config that has no REST URL, such as a page cached by an earlier version
+    // the guard for an inline config that has no REST URL, such as one a filter changed
     const { url, ...withoutUrl } = request();
     const { infos, window } = loadPage({ config: { request: withoutUrl } });
     const calls = fakeFetch(window, []);
@@ -501,12 +501,16 @@ test('a request that names a route the config does not have is not sent', async 
     assert.deepEqual(errors, ['Site Reviews: the config names no route "status".'])
 });
 
-test('a config without routes still posts the review form to submissions', async () => {
+test('a config without routes sends no form', async () => {
     const { routes, ...withoutRoutes } = request();
     const { window } = loadPage({ config: { request: withoutRoutes } });
-    const calls = fakeFetch(window, [{ json: {} }]);
-    await window.GLSR.Request.submit(formOf(window, 'submit-review'))
-    assert.equal(calls[0].url, `${REST_URL}submissions`)
+    const errors = [];
+    window.console.error = (...args) => errors.push(args.join(' '));
+    const calls = fakeFetch(window, []);
+    const result = await window.GLSR.Request.submit(formOf(window, 'submit-review'));
+    assert.equal(calls.length, 0)
+    assert.equal(result.success, false)
+    assert.equal(errors.length, 1)
 });
 
 test('a form whose action has no route is not sent', async () => {
@@ -539,61 +543,6 @@ test('debug mode logs each request with its transport, status and time', async (
     assert.match(infos[0], /^\[site-reviews\] GET render\/reviews: REST, 200, \d+ms$/)
 });
 
-test('GLSR.request and GLSR.ajax of 8.x are hidden getters', async () => {
-    const { window } = loadPage();
-    const { GLSR } = window;
-    assert.equal(GLSR.request.send, GLSR.Request.send) // the shim's; the module's once it has loaded
-    assert.deepEqual(plain(GLSR.request.data('my-action', { page: 2 })), { 'site-reviews[_action]': 'my-action', 'site-reviews[page]': 2 })
-    assert.equal(GLSR.ajax.data, GLSR.request.data)
-    assert.deepEqual(Object.keys(GLSR.ajax).sort(), ['data', 'get', 'post'])
-    assert.equal(Object.getOwnPropertyDescriptor(GLSR, 'ajax').enumerable, false)
-    // an 8.3 caller passed `legacy`; the request is the same without it
-    const calls = fakeFetch(window, [{ json: {} }]);
-    await GLSR.request.send({ path: 'my-addon/route', legacy: () => GLSR.request.data('my-action') })
-    assert.equal(calls[0].url, `${REST_URL}my-addon/route`)
-});
-
-test('GLSR.ajax.post posts to the Router action and calls back with the data and the success flag', async () => {
-    const { window } = loadPage();
-    const calls = fakeXhr(window, [{ json: { data: { message: 'ok' }, success: true } }]);
-    const [data, success] = await new Promise((resolve) => {
-        window.GLSR.ajax.post(window.GLSR.ajax.data('my-action', { id: 7 }), (...args) => resolve(args))
-    });
-    assert.equal(calls[0].url, AJAX_URL)
-    assert.deepEqual(fields(calls[0]), {
-        _ajax_request: 'true',
-        action: 'glsr_public_action',
-        'site-reviews[_action]': 'my-action',
-        'site-reviews[id]': '7',
-    })
-    assert.deepEqual(plain(data), { message: 'ok' })
-    assert.equal(success, true)
-});
-
-test('GLSR.ajax.post calls back with the message and false when the request fails', async () => {
-    const { window } = loadPage();
-    fakeXhr(window, [{ error: 'network error' }, { status: 500, text: '<html>Fatal error</html>' }]);
-    const post = () => new Promise((resolve) => {
-        window.GLSR.ajax.post(window.GLSR.ajax.data('my-action'), (...args) => resolve(args))
-    });
-    assert.deepEqual(plain(await post()), [{ message: 'network error' }, false])
-    assert.deepEqual(plain(await post()), [{ message: parseErrorMessage(window, '<html>Fatal error</html>') }, false])
-});
-
-test('GLSR.ajax.get requests a URL with XMLHttpRequest and calls back with the text', async () => {
-    const { window } = loadPage();
-    const calls = fakeXhr(window, [{ text: '<div>A page</div>' }, { error: 'network error' }]);
-    const get = (url, headers) => new Promise((resolve) => {
-        window.GLSR.ajax.get(url, resolve, headers)
-    });
-    assert.equal(await get('https://example.org/page', { 'X-Custom': '1' }), '<div>A page</div>')
-    assert.equal(calls[0].url, 'https://example.org/page')
-    assert.equal(calls[0].options.method, 'GET')
-    assert.equal(calls[0].options.body, undefined)
-    assert.deepEqual(plain(calls[0].options.headers), { 'X-Custom': '1', 'X-Requested-With': 'XMLHttpRequest' })
-    assert.equal(await get('https://example.org/page'), 'network error')
-});
-
 test('without the inline config, a request is not sent and the answer says why', async () => {
     // an optimisation plugin moved the inline script, or a filter removed the request config
     const { window } = loadPage({ inline: '' });
@@ -605,10 +554,6 @@ test('without the inline config, a request is not sent and the answer says why',
     assert.deepEqual(plain(await window.GLSR.Request.send({ path: 'render/reviews' })), failed)
     assert.deepEqual(plain(await window.GLSR.Request.submit(formOf(window, 'submit-review'))), failed)
     assert.deepEqual(plain(await window.GLSR.Request.submit(formOf(window, 'update-review'))), failed)
-    const posted = await new Promise((resolve) => {
-        window.GLSR.ajax.post({ 'site-reviews[_action]': 'my-action' }, (...args) => resolve(args))
-    });
-    assert.deepEqual(plain(posted), [failed.data, false])
     assert.equal(calls.length, 0)
     assert.equal(sent.length, 0)
     assert.equal(errors.length, 3)

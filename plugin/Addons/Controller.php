@@ -144,15 +144,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @filter site-reviews/enqueue/public/localize
-     */
-    public function filterLocalizedPublicVariables(array $variables): array
-    {
-        $variables['addons'][$this->app()->id] = null;
-        return $variables;
-    }
-
-    /**
      * @param string $translation
      * @param string $single
      * @param string $plural

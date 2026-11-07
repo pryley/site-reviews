@@ -44,8 +44,8 @@ echo '&lt;/div&gt;';</code></pre>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
-                <p><strong>The Javascript events have new names, and each passes one object.</strong></p>
-                <p>The previous names still work, with the arguments they had. Use the new names in anything you write:</p>
+                <p><strong>The Javascript events have new names and each pass an object.</strong></p>
+                <p>The previous names still work with the arguments they had except the <code>site-reviews/forms/init</code> and <code>block:site-reviews/…</code> events which no longer fire.</p>
                 <pre><code class="language-js">/* version 8.3 */
 GLSR.Event.on('site-reviews/form/handle', (response, form) => {
     // response.success, form is the &lt;form&gt; element
@@ -102,7 +102,7 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
         <ol>
             <li>
                 <p><strong>The values that Site Reviews gives to its scripts have moved to <code>GLSR.config</code> and they are read-only.</strong></p>
-                <p>The previous keys (for example <code>GLSR.ajax_url</code> and <code>GLSR.validation_strings</code>) still work, but changing one of them in the browser no longer has an effect. To change a value, use the <code>site-reviews/assets/config</code> filter hook:</p>
+                <p>The previous keys (for example <code>GLSR.ajax_url</code> and <code>GLSR.validation_strings</code>) no longer work. To change a value, use the <code>site-reviews/assets/config</code> filter hook:</p>
                 <pre><code class="language-php">add_filter('site-reviews/assets/config', function (array $config, string $bundle) {
     if ('public' === $bundle) {
         $config['validation']['strings']['required'] = 'Please fill in this field.';
@@ -111,8 +111,8 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
 }, 10, 2);</code></pre>
             </li>
             <li>
-                <p><strong>Some keys of the <code>GLSR</code> object have been renamed.</strong></p>
-                <p>For example, <code>GLSR.Utils</code> is now <code>GLSR.Util</code>, <code>GLSR.request</code> is now <code>GLSR.Request</code>, and <code>GLSR.forms</code> is now <code>GLSR.Form.instances</code>. The previous keys still work.</p>
+                <p><strong>Some keys of the <code>GLSR</code> object have been renamed and the previous keys no longer work.</strong></p>
+                <p>For example, <code>GLSR.Utils</code> is now <code>GLSR.Util</code>, <code>GLSR.request</code> is now <code>GLSR.Request</code>, and <code>GLSR.forms</code> is now <code>GLSR.Form.instances</code>.</p>
                 <p>To see if your site uses a previous key or a previous event name, turn on <strong>Debug Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page and look for warnings in the browser console. To see them for a single page view instead, add <code>?glsr-debug</code> to the address of the page.</p>
                 <p>When no warning is left, you can turn off <strong>Compatibility Mode</strong> on the same page.</p>
             </li>
