@@ -212,13 +212,9 @@ class MenuController extends AbstractController
         $tabs = $this->parseWithFilter('tools/tabs', [
             'general' => _x('General', 'admin-text', 'site-reviews'),
             'scheduled' => _x('Scheduled Actions', 'admin-text', 'site-reviews'),
-            'sync' => _x('Sync Reviews', 'admin-text', 'site-reviews'),
             'console' => _x('Console', 'admin-text', 'site-reviews'),
             'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
         ]);
-        if (!glsr()->filterBool('addon/sync/enable', false)) {
-            unset($tabs['sync']);
-        }
         $this->renderPage('tools', [
             'data' => [
                 'console_level' => glsr(Console::class)->getLevel(),
@@ -232,7 +228,6 @@ class MenuController extends AbstractController
                 'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
                 'rollback_stops' => $this->rollbackStops(glsr(Cache::class)->getPluginVersions()),
                 'rollback_versions' => glsr(Cache::class)->getPluginVersions(),
-                'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,
         ]);

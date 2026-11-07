@@ -25,7 +25,6 @@ class EnqueueAdminAssets extends AbstractCommand
                 'search-posts' => wp_create_nonce('search-posts'),
                 'search-strings' => wp_create_nonce('search-strings'),
                 'search-users' => wp_create_nonce('search-users'),
-                'sync-reviews' => wp_create_nonce('sync-reviews'),
                 'system-info' => wp_create_nonce('system-info'),
                 'toggle-filters' => wp_create_nonce('toggle-filters'),
                 'toggle-pinned' => wp_create_nonce('toggle-pinned'),
