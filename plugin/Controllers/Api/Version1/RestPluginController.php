@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
 use GeminiLabs\SiteReviews\Commands\ConfigureIpAddressProxy;
 use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
+use GeminiLabs\SiteReviews\Commands\DeactivatePlugin;
 use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\RepairPermissions;
@@ -39,6 +40,14 @@ class RestPluginController extends AbstractRestController
     public function checkConsolePermission()
     {
         return $this->permission(glsr()->getPermission('tools', 'console'));
+    }
+
+    /**
+     * @return true|\WP_Error
+     */
+    public function checkFeedbackPermission()
+    {
+        return $this->permission('activate_plugins');
     }
 
     /**
@@ -126,6 +135,19 @@ class RestPluginController extends AbstractRestController
         return $this->respond(['key' => $request['key']]);
     }
 
+    /**
+     * Send the deactivation feedback before plugin deactivation.
+     */
+    public function feedback(\WP_REST_Request $request): \WP_REST_Response
+    {
+        return $this->handle(new DeactivatePlugin(new Request([
+            'details' => $request['details'],
+            'reason' => $request['reason'],
+            'slug' => $request['slug'],
+            'version' => $request['version'],
+        ])));
+    }
+
     public function fetchConsole(): \WP_REST_Response
     {
         glsr(Notice::class)->addSuccess(_x('Console reloaded.', 'admin-text', 'site-reviews'));
@@ -184,6 +206,31 @@ class RestPluginController extends AbstractRestController
                 'callback' => [$this, 'changeConsoleLevel'],
                 'methods' => 'PUT',
                 'permission_callback' => [$this, 'checkConsolePermission'],
+            ],
+        ]);
+        register_rest_route($this->restNamespace(), '/plugin/feedback', [
+            [
+                'args' => [
+                    'details' => [
+                        'default' => '',
+                        'type' => 'string',
+                    ],
+                    'reason' => [
+                        'required' => true,
+                        'type' => 'string',
+                    ],
+                    'slug' => [
+                        'default' => '',
+                        'type' => 'string',
+                    ],
+                    'version' => [
+                        'default' => '',
+                        'type' => 'string',
+                    ],
+                ],
+                'callback' => [$this, 'feedback'],
+                'methods' => \WP_REST_Server::CREATABLE,
+                'permission_callback' => [$this, 'checkFeedbackPermission'],
             ],
         ]);
         register_rest_route($this->restNamespace(), '/plugin/ip-address', [

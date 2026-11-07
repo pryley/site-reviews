@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Modules\UpdateLock;
 use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 use function GeminiLabs\SiteReviews\Tests\restRequest;
 use function GeminiLabs\SiteReviews\Tests\swapInstance;
@@ -210,4 +211,24 @@ test('a notice dismissal needs a login, and a notice that exists', function () {
     expect($unknown->get_status())->toBe(404);
     expect($unknown->get_data()['code'])->toBe('glsr_invalid_notice');
     expect(restRequest('DELETE', PLUGIN_NS.'/notices/GeminiLabs%5CSiteReviews%5CNotices%5CWelcomeNotice')->get_status())->toBe(404); // the key, not the class
+});
+
+/*
+ * The deactivation feedback of the Plugins screen's dialog.
+ */
+
+test('the deactivation feedback is posted home by whoever may deactivate plugins', function () {
+    $requests = interceptHttp(); // the feedback is a remote POST; nothing leaves the container
+    wp_set_current_user(createUser(['role' => 'administrator']));
+
+    $response = restRequest('POST', PLUGIN_NS.'/feedback', ['details' => 'testing', 'reason' => 'other-reason', 'slug' => glsr()->id, 'version' => glsr()->version]);
+
+    expect($response->get_status())->toBe(200);
+    expect($requests)->toHaveCount(1);
+    expect(restRequest('POST', PLUGIN_NS.'/feedback')->get_status())->toBe(400); // the reason is required
+
+    wp_set_current_user(createUser(['role' => 'editor']));
+    $refused = restRequest('POST', PLUGIN_NS.'/feedback', ['reason' => 'other-reason']);
+    expect($refused->get_status())->toBe(403);
+    expect($refused->get_data()['code'])->toBe('glsr_forbidden');
 });
