@@ -240,9 +240,13 @@ test('the admin searches are refused to a visitor and to a user who cannot see t
     foreach (['assigned-posts', 'assigned-users', 'posts', 'users'] as $subject) {
         $route = '/'.REST_NS.'/search/'.$subject;
         wp_set_current_user(0);
-        expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(401);
+        $visitor = restRequest('GET', $route, ['search' => 'a']);
+        expect($visitor->get_status())->toBe(401);
+        expect($visitor->get_data()['code'])->toBe('glsr_forbidden'); // a glsr_ code is the route's answer, not a blocked REST API
         wp_set_current_user(createUser(['role' => 'subscriber']));
-        expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(403);
+        $subscriber = restRequest('GET', $route, ['search' => 'a']);
+        expect($subscriber->get_status())->toBe(403);
+        expect($subscriber->get_data()['code'])->toBe('glsr_forbidden');
         wp_set_current_user(createUser(['role' => 'contributor']));
         expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(200);
     }

@@ -3392,7 +3392,6 @@ msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/AbstractRestController.php:80
-#: plugin/Controllers/Api/Version1/RestSearchController.php:23
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
@@ -3691,7 +3690,7 @@ msgctxt "admin-text"
 msgid "The status could not be changed."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestSearchController.php:103
+#: plugin/Controllers/Api/Version1/RestSearchController.php:97
 #: plugin/Database.php:237
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
