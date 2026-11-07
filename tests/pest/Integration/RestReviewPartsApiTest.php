@@ -72,6 +72,15 @@ test('a review is not approved by somebody who may not publish it', function () 
     expect(get_post_status($review->ID))->toBe('pending');
 });
 
+test('the id in the path wins over a posted id', function () {
+    $review = createReview();
+    $other = createReview();
+    $response = restRequest('PUT', REVIEWS_NS."/{$review->ID}/pinned", ['id' => $other->ID, 'value' => true]);
+    expect($response->get_status())->toBe(200);
+    expect(glsr_get_review($review->ID)->is_pinned)->toBeTrue();
+    expect(glsr_get_review($other->ID)->is_pinned)->toBeFalse();
+});
+
 test('a review is pinned with an explicit value, and unpinned', function () {
     $review = createReview();
 

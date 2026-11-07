@@ -203,6 +203,13 @@ test('rejects an unknown shortcode', function () {
     expect(restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/not_an_option')->get_data())->toBe([]);
 });
 
+test('the option in the path wins over an option in the query', function () {
+    actAsAdmin();
+    $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/assigned_posts', ['option' => 'assigned_users']);
+    expect($response->get_status())->toBe(200);
+    expect(array_column($response->get_data(), 'id'))->toContain('post_id'); // assigned_users never answers the placeholder rows
+});
+
 test('refuses a shortcode option list to a logged out visitor', function () {
     $response = restRequest('GET', '/'.REST_NS.'/shortcodes/site_reviews/options/hide');
     expect($response->get_status())->toBe(401);
