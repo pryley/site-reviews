@@ -7,7 +7,7 @@ const { data, status, success } = await GLSR.Request.send({
     method: 'POST',                 // 'GET' when omitted
     path: 'my-addon/route',         // relative to the site-reviews/v1 namespace (GLSR.config.request.url)
     params: { page: 2 },            // query parameters; nested objects become key[sub]=value
-    body: formData,                 // the request body, a FormData
+    body: formData,                 // the request body: a FormData, or an object that is sent as JSON
     signal: controller.signal,      // an AbortSignal, optional: an aborted request is given up, and is not sent again over admin-ajax
 })
 // data is the response of the route, status is its HTTP status, success is true for a 2xx status

@@ -271,6 +271,25 @@ test('a submission over admin-ajax carries the form fields, and leaves the form 
     assert.deepEqual(plain(result), { data: { success: true }, status: 201, success: true })
 });
 
+test('a body that is not a FormData is sent as JSON, over the REST API and over admin-ajax', async () => {
+    const { window } = loadPage({ config: { request: request({ nonce: 'abc123' }) } });
+    const calls = fakeFetch(window, [{ json: {} }, { status: 403, json: { code: 'rest_forbidden' } }]);
+    const sent = fakeXhr(window, [{ json: {} }]);
+    const body = { meta: { 'edit_site-review_filters': [] } };
+    await window.GLSR.Request.send({ body, method: 'POST', path: '/wp/v2/users/me' })
+    assert.equal(calls[0].options.body, JSON.stringify(body))
+    assert.deepEqual(plain(calls[0].options.headers), { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-WP-Nonce': 'abc123' })
+    await window.GLSR.Request.send({ body, method: 'POST', path: '/wp/v2/users/me' })
+    assert.deepEqual(fields(sent[0]), {
+        _rest_body: JSON.stringify(body),
+        _rest_method: 'POST',
+        _rest_nonce: 'abc123',
+        _rest_path: '/wp/v2/users/me',
+        _rest_query: '',
+        action: 'glsr_rest_request',
+    })
+});
+
 test('when a page script has replaced window.fetch with one that returns nothing, the review is submitted over admin-ajax', async () => {
     const { infos, window } = loadPage();
     window.fetch = async () => undefined;
