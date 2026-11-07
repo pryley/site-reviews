@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1\Permissions;
 
+use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
@@ -129,6 +130,12 @@ trait ReviewPermissions
                 'status' => rest_authorization_required_code(),
             ]);
         }
+        if ($this->is_approving($request, $review) && !glsr()->can('publish_post', $review->ID)) {
+            $message = _x('Sorry, you are not allowed to approve this review.', 'admin-text', 'site-reviews');
+            return new \WP_Error('rest_cannot_publish', $message, [
+                'status' => rest_authorization_required_code(),
+            ]);
+        }
         if (!$this->has_edit_others_permission($request)) {
             $message = _x('Sorry, you are not allowed to update the review as this user.', 'admin-text', 'site-reviews');
             return new \WP_Error('rest_cannot_edit_others', $message, [
@@ -181,5 +188,11 @@ trait ReviewPermissions
             return false;
         }
         return true;
+    }
+
+    protected function is_approving(\WP_REST_Request $request, Review $review): bool
+    {
+        $values = glsr(UpdateReviewDefaults::class)->restrict($request->get_params()); // the status comes from is_approved
+        return 'publish' === Arr::get($values, 'status') && !$review->is_approved;
     }
 }

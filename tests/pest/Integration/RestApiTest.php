@@ -468,6 +468,35 @@ test('an unapproved review is not readable by somebody who cannot moderate', fun
     expect((string) wp_json_encode($response->get_data()))->not->toContain('Not published yet.');
 });
 
+test('a contributor cannot approve their own pending review', function () {
+    // A review submitted while logged in belongs to the submitter, so a contributor may edit their
+    // own. Approving it is publishing, which they may not do. The status an update writes comes
+    // from is_approved (UpdateReviewDefaults::normalize()), which the schema marks readonly but
+    // update_item() passes through, so is_approved is the field the check has to read.
+    actAs('contributor');
+    $review = createReview(['is_approved' => false, 'content' => 'Waiting for moderation.']);
+
+    $response = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, [
+        'is_approved' => true,
+        'status' => 'pending',
+    ]);
+
+    expect($response->get_status())->toBe(403)
+        ->and($response->get_data()['code'])->toBe('rest_cannot_publish');
+    expect(glsr_get_review($review->ID)->is_approved)->toBeFalse();
+
+    // editing their own pending review is still theirs
+    $edit = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, ['content' => 'Still waiting.']);
+    expect($edit->get_status())->toBe(200);
+    expect(glsr_get_review($review->ID)->content)->toContain('Still waiting.');
+
+    // and somebody who may publish approves it
+    actAsAdmin();
+    $approve = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, ['is_approved' => true]);
+    expect($approve->get_status())->toBe(200);
+    expect(glsr_get_review($review->ID)->is_approved)->toBeTrue();
+});
+
 test('a subscriber cannot create a review', function () {
     actAs('subscriber');
 

@@ -3519,63 +3519,68 @@ msgctxt "admin-text"
 msgid "Limit result set to verified status."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:18
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:19
 msgctxt "admin-text"
 msgid "Cannot create existing review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:22
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:23
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this user."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:26
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:27
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this review author."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:30
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:139
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:31
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:146
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:121
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:46
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:69
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:122
 #: plugin/Controllers/Api/Version1/RestReviewPartsController.php:35
 #: plugin/Controllers/Api/Version1/RestReviewPartsController.php:47
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:51
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:52
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to delete this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:74
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:75
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:81
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:127
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:82
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:128
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:97
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:98
 msgctxt "admin-text"
 msgid "Sorry, you do not have permission to access reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:104
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:105
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:133
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:134
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to approve this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:140
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update the review as this user."
 msgstr ""
