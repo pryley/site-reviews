@@ -31,12 +31,33 @@ echo '&lt;/div&gt;';</code></pre>
             </li>
         </ol>
 
+        <h2>Changes to the admin</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <ol>
+            <li>
+                <p><strong>The Classic Editor no longer has a Site Reviews button.</strong></p>
+                <p>To add reviews, a review form or a rating summary to a page in the Classic Editor, type the shortcode into the editor, for example <code>[site_reviews]</code>. The block editor's Site Reviews blocks have not changed.</p>
+            </li>
+            <li>
+                <p><strong>The Sync Reviews tab of the Tools page has been removed.</strong></p>
+                <p>It was built for an add-on that was never released.</p>
+            </li>
+            <li>
+                <p><strong>The actions of the admin screens use the REST API of WordPress.</strong></p>
+                <p>If a security plugin blocks the REST API for logged-in users, Site Reviews sends the same request through admin-ajax, so nothing changes for you. If you use a code snippet that sent one of these actions itself, it has to call the REST route instead; the routes are listed in the Site Reviews documentation.</p>
+            </li>
+        </ol>
+
         <h2>Removed hooks</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
                 <p><strong>The hook names that version 5.0 replaced no longer work.</strong></p>
                 <p>Version 5.0 deprecated these in 2020, and they were kept working until now: <code>site-reviews/review/response</code>, <code>site-reviews/reviews/reviews-wrapper</code>, <code>site-reviews/review-table/filter</code>, <code>site-reviews/config/forms/submission-form</code>, <code>site-reviews/submission-form/order</code>, and the <code>{{ review_id }}</code> and <code>{{ assigned_to }}</code> template tags. The <code>site-reviews/support/deprecated/v5</code> filter hook is removed with them.</p>
+            </li>
+            <li>
+                <p><strong>The hooks of the admin-ajax actions and of the Sync Reviews tab have been removed.</strong></p>
+                <p>The <code>site-reviews/router/admin/unguarded-actions</code>, <code>site-reviews/addon/sync/enable</code> and <code>site-reviews/addon/sync/services</code> filter hooks, and the <code>site-reviews/register/tinymce</code>, <code>site-reviews/tinymce/editor-ids</code> and <code>site-reviews/tinymce/fields/{shortcode}</code> filter hooks of the Classic Editor button.</p>
             </li>
         </ol>
 
@@ -109,6 +130,14 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
     }
     return $config;
 }, 10, 2);</code></pre>
+            </li>
+            <li>
+                <p><strong>The REST route of the shortcode options has a new address.</strong></p>
+                <p>A code snippet that reads <code>site-reviews/v1/shortcode/{shortcode}?option={option}</code> reads <code>site-reviews/v1/shortcodes/{shortcode}/options/{option}</code> now. The previous address no longer answers.</p>
+            </li>
+            <li>
+                <p><strong><code>GLSR.Request.send()</code> does more, and <code>GLSR.ajax</code> is gone from the admin.</strong></p>
+                <p>A request can carry a JSON body, an abort signal and a route of <code>GLSR.config.request.routes</code> by its name, and a path that starts with <code>/</code> is read from the REST root, so a snippet can call a route of WordPress with the same fallback. A route in the <code>site-reviews/rest-api/routes</code> filter may be a method and a path, not only a path. A code snippet that used <code>GLSR.ajax</code> in the admin uses <code>GLSR.Request</code> with a REST route instead. The details are in the Site Reviews documentation.</p>
             </li>
             <li>
                 <p><strong>Some keys of the <code>GLSR</code> object have been renamed and the previous keys no longer work.</strong></p>
