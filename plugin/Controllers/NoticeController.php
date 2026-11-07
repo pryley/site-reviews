@@ -32,25 +32,8 @@ class NoticeController extends AbstractController
      */
     public function adminNotices(): void
     {
-        $notices = [];
-        try {
-            $iterator = new \DirectoryIterator(glsr()->path('plugin/Notices'));
-            foreach ($iterator as $fileinfo) {
-                if (!$fileinfo->isFile()) {
-                    continue;
-                }
-                $notice = 'GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
-                $reflection = new \ReflectionClass($notice);
-                if ($reflection->isInstantiable()) {
-                    $notices[] = $reflection->getName();
-                }
-            }
-        } catch (\Throwable $e) {
-            glsr_log()->error($e->getMessage());
-        }
-        $notices = glsr()->filterArray('notices', $notices);
-        foreach ($notices as $notice) {
-            glsr()->singleton($notice); // make singleton
+        foreach ($this->noticeClasses() as $notice) {
+            glsr()->singleton($notice);
             glsr($notice);
         }
     }
@@ -104,5 +87,31 @@ class NoticeController extends AbstractController
         if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
             echo '<div id="glsr-notice-catcher">';
         }
+    }
+
+    /**
+     * The notice classes of the plugin and addons.
+     *
+     * @return class-string<AbstractNotice>[]
+     */
+    public function noticeClasses(): array
+    {
+        $notices = [];
+        try {
+            $iterator = new \DirectoryIterator(glsr()->path('plugin/Notices'));
+            foreach ($iterator as $fileinfo) {
+                if (!$fileinfo->isFile()) {
+                    continue;
+                }
+                $notice = 'GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
+                $reflection = new \ReflectionClass($notice);
+                if ($reflection->isInstantiable()) {
+                    $notices[] = $reflection->getName();
+                }
+            }
+        } catch (\Throwable $e) {
+            glsr_log()->error($e->getMessage());
+        }
+        return glsr()->filterArray('notices', $notices);
     }
 }

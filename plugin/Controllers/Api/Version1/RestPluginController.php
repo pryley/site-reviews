@@ -9,20 +9,25 @@ use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
 use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\RepairPermissions;
+use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Modules\UpdateLock;
+use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Rollback;
 
 /**
- * The plugin installation: its console, migrations, permissions, tables, IP address detection,
- * system info and rollback, which the Tools page calls.
+ * The plugin installation: console, migrations, permissions, tables,
+ * IP address detection, system info, rollback, etc.
  */
 class RestPluginController extends AbstractRestController
 {
+    /** @var array<string, AbstractNotice|null> the notices looked up this request */
+    protected array $notices = [];
+
     public function changeConsoleLevel(\WP_REST_Request $request): \WP_REST_Response
     {
         return $this->handle(new ChangeLogLevel(new Request(['level' => $request['level']])));
@@ -34,6 +39,22 @@ class RestPluginController extends AbstractRestController
     public function checkConsolePermission()
     {
         return $this->permission(glsr()->getPermission('tools', 'console'));
+    }
+
+    /**
+     * A dismissal is stored in the logged-in user's meta.
+     *
+     * @return true|\WP_Error
+     */
+    public function checkNoticePermission(\WP_REST_Request $request)
+    {
+        if (!is_user_logged_in()) {
+            return $this->refuse('not_logged_in', _x('Sorry, you are not allowed to do that.', 'admin-text', 'site-reviews'), 401);
+        }
+        if (!$this->notice($request['key'])) {
+            return $this->refuse('invalid_notice', _x('Invalid notice.', 'admin-text', 'site-reviews'), 404);
+        }
+        return true;
     }
 
     /**
@@ -94,6 +115,15 @@ class RestPluginController extends AbstractRestController
     public function detectIpAddress(): \WP_REST_Response
     {
         return $this->handle(new DetectIpAddress());
+    }
+
+    /**
+     * Dismiss the notice for the logged-in user.
+     */
+    public function dismissNotice(\WP_REST_Request $request): \WP_REST_Response
+    {
+        $this->notice($request['key'])->dismiss();
+        return $this->respond(['key' => $request['key']]);
     }
 
     public function fetchConsole(): \WP_REST_Response
@@ -197,6 +227,25 @@ class RestPluginController extends AbstractRestController
                 'permission_callback' => [$this, 'checkSettingsPermission'],
             ],
         ]);
+        register_rest_route($this->restNamespace(), '/plugin/notices/(?P<key>[a-z0-9-]+)', [
+            [
+                'callback' => [$this, 'dismissNotice'],
+                'methods' => \WP_REST_Server::DELETABLE,
+                'permission_callback' => [$this, 'checkNoticePermission'],
+            ],
+            [
+                'args' => [
+                    'until' => [
+                        'enum' => ['interval'], // the notice interval
+                        'required' => true,
+                        'type' => 'string',
+                    ],
+                ],
+                'callback' => [$this, 'snoozeNotice'],
+                'methods' => 'PUT',
+                'permission_callback' => [$this, 'checkNoticePermission'],
+            ],
+        ]);
         register_rest_route($this->restNamespace(), '/plugin/permissions', [
             [
                 'args' => [
@@ -263,5 +312,29 @@ class RestPluginController extends AbstractRestController
     public function rollback(\WP_REST_Request $request): \WP_REST_Response
     {
         return $this->respond(glsr(Rollback::class)->rollbackData($request['version']));
+    }
+
+    /**
+     * Dismiss the notice for the logged-in user until its interval has passed.
+     */
+    public function snoozeNotice(\WP_REST_Request $request): \WP_REST_Response
+    {
+        $this->notice($request['key'])->dismiss(['version' => '']);
+        return $this->respond(['key' => $request['key']]);
+    }
+
+    protected function notice(string $key): ?AbstractNotice
+    {
+        if (!array_key_exists($key, $this->notices)) {
+            $this->notices[$key] = null;
+            foreach (glsr(NoticeController::class)->noticeClasses() as $class) {
+                $notice = glsr($class);
+                if ($notice->key() === $key) {
+                    $this->notices[$key] = $notice;
+                    break;
+                }
+            }
+        }
+        return $this->notices[$key];
     }
 }
