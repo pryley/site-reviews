@@ -16,7 +16,7 @@ const errors = pageErrorsOf(page);
 await login(page);
 const LIST = adminUrl('edit.php?post_type=site-review');
 const row = id => page.locator(`#post-${id}`);
-const toggleFilters = () => page.waitForResponse(response => response.url().includes('admin-ajax.php') && response.request().postData()?.includes('toggle-filters'));
+const toggleFilters = () => page.waitForResponse(response => decodeURIComponent(response.url()).includes('/wp/v2/users/me')); // the preference is saved through WordPress's users route
 const created = [];
 
 try {

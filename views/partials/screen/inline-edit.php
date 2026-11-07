@@ -112,6 +112,7 @@
                                             <input class="glsr-search-input" type="search" autocomplete="off" placeholder="<?php echo esc_attr_x('Search by ID or title...', 'admin-text', 'site-reviews'); ?>">
                                         </div>
                                         <div class="glsr-search-results"></div>
+                                        <template><?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?></template>
                                     </div>
                                 </div>
                                 <div class="inline-edit-group wp-clearfix">
@@ -123,6 +124,7 @@
                                             <input class="glsr-search-input" type="search" autocomplete="off" placeholder="<?php echo esc_attr_x('Search by ID or name...', 'admin-text', 'site-reviews'); ?>">
                                         </div>
                                         <div class="glsr-search-results"></div>
+                                        <template><?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?></template>
                                     </div>
                                 </div>
                             </div>
@@ -144,10 +146,3 @@
         </tbody>
     </table>
 </form>
-
-<script type="text/html" id="tmpl-glsr-assigned-posts">
-<?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?>
-</script>
-<script type="text/html" id="tmpl-glsr-assigned-users">
-<?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?>
-</script>

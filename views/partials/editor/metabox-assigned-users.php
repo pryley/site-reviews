@@ -11,8 +11,5 @@
     </div>
     <p class="description"><?php echo _x('Search for a user that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
     <span class="glsr-selected-entries description"><?php echo $templates; ?></span>
+    <template><?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?></template>
 </div>
-
-<script type="text/html" id="tmpl-glsr-assigned-users">
-<?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?>
-</script>

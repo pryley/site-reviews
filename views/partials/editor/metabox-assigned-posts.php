@@ -11,8 +11,5 @@
     </div>
     <p class="description"><?php echo _x('Search for a Page, Post, or <abbr title="Custom Post Type">CPT</abbr> that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
     <span class="glsr-selected-entries"><?php echo $templates; ?></span>
+    <template><?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?></template>
 </div>
-
-<script type="text/html" id="tmpl-glsr-assigned-posts">
-<?php include glsr()->path('views/partials/editor/assigned-entry.php'); ?>
-</script>

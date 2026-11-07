@@ -51,6 +51,7 @@ class EnqueueAdminAssets extends AbstractCommand
                 'importError' => sprintf(_x('Your server restricts file uploads to less than %s in size.', 'admin-text', 'site-reviews'),
                     (string) size_format(wp_max_upload_size())
                 ),
+                'nothingFound' => _x('Nothing found.', 'admin-text', 'site-reviews'),
                 'premiumConnecting' => _x('Just a moment while we connect your site and install Site Reviews Premium.', 'admin-text', 'site-reviews'),
                 'premiumError' => _x('Something went wrong. Please try again.', 'admin-text', 'site-reviews'),
                 'rollbackError' => _x('Rollback failed', 'admin-text', 'site-reviews'),
