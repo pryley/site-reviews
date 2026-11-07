@@ -20,7 +20,6 @@ use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 use GeminiLabs\SiteReviews\Tests\AddonNotice;
-use GeminiLabs\SiteReviews\Tests\ConstructorProbe;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
 use GeminiLabs\Vectorface\Whip\Whip;
@@ -28,6 +27,7 @@ use GeminiLabs\Vectorface\Whip\Whip;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\restRequest;
 
 uses(InteractsWithAjax::class);
 uses(\GeminiLabs\SiteReviews\Tests\InteractsWithExits::class);
@@ -282,25 +282,6 @@ test('every notice the plugin ships is given the chance to load', function () {
     expect($loaded['welcome']['type'])->toBe('popup');
 });
 
-test('a notice can be dismissed from the page it is on', function () {
-    glsr(OptionManager::class)->set('version_upgraded_from', '0.0.0');
-
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => WelcomeNotice::class]));
-
-    expect(dismissedNotices())->toHaveKey('welcome');
-});
-
-test('a notice dismissed "for now" is dismissed for now, not for the version', function () {
-    // The two buttons on the write-review popup: "remind me later" clears the version so
-    // that only the interval holds it back, and "no thanks" leaves the version in place.
-    glsr(NoticeController::class)->dismissNotice(new Request([
-        'dismiss' => 'interval',
-        'notice' => WriteReviewNotice::class,
-    ]));
-
-    expect(dismissedNotices()['write-review']['version'])->toBe('');
-});
-
 test('the write-review popup carries its icon and cannot be closed by the X', function () {
     // It is a popup, not a banner: it has an icon rather than a heading, and the corner dismiss is
     // turned off so the person answers its buttons ("remind me later" / "no thanks") rather than
@@ -311,29 +292,21 @@ test('the write-review popup carries its icon and cannot be closed by the X', fu
         ->and((fn () => $this->isDismissible())->call($notice))->toBeFalse();
 });
 
-test('a dismissal for something that is not a notice dismisses nothing', function () {
-    // The class name comes straight from the request. dismissNotice() resolves the class through
-    // the container, which constructs it by reflection. So the guard must refuse a class before
-    // anything builds it, not merely record nothing.
-    ConstructorProbe::reset();
-
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => 'NotAClass']));
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => 'WP_Query']));
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => ConstructorProbe::class]));
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => AbstractNotice::class]));
-
-    expect(ConstructorProbe::$constructed)->toBeFalse()
-        ->and(dismissedNotices())->toBe([]);
-});
-
 test('an addon notice is dismissed through the same route', function () {
-    // Premium and the addons ship notices that extend AbstractNotice and post to this route.
-    // A subclass defined outside the plugin's own namespace must still get through.
+    // Premium and the addons ship notices that extend AbstractNotice; the route finds one by its
+    // key among the classes the site-reviews/notices filter lists, outside the plugin's namespace too.
     glsr(OptionManager::class)->set('version_upgraded_from', '0.0.0');
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $filter = fn (array $notices) => array_merge($notices, [AddonNotice::class]);
+    add_filter('site-reviews/notices', $filter);
+    try {
+        $response = restRequest('DELETE', '/site-reviews/v1/plugin/notices/addon');
+    } finally {
+        remove_filter('site-reviews/notices', $filter);
+    }
 
-    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => AddonNotice::class]));
-
-    expect(dismissedNotices())->toHaveKey('addon');
+    expect($response->get_status())->toBe(200)
+        ->and(dismissedNotices())->toHaveKey('addon');
 });
 
 test('the notices on a review screen are caught before wordpress moves them', function () {
@@ -957,4 +930,28 @@ test('the request to check the list is shown to somebody who can open the tool',
 
     wp_set_current_user(createUser(['role' => 'editor']));
     expect(noticeLoaded(new ProxyListNotice()))->toBeTrue();
+});
+
+test('a dismissible notice brings the notices script to a screen without the admin bundle', function () {
+    // The dashboard, Plugins and Updates screens load no admin bundle, so the first dismissible notice
+    // enqueues the bundle's notice module built on its own, with the request config before it.
+    set_current_screen('dashboard');
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    set_transient(glsr()->prefix.'gatekeeper', gatekeeperError(Gatekeeper::ERROR_NOT_TESTED, 'Plugin D', 'd/d.php', 'd'));
+    glsr()->store('notices', []);
+    wp_dequeue_script(glsr()->id.'/admin'); // another test may have enqueued it in this process
+
+    wp_dequeue_script(glsr()->id.'/notices');
+
+    $notice = new GatekeeperNotice();
+    $html = renderedNotice($notice);
+    renderedNotice($notice); // a second notice on the page enqueues nothing more
+    $inline = implode("\n", (array) wp_scripts()->get_data(glsr()->id.'/notices', 'before'));
+
+    expect($html)->toContain('data-notice="gatekeeper"');
+    expect(wp_script_is(glsr()->id.'/notices', 'enqueued'))->toBeTrue()
+        ->and(wp_scripts()->registered[glsr()->id.'/notices']->src)->toContain('assets/scripts/admin/notices.js')
+        ->and($inline)->toContain('window.GLSR.config = window.GLSR.config ||')
+        ->and($inline)->toContain('/site-reviews/v1/')
+        ->and(substr_count($inline, 'window.GLSR = window.GLSR || {};'))->toBe(1);
 });
