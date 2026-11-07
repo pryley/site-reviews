@@ -121,7 +121,15 @@ const _rest = async (request, isRetry = false) => {
     if (isJsonBody(body)) {
         headers['Content-Type'] = 'application/json';
     }
-    const response = await fetch(_restUrl(path, params), { body: isJsonBody(body) ? JSON.stringify(body) : body, headers, method, signal });
+    if (!['GET', 'POST'].includes(method)) {
+        headers['X-HTTP-Method-Override'] = method; // WordPress reads a body and $_FILES as a POST only
+    }
+    const response = await fetch(_restUrl(path, params), {
+        body: isJsonBody(body) ? JSON.stringify(body) : body,
+        headers,
+        method: 'GET' === method ? 'GET' : 'POST',
+        signal,
+    });
     if ('function' !== typeof response?.json) {
         throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
