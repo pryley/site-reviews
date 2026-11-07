@@ -29,7 +29,6 @@ class Hooks extends IntegrationHooks
             ['registerInlineStyles', 'elementor/preview/enqueue_styles'],
             ['registerScripts', 'elementor/editor/after_enqueue_scripts'],
             ['registerWidgets', 'elementor/widgets/register'],
-            ['searchAssignedTerms', 'site-reviews/route/ajax/elementor-assigned_terms'],
         ]);
     }
 
