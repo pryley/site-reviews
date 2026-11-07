@@ -4,7 +4,7 @@ Site Reviews sends its requests with `GLSR.Request`.
 
 ```js
 const { data, status, success } = await GLSR.Request.send({
-    method: 'POST',                 // 'GET' when omitted
+    method: 'POST',                 // 'GET' when omitted; PUT, PATCH and DELETE go as a POST with the X-HTTP-Method-Override header, which WordPress honours
     path: 'my-addon/route',         // relative to the site-reviews/v1 namespace (GLSR.config.request.url)
     params: { page: 2 },            // query parameters; nested objects become key[sub]=value
     body: formData,                 // the request body: a FormData, or an object that is sent as JSON

@@ -271,6 +271,34 @@ test('a submission over admin-ajax carries the form fields, and leaves the form 
     assert.deepEqual(plain(result), { data: { success: true }, status: 201, success: true })
 });
 
+for (const method of ['DELETE', 'PATCH', 'PUT']) {
+    test(`a ${method} goes to the REST API as a POST with the X-HTTP-Method-Override header, and over admin-ajax as itself`, async () => {
+        const { window } = loadPage();
+        const calls = fakeFetch(window, [{ json: {} }, { status: 403, json: { code: 'rest_forbidden' } }]);
+        const sent = fakeXhr(window, [{ json: {} }]);
+        const body = new window.FormData();
+        body.append('value', '1')
+        await window.GLSR.Request.send({ body, method, path: 'reviews/7/pinned' })
+        assert.equal(calls[0].options.method, 'POST')
+        assert.equal(calls[0].options.headers['X-HTTP-Method-Override'], method)
+        assert.equal(calls[0].options.body, body)
+        await window.GLSR.Request.send({ body, method, path: 'reviews/7/pinned' })
+        assert.equal(fields(sent[0])._rest_method, method)
+        assert.equal(fields(sent[0]).value, '1')
+    });
+}
+
+test('a GET and a POST are sent as themselves', async () => {
+    const { window } = loadPage();
+    const calls = fakeFetch(window, [{ json: {} }, { json: {} }]);
+    await window.GLSR.Request.send({ path: 'plugin/console' })
+    await window.GLSR.Request.send({ method: 'POST', path: 'plugin/migrations' })
+    assert.equal(calls[0].options.method, 'GET')
+    assert.equal('X-HTTP-Method-Override' in calls[0].options.headers, false)
+    assert.equal(calls[1].options.method, 'POST')
+    assert.equal('X-HTTP-Method-Override' in calls[1].options.headers, false)
+});
+
 test('a body that is not a FormData is sent as JSON, over the REST API and over admin-ajax', async () => {
     const { window } = loadPage({ config: { request: request({ nonce: 'abc123' }) } });
     const calls = fakeFetch(window, [{ json: {} }, { status: 403, json: { code: 'rest_forbidden' } }]);
