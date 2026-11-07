@@ -25,6 +25,7 @@ class PostTypeDefaults extends DefaultsAbstract
             'map_meta_cap' => true,
             'public' => false,
             'query_var' => true,
+            'rest_base' => 'reviews',
             'rest_controller_class' => RestReviewController::class,
             'rest_namespace' => glsr()->id.'/v1',
             'rewrite' => ['with_front' => false],

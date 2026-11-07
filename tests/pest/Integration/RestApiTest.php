@@ -47,6 +47,8 @@ test('registers its routes', function () {
     $routes = $GLOBALS['wp_rest_server']->get_routes();
     expect($routes)->toHaveKey('/'.REST_NS.'/reviews')
         ->toHaveKey('/'.REST_NS.'/reviews/(?P<id>[\d]+)')
+        ->toHaveKey('/'.REST_NS.'/reviews/(?P<parent>[\d]+)/revisions') // rest_base, so WordPress's routes follow ours
+        ->not->toHaveKey('/'.REST_NS.'/site-review/(?P<parent>[\d]+)/revisions')
         ->toHaveKey('/'.REST_NS.'/summary')
         ->toHaveKey('/'.REST_NS.'/summary/rating')
         ->toHaveKey('/'.REST_NS.'/shortcodes/(?P<shortcode>[a-z_]+)/options/(?P<option>[a-z_]+)')
