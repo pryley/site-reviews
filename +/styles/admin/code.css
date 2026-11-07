@@ -1,0 +1,134 @@
+/* Code samples
+ ------------------------- */
+
+pre:has(> code[class*="language-"]) {
+  --base00: #2b303b; /* background */
+  --base02: #4f5b66; /* the language label */
+  --base03: #65737e; /* comments */
+  --base05: #c0c5ce; /* foreground, punctuation */
+  --base08: #bf616a; /* tags, numbers */
+  --base0A: #ebcb8b; /* at-rules */
+  --base0B: #a3be8c; /* strings */
+  --base0D: #8fa1b3; /* functions, types */
+  --base0E: #b48ead; /* keywords, attribute names */
+  background-color: var(--base00);
+  border-radius: 2px;
+  color: var(--base05);
+  display: block;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  font-size: 13px;
+  hyphens: none;
+  line-height: 1.5;
+  margin: .5em 0;
+  overflow: auto;
+  padding: 1em;
+  position: relative;
+  tab-size: 4;
+  text-align: left;
+  white-space: pre;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+}
+
+pre > code[class*="language-"] {
+  background: none;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+pre:has(> code[class*="language-"])::after {
+  background-color: var(--base02);
+  color: #fff;
+  display: block;
+  font-weight: 300;
+  margin: 12px;
+  opacity: 0;
+  padding: 1px 6px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .15s ease-in-out;
+  z-index: 10;
+}
+
+pre:has(> code[class*="language-"]):hover::after {
+  opacity: 1;
+}
+
+pre:has(> code.language-bash)::after {
+  content: 'Bash';
+}
+
+pre:has(> code.language-css)::after {
+  content: 'CSS';
+}
+
+pre:has(> code.language-html)::after {
+  content: 'HTML';
+}
+
+pre:has(> code.language-js)::after {
+  content: 'Javascript';
+}
+
+pre:has(> code.language-php)::after {
+  content: 'PHP';
+}
+
+/* The highlights are named by category (comment, string, tag…) and styled on the code element that holds the text. */
+code[class*="language-"]::highlight(comment),
+code[class*="language-"]::highlight(doctype) {
+  color: var(--base03);
+}
+
+code[class*="language-"]::highlight(string),
+code[class*="language-"]::highlight(attribute-value),
+code[class*="language-"]::highlight(regexp) {
+  color: var(--base0B);
+}
+
+code[class*="language-"]::highlight(keyword),
+code[class*="language-"]::highlight(storage),
+code[class*="language-"]::highlight(important),
+code[class*="language-"]::highlight(selector),
+code[class*="language-"]::highlight(attribute-name) {
+  color: var(--base0E);
+}
+
+code[class*="language-"]::highlight(function),
+code[class*="language-"]::highlight(type),
+code[class*="language-"]::highlight(boolean),
+code[class*="language-"]::highlight(decorator),
+code[class*="language-"]::highlight(property),
+code[class*="language-"]::highlight(support) {
+  color: var(--base0D);
+}
+
+code[class*="language-"]::highlight(numeric),
+code[class*="language-"]::highlight(operator),
+code[class*="language-"]::highlight(tag),
+code[class*="language-"]::highlight(entity),
+code[class*="language-"]::highlight(character-entity) {
+  color: var(--base08);
+}
+
+code[class*="language-"]::highlight(at-rule) {
+  color: var(--base0A);
+}
+
+code[class*="language-"]::highlight(constant),
+code[class*="language-"]::highlight(variable),
+code[class*="language-"]::highlight(punctuation) {
+  color: var(--base05);
+}
+
+code.language-js::highlight(operator) {
+  color: var(--base0E);
+}
+
+code.language-shortcode::highlight(punctuation) {
+  color: var(--base08);
+}

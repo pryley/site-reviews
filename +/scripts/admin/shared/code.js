@@ -1,26 +1,29 @@
-import Prism from 'prismjs';
+import { highlightAll } from '@/admin/vendor/microlighter/highlight.js';
+import bash from 'microlighter/grammars/bash.js';
+import css from 'microlighter/grammars/css.js';
+import html from 'microlighter/grammars/html.js';
+import javascript from 'microlighter/grammars/javascript.js';
+import php from 'microlighter/grammars/php.js';
+import shortcode from '@/admin/shared/grammars/shortcode.js';
+
+const GRAMMARS = { bash, css, html, javascript, php, shortcode };
 
 /**
- * The code samples of the plugin screens, highlighted by Prism, with a grammar for the shortcodes.
+ * The code samples of the plugin screens, highlighted with the CSS Custom Highlight API.
  */
 export default class Code {
-    static init () {
-        Prism.languages.shortcode = { // order is intentional: Prism matches the tokens in turn
-            tag: {
-                lookbehind: true,
-                pattern: /^(\[)[^\s]+/i,
-            },
-            string: {
-                greedy: true,
-                pattern: /"(?:\\[\s\S]|[^\\"])*"/,
-            },
-            variable: {
-                pattern: /([a-z_]+(?==))/i,
-            },
-            punctuation: {
-                pattern: /[=\[\]]/i,
-            },
-        };
-        Prism.highlightAll()
+    static init (root = document) {
+        if (!globalThis.CSS?.highlights) {
+            return // the samples stay plain monospace
+        }
+        highlightAll({
+            importLanguage: language => Promise.resolve(GRAMMARS[language] || null),
+            root,
+            selector: 'pre > code[class*="language-"]',
+        })
+    }
+
+    static supports (language) {
+        return language in GRAMMARS
     }
 }
