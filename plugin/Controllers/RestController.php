@@ -15,7 +15,7 @@ class RestController
      * The fields of an admin-ajax request that describe its REST request.
      */
     public const AJAX_FIELDS = [
-        'action', '_rest_method', '_rest_nonce', '_rest_path', '_rest_query',
+        'action', '_rest_body', '_rest_method', '_rest_nonce', '_rest_path', '_rest_query',
     ];
 
     /**
@@ -37,6 +37,10 @@ class RestController
         $request->set_query_params($query);
         $request->set_body_params(array_diff_key($post, array_flip(static::AJAX_FIELDS)));
         $request->set_file_params($files);
+        if (isset($post['_rest_body'])) { // a JSON body
+            $request->set_header('Content-Type', 'application/json');
+            $request->set_body(Cast::toString($post['_rest_body']));
+        }
         // As rest_preload_api_request() does for a request that WordPress dispatches itself.
         $server = rest_get_server();
         $response = rest_do_request($request);

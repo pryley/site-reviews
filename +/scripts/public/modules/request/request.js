@@ -30,6 +30,9 @@ const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith
 
 const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
 
+// a body that is not a FormData is sent as JSON
+const isJsonBody = (body) => !!body && !(body instanceof FormData);
+
 // a 4xx is the server saying no, any other status is a fault
 const log = (status, details) => console[400 <= status && 500 > status ? 'warn' : 'error'](details);
 
@@ -111,8 +114,14 @@ const _rest = async (request, isRetry = false) => {
     if (!config.request?.url) {
         throw new RestUnavailableError('no REST URL');
     }
-    const headers = nonce ? { ...HEADERS, 'X-WP-Nonce': nonce } : HEADERS;
-    const response = await fetch(_restUrl(path, params), { body, headers, method, signal });
+    const headers = { ...HEADERS };
+    if (nonce) {
+        headers['X-WP-Nonce'] = nonce;
+    }
+    if (isJsonBody(body)) {
+        headers['Content-Type'] = 'application/json';
+    }
+    const response = await fetch(_restUrl(path, params), { body: isJsonBody(body) ? JSON.stringify(body) : body, headers, method, signal });
     if ('function' !== typeof response?.json) {
         throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
     }
@@ -158,8 +167,8 @@ const _tunnel = async (request, isRetry = false) => {
     const data = new FormData();
     if (body instanceof FormData) {
         body.forEach((value, key) => data.append(key, value))
-    } else {
-        Object.entries(body || {}).forEach(([key, value]) => data.append(key, value))
+    } else if (isJsonBody(body)) {
+        data.append('_rest_body', JSON.stringify(body))
     }
     data.append('action', config.request.ajax.rest || REST_ACTION)
     data.append('_rest_method', method)

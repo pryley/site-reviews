@@ -562,6 +562,28 @@ test('a visitor can submit a review over admin-ajax', function () {
     expect(glsr_get_review($response->get_data()['review']['ID'])->title)->toBe('A lovely stay');
 });
 
+test('a JSON body travels over admin-ajax as the body of the route', function () {
+    releaseMutexLock();
+
+    $response = restOverAjax([
+        '_rest_body' => wp_json_encode([
+            glsr()->id => restSubmission($this->request([
+                'content' => 'Submitted as JSON over admin-ajax.',
+                'email' => 'jane@example.org',
+                'name' => 'Jane',
+                'rating' => 5,
+                'terms' => 1,
+                'title' => 'A JSON stay',
+            ])),
+        ]),
+        '_rest_method' => 'POST',
+        '_rest_path' => 'submissions',
+    ]);
+
+    expect($response->get_status())->toBe(201);
+    expect(glsr_get_review($response->get_data()['review']['ID'])->title)->toBe('A JSON stay');
+});
+
 test('over admin-ajax the login cookie alone does not sign the review', function () {
     // admin-ajax trusts the cookie; the REST API also asks for the wp_rest nonce.
     releaseMutexLock();
