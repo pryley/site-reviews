@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Modules\RequestConfig;
 
 class DeactivationController extends AbstractController
 {
@@ -27,17 +28,7 @@ class DeactivationController extends AbstractController
             'in_footer' => true,
             'strategy' => 'defer',
         ]);
-        wp_add_inline_script($handle, sprintf('window.GLSR = window.GLSR || {}; window.GLSR.config = window.GLSR.config || %s;', wp_json_encode([
-            'nameprefix' => glsr()->id,
-            'request' => [
-                'ajax' => [
-                    'rest' => glsr()->prefix.'rest_request',
-                    'url' => admin_url('admin-ajax.php'),
-                ],
-                'nonce' => wp_create_nonce('wp_rest'),
-                'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
-            ],
-        ])), 'before');
+        wp_add_inline_script($handle, glsr(RequestConfig::class)->inlineScript(), 'before');
         wp_localize_script($handle, '_glsr_deactivate', [
             'insight' => $this->deactivateInsight(),
             'plugins' => $this->deactivatePlugins(),

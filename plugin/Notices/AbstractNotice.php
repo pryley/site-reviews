@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\RequestConfig;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class AbstractNotice
@@ -82,6 +83,9 @@ abstract class AbstractNotice
             'data-notice' => $this->key,
             'text' => $notice,
         ]);
+        if ($this->isDismissible() && !wp_script_is(glsr()->id.'/admin', 'enqueued')) {
+            $this->enqueueScript();
+        }
     }
 
     protected function canLoad(): bool
@@ -154,6 +158,19 @@ abstract class AbstractNotice
     protected function deferVersion(): string
     {
         return '';
+    }
+
+    protected function enqueueScript(): void
+    {
+        $handle = glsr()->id.'/notices';
+        if (wp_script_is($handle, 'enqueued')) {
+            return;
+        }
+        wp_enqueue_script($handle, glsr()->url('assets/scripts/admin/notices.js'), [], glsr()->version, [
+            'in_footer' => true,
+            'strategy' => 'defer',
+        ]);
+        wp_add_inline_script($handle, glsr(RequestConfig::class)->inlineScript(), 'before');
     }
 
     protected function hasPermission(): bool

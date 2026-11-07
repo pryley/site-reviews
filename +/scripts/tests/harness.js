@@ -122,6 +122,12 @@ const loadAdmin = ({ added, before = '', compat = true, config = {}, debug = fal
     { after: scripts('admin/admin', { compat, debug }), before: DEPENDENCIES() + before, html }
 );
 
+// the notices bundle a screen without the admin bundle loads, after the request config it prints
+const loadNotices = ({ html } = {}) => load('admin/notices.js', `window.GLSR = window.GLSR || {}; window.GLSR.config = window.GLSR.config || ${JSON.stringify({ nameprefix: 'site-reviews', request: adminConfig().request })};`, { before: ANIMATE, html });
+
+// jsdom has no Web Animations: a fade finishes at once
+const ANIMATE = 'Element.prototype.animate = function () { var animation = { finished: Promise.resolve(), onfinish: null }; setTimeout(function () { animation.onfinish && animation.onfinish(); }, 0); return animation; };';
+
 const loadPublic = ({ added, before = '', inline, compat = !inline, config = {}, debug = false, html, url } = {}) => load(
     'site-reviews.js',
     inline ?? inlineScript({ ...publicConfig(), ...config, compat, debug: { enabled: debug, ...config.debug } }, added),
@@ -173,4 +179,4 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
     return { errors, infos, warnings, window };
 };
 
-module.exports = { DIALOG, adminConfig, inlineScript, loadAdmin, loadBoth, loadPublic, loadRollback, publicConfig, read };
+module.exports = { DIALOG, adminConfig, inlineScript, loadAdmin, loadBoth, loadNotices, loadPublic, loadRollback, publicConfig, read };

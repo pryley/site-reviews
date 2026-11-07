@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Defaults\PointerDefaults;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\RequestConfig;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -21,15 +22,7 @@ class EnqueueAdminAssets extends AbstractCommand
                 'max' => Rating::max(),
                 'min' => Rating::min(),
             ],
-            'request' => [
-                'ajax' => [
-                    'rest' => glsr()->prefix.'rest_request',
-                    'url' => admin_url('admin-ajax.php'),
-                ],
-                'nonce' => wp_create_nonce('wp_rest'),
-                'routes' => $this->routes(),
-                'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
-            ],
+            'request' => glsr(RequestConfig::class)->toArray($this->routes()),
             'text' => [
                 'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
                 'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
