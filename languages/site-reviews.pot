@@ -3904,102 +3904,57 @@ msgctxt "admin-text"
 msgid "The total number of reviews used to calculate the average."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:39
-msgctxt "admin-text"
-msgid "Skip & Deactivate"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:40
-msgctxt "admin-text"
-msgid "Submit & Deactivate"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:41
-#: views/integrations/woocommerce/product-data-panel.php:10
-msgctxt "admin-text"
-msgid "Click here"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:42
-msgctxt "admin-text"
-msgid "Close deactivation dialog"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:43
-msgctxt "admin-text"
-msgid "If you have a moment, please tell me how we can improve."
-msgstr ""
-
-#. translators: %s: a link with the text "Click here"
-#: plugin/Controllers/DeactivationController.php:45
-#, php-format
-msgctxt "Click here (admin-text)"
-msgid "%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin."
-msgstr ""
-
-#. translators: %s: plugin name
-#: plugin/Controllers/DeactivationController.php:47
-#, php-format
-msgctxt "Plugin name (admin-text)"
-msgid "Deactivating %s"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:48
-msgctxt "admin-text"
-msgid "Processing..."
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:106
+#: plugin/Controllers/DeactivationController.php:100
 msgctxt "admin-text"
 msgid "If you would like me to help, please include your email so I can contact you."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:107
+#: plugin/Controllers/DeactivationController.php:101
 msgctxt "admin-text"
 msgid "It's too complicated"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:112
+#: plugin/Controllers/DeactivationController.php:106
 msgctxt "admin-text"
 msgid "Which plugin is better?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:113
+#: plugin/Controllers/DeactivationController.php:107
 msgctxt "admin-text"
 msgid "I found something better"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:118
+#: plugin/Controllers/DeactivationController.php:112
 msgctxt "admin-text"
 msgid "What isn't working? Please let me know so I can fix it."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:119
+#: plugin/Controllers/DeactivationController.php:113
 msgctxt "admin-text"
 msgid "It's not working for me"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:125
+#: plugin/Controllers/DeactivationController.php:119
 msgctxt "admin-text"
 msgid "It's only temporary"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:130
+#: plugin/Controllers/DeactivationController.php:124
 msgctxt "admin-text"
 msgid "Which feature are you looking for?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:131
+#: plugin/Controllers/DeactivationController.php:125
 msgctxt "admin-text"
 msgid "Missing a specific feature"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:136
+#: plugin/Controllers/DeactivationController.php:130
 msgctxt "admin-text"
 msgid "Could you tell me a bit more?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:137
+#: plugin/Controllers/DeactivationController.php:131
 msgctxt "admin-text"
 msgid "Other Reason"
 msgstr ""
@@ -4470,7 +4425,7 @@ msgid "Welcome to %s"
 msgstr ""
 
 #: plugin/Controllers/WelcomeController.php:63
-#: views/tmpl-deactivate-plugin.php:32
+#: views/tmpl-deactivate-plugin.php:31
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr ""
@@ -8012,6 +7967,12 @@ msgctxt "Click here (admin-text)"
 msgid "Here you can override the Site Reviews shortcodes for this product. %s to change the shortcodes for all products."
 msgstr ""
 
+#: views/integrations/woocommerce/product-data-panel.php:10
+#: views/tmpl-deactivate-plugin.php:52
+msgctxt "admin-text"
+msgid "Click here"
+msgstr ""
+
 #: views/integrations/woocommerce/product-data-panel.php:18
 msgctxt "admin-text"
 msgid "Enter a custom [site_reviews_summary] shortcode to override the one saved in the settings."
@@ -9278,28 +9239,67 @@ msgstr ""
 msgid "The latest update includes some substantial changes across different areas of the plugin. We recommend you backup your site before updating."
 msgstr ""
 
-#: views/tmpl-deactivate-plugin.php:3
+#: views/tmpl-deactivate-plugin.php:5
 msgctxt "admin-text"
 msgid "Deactivation Details"
 msgstr ""
 
+#. translators: %s: plugin name
+#: views/tmpl-deactivate-plugin.php:8
+#, php-format
+msgctxt "Plugin name (admin-text)"
+msgid "Deactivating %s"
+msgstr ""
+
+#: views/tmpl-deactivate-plugin.php:10
+msgctxt "admin-text"
+msgid "Close deactivation dialog"
+msgstr ""
+
+#: views/tmpl-deactivate-plugin.php:14
+msgctxt "admin-text"
+msgid "If you have a moment, please tell me how we can improve."
+msgstr ""
+
 #. translators: %s: link with the text "Getting Started"
-#: views/tmpl-deactivate-plugin.php:31
+#: views/tmpl-deactivate-plugin.php:30
 #, php-format
 msgctxt "Getting Started (admin-text)"
 msgid "Did you read the %s guide?"
 msgstr ""
 
 #. translators: %s: link with the text "addons"
-#: views/tmpl-deactivate-plugin.php:41
+#: views/tmpl-deactivate-plugin.php:40
 #, php-format
 msgctxt "link to addons page (admin-text)"
 msgid "Maybe one of the %s provide this feature."
 msgstr ""
 
-#: views/tmpl-deactivate-plugin.php:42
+#: views/tmpl-deactivate-plugin.php:41
 msgctxt "admin-text"
 msgid "addons"
+msgstr ""
+
+#. translators: %s: a link with the text "Click here"
+#: views/tmpl-deactivate-plugin.php:53
+#, php-format
+msgctxt "Click here (admin-text)"
+msgid "%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin."
+msgstr ""
+
+#: views/tmpl-deactivate-plugin.php:62
+msgctxt "admin-text"
+msgid "Skip & Deactivate"
+msgstr ""
+
+#: views/tmpl-deactivate-plugin.php:63
+msgctxt "admin-text"
+msgid "Processing..."
+msgstr ""
+
+#: views/tmpl-deactivate-plugin.php:63
+msgctxt "admin-text"
+msgid "Submit & Deactivate"
 msgstr ""
 
 #: assets/blocks/site_review/index.js:1

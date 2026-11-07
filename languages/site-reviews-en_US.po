@@ -2452,18 +2452,18 @@ msgctxt "admin-text"
 msgid "There was nothing found to import."
 msgstr "There was nothing found to import."
 
-#: views/tmpl-deactivate-plugin.php:3
+#: views/tmpl-deactivate-plugin.php:5
 msgctxt "admin-text"
 msgid "Deactivation Details"
 msgstr "Deactivation Details"
 
 #: plugin/Controllers/WelcomeController.php:63
-#: views/tmpl-deactivate-plugin.php:32
+#: views/tmpl-deactivate-plugin.php:31
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr "Getting Started"
 
-#: views/tmpl-deactivate-plugin.php:42
+#: views/tmpl-deactivate-plugin.php:41
 msgctxt "admin-text"
 msgid "addons"
 msgstr "addons"
@@ -3479,88 +3479,88 @@ msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/DeactivationController.php:39
+#: views/tmpl-deactivate-plugin.php:62
 msgctxt "admin-text"
 msgid "Skip & Deactivate"
 msgstr "Skip & Deactivate"
 
-#: plugin/Controllers/DeactivationController.php:40
+#: views/tmpl-deactivate-plugin.php:63
 msgctxt "admin-text"
 msgid "Submit & Deactivate"
 msgstr "Submit & Deactivate"
 
-#: plugin/Controllers/DeactivationController.php:41
 #: views/integrations/woocommerce/product-data-panel.php:10
+#: views/tmpl-deactivate-plugin.php:52
 msgctxt "admin-text"
 msgid "Click here"
 msgstr "Click here"
 
-#: plugin/Controllers/DeactivationController.php:42
+#: views/tmpl-deactivate-plugin.php:10
 msgctxt "admin-text"
 msgid "Close deactivation dialog"
 msgstr "Close deactivation dialog"
 
-#: plugin/Controllers/DeactivationController.php:43
+#: views/tmpl-deactivate-plugin.php:14
 msgctxt "admin-text"
 msgid "If you have a moment, please tell me how we can improve."
 msgstr "If you have a moment, please tell me how we can improve."
 
-#: plugin/Controllers/DeactivationController.php:48
+#: views/tmpl-deactivate-plugin.php:63
 msgctxt "admin-text"
 msgid "Processing..."
 msgstr "Processing..."
 
-#: plugin/Controllers/DeactivationController.php:106
+#: plugin/Controllers/DeactivationController.php:100
 msgctxt "admin-text"
 msgid "If you would like me to help, please include your email so I can contact you."
 msgstr "If you would like me to help, please include your email so I can contact you."
 
-#: plugin/Controllers/DeactivationController.php:107
+#: plugin/Controllers/DeactivationController.php:101
 msgctxt "admin-text"
 msgid "It's too complicated"
 msgstr "It's too complicated"
 
-#: plugin/Controllers/DeactivationController.php:112
+#: plugin/Controllers/DeactivationController.php:106
 msgctxt "admin-text"
 msgid "Which plugin is better?"
 msgstr "Which plugin is better?"
 
-#: plugin/Controllers/DeactivationController.php:113
+#: plugin/Controllers/DeactivationController.php:107
 msgctxt "admin-text"
 msgid "I found something better"
 msgstr "I found something better"
 
-#: plugin/Controllers/DeactivationController.php:118
+#: plugin/Controllers/DeactivationController.php:112
 msgctxt "admin-text"
 msgid "What isn't working? Please let me know so I can fix it."
 msgstr "What isn't working? Please let me know so I can fix it."
 
-#: plugin/Controllers/DeactivationController.php:119
+#: plugin/Controllers/DeactivationController.php:113
 msgctxt "admin-text"
 msgid "It's not working for me"
 msgstr "It's not working for me"
 
-#: plugin/Controllers/DeactivationController.php:125
+#: plugin/Controllers/DeactivationController.php:119
 msgctxt "admin-text"
 msgid "It's only temporary"
 msgstr "It's only temporary"
 
-#: plugin/Controllers/DeactivationController.php:130
+#: plugin/Controllers/DeactivationController.php:124
 msgctxt "admin-text"
 msgid "Which feature are you looking for?"
 msgstr "Which feature are you looking for?"
 
-#: plugin/Controllers/DeactivationController.php:131
+#: plugin/Controllers/DeactivationController.php:125
 msgctxt "admin-text"
 msgid "Missing a specific feature"
 msgstr "Missing a specific feature"
 
-#: plugin/Controllers/DeactivationController.php:136
+#: plugin/Controllers/DeactivationController.php:130
 msgctxt "admin-text"
 msgid "Could you tell me a bit more?"
 msgstr "Could you tell me a bit more?"
 
-#: plugin/Controllers/DeactivationController.php:137
+#: plugin/Controllers/DeactivationController.php:131
 msgctxt "admin-text"
 msgid "Other Reason"
 msgstr "Other Reason"
@@ -7222,14 +7222,14 @@ msgid "File upload was stopped by a PHP extension."
 msgstr "File upload was stopped by a PHP extension."
 
 #. translators: %s: link with the text "Getting Started"
-#: views/tmpl-deactivate-plugin.php:31
+#: views/tmpl-deactivate-plugin.php:30
 #, php-format
 msgctxt "Getting Started (admin-text)"
 msgid "Did you read the %s guide?"
 msgstr "Did you read the %s guide?"
 
 #. translators: %s: link with the text "addons"
-#: views/tmpl-deactivate-plugin.php:41
+#: views/tmpl-deactivate-plugin.php:40
 #, php-format
 msgctxt "link to addons page (admin-text)"
 msgid "Maybe one of the %s provide this feature."
@@ -7256,7 +7256,7 @@ msgid "reload"
 msgstr "reload"
 
 #. translators: %s: a link with the text "Click here"
-#: plugin/Controllers/DeactivationController.php:45
+#: views/tmpl-deactivate-plugin.php:53
 #, php-format
 msgctxt "Click here (admin-text)"
 msgid "%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin."
@@ -7270,7 +7270,7 @@ msgid "Here you can override the Site Reviews shortcodes for this product. %s to
 msgstr "Here you can override the Site Reviews shortcodes for this product. %s to change the shortcodes for all products."
 
 #. translators: %s: plugin name
-#: plugin/Controllers/DeactivationController.php:47
+#: views/tmpl-deactivate-plugin.php:8
 #, php-format
 msgctxt "Plugin name (admin-text)"
 msgid "Deactivating %s"
