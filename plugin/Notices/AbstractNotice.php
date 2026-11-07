@@ -79,7 +79,7 @@ abstract class AbstractNotice
         }
         echo glsr(Builder::class)->div([
             'class' => $this->classAttr(),
-            'data-notice' => get_class($this),
+            'data-notice' => $this->key,
             'text' => $notice,
         ]);
     }

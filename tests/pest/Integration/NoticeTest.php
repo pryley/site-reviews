@@ -229,7 +229,7 @@ test('a notice is drawn as one, and says which one it is', function () {
     $html = renderedNotice(new UpgradedNotice());
 
     expect($html)->toContain('glsr-notice')
-        ->toContain('data-notice="'.UpgradedNotice::class.'"');
+        ->toContain('data-notice="upgraded"');
 });
 
 test('the class on a notice says what kind it is, and whether it can be dismissed', function () {
@@ -391,7 +391,7 @@ test('a free site is shown the premium banner', function () {
     // `licensed` is empty, which is what a site with no paid addons looks like — most of them.
     expect(renderedNotice(new LicensePromotedNotice()))
         ->toContain('glsr-notice-banner')
-        ->toContain(LicensePromotedNotice::class);
+        ->toContain('data-notice="license-promoted"');
 });
 
 test('a site that has already paid is not sold to', function () {

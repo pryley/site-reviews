@@ -18,11 +18,11 @@ try {
     assert(await page.locator('.glsr-dashboard__items .glsr-dashboard__item').count() > 0, 'the Site Reviews widget lists its items');
     assert(null !== await page.$('link#site-reviews\\/admin-css'), 'the admin stylesheet is loaded on the dashboard');
     assert(await page.evaluate(() => 'object' === typeof window.GLSR?.config), 'the admin script and its config are loaded on the dashboard');
-    const gatekeeper = page.locator('.glsr-notice[data-notice*="Gatekeeper"]');
+    const gatekeeper = page.locator('.glsr-notice[data-notice="gatekeeper"]');
     if (await gatekeeper.count()) {
         await gatekeeper.locator('.notice-dismiss').click();
         await page.reload();
-        assert(0 === await page.locator('.glsr-notice[data-notice*="Gatekeeper"]').count(), 'a dismissed Gatekeeper notice stays dismissed');
+        assert(0 === await page.locator('.glsr-notice[data-notice="gatekeeper"]').count(), 'a dismissed Gatekeeper notice stays dismissed');
     } else {
         info('no Gatekeeper notice on this site: nothing is missing');
     }

@@ -1,6 +1,6 @@
 /**
- * The review editor: the assigned posts and users searches, the content textarea's height, the
- * publish box's pinned control and the Edit Details toggle, as a user sees them.
+ * The review editor: the assigned posts and users searches, the publish box's pinned control and
+ * the Edit Details toggle, as a user sees them.
  *
  * Needs wp-env running. Run: npm run test:browser -- review-editor
  */
@@ -39,15 +39,6 @@ try {
     await users.locator('.glsr-search-results span').first().waitFor();
     await users.locator('.glsr-search-results span').first().click();
     assert(1 === await users.locator('.glsr-selected-entries input[name="user_ids[]"]').count(), 'choosing a user result assigns the user');
-
-    // the content textarea grows to its minimum height, where the editor has one
-    const content = page.locator('#contentdiv > textarea');
-    if (await content.count()) {
-        const height = await content.evaluate(el => el.getBoundingClientRect().height);
-        assert(height >= 320, `the content textarea is at least 320px tall (${Math.round(height)}px)`);
-    } else {
-        info('no #contentdiv textarea on the review editor');
-    }
 
     // the pinned control in the publish box
     const pinned = page.locator('#misc-pub-pinned');

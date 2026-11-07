@@ -93,8 +93,8 @@ const load = (file, inline, { after = [], before = '', html = '', url = 'https:/
     return { infos, read, warnings, window };
 };
 
-// the admin script calls jQuery(fn) and _.debounce(fn) as it parses; the ready callback is kept, not run
-const DEPENDENCIES = 'window.jQuery = (fn) => { window.onReady = fn }; window._ = { debounce: (fn) => fn };';
+// the admin script runs at once (the document is ready); `_` serves the modules not yet rewritten
+const DEPENDENCIES = () => JQUERY + 'window._ = { debounce: (fn) => fn, each: (o, fn) => Object.entries(o).forEach(([k, v]) => fn(v, k)) };';
 
 // jsdom has no dialog.showModal(), which the modal needs to count as supported.
 const DIALOG = 'HTMLDialogElement.prototype.showModal = function () {};';
@@ -113,7 +113,7 @@ const scripts = (name, modes) => ['compat', 'debug'].filter(mode => modes[mode])
 const loadAdmin = ({ added, before = '', compat = true, config = {}, debug = false, html, inline } = {}) => load(
     'site-reviews-admin.js',
     inline ?? inlineScript({ ...adminConfig(), ...config, compat, debug: { enabled: debug, ...config.debug } }, added),
-    { after: scripts('site-reviews-admin', { compat, debug }), before: DEPENDENCIES + before, html }
+    { after: scripts('site-reviews-admin', { compat, debug }), before: DEPENDENCIES() + before, html }
 );
 
 const loadPublic = ({ added, before = '', inline, compat = !inline, config = {}, debug = false, html, url } = {}) => load(
@@ -122,9 +122,10 @@ const loadPublic = ({ added, before = '', inline, compat = !inline, config = {},
     { after: scripts('site-reviews', { compat, debug }), before: DIALOG + before, html, url }
 );
 
+const JQUERY = fs.readFileSync(require.resolve('jquery/dist/jquery.js'), 'utf8');
+
 // The rollback script runs inside jQuery(fn); fn runs at once here, with the real jQuery as its argument.
-const JQUERY = fs.readFileSync(require.resolve('jquery/dist/jquery.js'), 'utf8')
-    + ';window.jQuery = (fn) => fn(window.$);';
+const JQUERY_READY = JQUERY + ';window.jQuery = (fn) => fn(window.$);';
 
 // wp.ajax.send() keeps each request in window.sent and sends nothing.
 const WP = 'window.sent = []; window.wp = { ajax: { send: (request) => { window.sent.push(request); return { always: () => {} }; } }, i18n: { __: (text) => text } };';
@@ -135,7 +136,7 @@ const FORM_FIELDS = 'document.querySelectorAll("form").forEach(form => [...form.
 const loadRollback = ({ before = '', html } = {}) => load(
     'rollback.js',
     inlineScript(adminConfig()),
-    { before: JQUERY + WP + FORM_FIELDS + before, html }
+    { before: JQUERY_READY + WP + FORM_FIELDS + before, html }
 );
 
 // the block editor: both scripts on one page; `order` names which runs first
@@ -155,7 +156,7 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
         public: inlineScript({ ...publicConfig(), compat: true, debug: { enabled: debug } }),
     };
     const names = { admin: 'site-reviews-admin', public: 'site-reviews' };
-    window.eval(DEPENDENCIES + DIALOG)
+    window.eval(DEPENDENCIES() + DIALOG)
     // PHP prints the admin's inline script first
     window.eval(inline.admin)
     window.eval(inline.public)
