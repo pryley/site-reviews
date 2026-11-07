@@ -419,6 +419,23 @@ test('with plain permalinks the route goes in rest_route, and never into the adm
     assert.equal(Object.keys(fields(sent[0])).some((key) => key.includes('rest_route')), false)
 });
 
+for (const [permalinks, url, expected] of [
+    ['pretty permalinks', REST_URL, 'https://example.org/wp-json/wp/v2/users/me'],
+    ['a filtered REST prefix', 'https://example.org/api/site-reviews/v1/', 'https://example.org/api/wp/v2/users/me'],
+    ['a subdirectory install', 'https://example.org/blog/wp-json/site-reviews/v1/', 'https://example.org/blog/wp-json/wp/v2/users/me'],
+    ['plain permalinks', 'https://example.org/index.php?rest_route=/site-reviews/v1/', 'https://example.org/index.php?rest_route=%2Fwp%2Fv2%2Fusers%2Fme'],
+]) {
+    test(`with ${permalinks}, a path that starts with / is read from the REST root, over admin-ajax as it is`, async () => {
+        const { window } = loadPage({ config: { request: request({ url }) } });
+        const calls = fakeFetch(window, [{ json: {} }, { status: 403, json: { code: 'rest_forbidden' } }]);
+        const sent = fakeXhr(window, [{ json: {} }]);
+        await window.GLSR.Request.send({ path: '/wp/v2/users/me' })
+        assert.equal(calls[0].url, expected)
+        await window.GLSR.Request.send({ path: '/wp/v2/users/me' })
+        assert.equal(fields(sent[0])._rest_path, '/wp/v2/users/me')
+    });
+}
+
 test('pagedReviews, review and submit are the requests of the plugin', async () => {
     const { window } = loadPage();
     const calls = fakeFetch(window, [{ json: {} }, { json: {} }, { json: {} }]);

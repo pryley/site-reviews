@@ -19,6 +19,13 @@ class RestController
     ];
 
     /**
+     * The WordPress routes sent through the admin-ajax action for logged-in users.
+     */
+    public const WORDPRESS_ROUTES = [
+        '/wp/v2/users/me',
+    ];
+
+    /**
      * Dispatches a request for one of this plugin's REST routes that arrived over admin-ajax.
      *
      * @param array $post  The unslashed POST fields
@@ -31,9 +38,28 @@ class RestController
             return rest_convert_error_to_response($error);
         }
         $method = strtoupper(Cast::toString($post['_rest_method'] ?? '')) ?: 'GET';
-        $path = trim(Cast::toString($post['_rest_path'] ?? ''), '/');
+        $path = Cast::toString($post['_rest_path'] ?? '');
+        $route = str_starts_with($path, '/')
+            ? '/'.trim($path, '/') // from the REST root, such as /wp/v2/users/me
+            : sprintf('/%s/v1/%s', glsr()->id, trim($path, '/'));
+        if (!str_starts_with($route, sprintf('/%s/v1/', glsr()->id))) {
+            if (!in_array($route, static::WORDPRESS_ROUTES, true)) {
+                return rest_convert_error_to_response(new \WP_Error('rest_no_route', __('No route was found matching the URL and request method.'), ['status' => 404])); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+            }
+            if (!is_user_logged_in()) {
+                return rest_convert_error_to_response(new \WP_Error('rest_not_logged_in', __('You are not currently logged in.'), ['status' => 401])); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
+            }
+            unset($_REQUEST['_wpnonce']);
+            if (!empty($post['_rest_nonce'])) {
+                $_REQUEST['_wpnonce'] = Cast::toString($post['_rest_nonce']); // where rest_cookie_check_errors() reads the nonce
+            }
+            $authentication = rest_get_server()->check_authentication();
+            if (is_wp_error($authentication)) {
+                return rest_convert_error_to_response($authentication);
+            }
+        }
         wp_parse_str(Cast::toString($post['_rest_query'] ?? ''), $query);
-        $request = new \WP_REST_Request($method, sprintf('/%s/v1/%s', glsr()->id, $path));
+        $request = new \WP_REST_Request($method, $route);
         $request->set_query_params($query);
         $request->set_body_params(array_diff_key($post, array_flip(static::AJAX_FIELDS)));
         $request->set_file_params($files);

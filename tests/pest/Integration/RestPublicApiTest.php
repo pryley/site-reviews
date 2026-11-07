@@ -540,6 +540,36 @@ test('a site that refuses the REST API to visitors still answers over admin-ajax
     expect(restOverAjax(['_rest_path' => 'render/reviews'])->get_status())->toBe(200);
 });
 
+test('a site that refuses the REST API refuses a route of WordPress over admin-ajax too', function () {
+    // The plugin's own routes answer so the page works; a route of WordPress would otherwise reach,
+    // through this action, a user the site has shut out of /wp-json.
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    add_filter('rest_authentication_errors', fn () => new WP_Error('rest_disabled', 'No.', ['status' => 403]));
+
+    $me = restOverAjax(['_rest_nonce' => wp_create_nonce('wp_rest'), '_rest_path' => '/wp/v2/users/me']);
+
+    expect($me->get_status())->toBe(403)
+        ->and($me->get_data()['code'])->toBe('rest_disabled');
+});
+
+test('only the users/me route of WordPress runs over admin-ajax, and only for a logged-in user', function () {
+    // A site that blocks /wp-json at the server must not be read through this action: the users
+    // list first of all.
+    $visitor = restOverAjax(['_rest_path' => '/wp/v2/users/me']);
+    expect($visitor->get_status())->toBe(401)
+        ->and($visitor->get_data()['code'])->toBe('rest_not_logged_in');
+
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $nonce = wp_create_nonce('wp_rest'); // without it the tunnel treats the request as a visitor's, as REST does
+    $users = restOverAjax(['_rest_nonce' => $nonce, '_rest_path' => '/wp/v2/users']);
+    expect($users->get_status())->toBe(404)
+        ->and($users->get_data()['code'])->toBe('rest_no_route');
+
+    $me = restOverAjax(['_rest_nonce' => $nonce, '_rest_path' => '/wp/v2/users/me']);
+    expect($me->get_status())->toBe(200)
+        ->and($me->get_data()['id'])->toBe(get_current_user_id());
+});
+
 test('a visitor can submit a review over admin-ajax', function () {
     releaseMutexLock();
 
@@ -645,7 +675,7 @@ test('admin-ajax reaches no route outside the plugin', function () {
     wp_set_current_user(createUser(['role' => 'administrator']));
     $nonce = wp_create_nonce('wp_rest');
 
-    foreach (['../../wp/v2/users', '/wp/v2/users', '..%2F..%2Fwp%2Fv2%2Fusers', ''] as $path) {
+    foreach (['../../wp/v2/users', '..%2F..%2Fwp%2Fv2%2Fusers', ''] as $path) {
         $response = restOverAjax([
             '_rest_nonce' => $nonce,
             '_rest_path' => $path,
@@ -653,6 +683,21 @@ test('admin-ajax reaches no route outside the plugin', function () {
         expect($response->get_status())->toBe(404);
         expect($response->get_data()['code'])->toBe('rest_no_route');
     }
+});
+
+test('a path from the REST root reaches a route of WordPress over admin-ajax, with its own permission check', function () {
+    wp_set_current_user($userId = createUser(['role' => 'administrator']));
+
+    $me = restOverAjax([
+        '_rest_nonce' => wp_create_nonce('wp_rest'),
+        '_rest_path' => '/wp/v2/users/me',
+    ]);
+    expect($me->get_status())->toBe(200);
+    expect($me->get_data()['id'])->toBe($userId);
+
+    $visitor = restOverAjax(['_rest_path' => '/wp/v2/users/me']); // no nonce: the request runs as a visitor
+    expect($visitor->get_status())->toBe(401);
+    expect($visitor->get_data()['code'])->toBe('rest_not_logged_in');
 });
 
 test('the admin-ajax action sends the body and the status of the route', function () {

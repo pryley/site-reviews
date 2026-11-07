@@ -175,12 +175,20 @@ const _rest = async (request, isRetry = false) => {
     return { data: json, status: response.status, success: response.ok }; // a 4xx here is the final answer of a route
 }
 
+// a path that starts with / is read from the REST root, which the config's URL ends the namespace of
+const _restPath = (base, path) => {
+    if (path.startsWith('/')) {
+        base = base.replace(new RegExp(`${config.nameprefix || 'site-reviews'}/v1/?$`), '');
+    }
+    return base.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+}
+
 const _restUrl = (path, params) => {
     const url = new URL(config.request.url);
     if (url.searchParams.has('rest_route')) { // plain permalinks
-        url.searchParams.set('rest_route', url.searchParams.get('rest_route').replace(/\/$/, '') + '/' + path);
+        url.searchParams.set('rest_route', _restPath(url.searchParams.get('rest_route'), path));
     } else {
-        url.pathname = url.pathname.replace(/\/$/, '') + '/' + path;
+        url.pathname = _restPath(url.pathname, path);
     }
     if (config.request.language) {
         url.searchParams.set('lang', config.request.language) // Polylang and WPML read lang
