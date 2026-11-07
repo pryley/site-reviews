@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
@@ -46,6 +47,14 @@ class VerificationController extends AbstractController
     public function resendVerificationEmailAjax(Request $request): void
     {
         $review = glsr(ReviewManager::class)->get($request->cast('post_id', 'int'));
+        if (!$review->isValid() || !glsr()->can('edit_post', $review->ID)) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to request verification of this review.', 'admin-text', 'site-reviews')
+            );
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
         $pathPostId = $review->meta()->cast('_submitted._post_id', 'int');
         $path = Cast::toString(wp_parse_url((string) get_permalink($pathPostId), \PHP_URL_PATH));
         $command = $this->execute(new SendVerificationEmail($review, $review->verifyUrl($path)));

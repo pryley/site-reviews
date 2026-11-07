@@ -198,6 +198,22 @@ test('an admin can re-send the verification email', function () {
     expect(sentMail()[0]['subject'])->toBe('Please verify your review');
 });
 
+test('somebody who cannot edit the review cannot re-send its verification email', function () {
+    // The button is in the review editor, but the request is only a review id, so the handler
+    // checks edit_post on that review itself.
+    $review = createReview(['email' => 'jane@example.org']);
+    glsr(OptionManager::class)->set('settings.general.request_verification', 'yes');
+    wp_set_current_user(createUser(['role' => 'contributor']));
+
+    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->resendVerificationEmailAjax(
+        new Request(['post_id' => $review->ID])
+    ));
+
+    expect($response['success'])->toBeFalse();
+    expect($response['data']['notices'])->toContain('You do not have permission');
+    expect(sentMail())->toBe([]);
+});
+
 test('the verification email is not re-sent while the setting is off', function () {
     // Off is the DEFAULT. The command fails with a notice naming the setting — but note the
     // envelope: resendVerificationEmailAjax() ends in an unconditional wp_send_json_success(),
