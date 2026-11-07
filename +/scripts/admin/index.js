@@ -10,6 +10,8 @@ import Assigned from '@/admin/review/assigned.js';
 import CategoryQuickEdit from '@/admin/category/quick-edit.js';
 import Cards from '@/admin/shared/cards.js';
 import Code from '@/admin/shared/code.js';
+import ColorPicker from '@/admin/settings/color-picker.js';
+import Depends from '@/admin/settings/depends.js';
 import Filter from '@/admin/reviews/filter.js';
 import Filters from '@/admin/reviews/filters.js';
 import Flyout from '@/admin/shared/flyout.js';
@@ -17,16 +19,21 @@ import FooterNotice from '@/admin/shared/footer-notice.js';
 import legacy from '@/admin/legacy.js';
 import Metabox from '@/admin/review/metabox.js';
 import Notice, { Notices } from '@/admin/shared/notice.js';
+import PremiumLicense from '@/admin/settings/premium-license.js';
 import PublishAction from '@/admin/review/publish-action.js';
 import QuickEdit from '@/admin/reviews/quick-edit.js';
 import Request from '@/public/modules/request/request.js';
+import ResetButton from '@/admin/settings/reset-button.js';
 import ScreenMeta from '@/admin/shared/screen-meta.js';
 import { share } from '@/admin/shared.js';
-import Status from '@/admin/reviews/status.js';
 import StarRating from '@/public/modules/form/starrating.js';
+import Status from '@/admin/reviews/status.js';
+import Strings from '@/admin/settings/strings.js';
 import Tabs from '@/admin/shared/tabs.js';
+import TemplateEditor from '@/admin/settings/template-editor.js';
 import ToggleFlag from '@/admin/reviews/toggle-flag.js';
 import Tooltip from '@/admin/shared/tooltip.js';
+import TrackSelect from '@/admin/settings/track-select.js';
 import UploadForm from '@/admin/shared/upload-form.js';
 import Verification from '@/admin/review/verification.js';
 import tippy, { followCursor } from 'tippy.js';
@@ -48,6 +55,7 @@ const SCREENS = [
     { classes: ['edit-tags-php', 'taxonomy-site-review-category'], modules: [CategoryQuickEdit] },
     { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
+    { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, PremiumLicense, ResetButton, Strings, TemplateEditor, TrackSelect] },
 ];
 
 const init = () => {

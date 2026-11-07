@@ -4,23 +4,12 @@
  * The screen modules not yet rewritten on the admin standard, run as the old entry ran them.
  */
 import { config } from '@/public/core/index.js';
-import ColorPicker from '@/admin/color-picker.js';
-import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
-import PremiumLicense from '@/admin/premium-license.js';
-import Search from '@/admin/search.js';
 import Tools from '@/admin/tools.js';
-import tippy from 'tippy.js';
 
 export default () => {
     if ('function' !== typeof jQuery) return;
     const $ = jQuery;
-
-    $('.glsr-setting-field button.is-reset-button').click(ev => {
-        const btn = $(ev.currentTarget);
-        const textarea = btn.prev('textarea.autosized');
-        textarea.val(btn.data('default'))
-    })
 
     $('.glsr-nav-tab').on('site-reviews/tab', (ev) => {
         const { id, view } = ev.originalEvent.detail;
@@ -47,38 +36,8 @@ export default () => {
         })
     })
 
-    ColorPicker();
-    new Forms('form.glsr-form');
     new Import();
-    new Search('#glsr-search-translations', {
-        action: 'search-strings',
-        onInit: function () {
-            this.makeSortable_();
-        },
-        onResultClick: function (ev) {
-            var result = $(ev.currentTarget);
-            var entry = result.data('entry');
-            var template = wp.template('glsr-string-' + (entry.p1 ? 'plural' : 'single'));
-            entry.index = this.options.entriesEl.children().length;
-            entry.prefix = this.options.resultsEl.data('prefix');
-            if (template) {
-                this.options.entriesEl.append(template(entry));
-                this.options.exclude.push({ id: entry.id });
-                this.options.results = this.options.results.filter(function (i, el) {
-                    return el !== result.get(0);
-                });
-            }
-            this.setVisibility_();
-        },
-    });
-    new PremiumLicense();
     new Tools();
-
-    var trackValue = function () {
-        this.dataset.glsrTrack = this.value;
-    };
-    $('select[data-glsr-track]').each(trackValue);
-    $('select[data-glsr-track]').on('change', trackValue);
 
     $('.glsr-videos__playlist a').on('click', function () {
         const playlist = $(this).closest('.glsr-videos__playlist');
@@ -107,43 +66,6 @@ export default () => {
         }
     })
 
-    const addTextAtCursorPosition = (textarea, cursorPosition, text) => {
-        const front = (textarea.value).substring(0, cursorPosition);
-        const back = (textarea.value).substring(textarea.selectionEnd, textarea.value.length);
-        const value = front + text + back;
-        textarea.focus();
-        if (!document.execCommand('selectAll', false, null) || !document.execCommand('insertText', false, value)) {
-            textarea.value = value; // fallback to this which does not support undo
-        }
-    };
-
-    const updateCursorPosition = (cursorPosition, text, textarea) => {
-        cursorPosition = cursorPosition + text.length;
-        textarea.selectionStart = cursorPosition;
-        textarea.selectionEnd = cursorPosition;
-        textarea.focus();
-    };
-
-    $('.glsr-template-editor input').on('click', ev => {
-        ev.preventDefault();
-        const textarea = $(ev.target).closest('.glsr-template-editor').find('textarea')[0];
-        const cursorPosition = textarea.selectionStart;
-        const scrollPos = textarea.scrollTop;
-        const text = '{'+ev.target.dataset.tag+'}';
-        addTextAtCursorPosition(textarea, cursorPosition, text);
-        updateCursorPosition(cursorPosition, text, textarea);
-        textarea.scrollTop = scrollPos;
-    })
-
-    // Delegated: the License Key row is redrawn by its routes.
-    $(document).on('click', '.glsr-setting-field .wp-pwd button', (ev) => {
-        const $btn = $(ev.currentTarget);
-        const $icon = $btn.find('.dashicons');
-        const label = $icon.hasClass('dashicons-visibility') ? $btn.data('hide') : $btn.data('show');
-        $btn.attr('aria-label', label)
-        tippy($btn.get(0)).setContent(label);
-        $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
-    })
 };
 
 const loadYouTube = function (link) {
