@@ -2,7 +2,6 @@
 
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Geolocation;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Hook;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Avatar;
@@ -51,7 +50,7 @@ test('a get request with an action is routed, admin and public alike', function 
 });
 
 test('a post request that loses the mutex race goes nowhere', function () {
-    $lock = Str::prefix(Str::hash(Helper::clientIp(), 13), glsr()->prefix);
+    $lock = \GeminiLabs\SiteReviews\Tests\mutexLock();
     set_transient($lock, 1, 5);
     $routed = new ArrayObject();
     add_action('site-reviews/route/public/submit-review', fn () => $routed->append(1));
@@ -76,7 +75,7 @@ test('a post request that loses the mutex race goes nowhere', function () {
 });
 
 test('a parallel request is refused by the mutex, both ways it can lose the race', function () {
-    $lock = Str::prefix(Str::hash(Helper::clientIp(), 13), glsr()->prefix);
+    $lock = \GeminiLabs\SiteReviews\Tests\mutexLock();
     $lockRequest = fn () => protectedMethod(Router::class, 'lockRequest')
         ->invoke(glsr(Router::class), new Request(['_action' => 'submit-review']));
 

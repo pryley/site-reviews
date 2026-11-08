@@ -459,17 +459,53 @@ test('a second submission arriving in the same moment is refused', function () {
 });
 
 test('the same visitor may submit again once the lock has gone', function () {
-    // The lock is a five-second transient, not a ban. A person who submits a review for
-    // one product and then another for the next must not be turned away.
+    // The lock goes when the request ends, or after five seconds when the request never
+    // got there. A person who submits a review for one product and then another for the
+    // next must not be turned away.
     $this->setUpAjax();
     releaseMutexLock();
 
     submitReviewAjax();
-    releaseMutexLock(); // i.e. five seconds pass
+    releaseMutexLock(); // i.e. the first request ended
 
     $again = submitReviewAjax();
 
     expect($again['data']['error'] ?? '')->not->toBe('Parallel AJAX request (possible single-packet attack)');
+});
+
+test('the lock is released when the request ends', function () {
+    releaseMutexLock();
+    expect(glsr(Mutex::class)->lock('submit-review'))->toBeTrue()
+        ->and(get_transient(mutexLock()))->not->toBeFalse();
+
+    do_action('shutdown');
+
+    expect(get_transient(mutexLock()))->toBeFalse()
+        ->and(glsr(Mutex::class)->lock('submit-review'))->toBeTrue();
+    releaseMutexLock();
+});
+
+test('a request that outlived its lock does not release the lock the next request took', function () {
+    releaseMutexLock();
+    expect(glsr(Mutex::class)->lock('submit-review'))->toBeTrue();
+    set_transient(mutexLock(), 'the next request', 5); // the first lock expired and another request took it
+
+    do_action('shutdown'); // the first request ends
+
+    expect(get_transient(mutexLock()))->toBe('the next request');
+    releaseMutexLock();
+});
+
+test('one visitor holds a lock per action, not one lock for every action', function () {
+    add_filter('site-reviews/router/mutex/actions', fn (array $actions) => [...$actions, 'report-thing']);
+    releaseMutexLock();
+    releaseMutexLock('report-thing');
+
+    expect(glsr(Mutex::class)->lock('submit-review'))->toBeTrue()
+        ->and(glsr(Mutex::class)->lock('report-thing'))->toBeTrue() // a different action from the same visitor
+        ->and(glsr(Mutex::class)->lock('report-thing'))->toBeFalse(); // the same action again
+    releaseMutexLock();
+    releaseMutexLock('report-thing');
 });
 
 test('the lock is dropped on a hash of the ip address, not the address itself', function () {
