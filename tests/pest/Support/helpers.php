@@ -187,25 +187,25 @@ function capturesDownload(callable $callback): string
 }
 
 /**
- * Releases the router's parallel-request lock. Mutex::lock() sets a transient
- * keyed by a hash of the client IP for five seconds and refuses a second `submit-review` while it
- * is there. Every test request comes from the same IP within the same second, so a test that
- * submits twice looks like the attack it guards against; releasing the lock between requests
- * stands in for the time that would have passed. A test exercising the mutex just skips this —
+ * Releases the parallel-request lock. Mutex::lock() sets a transient keyed by a hash of the
+ * client IP and the action until the request ends (five seconds when it never does) and refuses a
+ * second `submit-review` while it is there. Every test request comes from the same IP in the same
+ * process, so a test that submits twice looks like the attack it guards against; releasing the lock
+ * between requests stands in for the end of the first request. A test exercising the mutex just skips this —
  * see RouterTest.
  */
-function releaseMutexLock(): void
+function releaseMutexLock(string $action = 'submit-review'): void
 {
-    delete_transient(mutexLock());
+    delete_transient(mutexLock($action));
 }
 
 /**
  * The transient Mutex::lock() takes, derived the same way. Hashed, so a
  * visitor's IP never lands in the options table.
  */
-function mutexLock(): string
+function mutexLock(string $action = 'submit-review'): string
 {
-    return Str::prefix(Str::hash(Helper::clientIp(), 13), glsr()->prefix);
+    return Str::prefix(Str::hash(Helper::clientIp().'|'.$action, 13), glsr()->prefix);
 }
 
 /**
