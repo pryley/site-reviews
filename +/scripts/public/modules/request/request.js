@@ -104,6 +104,8 @@ const _query = (params, search = new URLSearchParams()) => {
         if (undefined === value || null === value) return;
         if ('[object Object]' === Object.prototype.toString.call(value)) {
             Object.entries(value).forEach(([k, v]) => search.append(`${key}[${k}]`, v));
+        } else if (Array.isArray(value)) {
+            value.forEach(v => search.append(`${key}[]`, v)); // one entry each, as PHP reads a list
         } else {
             search.append(key, value);
         }
