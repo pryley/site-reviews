@@ -187,7 +187,7 @@ function capturesDownload(callable $callback): string
 }
 
 /**
- * Releases the router's parallel-request lock. Router::isValidMutexRequest() sets a transient
+ * Releases the router's parallel-request lock. Mutex::lock() sets a transient
  * keyed by a hash of the client IP for five seconds and refuses a second `submit-review` while it
  * is there. Every test request comes from the same IP within the same second, so a test that
  * submits twice looks like the attack it guards against; releasing the lock between requests
@@ -200,7 +200,7 @@ function releaseMutexLock(): void
 }
 
 /**
- * The transient Router::isValidMutexRequest() locks with, derived the same way. Hashed, so a
+ * The transient Mutex::lock() takes, derived the same way. Hashed, so a
  * visitor's IP never lands in the options table.
  */
 function mutexLock(): string

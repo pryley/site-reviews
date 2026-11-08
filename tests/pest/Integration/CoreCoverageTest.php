@@ -77,12 +77,12 @@ test('a post request that loses the mutex race goes nowhere', function () {
 
 test('a parallel request is refused by the mutex, both ways it can lose the race', function () {
     $lock = Str::prefix(Str::hash(Helper::clientIp(), 13), glsr()->prefix);
-    $isValid = fn () => protectedMethod(Router::class, 'isValidMutexRequest')
+    $lockRequest = fn () => protectedMethod(Router::class, 'lockRequest')
         ->invoke(glsr(Router::class), new Request(['_action' => 'submit-review']));
 
     // the lock is already held
     set_transient($lock, 1, 5);
-    expect($isValid())->toBeFalse();
+    expect($lockRequest())->toBeFalse();
 
     delete_transient($lock);
     // NOTE: the other losing branch — set_transient() itself failing — needs a
