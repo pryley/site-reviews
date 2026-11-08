@@ -433,9 +433,9 @@ test('only the review submission is protected against parallel requests', functi
 
     // And an action outside the list is never locked, even while a submission holds the lock.
     releaseMutexLock();
-    expect(glsr(Mutex::class)->isValid('submit-review'))->toBeTrue() // takes the lock
-        ->and(glsr(Mutex::class)->isValid('submit-review'))->toBeFalse() // the lock is held
-        ->and(glsr(Mutex::class)->isValid('fetch-paged-reviews'))->toBeTrue();
+    expect(glsr(Mutex::class)->lock('submit-review'))->toBeTrue() // takes the lock
+        ->and(glsr(Mutex::class)->lock('submit-review'))->toBeFalse() // the lock is held
+        ->and(glsr(Mutex::class)->lock('fetch-paged-reviews'))->toBeTrue();
     releaseMutexLock();
 });
 
@@ -508,7 +508,7 @@ test('a request whose lock cannot be taken is treated as the parallel one', func
 
     \GeminiLabs\SiteReviews\Tests\armFailingFunction('set_transient');
     try {
-        $valid = protectedMethod(Router::class, 'isValidMutexRequest')
+        $valid = protectedMethod(Router::class, 'lockRequest')
             ->invoke(glsr(Router::class), $request);
     } finally {
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();

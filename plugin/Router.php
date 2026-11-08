@@ -32,7 +32,7 @@ class Router implements ControllerContract
             return;
         }
         check_admin_referer($request->_action); // die() called if nonce is invalid, assumes _wpnonce
-        if (!$this->isValidMutexRequest($request)) {
+        if (!$this->lockRequest($request)) {
             return;
         }
         $this->post('admin', $request);
@@ -83,7 +83,7 @@ class Router implements ControllerContract
         if (!$this->isValidPublicNonce($request)) {
             return;
         }
-        if (!$this->isValidMutexRequest($request)) {
+        if (!$this->lockRequest($request)) {
             return;
         }
         $this->post('public', $request);
@@ -114,7 +114,7 @@ class Router implements ControllerContract
 
     protected function checkMutexRequest(Request $request): void
     {
-        if (!$this->isValidMutexRequest($request)) {
+        if (!$this->lockRequest($request)) {
             $this->sendAjaxError('Parallel AJAX request (possible single-packet attack)', $request, 429, 'Too Many Requests');
         }
     }
@@ -167,9 +167,9 @@ class Router implements ControllerContract
         return str_starts_with($requestPath, $restPath);
     }
 
-    protected function isValidMutexRequest(Request $request): bool
+    protected function lockRequest(Request $request): bool
     {
-        return glsr(Mutex::class)->isValid((string) $request->_action);
+        return glsr(Mutex::class)->lock((string) $request->_action);
     }
 
     protected function isValidPublicNonce(Request $request): bool

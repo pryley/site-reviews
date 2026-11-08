@@ -57,7 +57,7 @@ abstract class AbstractRestController
      */
     protected function lock(string $action)
     {
-        if (!glsr(Mutex::class)->isValid($action)) {
+        if (!glsr(Mutex::class)->lock($action)) {
             return $this->refuse('too_many_requests',
                 __('The form could not be submitted. Please notify the site administrator.', 'site-reviews'),
                 429

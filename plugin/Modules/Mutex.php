@@ -17,7 +17,7 @@ class Mutex
         ]);
     }
 
-    public function isValid(string $action): bool
+    public function lock(string $action): bool
     {
         if (!in_array($action, $this->actions())) {
             return true;
