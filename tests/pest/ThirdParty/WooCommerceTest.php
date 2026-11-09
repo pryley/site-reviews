@@ -178,7 +178,7 @@ function wooProductReview(int $productId, array $overrides = []): \GeminiLabs\Si
 }
 
 test('a comment query with no faithful translation is left to wordpress, and its vars are logged', function () {
-    update_option(Console::LOG_LEVEL_KEY, Console::DEBUG);
+    glsr(OptionManager::class)->set('settings.advanced.debug', 'yes');
     glsr(Console::class)->clear();
     $query = wooCommentQuery([
         'meta_query' => [['key' => '_review_order_id', 'value' => 123]],
@@ -188,7 +188,7 @@ test('a comment query with no faithful translation is left to wordpress, and its
     expect(glsr(ExperimentsController::class)->filterProductCommentsQuery(null, $query))->toBeNull()
         ->and(glsr(Console::class)->getRaw())->toContain('[key] => _review_order_id');
 
-    delete_option(Console::LOG_LEVEL_KEY);
+    glsr(OptionManager::class)->set('settings.advanced.debug', 'no');
 });
 
 test('a comment query scoped by author email answers with matching reviews', function () {

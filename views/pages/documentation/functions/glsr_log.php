@@ -9,6 +9,10 @@
         </button>
     </h3>
     <div id="fn-glsr_log" class="inside">
+        <?php echo wp_get_admin_notice(
+            'An entry at the "debug" level is only logged while Debug Mode is on. You can turn it on with the "Debug Mode" setting on the '.glsr_admin_link('settings.advanced').' page.',
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
         <pre><code class="language-php">/**
  * @param null|mixed $var
  * @return \GeminiLabs\SiteReviews\Modules\Console

@@ -357,6 +357,12 @@ test('refuses to set a log level that does not exist', function () {
     expect($command->successful())->toBeFalse();
 });
 
+test('refuses to set level 0, which Debug Mode turns on instead', function () {
+    $command = new ChangeLogLevel(new Request(['level' => Console::DEBUG]));
+    $command->handle();
+    expect($command->successful())->toBeFalse();
+});
+
 test('refuses to change the console level without permission', function () {
     // hasPermission() only asks the question on an admin screen; a subscriber there cannot.
     set_current_screen('site-review_page_'.glsr()->id.'-tools');

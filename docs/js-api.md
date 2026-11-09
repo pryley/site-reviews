@@ -256,6 +256,8 @@ Debug mode is off by default. Turn it on with the "Debug Mode" setting on the Ad
 add_filter('site-reviews/debug/assets', fn ($debug, $bundle) => 'public' === $bundle, 10, 2);
 ```
 
+The setting also makes the Console on the Tools page log its entries at the debug level, whatever level is chosen there. The filter does not change that.
+
 To see it for one page view on any site, add `?glsr-debug` to the address of a public page. The public script then loads the debug script itself, so this also works on a cached page.
 
 - Only the presence of the parameter is read, never its value.

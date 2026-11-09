@@ -217,7 +217,7 @@ class MenuController extends AbstractController
         ]);
         $this->renderPage('tools', [
             'data' => [
-                'console_level' => glsr(Console::class)->getLevel(),
+                'console_level' => glsr(Console::class)->getSavedLevel(),
                 'context' => [
                     'base_url' => glsr_admin_url(),
                     'console' => glsr(Console::class)->get(),

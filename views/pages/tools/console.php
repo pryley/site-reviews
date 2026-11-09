@@ -41,16 +41,15 @@
             <select name="{{ id }}[level]" class="glsr-tooltip" style="margin-bottom: 4px; margin-left: 0;" data-tippy-allowhtml="1" data-tippy-content="
                 <?php echo _x('Here you can change the <u>minimum</u> log level used by the Console. Site Reviews uses the Console to log various details and events throughout the plugin. The log level determines the importance of the logged entry: the higher the level, the more important the entry.', 'admin-text', 'site-reviews'); ?>
                 <ul>
-                    <li><?php echo _x('Level 0: Entries used for debugging.', 'admin-text', 'site-reviews'); ?></li>
                     <li><?php echo _x('Level 1: Informational entries.', 'admin-text', 'site-reviews'); ?></li>
                     <li><?php echo _x('Level 2: Deprecation notices.', 'admin-text', 'site-reviews'); ?></li>
-                    <li><?php echo _x('Level 4: Warnings and errors.', 'admin-text', 'site-reviews'); ?></li>
-                </ul>">
-                <option value="0" <?php selected(0 === $console_level); ?>><?php echo _x('Level 0: Debugging', 'admin-text', 'site-reviews'); ?></option>
+                    <li><?php echo _x('Level 4: Warnings.', 'admin-text', 'site-reviews'); ?></li>
+                </ul>
+                <?php echo _x('Turn on Debug Mode in the settings to log the entries used for debugging.', 'admin-text', 'site-reviews'); ?>">
                 <option value="1" <?php selected(1 === $console_level); ?>><?php echo _x('Level 1: Informational', 'admin-text', 'site-reviews'); ?></option>
                 <option value="2" <?php selected(2 === $console_level); ?>><?php echo _x('Level 2: Notices', 'admin-text', 'site-reviews'); ?></option>
                 <option value="4" <?php selected(4 === $console_level); ?>><?php echo _x('Level 4: Warnings', 'admin-text', 'site-reviews'); ?></option>
-                <?php if (!in_array($console_level, [0, 1, 2, 4])) { ?>
+                <?php if (!in_array($console_level, [1, 2, 4])) { ?>
                     <option value="-1" selected="selected"><?php echo _x('Unknown Level', 'admin-text', 'site-reviews'); ?></option>
                 <?php } ?>
             </select>
