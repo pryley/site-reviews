@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+const fs = require('fs');
+const path = require('path');
 const { test } = require('node:test');
 const { loadAdmin } = require('./harness.js');
 
@@ -52,4 +54,12 @@ Object.entries(SCREENS).forEach(([name, { bodyClass, found, html }]) => {
         assert.equal(results.children.length, 0)
         assert.equal(window.document.body.classList.contains('glsr-focus'), false)
     });
+});
+
+// jsdom loads no stylesheet: the built one is read for the rule
+test('the stylesheet colours the result the arrow keys highlight in a search box', () => {
+    const css = fs.readFileSync(path.resolve(__dirname, '../../../assets/styles/admin/admin.css'), 'utf8');
+    const rule = css.split('}').find(block => block.includes('.glsr-search-box .glsr-search-results>span:focus')) || '';
+    assert.ok(rule.includes('.glsr-search-box .glsr-search-results>span.is-highlighted'))
+    assert.ok(rule.includes('background-color:var(--glsr-theme-color)'))
 });
