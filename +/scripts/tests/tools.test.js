@@ -30,6 +30,9 @@ window.sent = [];
 window.fetch = async (url, options = {}) => {
     window.sent.push({ url: String(url), options });
     const json = (window.answers || { 1: { total: 1 }, 2: { imported: 1 } })[options.body.get('stage')] || {};
+    if (window.refused === options.body.get('stage')) { // the web server answers in place of WordPress
+        return { headers: { get: () => 'text/html' }, json: async () => { throw new SyntaxError('Unexpected token <') }, ok: false, status: 500, statusText: '' };
+    }
     if (window.hold === options.body.get('stage')) {
         await new Promise(() => {}) // this stage never answers
     }
@@ -114,6 +117,15 @@ test('the progress bar keeps saying it is cancelling after Cancel', async () => 
         await new Promise(resolve => setTimeout(resolve, 10))
     }
     assert.equal(window.document.querySelector('.glsr-progress__status').textContent, 'Cancelling, please wait...')
+});
+
+test('an upload the server refuses shows the upload size message', async () => {
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    window.refused = '1';
+    window.scrollTo = () => {};
+    window.document.querySelector('#csv-import button').click()
+    await new Promise(resolve => setTimeout(resolve, 200));
+    assert.equal(window.document.querySelector('#glsr-notices .notice-error').textContent, 'Your server restricts file uploads to less than 2 MB in size.')
 });
 
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.
