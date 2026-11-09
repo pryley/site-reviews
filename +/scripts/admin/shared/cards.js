@@ -1,6 +1,7 @@
 /**
  * The cards of a page: a heading toggles its card, an active tab toggles every card of its view,
  * and a [data-expand] link opens the card it names, on this page or on the page it links to.
+ * A [data-expand] button names the card that is open after its form reloads the page.
  */
 const STORAGE_KEY = 'glsr-expand';
 
@@ -44,7 +45,9 @@ export default class Cards {
         const link = ev.target.closest('[data-expand]');
         if (!link) return;
         localStorage.setItem(STORAGE_KEY, link.dataset.expand)
-        this.open(link.dataset.expand)
+        if (link.matches('a')) { // a button's form loads the page that opens the card
+            this.open(link.dataset.expand)
+        }
     }
 
     onHeading (ev) {
