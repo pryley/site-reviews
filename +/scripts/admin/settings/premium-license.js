@@ -3,6 +3,7 @@
 import { config } from '@/public/core/index.js';
 import BusyButton from '@/admin/shared/busy-button.js';
 import Request from '@/public/modules/request/request.js';
+import Tooltip from '@/admin/shared/tooltip.js';
 
 /**
  * The License Key row of Settings > General, with the key field's show/hide toggle, and the install
@@ -99,6 +100,7 @@ export default class PremiumLicense {
         template.innerHTML = html.trim();
         const replacement = template.content.firstElementChild;
         row.replaceWith(replacement)
+        Tooltip.init(replacement)
         document.dispatchEvent(new CustomEvent('site-reviews/premium-license', { detail: replacement }))
         return replacement;
     }

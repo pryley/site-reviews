@@ -94,6 +94,20 @@ try {
         const hiddenBefore = await icon.evaluate(el => el.classList.contains('dashicons-hidden'));
         await license.locator('.wp-pwd button').click();
         assert(hiddenBefore !== await icon.evaluate(el => el.classList.contains('dashicons-hidden')), 'the show/hide button swaps its icon');
+        // Verify draws the row again; the route is answered here with the row as it is, so no key is checked
+        if (await license.locator('[data-action="verify"]').count()) {
+            const html = await license.evaluate(el => el.outerHTML);
+            await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/premium/license'), route => route.fulfill({ json: { html } }));
+            await license.evaluate(el => (el.dataset.probe = 'before'));
+            await license.locator('[data-action="verify"]').click();
+            await page.waitForFunction(() => !document.querySelector('#glsr-premium-license').dataset.probe);
+            await page.unrouteAll({ behavior: 'ignoreErrors' });
+            await page.locator('#glsr-premium-license .wp-pwd button').hover();
+            const tooltip = await page.locator('.tippy-content').first().innerText({ timeout: 3000 }).catch(() => '');
+            assert(tooltip.length > 0, 'the show/hide button has its tooltip after the row is drawn again');
+        } else {
+            info('the License Key row has no Verify button on this site');
+        }
     } else {
         info('no License Key field on this site');
     }
