@@ -1,5 +1,6 @@
 /**
- * The notices of the plugin's screens: the banner in the page header, as a user sees it.
+ * The notices of the plugin's screens: the banner in the page header, and the popup beside the
+ * message of WordPress, as a user sees them.
  *
  * Needs wp-env running. Run: npm run test:browser -- notices
  */
@@ -29,6 +30,13 @@ try {
         assert(await banner.isVisible(), 'the banner shows at the top of the page header');
     } else {
         info('no banner is due on this site (a license is saved and valid)');
+    }
+    // the popup, on a screen that prints WordPress's own message
+    await page.goto(adminUrl('edit-tags.php?taxonomy=site-review-category&post_type=site-review&message=3'));
+    if (await page.locator('.glsr-notice-popup').count()) {
+        equal((await page.locator('#message').innerText().catch(() => 'no message')).trim().split('\n')[0], 'Item updated.', 'a popup leaves the message of WordPress on the categories screen');
+    } else {
+        info('no popup is due on this site');
     }
     equal(errors, [], 'the page logged no script error');
 } finally {

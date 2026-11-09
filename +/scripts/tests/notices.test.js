@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
-const { loadNotices } = require('./harness.js');
+const { loadAdmin, loadNotices } = require('./harness.js');
 
 // What a screen without the admin bundle prints: a dismissible notice of ours, with WordPress's X.
 const HTML = `
@@ -60,4 +60,24 @@ test('the banner moves into the page header and shows after a second', async () 
     assert.ok(banner)
     await new Promise(resolve => setTimeout(resolve, 1100));
     assert.equal(window.getComputedStyle(banner).display, 'block')
+});
+
+// A screen that prints no #glsr-notices, with WordPress's own message and a popup of ours.
+const MESSAGE = `
+<hr class="wp-header-end">
+<div id="message" class="notice updated"><p>Category updated.</p></div>
+<div class="glsr-notice glsr-notice-popup" data-notice="welcome"><div>Hello!</div></div>`;
+
+test('a popup leaves the message of WordPress on the page', () => {
+    const { document } = loadAdmin({ html: MESSAGE }).window;
+    assert.ok(document.querySelector('#glsr-notices > .glsr-notice-popup'))
+    assert.equal(document.querySelector('#message')?.textContent, 'Category updated.')
+});
+
+test('the notices of a request replace the message of WordPress on a screen that prints no #glsr-notices', () => {
+    const { window } = loadAdmin({ html: MESSAGE });
+    window.scrollTo = () => {};
+    window.GLSR.Notice.add('<div class="notice notice-success"><p>Done.</p></div>')
+    assert.equal(window.document.querySelector('#message'), null)
+    assert.equal(window.document.querySelector('#glsr-notices').textContent, 'Done.')
 });
