@@ -73,7 +73,7 @@ class RestSearchController extends AbstractRestController
         $results = glsr(Database::class)->searchAssignedPosts($this->search($request))->results();
         return $this->respond(array_map(fn ($post) => [
             'id' => (int) $post->id,
-            'title' => (string) $post->name,
+            'title' => $this->text((string) $post->name),
         ], $results));
     }
 
@@ -94,7 +94,7 @@ class RestSearchController extends AbstractRestController
         $posts = glsr(Database::class)->searchPosts($this->search($request))->posts();
         return $this->respond(array_map(fn ($post) => [
             'id' => (int) $post->ID,
-            'title' => Helper::ifEmpty(get_the_title($post->ID), _x('(no title)', 'admin-text', 'site-reviews')),
+            'title' => Helper::ifEmpty($this->text(get_the_title($post->ID)), _x('(no title)', 'admin-text', 'site-reviews')),
             'url' => (string) get_permalink($post->ID),
         ], $posts));
     }
@@ -126,6 +126,14 @@ class RestSearchController extends AbstractRestController
     protected function search(\WP_REST_Request $request): string
     {
         return glsr(Sanitizer::class)->sanitizeText($request['search']);
+    }
+
+    /**
+     * A title without HTML entities, which the script prints as text.
+     */
+    protected function text(string $title): string
+    {
+        return html_entity_decode($title, \ENT_QUOTES, 'UTF-8');
     }
 
     protected function users(array $results): array
