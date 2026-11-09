@@ -21,7 +21,7 @@ Every script creates what it needs and deletes it in a `finally`, so a failed ru
 | `welcome.mjs` | Welcome | the tabs; a playlist item loads its video frame |
 | `dashboard.mjs` | Dashboard | the widget renders with its stylesheet and the admin bundle stays off; a seeded Gatekeeper notice shows, its X sends the dismiss request and removes it, and a reload does not bring it back |
 | `notices.mjs` | the notices of the plugin's screens | the banner shows at the top of the page header; the premium notice's install link asks the store to connect, on a site whose key includes premium; a popup leaves the message of WordPress on the categories screen |
-| `plugins.mjs` | Plugins | the deactivation dialog opens, takes a reason and closes without deactivating |
+| `plugins.mjs` | Plugins | the deactivation dialog opens with a reason removed by a snippet, takes a reason and closes without deactivating |
 | `foreign-screens.mjs` | a post's block editor, the posts list, the Site Editor, the Widgets screen and the Customizer | none loads the admin bundle or its stylesheet; the block editor has the rating range in the public config; the Widgets screen and the Customizer load the widgets stylesheet and nothing else, on a classic theme (Twenty Twenty-One, when it is installed) |
 
 The importer screen (`admin.php?import=site-review-form`) is premium's and is covered when premium is active on the site.

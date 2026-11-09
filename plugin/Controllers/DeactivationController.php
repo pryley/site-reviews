@@ -111,7 +111,8 @@ class DeactivationController extends AbstractController
                 'text' => _x('Other Reason', 'admin-text', 'site-reviews'),
             ],
         ];
-        return glsr()->filterArray('deactivate/reasons', $reasons);
+        $reasons = glsr()->filterArray('deactivate/reasons', $reasons);
+        return array_values($reasons); // a list in JSON after a filter removes a reason
     }
 
     protected function deactivateInsight(): array
