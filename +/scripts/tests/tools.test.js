@@ -30,6 +30,9 @@ window.sent = [];
 window.fetch = async (url, options = {}) => {
     window.sent.push({ url: String(url), options });
     const json = (window.answers || { 1: { total: 1 }, 2: { imported: 1 } })[options.body.get('stage')] || {};
+    if (window.hold === options.body.get('stage')) {
+        await new Promise(() => {}) // this stage never answers
+    }
     return { headers: { get: () => 'application/json' }, json: async () => json, ok: true, status: 200, statusText: 'OK' };
 };`;
 
@@ -70,6 +73,28 @@ test('an import sends the warnings of stage 1 to stage 4 under their keys', asyn
     const errors = { date: 'Incorrect date format', rating: 'Empty or invalid rating' };
     const sent = await click('#csv-import', 3, { 1: { errors, skipped: 2, total: 1 }, 2: { imported: 1 } });
     assert.deepEqual(sent[2].errors, { 'errors[date]': errors.date, 'errors[rating]': errors.rating })
+});
+
+// run the CSV import up to stage 4, which never answers, and return what the progress bar says
+const progressText = async (answers) => {
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    window.answers = answers;
+    window.hold = '4';
+    window.document.querySelector('#csv-import button').click()
+    for (let i = 0; i < 100 && window.sent.length < 4; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10))
+    }
+    return window.document.querySelector('.glsr-progress__status').textContent;
+};
+
+test('the progress bar fills in a message with one unnumbered placeholder', async () => {
+    const text = await progressText({ 1: { total: 1 }, 2: { attachments: 1, imported: 1 }, 3: { imported: 1, message: 'Imported %d images' } });
+    assert.equal(text, 'Imported 1 images')
+});
+
+test('the progress bar fills in a message with numbered placeholders', async () => {
+    const text = await progressText({ 1: { total: 1 }, 2: { attachments: 3, imported: 1 }, 3: { imported: 1, message: 'Imported %1$d of %2$d' } });
+    assert.equal(text, 'Imported 3 of 3')
 });
 
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.

@@ -81,7 +81,8 @@ export default class Import {
             const response = await this.send({ page, per_page: perPage, stage, total });
             processed += (response.data?.imported ?? 0) + (response.data?.skipped ?? 0);
             this.progressbar.percent(Math.round((++current / pages) * 100), stage - 1)
-            this.progressbar.text((response.data?.message || '').replace('%1$d', processed).replace('%2$d', total))
+            // %d or %1$d is the count so far, %2$d the total
+            this.progressbar.text((response.data?.message || '').replace(/%(1\$)?d/, processed).replace('%2$d', total))
             return response;
         })));
         this.progressbar.percent(100, stage - 1)

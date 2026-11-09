@@ -96,11 +96,30 @@ try {
     await page.selectOption('#csv_date_format', 'Y-m-d H:i:s');
     const importButton = importCard.locator('button[data-ajax-import]');
     assert(await importButton.isEnabled(), 'choosing a file enables the Import button');
+    // core's import has an attachment stage only with an addon: stage 2 says one waits and stage 3 answers as an addon does
+    const stageOf = request => (request.postData() || '').match(/name="stage"\r\n\r\n(\d)/)?.[1];
+    let attachmentStatus = '';
+    await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/reviews/import'), async route => {
+        const stage = stageOf(route.request());
+        if ('2' === stage) {
+            const response = await route.fetch();
+            return route.fulfill({ json: { ...await response.json(), attachments: 1 }, response });
+        }
+        if ('3' === stage) {
+            return route.fulfill({ json: { imported: 1, message: 'Imported %d images', skipped: 0 } });
+        }
+        if ('4' === stage) {
+            attachmentStatus = await page.locator('.glsr-progress__status').innerText();
+        }
+        return route.continue();
+    });
     await importButton.click();
     await page.locator('.glsr-progress').waitFor();
     assert(true, 'the import shows its progress bar');
     await page.waitForFunction(title => [...document.querySelectorAll('#glsr-notices .notice')].some(el => /imported/i.test(el.textContent)), TITLE, { timeout: 60000 });
     assert(true, 'and ends with a notice that reviews were imported');
+    await page.unrouteAll();
+    equal(attachmentStatus, 'Imported 1 images', 'the progress bar fills in the count of an addon\'s attachment message');
     assert((await page.locator('#glsr-notices .bulk-action-errors').textContent()).includes('Incorrect date format'), 'the notice\'s details name the warning of the row it skipped');
     equal(wpCli(['post', 'list', '--post_type=site-review', '--post_status=any', `--s=${TITLE}`, '--format=count']), '2', 'the two rows are reviews now');
 
