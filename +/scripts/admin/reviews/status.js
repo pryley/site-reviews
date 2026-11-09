@@ -1,3 +1,4 @@
+import Notice from '@/admin/shared/notice.js';
 import Request from '@/public/modules/request/request.js';
 
 /**
@@ -24,6 +25,9 @@ export default class Status {
             path: `reviews/${id[1]}/status`,
         });
         indicator?.classList.remove('spinner', 'is-active')
+        if (!success && data?.message) {
+            Notice.error(data.message) // a refusal answers with a WP_Error body
+        }
         if (!success || !data.class) return;
         row.classList.remove('status-pending', 'status-publish')
         row.classList.add(data.class)
