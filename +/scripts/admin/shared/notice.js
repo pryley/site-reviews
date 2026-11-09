@@ -52,7 +52,7 @@ class Notices {
         const header = document.getElementById('glsr-page-header');
         if (banner && header) {
             header.prepend(banner)
-            window.setTimeout(() => (banner.hidden = false), 1000)
+            window.setTimeout(() => Notices.slideDown(banner), 1000)
         }
     }
 
@@ -63,6 +63,15 @@ class Notices {
             Notices.container().prepend(popup)
             window.setTimeout(() => popup.classList.remove('is-closing'), 1000)
         }
+    }
+
+    static slideDown (el) {
+        el.style.display = 'block'; // the stylesheet hides the banner
+        const { height, paddingBottom, paddingTop } = getComputedStyle(el);
+        el.animate?.([
+            { height: 0, overflow: 'hidden', paddingBottom: 0, paddingTop: 0 },
+            { height, overflow: 'hidden', paddingBottom, paddingTop },
+        ], { duration: 400, easing: 'ease' })
     }
 
     // the request's notices are rendered here
