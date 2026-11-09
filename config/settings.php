@@ -1209,7 +1209,10 @@ return [ // order is intentional
         'default' => 'no',
         'label' => _x('Debug Mode', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        'tooltip' => _x('Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again.', 'admin-text', 'site-reviews'),
+        /* translators: %s: link to the Tools > Console page */
+        'tooltip' => sprintf(_x('Enable this setting to enable debug mode, this will log additional information on the %s page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done.', 'admin-text', 'site-reviews'),
+            glsr_admin_link('tools.console')
+        ),
         'type' => 'yes_no',
     ],
 ];

@@ -4,9 +4,11 @@ namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Licensing\LicenseServer;
 use GeminiLabs\SiteReviews\Licensing\Verdict;
+use GeminiLabs\SiteReviews\Modules\Console;
 
 class Migrate_9_0_0 implements MigrateContract
 {
@@ -14,6 +16,7 @@ class Migrate_9_0_0 implements MigrateContract
     {
         $this->deleteApiIndex();
         $this->deleteLastAnswers();
+        $this->moveConsoleOffDebugLevel();
         return $this->activateLicensesForMappedSite();
     }
 
@@ -57,6 +60,17 @@ class Migrate_9_0_0 implements MigrateContract
         ));
         foreach ($options as $option) {
             delete_option($option); // through the options cache, which a raw delete leaves stale
+        }
+    }
+
+    /**
+     * Move a Console saved at "Level 0: Debugging" to "Level 1: Informational".
+     */
+    public function moveConsoleOffDebugLevel(): void
+    {
+        $level = get_option(Console::LOG_LEVEL_KEY);
+        if (false !== $level && Console::DEBUG === Cast::toInt($level)) {
+            update_option(Console::LOG_LEVEL_KEY, Console::INFO);
         }
     }
 }

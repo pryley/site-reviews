@@ -10,7 +10,7 @@
     </h3>
     <div id="fn-glsr_trace" class="inside">
         <?php echo wp_get_admin_notice(
-            'This function will only work if the logging level is set to "Level 0: Debugging", you can change the logging level on the '.glsr_admin_link('tools.console').' page.',
+            'This function only works while Debug Mode is on. You can turn it on with the "Debug Mode" setting on the '.glsr_admin_link('settings.advanced').' page.',
             ['type' => 'warning', 'additional_classes' => ['inline']]
         ); ?>
         <pre><code class="language-php">/**

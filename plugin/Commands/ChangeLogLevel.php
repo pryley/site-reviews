@@ -10,7 +10,6 @@ class ChangeLogLevel extends AbstractCommand
 {
     protected int $level = -1; // -1 is an invalid level
     protected array $levels = [
-        Console::DEBUG,
         Console::INFO,
         Console::NOTICE,
         Console::WARNING,

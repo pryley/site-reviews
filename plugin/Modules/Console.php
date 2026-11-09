@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -85,21 +86,32 @@ class Console
 
     public function getLevel(): int
     {
-        $level = Cast::toInt(get_option(static::LOG_LEVEL_KEY, static::INFO));
-        $levels = [
-            static::ALERT, static::CRITICAL, static::DEBUG, static::EMERGENCY,
-            static::ERROR, static::INFO, static::NOTICE, static::WARNING,
-        ];
-        if (in_array($level, $levels)) {
-            return $level;
+        if (glsr(OptionManager::class)->get('settings.advanced.debug', 'no', 'bool')) {
+            return static::DEBUG;
         }
-        return static::INFO;
+        return $this->getSavedLevel();
     }
 
     public function getLevels(): array
     {
         $constants = (new \ReflectionClass(__CLASS__))->getConstants();
         return array_map('strtolower', array_flip($constants));
+    }
+
+    /**
+     * The level chosen on the Tools > Console page.
+     */
+    public function getSavedLevel(): int
+    {
+        $level = Cast::toInt(get_option(static::LOG_LEVEL_KEY, static::INFO));
+        $levels = [
+            static::ALERT, static::CRITICAL, static::EMERGENCY,
+            static::ERROR, static::INFO, static::NOTICE, static::WARNING,
+        ];
+        if (in_array($level, $levels)) {
+            return $level;
+        }
+        return static::INFO;
     }
 
     public function humanLevel(): string

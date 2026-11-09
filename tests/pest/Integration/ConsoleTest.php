@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -25,6 +26,27 @@ test('an unknown log-level method is a bad method call', function () {
     // The magic __call maps error()/warning()/… to a level constant of the same name; a method that
     // names no constant is a programming mistake, not a silent no-op.
     expect(fn () => glsr(Console::class)->banana('nope'))->toThrow(\BadMethodCallException::class);
+});
+
+test('Debug Mode logs the debug entries whatever level is saved, and the Tools page still shows the saved level', function () {
+    update_option(Console::LOG_LEVEL_KEY, Console::WARNING);
+    glsr(OptionManager::class)->set('settings.advanced.debug', 'yes');
+
+    expect(glsr(Console::class)->getLevel())->toBe(Console::DEBUG)
+        ->and(glsr(Console::class)->getSavedLevel())->toBe(Console::WARNING);
+
+    glsr(OptionManager::class)->set('settings.advanced.debug', 'no');
+    expect(glsr(Console::class)->getLevel())->toBe(Console::WARNING);
+
+    delete_option(Console::LOG_LEVEL_KEY);
+});
+
+test('a saved level 0 is read as INFO, since only Debug Mode logs the debug entries', function () {
+    update_option(Console::LOG_LEVEL_KEY, Console::DEBUG);
+
+    expect(glsr(Console::class)->getLevel())->toBe(Console::INFO);
+
+    delete_option(Console::LOG_LEVEL_KEY);
 });
 
 test('a log-level setting outside the known levels falls back to INFO', function () {

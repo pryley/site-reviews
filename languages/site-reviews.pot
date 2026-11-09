@@ -2282,7 +2282,7 @@ msgstr ""
 
 #: config/settings.php:1212
 msgctxt "admin-text"
-msgid "Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again."
+msgid "Enable this setting to enable debug mode, this will log additional information on the Tools > Console page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done."
 msgstr ""
 
 #: helpers.php:109
@@ -2604,18 +2604,18 @@ msgctxt "admin-text"
 msgid "The %1$sreview%2$s was approved successfully."
 msgstr ""
 
-#: plugin/Commands/ChangeLogLevel.php:30
+#: plugin/Commands/ChangeLogLevel.php:29
 msgctxt "admin-text"
 msgid "You do not have permission to change the console level."
 msgstr ""
 
-#: plugin/Commands/ChangeLogLevel.php:37
+#: plugin/Commands/ChangeLogLevel.php:36
 msgctxt "admin-text"
 msgid "Console level could not be changed."
 msgstr ""
 
 #. translators: %s: console log level
-#: plugin/Commands/ChangeLogLevel.php:45
+#: plugin/Commands/ChangeLogLevel.php:44
 #, php-format
 msgctxt "admin-text"
 msgid "Console logging has been set to: Level %s"
@@ -3353,7 +3353,7 @@ msgid "Community support"
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:112
-#: views/pages/tools/console.php:61
+#: views/pages/tools/console.php:60
 msgctxt "admin-text"
 msgid "Apply"
 msgstr ""
@@ -6494,12 +6494,12 @@ msgstr ""
 msgid "Avatar for %s"
 msgstr ""
 
-#: plugin/Modules/Console.php:77
+#: plugin/Modules/Console.php:78
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:290
+#: plugin/Modules/Console.php:302
 msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr ""
@@ -8208,50 +8208,45 @@ msgstr ""
 
 #: views/pages/tools/console.php:44
 msgctxt "admin-text"
-msgid "Level 0: Entries used for debugging."
+msgid "Level 1: Informational entries."
 msgstr ""
 
 #: views/pages/tools/console.php:45
 msgctxt "admin-text"
-msgid "Level 1: Informational entries."
+msgid "Level 2: Deprecation notices."
 msgstr ""
 
 #: views/pages/tools/console.php:46
 msgctxt "admin-text"
-msgid "Level 2: Deprecation notices."
+msgid "Level 4: Warnings."
 msgstr ""
 
-#: views/pages/tools/console.php:47
+#: views/pages/tools/console.php:48
 msgctxt "admin-text"
-msgid "Level 4: Warnings and errors."
+msgid "Turn on Debug Mode in the settings to log the entries used for debugging."
 msgstr ""
 
 #: views/pages/tools/console.php:49
 msgctxt "admin-text"
-msgid "Level 0: Debugging"
+msgid "Level 1: Informational"
 msgstr ""
 
 #: views/pages/tools/console.php:50
 msgctxt "admin-text"
-msgid "Level 1: Informational"
+msgid "Level 2: Notices"
 msgstr ""
 
 #: views/pages/tools/console.php:51
 msgctxt "admin-text"
-msgid "Level 2: Notices"
-msgstr ""
-
-#: views/pages/tools/console.php:52
-msgctxt "admin-text"
 msgid "Level 4: Warnings"
 msgstr ""
 
-#: views/pages/tools/console.php:54
+#: views/pages/tools/console.php:53
 msgctxt "admin-text"
 msgid "Unknown Level"
 msgstr ""
 
-#: views/pages/tools/console.php:60
+#: views/pages/tools/console.php:59
 msgctxt "admin-text"
 msgid "Please wait..."
 msgstr ""
