@@ -310,6 +310,21 @@ test('the posts search offers every published post, reviewed or not, with its li
     expect(restRequest('GET', '/'.REST_NS.'/search/posts', ['search' => (string) $postId])->get_data())->toHaveCount(1); // a number is searched as an ID
 });
 
+test('the post searches answer with a title as text, which the script prints as it is', function () {
+    actAsAdmin();
+    $postId = createPost(['post_title' => 'Fish &amp; Chips at "Bob\'s" <Bar>']);
+    createReview(['assigned_posts' => $postId]);
+
+    $posts = restRequest('GET', '/'.REST_NS.'/search/posts', ['search' => 'Fish'])->get_data();
+    $assigned = restRequest('GET', '/'.REST_NS.'/search/assigned-posts', ['search' => 'Fish'])->get_data();
+
+    expect($posts[0]['title'])->toContain('Fish & Chips')
+        ->and($posts[0]['title'])->not->toContain('&#')
+        ->and($posts[0]['title'])->not->toContain('&amp;')
+        ->and($assigned[0]['title'])->toContain('Fish & Chips')
+        ->and($assigned[0]['title'])->not->toContain('&amp;');
+});
+
 test('the strings search is for whoever may change the settings, and leaves out the excluded ids', function () {
     wp_set_current_user(createUser(['role' => 'editor'])); // may see the reviews, may not change the settings
     $refused = restRequest('GET', '/'.REST_NS.'/search/strings', ['search' => 'Your review']);

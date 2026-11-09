@@ -18,7 +18,7 @@ const created = { pages: [], reviews: [] };
 try {
     const review = await createReview(context, { content: 'A review to edit in the editor.', title: 'Editor probe' });
     created.reviews.push(review.id);
-    const probePage = await restRequest(context, 'POST', '/wp/v2/pages', { status: 'publish', title: 'Assignable probe page' });
+    const probePage = await restRequest(context, 'POST', '/wp/v2/pages', { status: 'publish', title: 'Assignable probe page & Bob\'s' });
     created.pages.push(probePage.id);
     await page.goto(adminUrl(`post.php?post=${review.id}&action=edit`));
 
@@ -29,6 +29,8 @@ try {
     await posts.locator('.glsr-search-results span', { hasText: 'Assignable probe page' }).first().click();
     const assigned = posts.locator('.glsr-selected-entries input[name="post_ids[]"]');
     equal(await assigned.evaluateAll(els => els.map(el => el.value)), [String(probePage.id)], 'choosing a search result assigns the page');
+    const assignedTitle = await posts.locator('.glsr-selected-entries a').first().innerText();
+    assert(assignedTitle.includes('& Bob') && !assignedTitle.includes('&#'), 'the assigned page shows its title as text, with no HTML entity');
     await posts.locator('.glsr-selected-entries .glsr-remove-button').first().click();
     await page.waitForFunction(() => 0 === document.querySelectorAll('#glsr-search-posts .glsr-selected-entries input[name="post_ids[]"]').length);
     assert(true, 'the remove button unassigns it');
