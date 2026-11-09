@@ -78,9 +78,9 @@ class Notices {
     static container () {
         let container = document.getElementById('glsr-notices');
         if (!container) {
-            document.querySelector('#message.notice')?.remove()
             container = document.createElement('div');
             container.id = 'glsr-notices';
+            container.dataset.added = ''; // the screen printed none
             document.querySelector('hr.wp-header-end')?.after(container)
         }
         return container;
@@ -89,7 +89,11 @@ class Notices {
 
 const add = (notices) => {
     if (!notices) return;
-    Notices.container().innerHTML = notices;
+    const container = Notices.container();
+    if ('added' in container.dataset) {
+        document.querySelector('#message.notice')?.remove() // WordPress's message is from before the request
+    }
+    container.innerHTML = notices;
     if ('function' === typeof jQuery) {
         jQuery(document).trigger('wp-updates-notice-added') // WordPress triggers it through jQuery
     }
