@@ -69,6 +69,20 @@ test('the dialog is only built on the plugins screen', function () {
     expect(wp_script_is('site-reviews/deactivate-plugin', 'enqueued'))->toBeTrue();
 });
 
+test('the reasons reach the script as a list after a snippet removes one', function () {
+    // The dialog loops over the reasons, and a PHP array with a gap in its keys is a JSON object.
+    add_filter('site-reviews/deactivate/reasons', function (array $reasons) {
+        unset($reasons[1]);
+        return $reasons;
+    });
+    onPluginsScreen();
+    glsr(DeactivationController::class)->enqueueAssets();
+    $data = (string) wp_scripts()->get_data('site-reviews/deactivate-plugin', 'data');
+
+    expect($data)->toContain('"reasons":[{')
+        ->and($data)->not->toContain('"id":"found-better"');
+});
+
 test('the template is only rendered on the plugins screen', function () {
     $GLOBALS['pagenow'] = 'edit.php';
     ob_start();
