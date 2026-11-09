@@ -1,3 +1,5 @@
+/** global: jQuery */
+
 import { config } from '@/public/core/index.js';
 
 const CLASSES = {
@@ -58,7 +60,7 @@ export default (button) => {
         button.append(...bars, status)
         cancel.disabled = false;
         cancel.addEventListener('click', onCancel)
-        document.addEventListener('wp-window-resized', resize)
+        jQuery(document).on('wp-window-resized', resize) // WordPress triggers it through jQuery
         window.addEventListener('hashchange', resize)
         percent(0, 1)
         percent(0, 2)
@@ -66,7 +68,7 @@ export default (button) => {
     };
 
     const destroy = () => {
-        document.removeEventListener('wp-window-resized', resize)
+        jQuery(document).off('wp-window-resized', resize)
         window.removeEventListener('hashchange', resize)
         cancel.disabled = true;
         cancel.removeEventListener('click', onCancel)
