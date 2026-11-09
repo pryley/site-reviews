@@ -79,6 +79,9 @@ export default class Import {
         const results = await Promise.allSettled([...Array(pages)].map((unused, index) => limit(async () => {
             const page = index + 1;
             const response = await this.send({ page, per_page: perPage, stage, total });
+            if (this.controller?.signal.aborted) {
+                return response; // the bar says it is cancelling
+            }
             processed += (response.data?.imported ?? 0) + (response.data?.skipped ?? 0);
             this.progressbar.percent(Math.round((++current / pages) * 100), stage - 1)
             // %d or %1$d is the count so far, %2$d the total
