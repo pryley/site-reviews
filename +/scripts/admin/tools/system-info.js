@@ -10,8 +10,8 @@ export default class SystemInfo {
         const view = root.querySelector('#system-info');
         if (!view) return;
         let loaded = false;
-        document.addEventListener('site-reviews/tab', async ({ detail }) => {
-            if ('system-info' !== detail.id || loaded) return;
+        const load = async () => {
+            if (loaded) return;
             loaded = true;
             const textarea = view.querySelector('textarea');
             const { data, status, success } = await Request.send({ route: 'system-info' });
@@ -29,6 +29,15 @@ export default class SystemInfo {
             } else {
                 Notice.error(config.text.systemInfoError.replace('%1$s', status).replace('%2$s', data?.message || ''))
             }
+        };
+        document.addEventListener('site-reviews/tab', ({ detail }) => {
+            if ('system-info' === detail.id) {
+                load()
+            }
         })
+        // Tabs shows the tab of the address before this module listens
+        if (!view.classList.contains('ui-tabs-hide')) {
+            load()
+        }
     }
 }

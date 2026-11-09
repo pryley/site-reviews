@@ -47,6 +47,10 @@ try {
     assert((await info_.inputValue()).includes('WordPress'), 'the System Info tab loads the report into its textarea');
     assert(await page.locator('#glsr-download-system-info').isEnabled(), 'and enables its download button');
 
+    await page.reload();
+    await page.waitForFunction(() => document.querySelector('#system-info textarea')?.value.includes('[PLUGIN]'), null, { timeout: 10000 });
+    assert((await info_.inputValue()).includes('WordPress'), 'and loads it again when the page is reloaded on the tab');
+
     // a tool button, a card accordion and an expand link
     await tab('general').click();
     const card = page.locator('#tools-reset-assigned-meta').locator('xpath=ancestor::div[contains(@class,"glsr-card")][1]');

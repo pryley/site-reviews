@@ -63,3 +63,34 @@ test('a tool button sends its data-args to its route', async () => {
     const sent = await click('#product-ratings', 1);
     assert.deepEqual(sent, [{ source: 'woocommerce-ratings', stage: '1', url: '/wp-json/site-reviews/v1/reviews/import' }])
 });
+
+// views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.
+const TABS = `
+<div class="wrap">
+    <hr class="wp-header-end">
+    <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
+        <a class="glsr-nav-tab nav-tab" data-id="system-info" href="?page=glsr-tools&tab=system-info">System Info</a>
+        <a class="glsr-nav-tab nav-tab" data-id="general" href="?page=glsr-tools&tab=general">General</a>
+    </nav>
+    <div class="glsr-nav-view ui-tabs-hide" id="system-info">
+        <form><textarea>Loading, please wait...</textarea><button disabled type="submit">Download System Info</button></form>
+    </div>
+    <div class="glsr-nav-view ui-tabs-hide" id="general"></div>
+    <input type="hidden" name="_active_tab">
+</div>`;
+
+// jsdom has no ResizeObserver, which the tabs need; the fetch answers the System Info route
+const TABS_BEFORE = `
+document.body.className = 'site-review_page_glsr-tools';
+window.ResizeObserver = class { observe () {} };
+window.fetch = async () => ({ headers: { get: () => 'application/json' }, json: async () => ({ system_info: '[PLUGIN]' }), ok: true, status: 200, statusText: 'OK' });`;
+
+test('the System Info tab loads its report when the page opens on it', async () => {
+    const { window } = loadAdmin({ before: TABS_BEFORE, html: TABS });
+    const view = window.document.querySelector('#system-info');
+    for (let i = 0; i < 100 && view.querySelector('button').disabled; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10))
+    }
+    assert.equal(view.querySelector('textarea').value, '[PLUGIN]')
+    assert.equal(view.querySelector('button').disabled, false)
+});
