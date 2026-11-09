@@ -56,6 +56,17 @@ Object.entries(SCREENS).forEach(([name, { bodyClass, found, html }]) => {
     });
 });
 
+test('the Strings search keeps its term after a result is added', async () => {
+    const { bodyClass, found, html } = SCREENS['the Strings search'];
+    const { window } = loadAdmin({ before: before(bodyClass), html });
+    window.found = found;
+    await type(window, 'Sub')
+    window.document.querySelector('.glsr-search-results [data-id]').dispatchEvent(new window.MouseEvent('mousedown', { bubbles: true, cancelable: true }))
+    assert.equal(window.document.querySelectorAll('.glsr-strings-table tbody tr').length, 1)
+    assert.equal(window.document.querySelector('.glsr-search-results').classList.contains('is-active'), false)
+    assert.equal(window.document.querySelector('.glsr-search-input').value, 'Sub')
+});
+
 // jsdom loads no stylesheet: the built one is read for the rule
 test('the stylesheet colours the result the arrow keys highlight in a search box', () => {
     const css = fs.readFileSync(path.resolve(__dirname, '../../../assets/styles/admin/admin.css'), 'utf8');
