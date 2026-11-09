@@ -105,12 +105,29 @@ try {
     await page.reload();
     assert(1 === await page.locator(`#glsr-filter-by-${filterName}:visible`).count(), 'ticking it again brings the dropdown back');
 
-    // quick edit
+    // quick edit, on a page that is ready late: the deferred script after ours takes 300ms to arrive
+    if (await page.locator('script[src*="admin-compat.js"]').count()) {
+        await page.route(url => url.pathname.endsWith('/admin-compat.js'), async route => {
+            await new Promise(resolve => setTimeout(resolve, 300));
+            await route.continue();
+        });
+    } else {
+        info('Compatibility Mode is off, so no deferred script follows ours and the page is not ready late');
+    }
+    await page.reload();
+    await page.unrouteAll({ behavior: 'wait' });
     await row(approved.id).hover();
     await row(approved.id).locator('.editinline').click({ force: true });
     await page.waitForFunction(() => document.querySelector(':is(#inline-edit, .inline-editor) [data-name="post_content"]')?.value?.length > 0);
     equal(await page.inputValue('.inline-editor [data-name="post_content"]'), 'An approved probe review.', 'quick edit fills the content field from the row');
     assert(null !== await page.$('.inline-editor [name="_response"]'), 'quick edit has the response field');
+    const response = page.locator('.inline-editor [name="_response"]');
+    await response.click();
+    await page.keyboard.type('one');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('two');
+    await page.waitForTimeout(300); // a save would have closed the row by now
+    equal(await response.inputValue().catch(() => 'the row was saved'), 'one\ntwo', 'Enter in the response field starts a new line');
     await page.click('.inline-editor .cancel');
 
     equal(errors, [], 'the page logged no script error');
