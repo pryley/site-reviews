@@ -119,3 +119,26 @@ test('Enter in the response field of Quick Edit does not save, however late the 
     window.jQuery('[name="_response"]').trigger(window.jQuery.Event('keydown', { which: 13 }))
     assert.equal(window.saved, undefined)
 });
+
+test('Enter while a filter is searching chooses nothing', async () => {
+    const { window } = loadAdmin({ before: BEFORE, html: FILTER });
+    const { document } = window;
+    const key = (name) => document.querySelector('.glsr-filter__search').dispatchEvent(new window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: name }));
+    const type = async (term) => {
+        const input = document.querySelector('.glsr-filter__search');
+        input.value = term;
+        input.dispatchEvent(new window.Event('input', { bubbles: true }))
+        await new Promise(resolve => setTimeout(resolve, 300)); // the search waits 200ms after the last key
+    };
+    const selected = document.querySelector('.glsr-filter__selected');
+    selected.dispatchEvent(new window.MouseEvent('mousedown', { bubbles: true }))
+    window.answer = { json: [{ id: 5, nickname: 'jane', title: 'Jane' }], status: 200 };
+    await type('ja')
+    key('ArrowDown')
+    window.fetch = () => new Promise(() => {}); // the next search never answers
+    await type('jan')
+    assert.ok(document.querySelector('.glsr-filter__results [data-searching]'))
+    key('Enter')
+    assert.equal(selected.textContent, 'All authors')
+    assert.equal(document.querySelector('.glsr-filter__value').value, '')
+});
