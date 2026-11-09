@@ -97,3 +97,25 @@ test('an open filter closes on a click in the space around it and takes the focu
     assert.equal(filter.classList.contains('is-active'), false)
     assert.equal(document.activeElement.className, 'glsr-filter__selected')
 });
+
+// The review list with WordPress's Quick Edit row. WordPress binds Enter to Save on the row's cells
+// when the page is ready (wp-admin/js/inline-edit-post.js), which here is 100ms after the bundle starts.
+const QUICK_EDIT = `
+<table class="post-type-site-review"><tbody id="the-list"></tbody></table>
+<table class="post-type-site-review"><tbody><tr id="inline-edit"><td><textarea name="_response"></textarea></td></tr></tbody></table>`;
+
+const QUICK_EDIT_BEFORE = `
+document.body.className = 'edit-php post-type-site-review';
+window.inlineEditPost = {};
+jQuery.holdReady(true);
+jQuery(function () {
+    jQuery('td', '#inline-edit').on('keydown', function (e) { if (13 === e.which) { window.saved = true; } });
+});
+setTimeout(function () { jQuery.holdReady(false); }, 100);`;
+
+test('Enter in the response field of Quick Edit does not save, however late the page is ready', async () => {
+    const { window } = loadAdmin({ before: QUICK_EDIT_BEFORE, html: QUICK_EDIT });
+    await new Promise(resolve => setTimeout(resolve, 250));
+    window.jQuery('[name="_response"]').trigger(window.jQuery.Event('keydown', { which: 13 }))
+    assert.equal(window.saved, undefined)
+});

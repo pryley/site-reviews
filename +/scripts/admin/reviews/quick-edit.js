@@ -9,9 +9,9 @@ export default class QuickEdit {
         const list = root.querySelector('.post-type-site-review #the-list');
         if (!list || 'undefined' === typeof inlineEditPost) return;
         list.addEventListener('click', QuickEdit.onEdit)
-        window.setTimeout(() => { // WordPress binds its keydown after the page is ready
+        jQuery(() => { // after the ready handler that binds WordPress's keydown
             jQuery('td', '.post-type-site-review #inline-edit').off('keydown') // allow Enter in the response textarea
-        }, 50)
+        })
     }
 
     static onEdit (ev) {
