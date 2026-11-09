@@ -83,7 +83,11 @@ export default class Assigned {
         entry.remove()
     }
 
-    onResults (items) {
+    onResults (items, term) {
+        if ('' === term) {
+            this.clear()
+            return;
+        }
         this.box.classList.remove('is-active')
         this.typeahead.show(items)
         if (!items.length) {

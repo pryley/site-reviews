@@ -78,6 +78,12 @@ try {
     await rows.last().locator('a.delete').dispatchEvent('click');
     await page.waitForFunction(count => document.querySelectorAll('.glsr-strings-table tbody tr').length === count, rowsBefore);
     equal(await rows.count(), rowsBefore, 'its delete link removes the row');
+    await strings.locator('.glsr-search-input').fill('Submit');
+    await strings.locator('.glsr-search-results span').first().waitFor();
+    await strings.locator('.glsr-search-input').fill('');
+    await page.waitForTimeout(500); // the search waits 200ms after the last key
+    assert(await strings.locator('.glsr-search-results').isHidden(), 'emptying the search box closes its results');
+    assert(await page.evaluate(() => !document.body.classList.contains('glsr-focus')), 'and the strings table is not dimmed');
 
     // the License Key field's show/hide toggle
     await tab('general').click();

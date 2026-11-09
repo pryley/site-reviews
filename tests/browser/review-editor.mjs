@@ -32,6 +32,11 @@ try {
     await posts.locator('.glsr-selected-entries .glsr-remove-button').first().click();
     await page.waitForFunction(() => 0 === document.querySelectorAll('#glsr-search-posts .glsr-selected-entries input[name="post_ids[]"]').length);
     assert(true, 'the remove button unassigns it');
+    await posts.locator('.glsr-search-input').fill('Assignable probe');
+    await posts.locator('.glsr-search-results span').first().waitFor();
+    await posts.locator('.glsr-search-input').fill('');
+    await page.waitForTimeout(500); // the search waits 200ms after the last key
+    assert(await posts.locator('.glsr-search-results').isHidden(), 'emptying the search box closes its results');
 
     // the assigned users search
     const users = page.locator('#glsr-search-users');
