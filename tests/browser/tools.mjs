@@ -165,6 +165,18 @@ try {
     assert(refused.includes('restricts file uploads'), 'an upload the server refuses shows the upload size message');
     await page.unrouteAll({ behavior: 'ignoreErrors' });
 
+    // Import Settings posts its form: a file that is not JSON changes no setting, and the page comes back
+    const settingsCard = page.locator('#tools-import-plugin-settings').locator('xpath=ancestor::div[contains(@class,"glsr-card")][1]');
+    if (await settingsCard.evaluate(el => el.classList.contains('closed'))) {
+        await settingsCard.locator('.glsr-card-heading').click();
+    }
+    const notJson = path.join(dir, 'settings.json');
+    writeFileSync(notJson, 'not json');
+    await page.setInputFiles('#settings_import_file', notJson);
+    await Promise.all([page.waitForNavigation(), settingsCard.locator('button[type="submit"]').click()]);
+    await page.waitForTimeout(200); // the card opens 10ms after the page starts
+    assert(await settingsCard.evaluate(el => !el.classList.contains('closed')), 'the Import Settings card is open again after its form reloads the page');
+
     // the rollback dialog
     const rollback = page.locator('#rollback-plugin');
     if (await rollback.locator('#rollback_version option').count() > 1) {
