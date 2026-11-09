@@ -29,7 +29,11 @@ export default class Import {
     async import (perPage = 50) {
         const stage1 = await this.send({ stage: 1 });
         if (!stage1.success) {
-            return stage1.data || {};
+            const { code, notices } = stage1.data || {};
+            if (!code && !notices) { // not the route's answer: the server refused the upload or the connection dropped
+                return { message: config.text.importError };
+            }
+            return stage1.data;
         }
         const { total } = stage1.data;
         if (total) {
@@ -117,12 +121,6 @@ export default class Import {
                 body.set(key, value)
             }
         })
-        try {
-            return await Request.send({ body, route: 'import', signal: this.controller?.signal });
-        } catch (error) {
-            console.error(error)
-            Notice.error(config.text.importError)
-            return { data: {}, status: 0, success: false };
-        }
+        return Request.send({ body, route: 'import', signal: this.controller?.signal });
     }
 }

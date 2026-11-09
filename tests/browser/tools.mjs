@@ -146,6 +146,16 @@ try {
     await page.locator('.glsr-progress').waitFor({ state: 'detached' });
     await page.unrouteAll({ behavior: 'ignoreErrors' });
 
+    // an upload the web server refuses, on the route and on its admin-ajax fallback
+    const refuse = route => route.fulfill({ body: '<html><body>413 Request Entity Too Large</body></html>', contentType: 'text/html', status: 413 });
+    await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/reviews/import'), refuse);
+    await page.route(url => url.pathname.endsWith('/admin-ajax.php'), refuse);
+    await page.setInputFiles('#csv_import_file', csv);
+    await importButton.click();
+    const refused = await page.locator('#glsr-notices .notice-error').first().innerText({ timeout: 5000 }).catch(() => '');
+    assert(refused.includes('restricts file uploads'), 'an upload the server refuses shows the upload size message');
+    await page.unrouteAll({ behavior: 'ignoreErrors' });
+
     // the rollback dialog
     const rollback = page.locator('#rollback-plugin');
     if (await rollback.locator('#rollback_version option').count() > 1) {
