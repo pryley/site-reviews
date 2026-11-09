@@ -15,8 +15,6 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Database
 {
-    use Deprecated;
-
     protected \wpdb $db;
 
     public function __construct()

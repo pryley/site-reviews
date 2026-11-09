@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\QueueController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Deprecated;
 use GeminiLabs\SiteReviews\Hooks;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
@@ -36,7 +35,6 @@ use function GeminiLabs\SiteReviews\Tests\sentMail;
  *   BlackHole     what glsr() returns for a class that does not exist. It swallows calls and logs
  *                 rather than fatalling — the alternative is a white screen because an addon was
  *                 half-deleted.
- *   Deprecated    the trait that keeps old method names working.
  *   QueueController  the far end of every queued job.
  */
 
@@ -170,48 +168,6 @@ test('reading a property off it is silent, and it counts as an empty array', fun
     expect($blackhole->anything)->toBeNull()
         ->and(count($blackhole))->toBe(0)
         ->and(iterator_to_array($blackhole))->toBe([]);
-});
-
-/*
- * Deprecated method names.
- */
-
-test('a renamed method still works under its old name, and says so', function () {
-    // The map is filled in the CONSTRUCTOR, not by re-declaring the property. PHP will not let a
-    // class re-declare a trait's property with a different default — "the definition differs and
-    // is considered incompatible" — so every class using this trait has to assign it, and a class
-    // that tries the obvious thing instead gets a fatal at compile time.
-    $object = new class() {
-        use Deprecated;
-
-        public function __construct()
-        {
-            $this->mappedDeprecatedMethods = ['oldName' => 'newName'];
-        }
-
-        public function newName(string $value): string
-        {
-            return "new: {$value}";
-        }
-    };
-
-    expect($object->oldName('x'))->toBe('new: x'); // it still works
-
-    expect(glsr()->retrieveAs('array', 'deprecated'))
-        ->toHaveCount(1);
-    expect(glsr()->retrieveAs('array', 'deprecated')[0])
-        ->toContain('oldName')
-        ->toContain('newName')
-        ->toContain('deprecated');
-});
-
-test('a method that never existed is still a fatal, because it is a bug', function () {
-    // The trait keeps OLD names working. It does not turn every typo into a silent no-op.
-    $object = new class() {
-        use Deprecated;
-    };
-
-    expect(fn () => $object->neverExisted())->toThrow(BadMethodCallException::class);
 });
 
 /*

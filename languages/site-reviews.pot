@@ -3688,7 +3688,7 @@ msgid "The status could not be changed."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSearchController.php:97
-#: plugin/Database.php:237
+#: plugin/Database.php:235
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
@@ -5113,13 +5113,6 @@ msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:35
 msgid "The review could not be submitted because this browser is too old. Please try again with a modern browser."
-msgstr ""
-
-#. translators: %1$s: the deprecated method name, %2$s: the replacement method name
-#: plugin/Deprecated.php:20
-#, php-format
-msgctxt "admin-text"
-msgid "The [%1$s] method has been deprecated and will be soon be removed, please use the [%2$s] method instead."
 msgstr ""
 
 #: plugin/Helpers/Str.php:111
