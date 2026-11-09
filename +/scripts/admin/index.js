@@ -53,7 +53,8 @@ GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, pa
 lib.register('tippy', { tippy, plugins: { followCursor } })
 share()
 
-const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, ScreenMeta, Tabs, ToolButton, Tooltip, UploadForm]; // ToolButton: the migration notice has one on every screen
+// PremiumLicense: the premium notice has an install link on every screen; ToolButton: the migration notice has a tool button
+const SHARED = [Cards, Code, Flyout, FooterNotice, Notices, PremiumLicense, ScreenMeta, Tabs, ToolButton, Tooltip, UploadForm];
 
 // the modules of each screen determined by the classes of its body
 const SCREENS = [
@@ -63,7 +64,7 @@ const SCREENS = [
     { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['site-review_page_glsr-documentation'], modules: [Copy, Videos] },
-    { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, PremiumLicense, ResetButton, Strings, TemplateEditor, TrackSelect] },
+    { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, ResetButton, Strings, TemplateEditor, TrackSelect] },
     { classes: ['site-review_page_glsr-tools'], modules: [Console, Import, IpDetection, Rollback, SystemInfo] },
 ];
 

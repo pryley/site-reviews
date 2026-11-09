@@ -81,3 +81,15 @@ test('the notices of a request replace the message of WordPress on a screen that
     assert.equal(window.document.querySelector('#message'), null)
     assert.equal(window.document.querySelector('#glsr-notices').textContent, 'Done.')
 });
+
+// views/partials/notices/license-premium.php on the review list, where the notice shows.
+test('the install link of the premium notice asks the store to connect, on a screen that is not Settings', async () => {
+    const { window } = loadAdmin({
+        before: `document.body.className = 'edit-php post-type-site-review'; window.sent = []; window.fetch = (url) => { window.sent.push(String(url)); return new Promise(() => {}); };`,
+        html: '<div class="glsr-notice glsr-notice-banner" data-notice="license-premium"><a href="https://example.org/wp-admin/edit.php?post_type=site-review&page=glsr-settings" data-glsr-premium-install>Install Site Reviews Premium</a></div>',
+    });
+    window.document.querySelector('a[data-glsr-premium-install]').click()
+    await new Promise(resolve => setTimeout(resolve, 20));
+    assert.equal(window.sent.length, 1)
+    assert.ok(window.sent[0].endsWith('/site-reviews/v1/premium/connect'))
+});
