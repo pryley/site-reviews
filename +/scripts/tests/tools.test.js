@@ -29,18 +29,20 @@ document.body.className = 'site-review_page_glsr-tools';
 window.sent = [];
 window.fetch = async (url, options = {}) => {
     window.sent.push({ url: String(url), options });
-    const json = { 1: { total: 1 }, 2: { imported: 1 } }[options.body.get('stage')] || {};
+    const json = (window.answers || { 1: { total: 1 }, 2: { imported: 1 } })[options.body.get('stage')] || {};
     return { headers: { get: () => 'application/json' }, json: async () => json, ok: true, status: 200, statusText: 'OK' };
 };`;
 
-// click the form's button and wait for `count` requests
-const click = async (selector, count) => {
+// click the form's button and wait for `count` requests; `answers` is what each stage answers
+const click = async (selector, count, answers) => {
     const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    window.answers = answers;
     window.document.querySelector(`${selector} button`).click()
     for (let i = 0; i < 100 && window.sent.length < count; i++) {
         await new Promise(resolve => setTimeout(resolve, 10))
     }
     return plain([...window.sent].map(({ options, url }) => ({
+        errors: Object.fromEntries([...options.body.entries()].filter(([key]) => key.startsWith('errors'))),
         source: options.body.get('source'),
         stage: options.body.get('stage'),
         url: new URL(url).pathname,
@@ -61,7 +63,13 @@ test('an import sends the source of its data-args with every stage', async () =>
 
 test('a tool button sends its data-args to its route', async () => {
     const sent = await click('#product-ratings', 1);
-    assert.deepEqual(sent, [{ source: 'woocommerce-ratings', stage: '1', url: '/wp-json/site-reviews/v1/reviews/import' }])
+    assert.deepEqual(sent, [{ errors: {}, source: 'woocommerce-ratings', stage: '1', url: '/wp-json/site-reviews/v1/reviews/import' }])
+});
+
+test('an import sends the warnings of stage 1 to stage 4 under their keys', async () => {
+    const errors = { date: 'Incorrect date format', rating: 'Empty or invalid rating' };
+    const sent = await click('#csv-import', 3, { 1: { errors, skipped: 2, total: 1 }, 2: { imported: 1 } });
+    assert.deepEqual(sent[2].errors, { 'errors[date]': errors.date, 'errors[rating]': errors.rating })
 });
 
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.

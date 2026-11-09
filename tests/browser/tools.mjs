@@ -86,6 +86,7 @@ try {
         'date,rating,title,content,name,email',
         `2026-01-02 10:00:00,5,${TITLE} one,The first imported probe review.,Probe One,probe-one@example.org`,
         `2026-01-03 10:00:00,4,${TITLE} two,The second imported probe review.,Probe Two,probe-two@example.org`,
+        `the third of May,4,${TITLE} three,A row with a date the import cannot read.,Probe Three,probe-three@example.org`,
     ].join('\n'));
     const importCard = page.locator('#csv_import_file').locator('xpath=ancestor::div[contains(@class,"glsr-card")][1]');
     if (await importCard.evaluate(el => el.classList.contains('closed'))) {
@@ -100,6 +101,7 @@ try {
     assert(true, 'the import shows its progress bar');
     await page.waitForFunction(title => [...document.querySelectorAll('#glsr-notices .notice')].some(el => /imported/i.test(el.textContent)), TITLE, { timeout: 60000 });
     assert(true, 'and ends with a notice that reviews were imported');
+    assert((await page.locator('#glsr-notices .bulk-action-errors').textContent()).includes('Incorrect date format'), 'the notice\'s details name the warning of the row it skipped');
     equal(wpCli(['post', 'list', '--post_type=site-review', '--post_status=any', `--s=${TITLE}`, '--format=count']), '2', 'the two rows are reviews now');
 
     // the rollback dialog

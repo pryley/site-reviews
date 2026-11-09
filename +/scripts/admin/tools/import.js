@@ -107,6 +107,8 @@ export default class Import {
             if (Array.isArray(value)) {
                 body.delete(key)
                 value.forEach(item => body.append(`${key}[]`, item))
+            } else if (value === Object(value)) { // the warnings of stage 1 are keyed
+                Object.entries(value).forEach(([subkey, item]) => body.set(`${key}[${subkey}]`, item))
             } else {
                 body.set(key, value)
             }
