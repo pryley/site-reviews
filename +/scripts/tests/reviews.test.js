@@ -56,3 +56,44 @@ test('the Approve action shows the message of a failure', async () => {
     assert.equal(document.querySelector('#post-7').classList.contains('status-pending'), true)
     assert.equal(document.querySelector('#glsr-notices .notice-error').textContent, 'The status could not be changed.')
 });
+
+// views/partials/listtable/filter.php, beside the list table's search box.
+const FILTER = `
+<div class="wrap">
+    <input type="search" id="post-search-input">
+    <div id="glsr-filter-by-author" class="glsr-filter" data-options='[{"id":"","title":"All authors"}]' data-search="search/users">
+        <input type="hidden" class="glsr-filter__value" value="">
+        <span class="glsr-filter__selected" tabindex="0">All authors</span>
+        <div class="glsr-filter__dropdown">
+            <input type="search" class="glsr-filter__search">
+            <div class="glsr-filter__results"></div>
+        </div>
+    </div>
+</div>`;
+
+// open the filter, then press the mouse on `target`, which a browser focuses
+const pressOutside = async (target) => {
+    const { window } = loadAdmin({ before: BEFORE, html: FILTER });
+    const { document } = window;
+    const filter = document.querySelector('.glsr-filter');
+    filter.querySelector('.glsr-filter__selected').dispatchEvent(new window.MouseEvent('mousedown', { bubbles: true }))
+    await new Promise(resolve => setTimeout(resolve, 30));
+    assert.equal(filter.classList.contains('is-active'), true)
+    const el = document.querySelector(target);
+    el.focus?.()
+    el.dispatchEvent(new window.MouseEvent('mousedown', { bubbles: true }))
+    await new Promise(resolve => setTimeout(resolve, 30));
+    return { document, filter };
+};
+
+test('an open filter closes on a click in another field and leaves the focus there', async () => {
+    const { document, filter } = await pressOutside('#post-search-input');
+    assert.equal(filter.classList.contains('is-active'), false)
+    assert.equal(document.activeElement.id, 'post-search-input')
+});
+
+test('an open filter closes on a click in the space around it and takes the focus back', async () => {
+    const { document, filter } = await pressOutside('.wrap');
+    assert.equal(filter.classList.contains('is-active'), false)
+    assert.equal(document.activeElement.className, 'glsr-filter__selected')
+});

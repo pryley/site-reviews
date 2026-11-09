@@ -67,8 +67,9 @@ export default class Filter {
     }
 
     onDocumentMousedown (ev) {
-        if (!this.el.contains(ev.target) && this.el.classList.contains('is-active')) {
-            this.hide()
+        if (this.el.contains(ev.target) || !this.el.classList.contains('is-active')) return;
+        this.hide()
+        if (ev.target.contains(this.el)) { // the space around the filter
             window.setTimeout(() => this.selected.focus(), 10)
         }
     }

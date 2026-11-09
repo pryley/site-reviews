@@ -85,6 +85,12 @@ try {
     await chosen.dispatchEvent('mousedown');
     equal(await filter.locator('.glsr-filter__value').inputValue(), chosenId, 'choosing an option sets the filter\'s value');
     assert('false' === await filter.getAttribute('aria-expanded'), 'and closes the dropdown');
+    await filter.locator('.glsr-filter__selected').dispatchEvent('mousedown');
+    await page.waitForFunction(name => 'true' === document.querySelector(`#glsr-filter-by-${name}`)?.getAttribute('aria-expanded'), filterName);
+    await page.click('#post-search-input');
+    await page.waitForTimeout(100); // the filter moves the focus 10ms after the click
+    assert('false' === await filter.getAttribute('aria-expanded'), 'a click in the search box closes the open dropdown');
+    equal(await page.evaluate(() => document.activeElement.id), 'post-search-input', 'and the focus stays in the search box');
 
     // the Screen Options filter checkboxes
     await page.click('.glsr-screen-meta-toggle[aria-controls="screen-options-wrap"]'); // our header holds the Screen Options toggle
