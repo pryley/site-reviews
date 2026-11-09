@@ -27,7 +27,10 @@ export default class Filter {
         }
         this.typeahead = new Typeahead(this.search || this.results, this.results, {
             onResults: this.onResults.bind(this),
-            onSearching: () => this.results.replaceChildren(this.searching()),
+            onSearching: () => {
+                this.typeahead.show([]) // nothing to choose until the answer
+                this.results.replaceChildren(this.searching())
+            },
             onSelect: this.onSelect.bind(this),
             route: el.dataset.search || '',
         });
@@ -92,6 +95,7 @@ export default class Filter {
     }
 
     onSelect (item, el) {
+        if (!item) return; // the Searching... line
         this.selected.title = el.title;
         this.selected.textContent = el.textContent; // the label as listed, so a shared name keeps what told it apart
         this.value.value = item.id;

@@ -92,6 +92,21 @@ try {
     assert('false' === await filter.getAttribute('aria-expanded'), 'a click in the search box closes the open dropdown');
     equal(await page.evaluate(() => document.activeElement.id), 'post-search-input', 'and the focus stays in the search box');
 
+    // Enter while the filter is searching
+    await filter.locator('.glsr-filter__selected').dispatchEvent('mousedown');
+    const search = filter.locator('.glsr-filter__search');
+    await search.fill('adm');
+    await filter.locator('.glsr-filter__results > span[data-id="1"]').waitFor();
+    const selectedBefore = (await filter.locator('.glsr-filter__selected').innerText()).trim();
+    await search.press('ArrowDown');
+    await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/search/'), () => {}); // the next search never answers
+    await search.pressSequentially('i');
+    await filter.locator('.glsr-filter__results [data-searching]').waitFor();
+    await search.press('Enter');
+    equal((await filter.locator('.glsr-filter__selected').innerText()).trim(), selectedBefore, 'Enter while the filter is searching chooses nothing');
+    await page.unrouteAll({ behavior: 'ignoreErrors' });
+    await search.press('Escape');
+
     // the Screen Options filter checkboxes
     await page.click('.glsr-screen-meta-toggle[aria-controls="screen-options-wrap"]'); // our header holds the Screen Options toggle
     const checkbox = page.locator(`.enable-filter-tog[value="${filterName}"]`);
