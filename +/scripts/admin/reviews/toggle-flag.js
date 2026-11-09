@@ -1,3 +1,4 @@
+import Notice from '@/admin/shared/notice.js';
 import Request from '@/public/modules/request/request.js';
 
 // the column's icon => its part of the review and the class the flag shows as
@@ -30,5 +31,10 @@ export default class ToggleFlag {
         icon.classList.toggle(className, success ? 1 === data.value : !value)
         icon.classList.remove('spinner', 'is-active')
         icon.classList.add('dashicons-sticky')
+        if (data?.notices) {
+            Notice.add(data.notices)
+        } else if (!success && data?.message) {
+            Notice.error(data.message) // a refusal answers with a WP_Error body
+        }
     }
 }

@@ -12,7 +12,7 @@ Every script creates what it needs and deletes it in a `finally`, so a failed ru
 
 | Script | Screen | What it asserts |
 |---|---|---|
-| `reviews-list.mjs` | the review list | the status toggle redraws the row and the counts; the pin and verify toggles; the author filter's dropdown opens, lists and chooses; a Screen Options filter checkbox hides its dropdown and the choice survives a reload; quick edit fills the content and response fields |
+| `reviews-list.mjs` | the review list | the status toggle redraws the row and the counts, and shows the error of a change that fails; the pin and verify toggles, and the pin's notice; the author filter's dropdown opens, lists and chooses; a Screen Options filter checkbox hides its dropdown and the choice survives a reload; quick edit fills the content and response fields |
 | `review-editor.mjs` | the review editor | the assigned posts and users searches find, assign and unassign; the publish box's pinned control edits, saves and cancels; the Edit Details toggle enables the fields; the verification request button where the setting shows it |
 | `category-quick-edit.mjs` | the categories screen | quick edit fills Priority from the row |
 | `settings.mjs` | Settings | the tabs and their reload; a dependent field shows and hides with its control; a template-editor tag inserts at the cursor; a reset button restores the default; the Strings tab's search adds a row and its delete removes it; the License Key field's show/hide toggle. Nothing is saved |

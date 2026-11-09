@@ -44,6 +44,21 @@ try {
         return el && !el.classList.contains('spinner') && el.classList.contains('pinned') !== before;
     }, [approved.id, wasPinned]);
     assert(true, 'clicking the pin icon toggles the pinned class');
+    const pinNotice = await page.locator('#glsr-notices .notice').first().innerText({ timeout: 3000 }).catch(() => '');
+    assert(pinNotice.includes(wasPinned ? 'unpinned' : 'pinned'), 'and shows its notice');
+
+    // a status change the server refuses
+    await page.route(url => decodeURIComponent(url.href).includes(`reviews/${approved.id}/status`), route => route.fulfill({
+        body: JSON.stringify({ code: 'glsr_status_failed', message: 'The status could not be changed.' }),
+        contentType: 'application/json',
+        status: 500,
+    }));
+    await row(approved.id).hover();
+    await row(approved.id).locator('a.glsr-toggle-status', { hasText: 'Unapprove' }).first().click({ force: true });
+    const statusNotice = await page.locator('#glsr-notices .notice-error').first().innerText({ timeout: 3000 }).catch(() => '');
+    assert(statusNotice.includes('The status could not be changed.'), 'a status change that fails shows the error');
+    assert(await row(approved.id).evaluate(el => el.classList.contains('status-publish')), 'and leaves the row as it was');
+    await page.unrouteAll();
     const verify = row(approved.id).locator('td.column-is_verified i.verify-review');
     if (await verify.count()) {
         const wasVerified = await verify.evaluate(el => el.classList.contains('verified'));
