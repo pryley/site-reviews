@@ -34,6 +34,11 @@ try {
     assert(true, 'the remove button unassigns it');
     await posts.locator('.glsr-search-input').fill('Assignable probe');
     await posts.locator('.glsr-search-results span').first().waitFor();
+    const firstResult = posts.locator('.glsr-search-results span[data-id]').first();
+    const background = () => firstResult.evaluate(el => getComputedStyle(el).backgroundColor);
+    const plainBackground = await background();
+    await posts.locator('.glsr-search-input').press('ArrowDown');
+    assert(plainBackground !== await background(), 'the arrow keys colour the result they highlight');
     await posts.locator('.glsr-search-input').fill('');
     await page.waitForTimeout(500); // the search waits 200ms after the last key
     assert(await posts.locator('.glsr-search-results').isHidden(), 'emptying the search box closes its results');

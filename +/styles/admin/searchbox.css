@@ -147,7 +147,8 @@
 
 .glsr-search-box .glsr-search-results > span:hover,
 .glsr-search-box .glsr-search-results > span:active,
-.glsr-search-box .glsr-search-results > span:focus {
+.glsr-search-box .glsr-search-results > span:focus,
+.glsr-search-box .glsr-search-results > span.is-highlighted {
   color: #fff;
   background-color: var(--glsr-theme-color);
   cursor: pointer;
