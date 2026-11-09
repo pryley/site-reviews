@@ -39,7 +39,8 @@ window.fetch = async (url, options = {}) => {
     if (window.untilAborted === options.body.get('stage')) { // this stage answers only when its request is given up
         await new Promise((resolve, reject) => options.signal.addEventListener('abort', () => reject(Object.assign(new Error('The operation was aborted.'), { name: 'AbortError' }))))
     }
-    return { headers: { get: () => 'application/json' }, json: async () => json, ok: true, status: 200, statusText: 'OK' };
+    const status = (window.statuses || {})[options.body.get('stage')] || 200;
+    return { headers: { get: () => 'application/json' }, json: async () => json, ok: status < 400, status, statusText: '' };
 };`;
 
 // click the form's button and wait for `count` requests; `answers` is what each stage answers
@@ -144,6 +145,16 @@ test('the progress bar takes the width of its button when WordPress says the win
     width = 200;
     window.jQuery(window.document).trigger('wp-window-resized') // as wp-admin/js/common.js does
     assert.equal(bar.style.width, '200px')
+});
+
+test('a file the import refuses shows no upload size message', async () => {
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    window.answers = { 1: { errors: [], notices: '', skipped: 0, total: 0 } }; // a failed command with no notice of its own
+    window.statuses = { 1: 400 };
+    window.scrollTo = () => {};
+    window.document.querySelector('#csv-import button').click()
+    await new Promise(resolve => setTimeout(resolve, 200));
+    assert.equal(window.document.querySelector('#glsr-notices .notice-error'), null)
 });
 
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.
