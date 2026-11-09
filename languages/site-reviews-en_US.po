@@ -8862,11 +8862,6 @@ msgctxt "admin-text"
 msgid "Compatibility Mode"
 msgstr ""
 
-#: config/settings.php:1205
-msgctxt "admin-text"
-msgid "Keeps code written for earlier versions of Site Reviews working: addons, and code snippets that use older Javascript names. Turn this off to check that your site no longer needs it."
-msgstr ""
-
 #: config/settings.php:1210
 msgctxt "admin-text"
 msgid "Debug Mode"
@@ -9429,4 +9424,9 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/RestShortcodeController.php:25
 msgctxt "admin-text"
 msgid "Invalid shortcode."
+msgstr ""
+
+#: config/settings.php:1205
+msgctxt "admin-text"
+msgid "Enable this setting to keep code snippets working that were written for earlier versions of Site Reviews. Turn it off to check that your site no longer needs it."
 msgstr ""

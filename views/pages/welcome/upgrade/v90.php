@@ -142,8 +142,8 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
             <li>
                 <p><strong>Some keys of the <code>GLSR</code> object have been renamed and the previous keys no longer work.</strong></p>
                 <p>For example, <code>GLSR.Utils</code> is now <code>GLSR.Util</code>, <code>GLSR.request</code> is now <code>GLSR.Request</code>, and <code>GLSR.forms</code> is now <code>GLSR.Form.instances</code>.</p>
-                <p>To see if your site uses a previous key or a previous event name, turn on <strong>Debug Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page and look for warnings in the browser console. To see them for a single page view instead, add <code>?glsr-debug</code> to the address of the page.</p>
-                <p>When no warning is left, you can turn off <strong>Compatibility Mode</strong> on the same page.</p>
+                <p>To see if your site uses a previous key or a previous event name, turn on <strong>Debug Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page and look for warnings in the browser console. To see them for a single page view instead, add <code>?glsr-debug</code> to the address of the page. A code snippet that uses a previous hook name is noted on the <?php echo glsr_admin_link('tools.console'); ?> page.</p>
+                <p>When no warning is left in either place, you can turn off <strong>Compatibility Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page. This also turns off the previous hook names.</p>
             </li>
         </ol>
 
