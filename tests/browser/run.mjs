@@ -15,6 +15,7 @@ const TESTS = {
     dashboard: 'dashboard.mjs',
     documentation: 'documentation.mjs',
     'foreign-screens': 'foreign-screens.mjs',
+    notices: 'notices.mjs',
     plugins: 'plugins.mjs',
     'review-editor': 'review-editor.mjs',
     'reviews-list': 'reviews-list.mjs',

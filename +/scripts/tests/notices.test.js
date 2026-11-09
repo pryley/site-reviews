@@ -53,3 +53,11 @@ test('the details toggle of a bulk-action notice opens and closes the list', () 
     button.click()
     assert.equal(errors.classList.contains('hidden'), true)
 });
+
+test('the banner moves into the page header and shows after a second', async () => {
+    const { window } = loadNotices({ html: `<div id="glsr-page-header"></div><div class="glsr-notice glsr-notice-banner" data-notice="license-promoted" style="display: none;"></div>` });
+    const banner = window.document.querySelector('#glsr-page-header > .glsr-notice-banner');
+    assert.ok(banner)
+    await new Promise(resolve => setTimeout(resolve, 1100));
+    assert.equal(window.getComputedStyle(banner).display, 'block')
+});
