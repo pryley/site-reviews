@@ -33,6 +33,9 @@ window.fetch = async (url, options = {}) => {
     if (window.hold === options.body.get('stage')) {
         await new Promise(() => {}) // this stage never answers
     }
+    if (window.untilAborted === options.body.get('stage')) { // this stage answers only when its request is given up
+        await new Promise((resolve, reject) => options.signal.addEventListener('abort', () => reject(Object.assign(new Error('The operation was aborted.'), { name: 'AbortError' }))))
+    }
     return { headers: { get: () => 'application/json' }, json: async () => json, ok: true, status: 200, statusText: 'OK' };
 };`;
 
@@ -95,6 +98,22 @@ test('the progress bar fills in a message with one unnumbered placeholder', asyn
 test('the progress bar fills in a message with numbered placeholders', async () => {
     const text = await progressText({ 1: { total: 1 }, 2: { attachments: 3, imported: 1 }, 3: { imported: 1, message: 'Imported %1$d of %2$d' } });
     assert.equal(text, 'Imported 3 of 3')
+});
+
+test('the progress bar keeps saying it is cancelling after Cancel', async () => {
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    window.answers = { 1: { total: 1 } };
+    window.hold = '4';
+    window.untilAborted = '2';
+    window.document.querySelector('#csv-import button').click()
+    for (let i = 0; i < 100 && window.sent.length < 2; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10))
+    }
+    window.document.querySelector('#csv-import [data-ajax-cancel]').click()
+    for (let i = 0; i < 100 && window.sent.length < 3; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10))
+    }
+    assert.equal(window.document.querySelector('.glsr-progress__status').textContent, 'Cancelling, please wait...')
 });
 
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.

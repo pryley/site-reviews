@@ -123,6 +123,29 @@ try {
     assert((await page.locator('#glsr-notices .bulk-action-errors').textContent()).includes('Incorrect date format'), 'the notice\'s details name the warning of the row it skipped');
     equal(wpCli(['post', 'list', '--post_type=site-review', '--post_status=any', `--s=${TITLE}`, '--format=count']), '2', 'the two rows are reviews now');
 
+    // a cancelled import; every stage is answered here, so nothing reaches the site
+    await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/reviews/import'), async route => {
+        const stage = stageOf(route.request());
+        if ('1' === stage) {
+            return route.fulfill({ json: { errors: [], skipped: 0, total: 200 } });
+        }
+        if ('2' === stage) {
+            return; // never answered: the page gives the request up on Cancel
+        }
+        await statusRead; // the last stage removes the progress bar
+        return route.fulfill({ json: { notices: '' } });
+    });
+    let readStatus;
+    const statusRead = new Promise(resolve => (readStatus = resolve));
+    await page.setInputFiles('#csv_import_file', csv);
+    await importButton.click();
+    await importCard.locator('button[data-ajax-cancel]').click();
+    await page.waitForTimeout(300); // the requests the page gave up have answered by now
+    equal(await page.locator('.glsr-progress__status').innerText(), 'Cancelling, please wait...', 'Cancel leaves its message in the progress bar');
+    readStatus();
+    await page.locator('.glsr-progress').waitFor({ state: 'detached' });
+    await page.unrouteAll({ behavior: 'ignoreErrors' });
+
     // the rollback dialog
     const rollback = page.locator('#rollback-plugin');
     if (await rollback.locator('#rollback_version option').count() > 1) {
