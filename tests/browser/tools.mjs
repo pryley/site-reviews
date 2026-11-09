@@ -139,6 +139,15 @@ try {
     const statusRead = new Promise(resolve => (readStatus = resolve));
     await page.setInputFiles('#csv_import_file', csv);
     await importButton.click();
+    const barWidth = () => importButton.evaluate(el => [el.querySelector('.glsr-progress__bar').style.width, `${el.offsetWidth}px`]);
+    await page.locator('.glsr-progress').waitFor();
+    const [widthBefore] = await barWidth();
+    await page.setViewportSize({ height: 900, width: 600 });
+    await page.waitForFunction(before => `${document.querySelector('button.glsr-progress').offsetWidth}px` !== before, widthBefore);
+    await page.waitForTimeout(500); // WordPress says the window was resized 200ms after the last resize
+    const [bar, button] = await barWidth();
+    equal(bar, button, 'the progress bar follows its button when the window is resized');
+    await page.setViewportSize({ height: 900, width: 1280 });
     await importCard.locator('button[data-ajax-cancel]').click();
     await page.waitForTimeout(300); // the requests the page gave up have answered by now
     equal(await page.locator('.glsr-progress__status').innerText(), 'Cancelling, please wait...', 'Cancel leaves its message in the progress bar');

@@ -128,6 +128,24 @@ test('an upload the server refuses shows the upload size message', async () => {
     assert.equal(window.document.querySelector('#glsr-notices .notice-error').textContent, 'Your server restricts file uploads to less than 2 MB in size.')
 });
 
+test('the progress bar takes the width of its button when WordPress says the window was resized', async () => {
+    const { window } = loadAdmin({ before: BEFORE, html: HTML });
+    const button = window.document.querySelector('#csv-import button');
+    let width = 300;
+    Object.defineProperty(button, 'offsetWidth', { get: () => width }) // jsdom lays nothing out
+    window.answers = { 1: { total: 1 } };
+    window.hold = '2';
+    button.click()
+    for (let i = 0; i < 100 && window.sent.length < 2; i++) {
+        await new Promise(resolve => setTimeout(resolve, 10))
+    }
+    const bar = button.querySelector('.glsr-progress__bar');
+    assert.equal(bar.style.width, '300px')
+    width = 200;
+    window.jQuery(window.document).trigger('wp-window-resized') // as wp-admin/js/common.js does
+    assert.equal(bar.style.width, '200px')
+});
+
 // views/pages/tools/index.php with the System Info tab first, which makes it the tab of the address.
 const TABS = `
 <div class="wrap">
