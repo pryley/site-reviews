@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Compat\Controllers\AjaxController;
 use GeminiLabs\SiteReviews\Compat\Controllers\Controller;
 use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
 class Hooks extends AbstractHooks
@@ -20,18 +21,24 @@ class Hooks extends AbstractHooks
      */
     public function onPluginsLoaded(): void
     {
-        if (glsr()->filterBool('support/deprecated/v8', true)) {
+        $compat = glsr(OptionManager::class)->get('settings.advanced.compat', 'yes', 'bool');
+        if ($compat) {
+            $this->hook(HookController::class, [
+                ['filterOptimizeAsset', 'wp_enqueue_scripts'],
+            ]);
+        }
+        if (glsr()->filterBool('support/deprecated/v8', $compat)) {
             $this->hook(HookController::class, [
                 ['filterReviewFormOrder', 'site-reviews/review-form/fields/order'],
             ]);
         }
-        if (glsr()->filterBool('support/deprecated/v7', true)) {
+        if (glsr()->filterBool('support/deprecated/v7', $compat)) {
             $this->hook(HookController::class, [
                 ['filterReviewFormFieldsNormalized', 'site-reviews/review-form/fields/all', 10, 2],
                 ['filterWhipWhitelist', 'site-reviews/whip/whitelist'],
             ]);
         }
-        if (glsr()->filterBool('support/deprecated/v6', true)) {
+        if (glsr()->filterBool('support/deprecated/v6', $compat)) {
             $this->hook(HookController::class, [
                 ['filterRestApiReviewsProperties', 'site-reviews/rest-api/reviews/schema/properties', 9],
                 ['filterRestApiSummaryProperties', 'site-reviews/rest-api/summary/schema/properties', 9],
@@ -54,9 +61,6 @@ class Hooks extends AbstractHooks
             ['requireCompatScript', 'admin_print_footer_scripts', 0],
             ['requireCompatScript', 'wp_print_footer_scripts', 0],
             ['requireCompatScript', 'wp_print_scripts', 0],
-        ]);
-        $this->hook(HookController::class, [
-            ['filterOptimizeAsset', 'wp_enqueue_scripts'],
         ]);
         $this->hook(DeprecationController::class, [
             ['logNotices', 'admin_footer'],

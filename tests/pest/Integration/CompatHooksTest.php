@@ -4,6 +4,7 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\Vectorface\Whip\Whip;
 
@@ -72,6 +73,30 @@ test('the filter of a version turns off the old hooks of that version only', fun
     glsr()->filterArray('slack/notification', []);
 
     expect($heard)->toBe(['v6']);
+});
+
+test('with Compatibility Mode off the old hooks of every version are off, and the filter of a version turns its own back on', function () {
+    glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
+    foreach ([6, 7, 8] as $version) {
+        remove_filter("site-reviews/support/deprecated/v{$version}", '__return_false');
+    }
+    add_filter('site-reviews/support/deprecated/v6', '__return_true');
+    glsr(Hooks::class)->onPluginsLoaded();
+    $heard = [];
+    add_filter('site-reviews/review-form/order', function ($order) use (&$heard) {
+        $heard[] = 'v8';
+        return $order;
+    });
+    add_filter('site-reviews/slack/compose', function ($notification) use (&$heard) {
+        $heard[] = 'v6';
+        return $notification;
+    });
+
+    glsr()->filterArray('review-form/fields/order', []);
+    glsr()->filterArray('slack/notification', []);
+
+    expect($heard)->toBe(['v6'])
+        ->and(has_action('wp_enqueue_scripts', [glsr(HookController::class), 'filterOptimizeAsset']))->toBeFalse();
 });
 
 test('a snippet that still turns the 9.0.0 asset optimiser on is told once, and a site without one hears nothing', function () {
