@@ -31,6 +31,22 @@ try {
     } else {
         info('no banner is due on this site (a license is saved and valid)');
     }
+    // the premium notice's install link, which only a site with a key that includes premium shows
+    const install = page.locator('.glsr-notice-banner a[data-glsr-premium-install]');
+    if (await install.count()) {
+        let asked = false;
+        await page.route(url => decodeURIComponent(url.href).includes('/site-reviews/v1/premium/connect'), route => {
+            asked = true; // answered here, so the store is never reached
+            return route.fulfill({ json: { code: 'glsr_probe', message: 'A probe refusal.' }, status: 403 });
+        });
+        await Promise.all([page.waitForNavigation(), install.click()]);
+        assert(asked, 'the install link of the premium notice asks the store to connect');
+        assert(page.url().includes('page=glsr-settings'), 'and opens Settings when the route refuses');
+        await page.unrouteAll({ behavior: 'ignoreErrors' });
+    } else {
+        info('no premium notice on this site (no saved key includes Site Reviews Premium)');
+    }
+
     // the popup, on a screen that prints WordPress's own message
     await page.goto(adminUrl('edit-tags.php?taxonomy=site-review-category&post_type=site-review&message=3'));
     if (await page.locator('.glsr-notice-popup').count()) {
