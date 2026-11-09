@@ -120,7 +120,7 @@ export default class Strings {
         if (item) {
             this.add(item)
         }
-        this.reset()
+        this.clear() // the term stays for the next string
     }
 
     // the rows are numbered in order and ids left out of the next search

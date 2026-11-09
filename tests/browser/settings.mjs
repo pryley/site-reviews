@@ -75,6 +75,7 @@ try {
     await strings.locator('.glsr-search-results span').first().waitFor();
     await strings.locator('.glsr-search-results span').first().click();
     equal(await rows.count(), rowsBefore + 1, 'choosing a search result adds a row to the strings table');
+    equal(await strings.locator('.glsr-search-input').inputValue(), 'Submit', 'and leaves the term in the search box');
     await rows.last().locator('a.delete').dispatchEvent('click');
     await page.waitForFunction(count => document.querySelectorAll('.glsr-strings-table tbody tr').length === count, rowsBefore);
     equal(await rows.count(), rowsBefore, 'its delete link removes the row');
