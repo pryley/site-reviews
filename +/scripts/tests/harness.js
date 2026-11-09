@@ -21,6 +21,7 @@ const adminConfig = () => ({
             console: { method: 'GET', path: 'plugin/console' },
             import: { method: 'POST', path: 'reviews/import' },
             rollback: { method: 'POST', path: 'plugin/rollback' },
+            'system-info': { method: 'GET', path: 'plugin/system-info' },
             'table-engine': { method: 'PUT', path: 'plugin/tables/{table}/engine' },
         },
         url: 'https://example.org/wp-json/site-reviews/v1/',
