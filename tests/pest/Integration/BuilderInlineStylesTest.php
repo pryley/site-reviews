@@ -2,9 +2,10 @@
 
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Integrations\Bricks\Controller as BricksController;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Controller as ElementorController;
 
 /*
- * The inline styles of the Bricks builder: the built stylesheet, then one mask rule per icon.
+ * The inline styles of the Bricks and Elementor builders: the built stylesheet, then one mask rule per icon.
  */
 
 function inlineStyle(string $handle): string
@@ -13,7 +14,7 @@ function inlineStyle(string $handle): string
 }
 
 afterEach(function () {
-    foreach (['bricks-admin', 'bricks-builder'] as $handle) {
+    foreach (['bricks-admin', 'bricks-builder', 'elementor-admin', 'elementor-editor', 'elementor-frontend'] as $handle) {
         wp_deregister_style($handle);
     }
     remove_all_filters('site-reviews/bricks/icons');
@@ -48,4 +49,24 @@ test('bricks prints nothing outside its elements screen and its builder', functi
     glsr(BricksController::class)->printInlineStyles();
 
     expect(inlineStyle('bricks-admin'))->toBe('');
+});
+
+test('elementor gets the built stylesheet and a mask rule for each icon, and the frontend its icon size', function () {
+    wp_register_style('elementor-admin', false);
+    wp_register_style('elementor-editor', false);
+    wp_register_style('elementor-frontend', false);
+
+    glsr(ElementorController::class)->registerInlineStyles();
+
+    $built = file_get_contents(glsr()->path('assets/styles/integrations/elementor-inline.css'));
+    $form = Svg::encoded('assets/images/icons/elementor/icon-form.svg');
+    expect($built)->toContain('i[class^=eicon-glsr-]:before{')
+        ->and($form)->toStartWith('data:image/svg+xml')
+        ->and(inlineStyle('elementor-admin'))->toStartWith($built)
+        ->and(inlineStyle('elementor-admin'))->toContain("i.eicon-glsr-form::before{mask-image:url(\"{$form}\")}")
+        ->and(inlineStyle('elementor-admin'))->toContain('i.eicon-glsr-review::before{mask-image:url("data:')
+        ->and(inlineStyle('elementor-admin'))->toContain('i.eicon-glsr-reviews::before{mask-image:url("data:')
+        ->and(inlineStyle('elementor-admin'))->toContain('i.eicon-glsr-summary::before{mask-image:url("data:')
+        ->and(inlineStyle('elementor-editor'))->toBe(inlineStyle('elementor-admin'))
+        ->and(inlineStyle('elementor-frontend'))->toBe(inlineStyle('elementor-admin').'[class*="eicon-glsr-"]::before{font-size:28px;margin:0 auto}');
 });

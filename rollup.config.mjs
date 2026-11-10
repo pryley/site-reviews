@@ -61,6 +61,7 @@ const cssBundles = [
     // Integrations
     css('integrations/bricks/bricks-inline', 'assets/styles/integrations'),
     css('integrations/divi/divi-woo-inline', 'assets/styles/integrations'),
+    css('integrations/elementor/elementor-inline', 'assets/styles/integrations'),
     css('integrations/flatsome/flatsome-inline', 'assets/styles/integrations'),
     css('integrations/fusion/fusion-inline', 'assets/styles/integrations'),
     css('integrations/wpbakery/wpbakery-inline', 'assets/styles/integrations'),
