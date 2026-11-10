@@ -1864,6 +1864,27 @@ test('a style declaration with no property is dropped, not rendered', function (
         ->toBe('color:blue;font-size:1em;');
 });
 
+test('a color function is kept in a style, and any other function WordPress refuses is not', function (string $style, string $expected) {
+    expect(glsr(Sanitizer::class)->sanitizeAttrStyle($style))->toBe($expected);
+})->with([
+    'rgb' => ['color:rgb(1,2,3)', 'color:rgb(1,2,3);'],
+    'rgba, as a page builder saves it' => ['--glsr-review-star-bg:rgba(0, 0, 0, 0.2)', '--glsr-review-star-bg:rgba(0, 0, 0, 0.2);'],
+    'the space-separated form' => ['color:rgb(1 2 3 / 50%)', 'color:rgb(1 2 3 / 50%);'],
+    'hsl' => ['color:hsl(120deg, 100%, 50%)', 'color:hsl(120deg, 100%, 50%);'],
+    'beside another declaration' => ['color:red;--x:rgb(1,2,3)', 'color:red;--x:rgb(1,2,3);'],
+    'a function inside the color' => ['color:rgb(expression(1),2,3)', ''],
+    'another function' => ['color:red;width:expression(alert(1))', 'color:red;'],
+    'a color and what follows it' => ['color:rgb(1,2,3)}body{color:red', ''],
+    'a url with a script' => ['background:rgb(1,2,3) url(javascript:alert(1))', ''],
+]);
+
+test('the style sanitizer leaves no filter on WordPress when it is done', function () {
+    glsr(Sanitizer::class)->sanitizeAttrStyle('color:rgb(1,2,3)');
+
+    expect(has_filter('safecss_filter_attr_allow_css'))->toBeFalse()
+        ->and(safecss_filter_attr('color:rgb(1,2,3)'))->toBe('');
+});
+
 test('a sanitizer that does not exist logs and falls back to the given fallback', function () {
     expect(glsr(Sanitizer::class)->sanitizeNoSuchThing('the-value', 'the-fallback'))
         ->toBe('the-fallback');

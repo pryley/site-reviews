@@ -239,6 +239,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
 - Fixed a template tag that has no value being printed as text in a custom template
 - Fixed cached API responses adding to a list in the database that is never cleaned up
+- Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the last license server check being loaded on every page
