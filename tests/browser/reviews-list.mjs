@@ -4,7 +4,7 @@
  *
  * Needs wp-env running. Run: npm run test:browser -- reviews-list
  */
-import { ENGINE, adminUrl, createReview, deleteReview, launch, login, pageErrorsOf, reporter } from './harness.mjs';
+import { ENGINE, adminUrl, createReview, deleteReview, launch, login, pageErrorsOf, reporter, restRequest } from './harness.mjs';
 
 const { assert, done, equal, info } = reporter();
 
@@ -18,8 +18,14 @@ const LIST = adminUrl('edit.php?post_type=site-review');
 const row = id => page.locator(`#post-${id}`);
 const toggleFilters = () => page.waitForResponse(response => decodeURIComponent(response.url()).includes('/wp/v2/users/me')); // the preference is saved through WordPress's users route
 const created = [];
+const FILTERS = 'edit_site-review_filters'; // the user meta of the Screen Options filter checkboxes
+const filterName = 'author';
+let filtersBefore;
 
 try {
+    // a new user has the rating filter alone
+    filtersBefore = (await restRequest(context, 'GET', '/wp/v2/users/me', { context: 'edit' })).meta[FILTERS];
+    await restRequest(context, 'POST', '/wp/v2/users/me', { meta: { [FILTERS]: [...new Set([...filtersBefore, filterName])] } });
     const approved = await createReview(context, { content: 'An approved probe review.', title: 'Approved probe' });
     created.push(approved.id);
     const pending = await createReview(context, { content: 'A pending probe review.', pending: true, title: 'Pending probe' });
@@ -74,7 +80,6 @@ try {
     }
 
     // the author filter: a searchable dropdown of ours, where rating and category are native selects
-    const filterName = 'author';
     const filter = page.locator(`#glsr-filter-by-${filterName}`);
     await filter.locator('.glsr-filter__selected').dispatchEvent('mousedown');
     await page.waitForFunction(name => 'true' === document.querySelector(`#glsr-filter-by-${name}`)?.getAttribute('aria-expanded'), filterName);
@@ -149,6 +154,9 @@ try {
 } finally {
     for (const id of created) {
         await deleteReview(context, id);
+    }
+    if (filtersBefore) {
+        await restRequest(context, 'POST', '/wp/v2/users/me', { meta: { [FILTERS]: filtersBefore } });
     }
     await browser.close();
 }
