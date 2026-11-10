@@ -162,25 +162,10 @@ class Controller extends AbstractController
             'eicon-glsr-reviews' => Svg::encoded('assets/images/icons/elementor/icon-reviews.svg'),
             'eicon-glsr-summary' => Svg::encoded('assets/images/icons/elementor/icon-summary.svg'),
         ];
-        $maskRules = '';
+        $css = file_get_contents(glsr()->path('assets/styles/integrations/elementor-inline.css'));
         foreach ($icons as $class => $url) {
-            $maskRules .= "i.{$class}::before { mask-image: url(\"{$url}\"); }";
+            $css .= "i.{$class}::before{mask-image:url(\"{$url}\")}";
         }
-        $css = <<<CSS
-            i[class^="eicon-glsr-"]::before {
-                background-color: currentColor;
-                content: '.';
-                display: block;
-                mask-repeat: no-repeat;
-                mask-size: contain;
-                width: 1em;
-            }
-            {$maskRules}
-            .elementor-nerd-box-icon[src$="assets/images/premium.svg"] {
-                width: 240px;
-            }
-        CSS;
-        $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('elementor-admin', $css);
         wp_add_inline_style('elementor-editor', $css);
         wp_add_inline_style('elementor-frontend',

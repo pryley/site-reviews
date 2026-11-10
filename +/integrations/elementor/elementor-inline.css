@@ -1,0 +1,12 @@
+i[class^="eicon-glsr-"]::before {
+  background-color: currentColor;
+  content: '.';
+  display: block;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  width: 1em;
+}
+
+.elementor-nerd-box-icon[src$="assets/images/premium.svg"] {
+  width: 240px;
+}
