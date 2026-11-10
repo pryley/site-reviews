@@ -63,10 +63,13 @@ export const launch = async (options = {}) => {
 };
 
 export const login = async (page, user = 'admin', password = 'password') => {
-    await page.goto(`${SITE}/wp-login.php`);
-    await page.fill('#user_login', user);
-    await page.fill('#user_pass', password);
-    await Promise.all([page.waitForNavigation(), page.click('#wp-submit')]);
+    const submit = async () => {
+        await page.goto(`${SITE}/wp-login.php`);
+        await page.fill('#user_login', user);
+        await page.fill('#user_pass', password);
+        await Promise.all([page.waitForNavigation(), page.click('#wp-submit')]);
+    };
+    await submit().catch(submit); // once more: a slow site can leave the first load unfinished
     if (!page.url().includes('/wp-admin/')) {
         throw new Error(`could not log in to ${SITE} as ${user} (landed on ${page.url()}). Is wp-env running? make test:install`);
     }
