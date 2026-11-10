@@ -49,6 +49,39 @@ jobs:
       - name: Run the script suite
         run: npm run test:js
 
+  browser:
+    name: Browser
+    runs-on: ubuntu-latest
+    env:
+      GLSR_ENGINE: chromium # WebKit stays local
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The site the screens are driven on: .wp-env.json's WordPress, with the plugin as checked out.
+      - name: Start wp-env
+        run: npx wp-env start
+
+      # foreign-screens switches to a classic theme, and wp-env installs none.
+      - name: Install Twenty Twenty-One
+        run: npx wp-env run cli wp theme install twentytwentyone
+
+      - name: Install Playwright's Chromium
+        run: |
+          npx playwright install --with-deps chromium
+          echo "GLSR_BROWSER=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> "$GITHUB_ENV"
+
+      # The screens load the built scripts and styles in assets/, which are committed.
+      - name: Run the browser suite
+        run: npm run test:browser
+
   test:
     name: Pest (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
