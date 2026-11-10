@@ -73,9 +73,10 @@ jobs:
       - name: Install Twenty Twenty-One
         run: npx wp-env run cli wp theme install twentytwentyone
 
+      # By its path: npx can run the older Playwright of @wordpress/scripts, which installs another Chromium build.
       - name: Install Playwright's Chromium
         run: |
-          npx playwright install --with-deps chromium
+          node node_modules/playwright/cli.js install --with-deps chromium
           echo "GLSR_BROWSER=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> "$GITHUB_ENV"
 
       # The screens load the built scripts and styles in assets/, which are committed.
