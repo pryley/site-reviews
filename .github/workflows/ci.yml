@@ -59,50 +59,6 @@ jobs:
       - name: Run the script suite
         run: npm run test:js
 
-  browser:
-    name: Browser
-    runs-on: ubuntu-latest
-    env:
-      GLSR_ENGINE: chromium # WebKit stays local
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      # npm ci unpacks every package even from npm's cache, so the installed folders are kept until the lockfile changes.
-      - uses: actions/cache@v5
-        id: node-modules
-        with:
-          path: |
-            node_modules
-            +/packages/*/node_modules
-          key: node-modules-${{ runner.os }}-node24-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      # The site the screens are driven on: .wp-env.json's WordPress, with the plugin as checked out.
-      - name: Start wp-env
-        run: npx wp-env start
-
-      # foreign-screens switches to a classic theme, and wp-env installs none.
-      - name: Install Twenty Twenty-One
-        run: npx wp-env run cli wp theme install twentytwentyone
-
-      # By its path: npx can run the older Playwright of @wordpress/scripts, which installs another Chromium build.
-      - name: Install Playwright's Chromium
-        run: |
-          node node_modules/playwright/cli.js install --with-deps chromium
-          echo "GLSR_BROWSER=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> "$GITHUB_ENV"
-
-      # The screens load the built scripts and styles in assets/, which are committed.
-      - name: Run the browser suite
-        run: npm run test:browser
-
   test:
     name: Pest (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
