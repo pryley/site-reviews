@@ -1,0 +1,14 @@
+i[class*="ti-site_review"]::before {
+  background-color: currentColor;
+  content: '';
+  display: inline-block;
+  height: 1em;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 100%;
+  width: 1em;
+}
+
+.glsr :is(a,button,input,textarea,select,.dz-clickable) {
+  pointer-events: none !important;
+}
