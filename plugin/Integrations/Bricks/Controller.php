@@ -231,27 +231,10 @@ class Controller extends AbstractController
             'site_reviews_summary' => Svg::encoded('assets/images/icons/bricks/icon-summary.svg'),
         ];
         $icons = glsr()->filterArray('bricks/icons', $icons);
-        $maskRules = '';
+        $css = file_get_contents(glsr()->path('assets/styles/integrations/bricks-inline.css'));
         foreach ($icons as $shortcode => $url) {
-            $maskRules .= "i.ti-{$shortcode}::before { mask-image: url(\"{$url}\"); }\n";
+            $css .= "i.ti-{$shortcode}::before{mask-image:url(\"{$url}\")}";
         }
-        $css = <<<CSS
-            i[class*="ti-site_review"]::before {
-                background-color: currentColor;
-                content: '';
-                display: inline-block;
-                height: 1em;
-                width: 1em;
-                mask-position: center;
-                mask-repeat: no-repeat;
-                mask-size: 100%;
-            }
-            {$maskRules}
-            .glsr :is(a,button,input,textarea,select,.dz-clickable) {
-                pointer-events: none !important;
-            }
-        CSS;
-        $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('bricks-admin', $css);
         wp_add_inline_style('bricks-builder', $css);
     }
