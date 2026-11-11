@@ -171,11 +171,11 @@ class Validator
      *
      * @param mixed $value
      */
-    protected function getSize(string $attribute, $value): int
+    protected function getSize(string $attribute, $value): float
     {
         $hasNumeric = $this->hasRule($attribute, $this->numericRules);
         if (is_numeric($value) && $hasNumeric) {
-            return (int) $value;
+            return (float) $value;
         }
         if (is_array($value)) {
             return count($value);
