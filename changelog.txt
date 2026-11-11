@@ -28,6 +28,7 @@
 - Changed Compatibility Mode to no longer keep the Javascript names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`), since those add-ons do not run on this version
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed a number field's minimum and maximum being compared with whole numbers
 - Fixed a template tag that has no value being printed as text in a custom template
 - Fixed cached API responses adding to a list in the database that is never cleaned up
 - Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style
@@ -39,6 +40,7 @@
 - Fixed the Install button in the plugin requirement notice
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
+- Fixed the location shown on Console entries logged from a hook callback
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Fixed the plugin requirement notice not finding a plugin whose folder was renamed
 - Fixed the submit and load more button block styles

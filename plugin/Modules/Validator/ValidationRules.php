@@ -161,7 +161,7 @@ trait ValidationRules
      *
      * @param mixed $value
      */
-    abstract protected function getSize(string $attribute, $value): int;
+    abstract protected function getSize(string $attribute, $value): float;
 
     /**
      * Replace all placeholders.

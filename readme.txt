@@ -221,6 +221,8 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a label slot and a notice slot to every review tag, filled through the `site-reviews/review/label/{tag}` and `site-reviews/review/notice/{tag}` filters: the label names the value, the notice is a message to the person viewing the review
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
+- Added a notice when the chosen multilingual plugin is missing, inactive, or out of date
+- Added a review's custom field values to the translation MultilingualPress creates for it
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/enqueue/public/modules` filter hook to add a script module to the import map
@@ -237,16 +239,21 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed Compatibility Mode to no longer keep the Javascript names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`), since those add-ons do not run on this version
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed a number field's minimum and maximum being compared with whole numbers
 - Fixed a template tag that has no value being printed as text in a custom template
 - Fixed cached API responses adding to a list in the database that is never cleaned up
 - Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
+- Fixed MultilingualPress leaving out the categories of a review submitted by a visitor when it is copied to the review's translations
+- Fixed MultilingualPress overwriting the custom field values of a review's translations when the review is edited
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
-- Fixed the last license server check being loaded on every page
+- Fixed the default settings of an addon not applying until its settings are saved
+- Fixed the Install button in the plugin requirement notice
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations
 - Fixed the location shown on Console entries logged from a hook callback
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
+- Fixed the plugin requirement notice not finding a plugin whose folder was renamed
 - Fixed the submit and load more button block styles
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
