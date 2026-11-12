@@ -13,8 +13,9 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * logging, and the migration/version checks.
  *
  * wp-env runs MySQL on InnoDB, so the SQLite and MyISAM branches are driven through a fake
- * Tables swapped into the container. What their SQL then does on MySQL was PROBED, not
- * assumed: "BEGIN TRANSACTION" and "INSERT OR IGNORE" are MySQL syntax errors (logged,
+ * Tables swapped into the container. SQLite has two: the driver SQLite Database Integration 3
+ * removed takes SQLite's syntax, the current one takes MySQL's. What the old driver's SQL does
+ * on MySQL was PROBED, not assumed: "BEGIN TRANSACTION" and "INSERT OR IGNORE" are MySQL syntax errors (logged,
  * harmless), while "COMMIT" and "SET autocommit = 1" really commit — so the finish branches
  * live in a test that declares commitsTransaction().
  */
@@ -47,7 +48,12 @@ function withFakeTables(string $engine, callable $callback)
 
         public function isSqlite(): bool
         {
-            return 'sqlite' === $this->fakeEngine;
+            return in_array($this->fakeEngine, ['sqlite', 'sqlite-legacy'], true);
+        }
+
+        public function isSqliteLegacy(): bool
+        {
+            return 'sqlite-legacy' === $this->fakeEngine;
         }
 
         public function isInnodb(string $table): bool
@@ -76,15 +82,40 @@ test('a failed query is logged and returned as failure, not silence', function (
 });
 
 test('the sqlite phrasing degrades on mysql to logged errors, not data changes', function () {
-    // The branches themselves belong to SQLite sites (wp-sqlite-db); here they prove only
-    // that the wrapper takes them. The probed MySQL responses are syntax errors.
-    suppressingDbErrors(fn () => withFakeTables('sqlite', function () {
+    // The branches themselves belong to SQLite sites on the driver that SQLite Database
+    // Integration 3 removed; here they prove only that the wrapper takes them. The probed
+    // MySQL responses are syntax errors.
+    suppressingDbErrors(fn () => withFakeTables('sqlite-legacy', function () {
         $db = glsr(Database::class);
         $db->beginTransaction('ratings'); // BEGIN TRANSACTION; -> syntax error, logged
         expect($db->insert('ratings', ['review_id' => 999999001]))->toBeFalse(); // INSERT OR IGNORE
         expect($db->insertBulk('ratings', [['review_id' => 999999001]], ['review_id']))->toBeFalse();
         expect($db->dbSafeQuery('SELECT 1'))->toEqual(1); // sqlite skips the fk-checks dance
     }));
+});
+
+test('sqlite on the current driver is sent the statements mysql is', function () {
+    // SQLite Database Integration 3 parses MySQL and nothing else. The statements are read from
+    // wpdb's query filter and swapped for a harmless one: START TRANSACTION would commit the test's.
+    $queries = [];
+    $capture = function (string $query) use (&$queries) {
+        $queries[] = preg_replace('/\s+/', ' ', trim($query));
+        return 'SELECT 1';
+    };
+    add_filter('query', $capture);
+    try {
+        withFakeTables('sqlite', function () {
+            glsr(Database::class)->beginTransaction('ratings');
+            glsr(Database::class)->insert('ratings', ['review_id' => 999999001]);
+            glsr(Database::class)->insertBulk('ratings', [['review_id' => 999999001]], ['review_id']);
+        });
+    } finally {
+        remove_filter('query', $capture);
+    }
+
+    expect($queries[0])->toBe('START TRANSACTION;')
+        ->and($queries[1])->toStartWith('INSERT IGNORE INTO')
+        ->and($queries[2])->toStartWith('INSERT IGNORE INTO');
 });
 
 test('finishing a transaction commits, in every engine dialect', function () {

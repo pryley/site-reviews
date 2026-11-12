@@ -125,6 +125,15 @@ class Tables
         return 'sqlite' === $this->engine;
     }
 
+    /**
+     * If SQLite Database Integration plugin is < v3.
+     */
+    public function isSqliteLegacy(): bool
+    {
+        return $this->isSqlite()
+            && is_a($this->db->dbh, 'WP_SQLite_Translator'); // @phpstan-ignore-line
+    }
+
     public function table(string $name = '', bool $logError = true): string
     {
         if (in_array($name, $this->tables)) {
