@@ -440,8 +440,10 @@ class ListTableController extends AbstractController
                 } else {
                     $clause['clauses'][] = "AND {$assignedTable}.{$column} = {$value}";
                 }
-            } elseif (in_array($key, ['rating', 'terms', 'type'])) {
+            } elseif (in_array($key, ['rating', 'terms'])) {
                 $clause['clauses'][] = "AND {$ratings}.{$key} = '{$value}'";
+            } elseif ('type' === $key && array_key_exists($value, glsr()->retrieveAs('array', 'review_types'))) {
+                $clause['clauses'][] = "AND {$ratings}.type = '{$value}'";
             } elseif ('author' === $key && '0' === $value) {
                 // Filtering by the "author" URL parameter is automatically done
                 // by WordPress when the value is not empty

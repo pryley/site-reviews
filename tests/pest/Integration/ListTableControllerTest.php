@@ -281,6 +281,22 @@ test('filtering by rating joins the ratings table and asks it for the rating', f
         ->and($clauses['where'])->toContain("post_type = 'site-review'"); // and the original where survives
 });
 
+test('filtering by an installed review type asks the ratings table for it', function () {
+    $query = onReviewsListTable(['type' => 'local']);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['where'])->toContain("glsr_ratings.type = 'local'");
+});
+
+test('filtering by a review type that is not installed asks the ratings table for nothing', function () {
+    $query = onReviewsListTable(['type' => 'not-installed']);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['where'])->not->toContain('glsr_ratings.type');
+});
+
 test('filtering by an assigned page asks for the reviews about it', function () {
     $query = onReviewsListTable(['assigned_post' => '42']);
 
