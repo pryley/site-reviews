@@ -113,7 +113,7 @@ class Schema
     public function render(): void
     {
         if ($schema = $this->retrieve()) {
-            $json = (string) wp_json_encode($schema, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES);
+            $json = (string) wp_json_encode($schema, \JSON_HEX_AMP | \JSON_HEX_TAG | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
             printf('<script type="application/ld+json" class="%s-schema">%s</script>', glsr()->id, $json);
         }
     }

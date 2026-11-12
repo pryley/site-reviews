@@ -324,6 +324,14 @@ test('the summary writes the aggregate rating into the page schema, but only whe
     glsr()->store('schemas', []);
 });
 
+test('the schema is printed with its angle brackets and ampersands encoded', function () {
+    glsr(Schema::class)->store(['name' => 'Fish & <Chips>']);
+
+    expect(schemaOnThePage())->toContain('"name":"Fish \u0026 \u003CChips\u003E"');
+
+    glsr()->store('schemas', []);
+});
+
 /**
  * The JSON-LD the summary puts on the page, as Schema::render() would print it on
  * wp_footer.
