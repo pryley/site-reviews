@@ -246,6 +246,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed MultilingualPress leaving out the categories of a review submitted by a visitor when it is copied to the review's translations
 - Fixed MultilingualPress overwriting the custom field values of a review's translations when the review is edited
+- Fixed reviews not being saved on a website that uses version 3 of the SQLite Database Integration plugin
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the default settings of an addon not applying until its settings are saved
 - Fixed the Install button in the plugin requirement notice
