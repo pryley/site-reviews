@@ -257,6 +257,7 @@ class Text
     protected static function replaceTags(string $text): array
     {
         $map = [];
+        $text = str_replace('⍈', '&#x2348;', $text); // a ⍈ in the text is not a placeholder
         $result = preg_replace_callback('|<([a-z]+)[^>]*?>.*?</\\1>|siu', function ($matches) use (&$map) {
             $map[] = $matches[0];
             return '⍈';

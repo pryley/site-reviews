@@ -189,6 +189,11 @@ test('html tags do not count against the limit, and survive the excerpt', functi
         ->toContain('<span class="glsr-hidden"> words</span>');
 });
 
+test('a ⍈ typed in the text stays where it was typed', function () {
+    expect(Text::excerpt('Five ⍈ stars and <strong>bold</strong> words'))
+        ->toBe('<p>Five &#x2348; stars and <strong>bold</strong> words</p>');
+});
+
 test('name initials period space', function () {
     expect(Text::name('Steve', 'initials', 'period_space'))->toEqual('S.');
     expect(Text::name('Steve Jobs', 'initials', 'period_space'))->toEqual('S. J.');
