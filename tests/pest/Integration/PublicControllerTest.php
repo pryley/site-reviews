@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
@@ -256,6 +257,37 @@ test('a visitor cannot choose who wrote the review or answer it as the owner ove
         ->and(get_post_meta($reviewId, '_response_by', true))->toBe('')
         ->and($review->is_pinned)->toBeFalse()
         ->and($review->is_verified)->toBeFalse();
+});
+
+test('a visitor cannot set any of the additional fields of a review over admin-ajax', function () {
+    wp_set_current_user(0);
+    $additional = [
+        'geolocation' => ['city' => 'Nowhere'],
+        'response' => 'Thank you!',
+        'response_by' => createUser(['role' => 'administrator']),
+        'verified' => 1,
+        'verified_on' => 1700000000,
+        'verified_requested' => 1,
+    ];
+    // A field added to AdditionalFieldsDefaults needs a value here and a reset in CreateReview::normalize().
+    expect(array_keys($additional))->toBe(array_keys(glsr(AdditionalFieldsDefaults::class)->defaults()));
+    $values = $this->request($additional + [
+        'content' => 'Submitted without a form.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = $this->assertJsonSuccess($values);
+
+    $reviewId = (int) $response->data->review->ID;
+    foreach (array_keys($additional) as $key) {
+        expect(get_post_meta($reviewId, "_{$key}", true))->toBe('', "the {$key} field");
+    }
 });
 
 test('the rendered form submits through the field names a browser reads from it', function () {

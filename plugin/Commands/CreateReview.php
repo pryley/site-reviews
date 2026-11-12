@@ -238,11 +238,15 @@ class CreateReview extends AbstractCommand
             $request->set('avatar', '');
             $request->set('date', '');
             $request->set('date_gmt', '');
+            $request->set('geolocation', '');
             $request->set('is_pinned', false);
             $request->set('is_verified', false);
             $request->set('response', '');
             $request->set('response_by', 0);
             $request->set('type', 'local');
+            $request->set('verified', '');
+            $request->set('verified_on', '');
+            $request->set('verified_requested', '');
         }
         glsr()->action('review/request', $request);
         return $request;
