@@ -138,6 +138,15 @@ test('a saved review says review, not post', function () {
     expect($ours[9])->toContain(date_i18n('M j, Y', strtotime($post->post_date))); // scheduled for…
 });
 
+test('a review that was not restored to a revision has no restored message', function () {
+    onReviewEditor();
+    $_GET['revision'] = 'not a revision';
+
+    $messages = glsr(EditorController::class)->filterUpdateMessages([]);
+
+    expect($messages[glsr()->post_type][5])->toBeFalse();
+});
+
 test('the messages are not built when there is no post to build them for', function () {
     // post_updated_messages fires on screens with no post — and get_post() then returns null.
     unset($GLOBALS['post']);

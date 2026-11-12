@@ -72,8 +72,9 @@ class EditorController extends AbstractController
             return $messages;
         }
         $strings = glsr(UpdatedMessageDefaults::class)->defaults();
-        $restored = filter_input(\INPUT_GET, 'revision');
-        if ($revisionTitle = wp_post_revision_title(intval($restored), false)) {
+        $restored = false;
+        $revisionId = intval(filter_input(\INPUT_GET, 'revision'));
+        if ($revisionTitle = wp_post_revision_title($revisionId, false)) {
             $restored = sprintf($strings['restored'], $revisionTitle);
         }
         $scheduled_date = date_i18n('M j, Y @ H:i', strtotime($post->post_date));
