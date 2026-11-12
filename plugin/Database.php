@@ -28,9 +28,9 @@ class Database
      */
     public function beginTransaction(string $table): void
     {
-        if (glsr(Tables::class)->isSqlite()) {
+        if (glsr(Tables::class)->isSqliteLegacy()) {
             $this->dbQuery("BEGIN TRANSACTION;");
-        } elseif (glsr(Tables::class)->isInnodb($table)) {
+        } elseif (glsr(Tables::class)->isSqlite() || glsr(Tables::class)->isInnodb($table)) {
             $this->dbQuery("START TRANSACTION;");
         } elseif (glsr(Tables::class)->isMyisam($table)) {
             $this->dbQuery("SET autocommit = 0;");
@@ -156,11 +156,8 @@ class Database
         $table = glsr(Tables::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
         $values = glsr(Query::class)->escValuesForInsert($data);
-        if (glsr(Tables::class)->isSqlite()) {
-            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO {$table} {$fields} VALUES {$values}");
-        } else {
-            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
-        }
+        $ignore = glsr(Tables::class)->isSqliteLegacy() ? 'OR IGNORE' : 'IGNORE';
+        $sql = glsr(Query::class)->sql("INSERT {$ignore} INTO {$table} {$fields} VALUES {$values}");
         return $this->dbQuery($sql);
     }
 
@@ -183,11 +180,8 @@ class Database
         $table = glsr(Tables::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert($fields);
         $values = implode(',', $data);
-        if (glsr(Tables::class)->isSqlite()) {
-            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO {$table} {$fields} VALUES {$values}");
-        } else {
-            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
-        }
+        $ignore = glsr(Tables::class)->isSqliteLegacy() ? 'OR IGNORE' : 'IGNORE';
+        $sql = glsr(Query::class)->sql("INSERT {$ignore} INTO {$table} {$fields} VALUES {$values}");
         return $this->dbQuery($sql);
     }
 
