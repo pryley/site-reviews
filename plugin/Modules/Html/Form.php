@@ -499,6 +499,9 @@ class Form extends \ArrayObject implements FormContract
      */
     protected function normalizeFieldValue(FieldContract $field): void
     {
+        if ($this->session->failed && 'hidden' === $field->original_type) {
+            return; // hidden fields are signed
+        }
         if ($field->isChoiceField()) {
             $value = Cast::toArray($this->session->values[$field->original_name] ?? []);
         } else {

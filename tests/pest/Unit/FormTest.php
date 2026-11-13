@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
@@ -136,6 +137,43 @@ test('a choice field is re-checked from the session, when the session can say', 
 
     $unchecked = new Form([], [], $config); // nothing in the session: leave the defaults be
     expect($unchecked['accept']->checked)->toBeFalsy();
+});
+
+test('a hidden field keeps the value the form gave it after a failed submission', function () {
+    glsr()->sessionSet('form_invalid', true);
+    glsr()->sessionSet('form_values', ['assigned_posts' => '99', 'title' => 'My title']);
+
+    $form = new ReviewForm(['assigned_posts' => '13']);
+    $signed = unserialize((string) glsr(Encryption::class)->decrypt($form['form_signature']->value));
+    glsr()->sessionClear();
+
+    expect($form['assigned_posts']->value)->toBe('13')
+        ->and($signed['assigned_posts'])->toBe('13')
+        ->and($form['title']->value)->toBe('My title'); // a visible field is still filled in again
+});
+
+test('a form shown after a failed submission keeps the referer its first form signed', function () {
+    $before = fn () => 'https://example.org/before';
+    add_filter('site-reviews/review-form/referer', $before);
+    $first = new ReviewForm();
+    remove_filter('site-reviews/review-form/referer', $before);
+    glsr()->sessionSet('form_invalid', true);
+    glsr()->sessionSet('form_values', [
+        '_referer' => 'https://example.org/elsewhere', // as the failed submission sent it
+        'form_signature' => $first['form_signature']->value,
+    ]);
+
+    $second = new ReviewForm();
+    glsr()->sessionClear();
+
+    expect($second['_referer']->value)->toBe('https://example.org/before');
+});
+
+test('a hidden field takes the value a form is built with', function () {
+    // An edit form is built with the values of the review it edits.
+    $form = new ReviewForm(['assigned_posts' => '13'], ['assigned_posts' => '99']);
+
+    expect($form['assigned_posts']->value)->toBe('99');
 });
 
 test('a plain subclass gets its hidden config as hidden fields', function () {

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Request;
 
 class ReviewForm extends Form
 {
@@ -25,7 +26,7 @@ class ReviewForm extends Form
     public function configHidden(): array
     {
         do_action('litespeed_nonce', 'submit-review'); // @litespeedcache
-        $referer = glsr()->filterString('review-form/referer', wp_get_referer());
+        $referer = glsr()->filterString('review-form/referer', $this->referer());
         $config = [
             '_action' => 'submit-review',
             '_nonce' => wp_create_nonce('submit-review'),
@@ -86,5 +87,19 @@ class ReviewForm extends Form
         $fields = parent::fieldsVisible();
         $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->cast('hide', 'array')));
         return $fields;
+    }
+
+    /**
+     * The page the visitor came from.
+     */
+    protected function referer(): string
+    {
+        if (glsr()->session()->cast('form_invalid', 'bool')) {
+            $submitted = new Request(glsr()->session()->array('form_values'));
+            if ($referer = Cast::toString($submitted->signedValues()['_referer'] ?? '')) {
+                return $referer;
+            }
+        }
+        return Cast::toString(wp_get_referer());
     }
 }
