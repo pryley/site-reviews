@@ -198,6 +198,71 @@ test('a review cannot be pointed at a post it was not written about', function (
     expect(glsr()->sessionGet('form_message'))->toContain('refresh the page');
 });
 
+test('a field that was signed as one value cannot come back as a list', function () {
+    $validator = signed(
+        ['assigned_users' => '', 'form_id' => 'a-form-id'],
+        ['assigned_users' => ['x' => '1']]
+    );
+
+    expect($validator->isValid())->toBeFalse();
+});
+
+test('a field that was signed as one value cannot come back as an empty list', function () {
+    $validator = signed(
+        ['assigned_users' => '5', 'form_id' => 'a-form-id'],
+        ['assigned_users' => []]
+    );
+
+    expect($validator->isValid())->toBeFalse();
+});
+
+/*
+ * Fields that share a name. PHP reads them as one list, so the form signs every hidden value of
+ * the name and how many visible fields share it.
+ */
+
+test('a list that holds every hidden value and the choice of a visible field is accepted', function () {
+    $validator = signed(
+        ['assigned_posts' => ['hidden' => ['13', '14,15'], 'visible' => 1], 'form_id' => 'a-form-id'],
+        ['assigned_posts' => ['13', '14,15', '99']]
+    );
+
+    expect($validator->isValid())->toBeTrue();
+});
+
+test('a list cannot hold more values than the form has fields for', function () {
+    $validator = signed(
+        ['assigned_posts' => ['hidden' => ['13', '14,15'], 'visible' => 0], 'form_id' => 'a-form-id'],
+        ['assigned_posts' => ['13', '14,15', '99']]
+    );
+
+    expect($validator->isValid())->toBeFalse();
+});
+
+test('a hidden value in a list cannot be changed', function () {
+    $validator = signed(
+        ['assigned_posts' => ['hidden' => ['13', '14,15'], 'visible' => 1], 'form_id' => 'a-form-id'],
+        ['assigned_posts' => ['99', '14,15', '']]
+    );
+
+    expect($validator->isValid())->toBeFalse();
+});
+
+test('a list is refused when it is not a plain list of single values', function ($sent) {
+    $validator = signed(
+        ['assigned_posts' => ['hidden' => ['13', '14,15'], 'visible' => 1], 'form_id' => 'a-form-id'],
+        ['assigned_posts' => $sent]
+    );
+
+    expect($validator->isValid())->toBeFalse();
+})->with([
+    'a keyed entry' => [['first' => '13', 'second' => '14,15']],
+    'a nested entry' => [['13', ['14,15'], '']],
+    'an empty value' => [''],
+    'no value' => [null],
+    'one value' => ['13'],
+]);
+
 test('a signature from a different form is not accepted', function () {
     $validator = signed(
         ['form_id' => 'the-form-they-were-given'],

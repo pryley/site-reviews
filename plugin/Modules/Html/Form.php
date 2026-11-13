@@ -510,19 +510,36 @@ class Form extends \ArrayObject implements FormContract
         $field->value = $value;
     }
 
+    /**
+     * @return array<string, string|array{hidden: string[], visible: int}>
+     */
+    protected function signedValues(): array
+    {
+        $lists = $values = [];
+        foreach ($this->hidden() as $field) {
+            $values[$field->original_name] = $field->value;
+            if (str_ends_with($field->name, '[]')) { // PHP reads these fields as a list
+                $lists[$field->original_name]['hidden'][] = Cast::toString($field->value);
+            }
+        }
+        $visibleFields = $this->visible();
+        foreach (array_keys($lists) as $name) {
+            $lists[$name]['visible'] = count(
+                array_filter($visibleFields, fn ($field) => $name === $field->original_name)
+            );
+        }
+        $values = array_merge($values, $lists);
+        return $this->app()->filterArray("{$this->formName()}/signature/values", $values, $this);
+    }
+
     protected function signForm(): void
     {
-        $hidden = $this->hidden();
-        $values = [];
-        foreach ($hidden as $field) {
-            $values[$field->original_name] = $field->value;
-        }
-        $values = $this->app()->filterArray("{$this->formName()}/signature/values", $values, $this);
+        $values = $this->signedValues();
         $signatureField = $this->field('form_signature', [
             'type' => 'hidden',
             'value' => glsr(Encryption::class)->encrypt(maybe_serialize($values)),
         ]);
-        $fields = array_values(array_merge($hidden, [$signatureField], $this->visible()));
+        $fields = array_values(array_merge($this->hidden(), [$signatureField], $this->visible()));
         $this->exchangeArray($fields);
     }
 }

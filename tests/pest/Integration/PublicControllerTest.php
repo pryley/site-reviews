@@ -319,6 +319,53 @@ test('the rendered form submits through the field names a browser reads from it'
     expect(glsr_get_review((int) $response->data->review->ID)->title)->toBe('Through the rendered names');
 });
 
+test('a form with fields that share a name submits the values it was rendered with', function () {
+    wp_set_current_user(0);
+    $first = createPost();
+    $second = createPost();
+    add_filter('site-reviews/review-form/fields/all', function (array $fields) use ($first, $second) {
+        foreach ($fields as $field) {
+            if ('assigned_posts' !== $field->original_name) {
+                continue;
+            }
+            $other = clone $field;
+            $field->name .= '[]';
+            $field->value = (string) $first;
+            $other->name .= '[]';
+            $other->value = (string) $second;
+            $fields[] = $other;
+            break;
+        }
+        return $fields;
+    });
+    $processor = new WP_HTML_Tag_Processor(do_shortcode('[site_reviews_form]'));
+    $pairs = [];
+    while ($processor->next_tag()) {
+        $name = (string) $processor->get_attribute('name');
+        if (!str_starts_with($name, glsr()->id.'[') || 'INPUT' !== $processor->get_tag()) {
+            continue;
+        }
+        if (!in_array($processor->get_attribute('type'), ['checkbox', 'radio'])) {
+            $pairs[] = urlencode($name).'='.urlencode((string) $processor->get_attribute('value'));
+        }
+    }
+    parse_str(implode('&', $pairs), $posted); // as PHP reads the request
+    $values = $posted[glsr()->id];
+    expect($values['assigned_posts'])->toBe([(string) $first, (string) $second]);
+
+    $response = $this->assertJsonSuccess(array_replace($values, [
+        'content' => 'A form with two fields of one name.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'Through two fields',
+    ]));
+
+    expect(glsr_get_review((int) $response->data->review->ID)->assigned_posts)
+        ->toEqualCanonicalizing([$first, $second]);
+});
+
 test('a visitor cannot choose the avatar or date of the review over admin-ajax', function () {
     wp_set_current_user(0);
     $values = $this->request([
