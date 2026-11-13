@@ -10,7 +10,7 @@ class SanitizePostIds extends ArraySanitizer
     public function run(): array
     {
         return Arr::uniqueInt(
-            array_map([Helper::class, 'getPostId'], $this->value())
+            array_map([Helper::class, 'getPostId'], $this->splitValue())
         );
     }
 }

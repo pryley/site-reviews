@@ -323,7 +323,8 @@ test('a form with fields that share a name submits the values it was rendered wi
     wp_set_current_user(0);
     $first = createPost();
     $second = createPost();
-    add_filter('site-reviews/review-form/fields/all', function (array $fields) use ($first, $second) {
+    $third = createPost();
+    add_filter('site-reviews/review-form/fields/all', function (array $fields) use ($first, $second, $third) {
         foreach ($fields as $field) {
             if ('assigned_posts' !== $field->original_name) {
                 continue;
@@ -332,7 +333,7 @@ test('a form with fields that share a name submits the values it was rendered wi
             $field->name .= '[]';
             $field->value = (string) $first;
             $other->name .= '[]';
-            $other->value = (string) $second;
+            $other->value = "{$second},{$third}";
             $fields[] = $other;
             break;
         }
@@ -351,7 +352,7 @@ test('a form with fields that share a name submits the values it was rendered wi
     }
     parse_str(implode('&', $pairs), $posted); // as PHP reads the request
     $values = $posted[glsr()->id];
-    expect($values['assigned_posts'])->toBe([(string) $first, (string) $second]);
+    expect($values['assigned_posts'])->toBe([(string) $first, "{$second},{$third}"]);
 
     $response = $this->assertJsonSuccess(array_replace($values, [
         'content' => 'A form with two fields of one name.',
@@ -363,7 +364,7 @@ test('a form with fields that share a name submits the values it was rendered wi
     ]));
 
     expect(glsr_get_review((int) $response->data->review->ID)->assigned_posts)
-        ->toEqualCanonicalizing([$first, $second]);
+        ->toEqualCanonicalizing([$first, $second, $third]);
 });
 
 test('a visitor cannot choose the avatar or date of the review over admin-ajax', function () {

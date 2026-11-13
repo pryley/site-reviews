@@ -10,7 +10,7 @@ class SanitizeUserIds extends ArraySanitizer
     public function run(): array
     {
         return Arr::uniqueInt(
-            array_map([Helper::class, 'getUserId'], $this->value())
+            array_map([Helper::class, 'getUserId'], $this->splitValue())
         );
     }
 }

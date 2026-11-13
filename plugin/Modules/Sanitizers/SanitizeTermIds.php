@@ -10,7 +10,7 @@ class SanitizeTermIds extends ArraySanitizer
     public function run(): array
     {
         return Arr::uniqueInt(
-            array_map([Helper::class, 'getTermTaxonomyId'], $this->value())
+            array_map([Helper::class, 'getTermTaxonomyId'], $this->splitValue())
         );
     }
 }

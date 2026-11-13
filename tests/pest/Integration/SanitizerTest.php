@@ -931,6 +931,19 @@ test('sanitize post ids', function () {
     ]);
 });
 
+test('a list of ids reads a comma-separated entry as several ids', function () {
+    // Form fields that share a name arrive as a list, and one of them may hold several ids.
+    $posts = createPosts(3);
+    $terms = createTerms(3, ['taxonomy' => glsr()->taxonomy]);
+    createUsers(3);
+    $users = array_slice(array_map('intval', get_users(['fields' => 'ID'])), 0, 3);
+    $list = fn (array $ids) => [[$ids[0], "{$ids[1]},{$ids[2]}"]];
+
+    expect(sanitizeValues('post-ids', $list($posts)))->toBe([$posts])
+        ->and(sanitizeValues('term-ids', $list($terms)))->toBe([$terms])
+        ->and(sanitizeValues('user-ids', $list($users)))->toBe([$users]);
+});
+
 test('sanitize rating', function () {
     add_filter('site-reviews/const/MAX_RATING', fn () => 5);
     add_filter('site-reviews/const/MIN_RATING', '__return_zero');
