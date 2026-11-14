@@ -1,23 +1,26 @@
 import apiFetch from '@wordpress/api-fetch';
 import createStore, { DEFAULT_STORE_NAME } from '@site-reviews/store';
-import { _x } from '@wordpress/i18n';
-import {
-    __experimentalHStack as HStack,
-    __experimentalText as Text,
-    Animate,
-    BaseControl,
-    FormTokenField,
-} from '@wordpress/components';
+import { _nx, _x, sprintf } from '@wordpress/i18n';
+import { VisuallyHidden } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import { ControlProps, Item, TransformedItem, SuggestionMatch } from './types';
+import { ControlProps, Item, TransformedItem } from './types';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import SearchableChipSelectControl, { LoadingIndicator } from '../searchable-chip-select-control';
+import type { Item as Choice } from '../searchable-results/types';
+
+const toChoice = (item: TransformedItem): Choice => ({
+    description: item.id,
+    label: item.title,
+    value: item.id,
+});
 
 const AjaxFormTokenField = (props: ControlProps) => {
     const {
         endpoint,
         help,
+        hideLabelFromVision = false,
         label,
         onChange,
         placeholder,
@@ -26,11 +29,11 @@ const AjaxFormTokenField = (props: ControlProps) => {
         value,
     } = props;
 
+    const [answered, setAnswered] = useState<string>(''); // the last search that finished
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const [selectedValues, setSelectedValues] = useState<TransformedItem[]>([]);
-    const [suggestionMap, setSuggestionMap] = useState<Map<string, TransformedItem>>(new Map());
     const hasFetchedData = useRef<boolean>(false);
 
     const registeredStoreName: string = createStore(storeName);
@@ -47,14 +50,12 @@ const AjaxFormTokenField = (props: ControlProps) => {
         }),
     });
 
-    // The token field keys its rows and tokens by the value, so the id is in it.
     const transformItem = (item: Item): TransformedItem => ({
         id: String(item.id),
         title: item.title,
         value: `${item.id}: ${item.title}`,
     });
 
-    // The titles that more than one suggested or selected item carries.
     const sharedTitles = useMemo(() => {
         const idsByTitle = new Map<string, Set<string>>();
         [...suggestedValues, ...selectedValues].forEach((item) => {
@@ -63,22 +64,13 @@ const AjaxFormTokenField = (props: ControlProps) => {
         return new Set([...idsByTitle].filter(([, ids]) => ids.size > 1).map(([title]) => title));
     }, [selectedValues, suggestedValues]);
 
-    // A token shows its id when the id is a number or when another item has the same title.
-    const displayTransform = (value: string): string => {
-        const [id, ...rest] = value.split(': ');
-        const title = rest.join(': ');
-        if (!rest.length || !isNaN(parseFloat(id)) || sharedTitles.has(title)) {
-            return value;
-        }
-        return title;
+    const chipLabel = ({ label: title, value: id }: Choice): string => {
+        return !isNaN(parseFloat(id)) || sharedTitles.has(title) ? `${id}: ${title}` : title;
     };
 
     const initValues = async () => {
         if (hasFetchedData.current) return;
-        // Cached suggestions resolve the selection only when they hold
-        // every selected id: a search or another field's page may have
-        // replaced the list, and an id left unresolved would be dropped
-        // from the value on the next change.
+        // Cached suggestions resolve the selection only when they hold every selected id
         const cachedSelection = suggestedValues.filter(
             (suggestion) => value.includes(suggestion.id)
         );
@@ -116,80 +108,31 @@ const AjaxFormTokenField = (props: ControlProps) => {
         try {
             const response = await apiFetch<Item[]>(req());
             setStoreValues('suggestedValues', endpoint, response.map(transformItem));
+            setAnswered(search);
         } finally {
             setIsSearching(false);
         }
     };
 
-    const handleValueChange = (nextValues: (string | TransformedItem)[]) => {
-        nextValues.map((nextValue, index) => {
-            // If nextValue is a string then it is a new entry and we need to replace with an object.
-            if (typeof nextValue === 'string') {
-                const suggestedValue = suggestedValues.find((suggestion) => suggestion.value === nextValue);
-                if (suggestedValue) {
-                    nextValues[index] = suggestedValue;
-                }
-            }
-            return nextValue;
-        });
-        setSearch('')
-        setSelectedValues(nextValues as TransformedItem[])
-        onChange(nextValues.map((selected) => (selected as TransformedItem).id))
+    const handleValueChange = (choices: Choice[]) => {
+        const known = new Map([...suggestedValues, ...selectedValues].map((item) => [item.id, item]));
+        const nextValues = choices.map((choice) => known.get(choice.value)).filter(Boolean) as TransformedItem[];
+        setSearch('');
+        setSelectedValues(nextValues);
+        onChange(nextValues.map((selected) => selected.id));
     };
-
-    const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {
-        const matchText = search.toLocaleLowerCase();
-        if (matchText.length === 0) {
-            return null;
-        }
-        const indexOfMatch = suggestion.toLocaleLowerCase().indexOf(matchText);
-        return {
-            afterMatch: suggestion.substring(indexOfMatch + matchText.length),
-            beforeMatch: suggestion.substring(0, indexOfMatch),
-            match: suggestion.substring(indexOfMatch, indexOfMatch + matchText.length),
-        };
-    };
-
-    const renderItem = ({ item }: { item: string }) => {
-        const suggestion = suggestionMap.get(item);
-        if (!suggestion) return null; // Item not found
-        const { id, title } = suggestion;
-        const matchText = computeSuggestionMatch(title);
-        return (
-            <HStack>
-                {matchText ? (
-                    <Text color="inherit" numberOfLines={1} aria-label={title}>
-                        {matchText.beforeMatch}
-                        <strong className="components-form-token-field__suggestion-match">
-                            {matchText.match}
-                        </strong>
-                        {matchText.afterMatch}
-                    </Text>
-                ) : (
-                    <Text color="inherit">{title}</Text>
-                )}
-                <Text color="inherit" size="small" style={{ flexShrink: 0, opacity: '0.5' }}>
-                    {id}
-                </Text>
-            </HStack>
-        );
-    };
-
-    const validateInput = (input: string): boolean => {
-        return suggestedValues.some((item) => item.value === input);
-    }
 
     const debouncedSearch = useDebounce(performSearch, 250);
 
-    const expandOnFocus = useMemo(
-        () => {
-            const hasUniqueSuggestions = suggestedValues.some(
-                (suggestion) => !selectedValues.some((selected) => selected.id === suggestion.id)
-            );
-            return search.length > 1 || hasUniqueSuggestions;
-        },
-        [search, selectedValues, suggestedValues]
-    );
+    const choices = useMemo(() => {
+        const text = search.toLocaleLowerCase();
+        const isAnswered = !text || answered === search;
+        return suggestedValues
+            .filter((item) => isAnswered || item.value.toLocaleLowerCase().includes(text))
+            .map(toChoice);
+    }, [answered, search, suggestedValues]);
+
+    const selectedChoices = useMemo(() => selectedValues.map(toChoice), [selectedValues]);
 
     // Run only on mount
     useEffect(() => { initValues() }, [])
@@ -197,43 +140,29 @@ const AjaxFormTokenField = (props: ControlProps) => {
     // Fetch suggestions whenever search changes
     useEffect(() => { debouncedSearch() }, [search])
 
-    // Use a Map for faster lookups when rendering suggestions
-    useEffect(() => {
-        setSuggestionMap(new Map(suggestedValues.map((item) => [item.value, item])));
-    }, [suggestedValues]);
-
     return (
-        <BaseControl __nextHasNoMarginBottom>
-            <Animate type={(isLoading || isSearching) ? 'loading' : undefined}>
-                {({ className }) => (
-                    <FormTokenField
-                        __experimentalExpandOnFocus={expandOnFocus}
-                        __experimentalRenderItem={renderItem}
-                        __experimentalShowHowTo={false}
-                        __experimentalValidateInput={validateInput}
-                        __next40pxDefaultSize
-                        __nextHasNoMarginBottom
-                        className={className}
-                        disabled={isLoading}
-                        displayTransform={displayTransform}
-                        help=""
-                        label={label || ''}
-                        onChange={handleValueChange}
-                        onInputChange={setSearch}
-                        placeholder={
-                            placeholder || _x('Search...', 'admin-text', 'site-reviews')
-                        }
-                        suggestions={suggestedValues.map((suggestion) => suggestion.value)}
-                        value={selectedValues}
-                    />
-                )}
-            </Animate>
-            {help && (
-                <Text variant="muted" size="small">
-                    {help}
-                </Text>
+        <SearchableChipSelectControl
+            chipLabel={chipLabel}
+            description={help}
+            disabled={isLoading}
+            emptyContent={isSearching ? null : undefined}
+            hideLabelFromVision={hideLabelFromVision}
+            items={choices}
+            label={label || ''}
+            onInputValueChange={setSearch}
+            onValueChange={handleValueChange}
+            searchPlaceholder={placeholder || _x('Search...', 'admin-text', 'site-reviews')}
+            statusContent={isSearching ? <LoadingIndicator /> : (
+                <VisuallyHidden>
+                    {sprintf(
+                        /* translators: %d: the number of items found */
+                        _nx('%d result', '%d results', choices.length, 'admin-text', 'site-reviews'),
+                        choices.length
+                    )}
+                </VisuallyHidden>
             )}
-        </BaseControl>
+            value={selectedChoices}
+        />
     );
 };
 

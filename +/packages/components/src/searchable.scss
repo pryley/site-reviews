@@ -1,0 +1,279 @@
+/**
+ * @see @wordpress/ui SearchableChipSelectControl|SearchableSelectControl
+ */
+.glsr-searchable {
+    position: relative;
+
+    &__field {
+        background: #fff;
+        border: 1px solid #949494;
+        border-radius: 2px;
+        box-sizing: border-box;
+        cursor: text;
+
+        &:focus-within {
+            border-color: var(--wp-admin-theme-color, #3858e9);
+            box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color, #3858e9);
+            outline: 2px solid transparent; // shown in forced-colors mode
+        }
+
+        &.is-disabled {
+            background: #f0f0f0;
+            border-color: #ccc;
+            cursor: default;
+        }
+    }
+
+    &__chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 8px 8px 0;
+    }
+
+    &__chip {
+        align-items: center;
+        border: 1px solid #8b8b8b;
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: #1e1e1e;
+        cursor: default;
+        display: flex;
+        font-size: 13px;
+        line-height: 16px;
+        max-width: 100%;
+        min-height: 26px;
+        overflow: hidden;
+
+        &:focus,
+        &:has(button:hover:not(:disabled)) {
+            background: #ececec;
+            border-color: #6c6c6c;
+            outline: 2px solid transparent; // shown in forced-colors mode
+        }
+    }
+
+    &__chip-label {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        padding: 4px 0 4px 8px;
+    }
+
+    &__chip-remove,
+    &__clear {
+        align-items: center;
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: inherit;
+        cursor: pointer;
+        display: flex;
+        flex-shrink: 0;
+        height: 24px;
+        justify-content: center;
+        padding: 0;
+        width: 24px;
+
+        &:disabled {
+            cursor: default;
+            opacity: 0.4;
+        }
+    }
+
+    // focus ring for the Clear button
+    &__clear:focus-visible {
+        box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
+        outline: 2px solid transparent;
+    }
+
+    // override wp-admin's text input styles
+    &__input[type="text"] {
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        box-sizing: border-box;
+        color: #1e1e1e;
+        display: block;
+        font-size: 16px; // a smaller size makes mobile Safari zoom
+        line-height: 16px;
+        margin: 0;
+        min-height: 38px; // 40px including the border
+        outline: 0;
+        padding: 11px 12px;
+        width: 100%;
+
+        @media (min-width: 600px) {
+            font-size: 13px;
+        }
+
+        &:focus {
+            border: 0;
+            box-shadow: none;
+            outline: 0;
+        }
+
+        &:disabled {
+            background: none;
+        }
+
+        &::placeholder {
+            color: rgba(30, 30, 30, 0.62);
+        }
+    }
+
+    // the single select field
+    &__field.is-select {
+        align-items: center;
+        cursor: default;
+        display: flex;
+        padding-right: 4px;
+    }
+
+    &__trigger {
+        align-items: center;
+        background: none;
+        border: 0;
+        color: #1e1e1e;
+        cursor: pointer;
+        display: flex;
+        flex: 1;
+        font-size: 13px;
+        gap: 4px;
+        line-height: 18px;
+        min-height: 38px;
+        min-width: 0;
+        outline: 0;
+        padding: 4px 4px 4px 12px;
+        text-align: start;
+
+        &:disabled {
+            cursor: default;
+        }
+
+        svg {
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+    }
+
+    &__trigger-text {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.is-placeholder {
+            color: #6e6e6e;
+        }
+    }
+
+    // the single select search field
+    &__search {
+        border: 1px solid #949494;
+        border-radius: 2px;
+        margin: 4px 8px;
+
+        &:focus-within {
+            border-color: var(--wp-admin-theme-color, #3858e9);
+            box-shadow: 0 0 0 0.5px var(--wp-admin-theme-color, #3858e9);
+        }
+
+        .glsr-searchable__input[type="text"] {
+            min-height: 38px;
+            padding: 0 12px;
+        }
+    }
+
+    &__popup {
+        background: #fff;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 5px rgba(0, 0, 0, 0.04), 0 12px 12px rgba(0, 0, 0, 0.03), 0 16px 16px rgba(0, 0, 0, 0.02);
+        left: 0;
+        margin-top: 8px;
+        padding: 4px 0;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        z-index: 10; // higher than the z-index of other controls
+    }
+
+    // the list when it opens above the field
+    &.is-above &__popup {
+        bottom: 100%;
+        margin-bottom: 8px;
+        margin-top: 0;
+        top: auto;
+    }
+
+    &__list {
+        max-height: 240px;
+        overflow-y: auto;
+    }
+
+    &__empty,
+    &__loading,
+    &__option {
+        align-items: center;
+        border-radius: 2px;
+        box-sizing: border-box;
+        font-size: 13px;
+        line-height: 16px;
+        margin: 0 4px;
+        min-height: 32px;
+        padding: 4px 8px 4px 4px;
+    }
+
+    &__option {
+        color: #1e1e1e;
+        cursor: default;
+        display: grid;
+        gap: 4px;
+        grid-template-columns: 16px 1fr auto;
+
+        &.is-active {
+            background: var(--wp-admin-theme-color, #3858e9);
+            color: #fff;
+        }
+    }
+
+    &__empty,
+    &__loading {
+        color: #6e6e6e;
+        display: flex;
+        gap: 4px;
+    }
+
+    &__empty {
+        padding-left: 8px;
+    }
+
+    &__loading .components-spinner {
+        flex-shrink: 0;
+        height: 12px;
+        margin: 2px; // overrides the WordPress spinner
+        width: 12px;
+    }
+
+    &__option-indicator {
+        display: flex;
+        height: 16px;
+        width: 16px;
+
+        svg {
+            fill: currentColor;
+        }
+    }
+
+    &__option-label {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    &__option-description {
+        font-size: 12px;
+        opacity: 0.6;
+    }
+}

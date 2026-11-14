@@ -320,10 +320,10 @@ msgstr ""
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:98
 #: plugin/Integrations/GamiPress/Controller.php:134
 #: plugin/Integrations/ProfilePress/RatingField.php:24
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 #: assets/blocks/surecart_product_rating/index.js:1
 msgctxt "admin-text"
 msgid "Rating"
@@ -2403,10 +2403,10 @@ msgstr ""
 #: plugin/Addons/Controller.php:45
 #: plugin/Controllers/AdminController.php:67
 #: plugin/Controllers/MenuController.php:66
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -2873,8 +2873,8 @@ msgstr ""
 #: views/partials/editor/pinned.php:19
 #: views/partials/editor/verified.php:7
 #: views/partials/editor/verified.php:20
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -2889,8 +2889,8 @@ msgstr ""
 #: views/partials/editor/pinned.php:22
 #: views/partials/editor/verified.php:7
 #: views/partials/editor/verified.php:23
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -5244,10 +5244,10 @@ msgstr ""
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:81
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:27
 #: plugin/Integrations/WPBakery/Transformer.php:36
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
@@ -5258,32 +5258,32 @@ msgstr ""
 #: plugin/Integrations/Flatsome/Transformer.php:41
 #: plugin/Integrations/Flatsome/Transformer.php:71
 #: plugin/Integrations/Flatsome/Transformer.php:88
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Select..."
 msgstr ""
 
 #: plugin/Integrations/Avada/Transformer.php:62
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Search Pages..."
 msgstr ""
 
 #: plugin/Integrations/Avada/Transformer.php:65
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Search Categories..."
 msgstr ""
 
 #: plugin/Integrations/Avada/Transformer.php:68
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Search Users..."
 msgstr ""
@@ -5301,9 +5301,11 @@ msgstr ""
 #: plugin/Integrations/Avada/Transformer.php:91
 #: views/partials/listtable/filter.php:24
 #: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews/index.js:3
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:3
 msgctxt "admin-text"
 msgid "Search..."
 msgstr ""
@@ -5332,10 +5334,10 @@ msgstr ""
 #: plugin/Integrations/Bricks/Controller.php:35
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:79
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:25
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Display"
 msgstr ""
@@ -5351,10 +5353,10 @@ msgstr ""
 #: plugin/Integrations/Bricks/Controller.php:38
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:83
 #: plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:28
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 #: assets/blocks/surecart_product_rating/index.js:1
 msgctxt "admin-text"
 msgid "Text"
@@ -5388,7 +5390,7 @@ msgid "Percent Bars"
 msgstr ""
 
 #: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:85
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "The recommended way to change these values is to use the Site Reviews → Settings → Strings page."
 msgstr ""
@@ -6826,27 +6828,27 @@ msgid "&hellip;"
 msgstr ""
 
 #: plugin/Modules/Rating.php:64
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgid "Excellent"
 msgstr ""
 
 #: plugin/Modules/Rating.php:65
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgid "Very good"
 msgstr ""
 
 #: plugin/Modules/Rating.php:66
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgid "Average"
 msgstr ""
 
 #: plugin/Modules/Rating.php:67
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgid "Poor"
 msgstr ""
 
 #: plugin/Modules/Rating.php:68
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgid "Terrible"
 msgstr ""
 
@@ -7158,7 +7160,7 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:147
 #: plugin/Widgets/SiteReviewsFormWidget.php:15
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Assign Reviews to Pages"
 msgstr ""
@@ -7172,7 +7174,7 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:154
 #: plugin/Widgets/SiteReviewsFormWidget.php:19
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Assign Reviews to Categories"
 msgstr ""
@@ -7186,7 +7188,7 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:161
 #: plugin/Widgets/SiteReviewsFormWidget.php:25
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Assign Reviews to Users"
 msgstr ""
@@ -7206,7 +7208,7 @@ msgid "Enter the Custom ID of a Latest Reviews block or shortcode where the revi
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:174
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Latest Reviews ID"
 msgstr ""
@@ -7217,7 +7219,7 @@ msgid "Enter the Custom ID of a Rating Summary block or shortcode where the rati
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:180
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Rating Summary ID"
 msgstr ""
@@ -7227,10 +7229,10 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsShortcode.php:149
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:174
 #: plugin/Widgets/Widget.php:51
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr ""
@@ -7240,10 +7242,10 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsShortcode.php:151
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:176
 #: plugin/Widgets/Widget.php:52
-#: assets/blocks/site_review/index.js:1
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_form/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
@@ -7308,7 +7310,7 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewShortcode.php:53
 #: plugin/Widgets/SiteReviewWidget.php:15
-#: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_review/index.js:2
 msgctxt "admin-text"
 msgid "Review Post ID"
 msgstr ""
@@ -7392,8 +7394,8 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:81
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:16
 #: plugin/Widgets/SiteReviewsWidget.php:16
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Assigned Pages"
 msgstr ""
@@ -7410,16 +7412,16 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:95
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:26
 #: plugin/Widgets/SiteReviewsWidget.php:26
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Assigned Users"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:87
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:102
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Review Author"
 msgstr ""
@@ -7428,16 +7430,16 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:109
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:30
 #: plugin/Widgets/SiteReviewsWidget.php:30
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Accepted Terms"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:96
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:111
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Select Review Terms..."
 msgstr ""
@@ -7446,38 +7448,38 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:116
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:37
 #: plugin/Widgets/SiteReviewsWidget.php:37
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Type"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:103
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:118
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Select a Review Type..."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:108
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:123
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Verified Status"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:110
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:125
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Select Verified Status..."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:115
-#: assets/blocks/site_reviews/index.js:1
+#: assets/blocks/site_reviews/index.js:4
 msgctxt "admin-text"
 msgid "Pagination Type"
 msgstr ""
@@ -7489,7 +7491,7 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:123
 #: plugin/Widgets/SiteReviewsWidget.php:43
-#: assets/blocks/site_reviews/index.js:1
+#: assets/blocks/site_reviews/index.js:4
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
@@ -7498,16 +7500,16 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:131
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:43
 #: plugin/Widgets/SiteReviewsWidget.php:50
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:138
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:149
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "The schema should only be enabled once on your page."
 msgstr ""
@@ -7536,37 +7538,37 @@ msgid "Use the %s addon to add custom rating fields."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:145
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Custom Rating Field Name"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:160
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:162
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Summary Text"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:163
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "{rating} out of {max} stars (based on {num} reviews)"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:167
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:169
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Summary Labels"
 msgstr ""
@@ -8192,6 +8194,9 @@ msgid "Clearing..."
 msgstr ""
 
 #: views/pages/tools/console.php:33
+#: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_reviews/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:3
 msgctxt "admin-text"
 msgid "Clear"
 msgstr ""
@@ -8399,6 +8404,9 @@ msgid "Removing all geolocated data, please wait..."
 msgstr ""
 
 #: views/pages/tools/general/geolocate-reviews.php:39
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
 msgctxt "admin-text"
 msgid "Remove"
 msgstr ""
@@ -8874,6 +8882,12 @@ msgid "Click me!"
 msgstr ""
 
 #: views/partials/listtable/filter.php:22
+#: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_reviews/index.js:1
+#: assets/blocks/site_reviews/index.js:3
+#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:3
 msgctxt "admin-text"
 msgid "Search"
 msgstr ""
@@ -9247,57 +9261,135 @@ msgstr ""
 #: assets/blocks/site_reviews_form/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
 msgctxt "admin-text"
-msgid "Loading block..."
+msgid "Loading…"
 msgstr ""
 
 #: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_reviews/index.js:1
+#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:1
+msgctxt "admin-text"
+msgid "No results found."
+msgstr ""
+
+#: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_reviews/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:3
+msgctxt "admin-text"
+msgid "Select"
+msgstr ""
+
+#. translators: %d: the number of items found
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:3
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
+#, js-format
+msgctxt "admin-text"
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/blocks/site_review/index.js:2
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_form/index.js:3
+#: assets/blocks/site_reviews_summary/index.js:4
+msgctxt "admin-text"
+msgid "Loading block..."
+msgstr ""
+
+#: assets/blocks/site_review/index.js:2
 msgctxt "admin-text"
 msgid "Search for a review to display."
 msgstr ""
 
-#: assets/blocks/site_review/index.js:1
+#: assets/blocks/site_review/index.js:2
 msgctxt "admin-text"
 msgid "Search Reviews..."
 msgstr ""
 
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#. translators: 1: the number of selected items, 2: the name of an arrow key
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+#, js-format
+msgctxt "admin-text"
+msgid "%1$d item selected. From the start of the input, press %2$s to move to the selected item."
+msgid_plural "%1$d items selected. From the start of the input, press %2$s to move to the selected items."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+msgctxt "admin-text"
+msgid "Right Arrow"
+msgstr ""
+
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+msgctxt "admin-text"
+msgid "Left Arrow"
+msgstr ""
+
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+msgctxt "admin-text"
+msgid "Selected item"
+msgid_plural "Selected items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/blocks/site_reviews/index.js:2
+#: assets/blocks/site_reviews_form/index.js:2
+#: assets/blocks/site_reviews_summary/index.js:2
+msgctxt "admin-text"
+msgid "Press Backspace or Delete to remove."
+msgstr ""
+
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Limit Reviews by Categories"
 msgstr ""
 
-#: assets/blocks/site_reviews/index.js:1
+#: assets/blocks/site_reviews/index.js:4
 msgctxt "admin-text"
 msgid "Select Pagination..."
 msgstr ""
 
-#: assets/blocks/site_reviews/index.js:1
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews/index.js:4
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Enable the Schema?"
 msgstr ""
 
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission."
 msgstr ""
 
-#: assets/blocks/site_reviews_form/index.js:1
+#: assets/blocks/site_reviews_form/index.js:3
 msgctxt "admin-text"
 msgid "Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission."
 msgstr ""
 
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Use the Review Forms addon to add custom rating fields."
 msgstr ""
 
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Percent Bar"
 msgstr ""
 
-#: assets/blocks/site_reviews_summary/index.js:1
+#: assets/blocks/site_reviews_summary/index.js:4
 msgctxt "admin-text"
 msgid "Sizes"
 msgstr ""

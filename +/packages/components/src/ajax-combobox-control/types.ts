@@ -4,7 +4,7 @@ export interface ControlProps {
   placeholder?: string;
   storeName?: string,
   value?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | null) => void; // null when the selection is cleared
   [key: string]: any;
 }
 

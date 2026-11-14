@@ -1,6 +1,7 @@
 export interface ControlProps {
     endpoint: string;
     help?: string;
+    hideLabelFromVision?: boolean;
     label?: string;
     onChange: (value: string[]) => void;
     placeholder?: string;
@@ -18,10 +19,4 @@ export interface TransformedItem {
     id: string;
     title: string;
     value: string;
-}
-
-export interface SuggestionMatch {
-    afterMatch: string;
-    beforeMatch: string;
-    match: string;
 }
