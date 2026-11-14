@@ -257,6 +257,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed the location shown on Console entries logged from a hook callback
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Fixed the plugin requirement notice not finding a plugin whose folder was renamed
+- Fixed the search fields of the blocks not searching for an ID that is a single digit
 - Fixed the search fields of the blocks opening their results whenever they took the focus, and the results pushing the settings below them down
 - Fixed the search in a block's assignment fields being ignored when it was typed before the field had finished loading
 - Fixed the submit and load more button block styles
