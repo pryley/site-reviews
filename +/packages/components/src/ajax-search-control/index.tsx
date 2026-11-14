@@ -1,35 +1,32 @@
 import apiFetch from '@wordpress/api-fetch';
 import createStore, { DEFAULT_STORE_NAME } from '@site-reviews/store';
-import { _x } from '@wordpress/i18n';
-import {
-    __experimentalHStack as HStack,
-    __experimentalText as Text,
-    Animate,
-    BaseControl,
-    ComboboxControl,
-} from '@wordpress/components';
+import { _nx, _x, sprintf } from '@wordpress/i18n';
+import { VisuallyHidden } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import { ControlProps, Item, TransformedItem, SuggestionMatch } from './types';
+import { ControlProps, Item, TransformedItem } from './types';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import SearchableSelectControl, { LoadingIndicator } from '../searchable-select-control';
+import type { Item as Choice } from '../searchable-results/types';
 
 const AjaxSearchControl = (props: ControlProps) => {
     const {
         endpoint,
         help,
+        label,
         onChange,
-        options: _, // discard
         placeholder,
         prefetch = false,
         storeName = DEFAULT_STORE_NAME,
         value,
-        ...controlProps
     } = props;
 
+    const [answered, setAnswered] = useState<string>(''); // the last search that finished
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
+    const [typed, setTyped] = useState<string>('');
     const hasFetchedData = useRef<boolean>(false);
     const isFirstRun = useRef<boolean>(true);
 
@@ -80,46 +77,26 @@ const AjaxSearchControl = (props: ControlProps) => {
         try {
             const response = await apiFetch<Item[]>(req());
             setStoreValues('options', endpoint, response.map(transformItem));
+            setAnswered(search);
         } finally {
             setIsSearching(false);
         }
     };
 
-    const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {
-        const matchText = search.toLocaleLowerCase();
-        if (matchText.length === 0) {
-            return null;
-        }
-        const indexOfMatch = suggestion.toLocaleLowerCase().indexOf(matchText);
-        return {
-            afterMatch: suggestion.substring(indexOfMatch + matchText.length),
-            beforeMatch: suggestion.substring(0, indexOfMatch),
-            match: suggestion.substring(indexOfMatch, indexOfMatch + matchText.length),
-        };
-    };
+    const choices = useMemo(() => {
+        const text = typed.toLocaleLowerCase();
+        const isAnswered = !text || answered === typed;
+        return options
+            .filter((option) => isAnswered || `${option.value}: ${option.title}`.toLocaleLowerCase().includes(text))
+            .map((option): Choice => ({ description: option.value, label: option.title, value: option.value }));
+    }, [answered, options, typed]);
 
-    const renderItem = ({ item }: { item: TransformedItem }) => {
-        const { title, value } = item;
-        const matchText = computeSuggestionMatch(title);
-        return (
-            <HStack>
-                {matchText ? (
-                    <Text color="inherit" numberOfLines={1} aria-label={title}>
-                        {matchText.beforeMatch}
-                        <strong className="components-form-token-field__suggestion-match">
-                            {matchText.match}
-                        </strong>
-                        {matchText.afterMatch}
-                    </Text>
-                ) : (
-                    <Text color="inherit">{title}</Text>
-                )}
-                <Text color="inherit" size="small" style={{ flexShrink: 0, opacity: '0.5' }}>
-                    {value}
-                </Text>
-            </HStack>
-        );
-    };
+    const selected = useMemo(() => {
+        const option = options.find((candidate) => candidate.value === String(value ?? ''));
+        return option ? { label: option.label, value: option.value } : null;
+    }, [options, value]);
+
+    const isWaiting = isLoading || isSearching;
 
     // Run only on mount
     useEffect(() => { initOptions() }, [])
@@ -128,33 +105,29 @@ const AjaxSearchControl = (props: ControlProps) => {
     useEffect(() => { performSearch() }, [search])
 
     return (
-        <BaseControl __nextHasNoMarginBottom>
-            <Animate type={(isLoading || isSearching) ? 'loading' : undefined}>
-                {({ className }) => (
-                    <ComboboxControl
-                        __experimentalRenderItem={renderItem}
-                        __next40pxDefaultSize
-                        __nextHasNoMarginBottom
-                        allowReset
-                        className={className}
-                        expandOnFocus={false}
-                        options={options}
-                        onChange={onChange}
-                        onFilterValueChange={debouncedSearch}
-                        placeholder={
-                            placeholder || _x('Search...', 'admin-text', 'site-reviews')
-                        }
-                        value={value}
-                        {...controlProps}
-                    />
-                )}
-            </Animate>
-            {help && (
-                <Text variant="muted" size="small">
-                    {help}
-                </Text>
+        <SearchableSelectControl
+            description={help}
+            emptyContent={isWaiting || !typed ? null : undefined}
+            items={choices}
+            label={label}
+            onInputValueChange={(text) => {
+                setTyped(text);
+                debouncedSearch(text);
+            }}
+            onValueChange={(choice) => onChange(choice ? choice.value : null)}
+            placeholder={placeholder || _x('Search...', 'admin-text', 'site-reviews')}
+            showClearButton
+            statusContent={isWaiting ? <LoadingIndicator /> : (
+                <VisuallyHidden>
+                    {sprintf(
+                        /* translators: %d: the number of items found */
+                        _nx('%d result', '%d results', choices.length, 'admin-text', 'site-reviews'),
+                        choices.length
+                    )}
+                </VisuallyHidden>
             )}
-        </BaseControl>
+            value={selected}
+        />
     );
 };
 

@@ -86,7 +86,7 @@ return array(
 			'file:./index.js'
 		),
 		'editorStyle' => array(
-			
+			'file:./index.css'
 		),
 		'script' => array(
 			'site-reviews'
@@ -243,7 +243,7 @@ return array(
 			'file:./index.js'
 		),
 		'editorStyle' => array(
-			
+			'file:./index.css'
 		),
 		'script' => array(
 			'site-reviews'
@@ -530,7 +530,7 @@ return array(
 			'file:./index.js'
 		),
 		'editorStyle' => array(
-			
+			'file:./index.css'
 		),
 		'script' => array(
 			'site-reviews'

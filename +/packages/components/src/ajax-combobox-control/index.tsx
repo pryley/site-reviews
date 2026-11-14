@@ -1,17 +1,18 @@
 import apiFetch from '@wordpress/api-fetch';
 import createStore, { DEFAULT_STORE_NAME } from '@site-reviews/store';
 import { _x } from '@wordpress/i18n';
-import {
-    __experimentalHStack as HStack,
-    __experimentalText as Text,
-    Animate,
-    BaseControl,
-    ComboboxControl,
-} from '@wordpress/components';
 import { ControlProps, Item, Option } from './types';
 import { toOption } from '../utils';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
+import SearchableSelectControl, { LoadingIndicator } from '../searchable-select-control';
+import type { Item as Choice } from '../searchable-results/types';
+
+const toChoice = (option: Option): Choice => ({
+    description: option.value,
+    label: option.label,
+    value: option.value,
+});
 
 const AjaxComboboxControl = (props: ControlProps) => {
     const {
@@ -19,13 +20,15 @@ const AjaxComboboxControl = (props: ControlProps) => {
         fallback = null,
         help,
         hideIfEmpty = false,
-        options: _, // discard
+        label,
+        onChange,
         placeholder,
         storeName = DEFAULT_STORE_NAME,
-        ...controlProps
+        value,
     } = props;
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [search, setSearch] = useState<string>('');
 
     const registeredStoreName: string = createStore(storeName);
     const options = useSelect<Option[]>(
@@ -33,18 +36,6 @@ const AjaxComboboxControl = (props: ControlProps) => {
         [endpoint, registeredStoreName]
     );
     const { set: setStoreValues } = useDispatch(registeredStoreName);
-
-    const renderItem = ({ item }: { item: Option }) => {
-        const { label, value } = item;
-        return (
-            <HStack>
-                <Text color="inherit">{label}</Text>
-                <Text color="inherit" size="small" style={{ flexShrink: 0, opacity: 0.5 }}>
-                    {value}
-                </Text>
-            </HStack>
-        );
-    };
 
     const initOptions = async () => {
         if (options.length) return;
@@ -57,6 +48,18 @@ const AjaxComboboxControl = (props: ControlProps) => {
         }
     };
 
+    const choices = useMemo(() => {
+        const text = search.toLocaleLowerCase();
+        return options
+            .filter((option) => !text || `${option.value}: ${option.label}`.toLocaleLowerCase().includes(text))
+            .map(toChoice);
+    }, [options, search]);
+
+    const selected = useMemo(() => {
+        const option = options.find((candidate) => candidate.value === value);
+        return option ? toChoice(option) : null;
+    }, [options, value]);
+
     useEffect(() => { initOptions() }, [endpoint]);
 
     if (0 === options.length && (fallback || hideIfEmpty)) {
@@ -64,31 +67,19 @@ const AjaxComboboxControl = (props: ControlProps) => {
     }
 
     return (
-        <BaseControl __nextHasNoMarginBottom>
-            <Animate type={ isLoading ? 'loading' : undefined }>
-                {({ className }) => (
-                    <ComboboxControl
-                        __experimentalRenderItem={renderItem}
-                        __next40pxDefaultSize
-                        __nextHasNoMarginBottom
-                        allowReset
-                        className={className}
-                        expandOnFocus={false}
-                        options={options}
-                        placeholder={
-                            placeholder || _x('Select...', 'admin-text', 'site-reviews')
-                        }
-                        {...controlProps}
-                    />
-                ) }
-            </Animate>
-            {help && (
-                <Text variant="muted" size="small">
-                    {help}
-                </Text>
-            )}
-        </BaseControl>
-    )
+        <SearchableSelectControl
+            description={help}
+            emptyContent={isLoading ? null : undefined}
+            items={choices}
+            label={label}
+            onInputValueChange={setSearch}
+            onValueChange={(choice) => onChange?.(choice ? choice.value : null)}
+            placeholder={placeholder || _x('Select...', 'admin-text', 'site-reviews')}
+            showClearButton
+            statusContent={isLoading ? <LoadingIndicator /> : undefined}
+            value={selected}
+        />
+    );
 };
 
 export default AjaxComboboxControl;

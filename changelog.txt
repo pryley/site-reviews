@@ -24,6 +24,7 @@
 - Changed the Licenses tab: it is shown only while a standalone addon is active
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed the plugin script into a small loader: a page only loads the parts it uses (the review lists, the form, the captcha, the modal), when it uses them, and a page without reviews loads none of them
+- Changed the search fields of the blocks: a multi-select field shows the selected items above its search, the arrow keys move between them and the Backspace or Delete key removes one; a single-select field is a button that opens its search and results
 - Changed how the plugin stylesheet loads: each reviews list, form and summary loads the styles it uses beside itself, once per page, and a page without reviews loads none; the `site-reviews` stylesheet handle is gone and the `site-reviews/assets/css` filter hook turns the stylesheets off
 - Changed Compatibility Mode to no longer keep the Javascript names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`), since those add-ons do not run on this version
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
@@ -45,6 +46,7 @@
 - Fixed the location shown on Console entries logged from a hook callback
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Fixed the plugin requirement notice not finding a plugin whose folder was renamed
+- Fixed the search fields of the blocks opening their results whenever they took the focus, and the results pushing the settings below them down
 - Fixed the submit and load more button block styles
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line

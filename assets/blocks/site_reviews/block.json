@@ -135,7 +135,9 @@
   "editorScript": [
     "file:./index.js"
   ],
-  "editorStyle": [],
+  "editorStyle": [
+    "file:./index.css"
+  ],
   "script": [
     "site-reviews"
   ],

@@ -1,6 +1,6 @@
 export interface ControlProps {
     endpoint: string;
-    onChange: (value: string | undefined) => void;
+    onChange: (value: string | null) => void; // null when the selection is cleared
     placeholder?: string;
     storeName?: string;
     value: string;
@@ -18,10 +18,4 @@ export interface TransformedItem {
     label: string;
     title: string;
     value: string;
-}
-
-export interface SuggestionMatch {
-    afterMatch: string;
-    beforeMatch: string;
-    match: string;
 }
