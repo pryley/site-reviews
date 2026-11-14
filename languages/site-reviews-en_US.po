@@ -2430,7 +2430,7 @@ msgid "Enabling this option will persist field values entered into the review fo
 msgstr "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 
 #: plugin/Controllers/Api/Version1/RestSearchController.php:97
-#: plugin/Database.php:235
+#: plugin/Database.php:229
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
@@ -9404,11 +9404,6 @@ msgctxt "admin-text"
 msgid "Enable this setting to keep code snippets working that were written for earlier versions of Site Reviews. Turn it off to check that your site no longer needs it."
 msgstr ""
 
-#: config/settings.php:1212
-msgctxt "admin-text"
-msgid "Enable this setting to enable debug mode, this will log additional information on the Tools > Console page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done."
-msgstr ""
-
 #: views/pages/tools/console.php:46
 msgctxt "admin-text"
 msgid "Level 4: Warnings."
@@ -9417,4 +9412,11 @@ msgstr ""
 #: views/pages/tools/console.php:48
 msgctxt "admin-text"
 msgid "Turn on Debug Mode in the settings to log the entries used for debugging."
+msgstr ""
+
+#. translators: %s: link to the Tools > Console page
+#: config/settings.php:1213
+#, php-format
+msgctxt "admin-text"
+msgid "Enable this setting to enable debug mode, this will log additional information on the %s page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done."
 msgstr ""

@@ -2280,9 +2280,11 @@ msgctxt "admin-text"
 msgid "Debug Mode"
 msgstr ""
 
-#: config/settings.php:1212
+#. translators: %s: link to the Tools > Console page
+#: config/settings.php:1213
+#, php-format
 msgctxt "admin-text"
-msgid "Enable this setting to enable debug mode, this will log additional information on the Tools > Console page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done."
+msgid "Enable this setting to enable debug mode, this will log additional information on the %s page and in the browser console. Turn this on when you troubleshoot a problem and turn it off when you are done."
 msgstr ""
 
 #: helpers.php:109
@@ -3688,7 +3690,7 @@ msgid "The status could not be changed."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestSearchController.php:97
-#: plugin/Database.php:235
+#: plugin/Database.php:229
 #: plugin/Database/Search/SearchPosts.php:24
 msgctxt "admin-text"
 msgid "(no title)"
