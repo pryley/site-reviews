@@ -66,6 +66,22 @@ const control = async (blockName, label) => {
     };
     return { input, root, suggestions };
 };
+// Whether the block's control sends a search of one digit to its route.
+const searches = async (blockName, label, route) => {
+    const { input, root } = await control(blockName, label);
+    // Wait for the answer because a page left while a request is out logs its failure.
+    const answered = page.waitForResponse((response) => {
+        const url = decodeURIComponent(response.url());
+        return url.includes(route) && /[?&]search=5(&|$)/.test(url);
+    }, { timeout: 10000 }).then(() => true, () => false);
+    if ('BUTTON' === await input.evaluate(element => element.tagName)) {
+        await input.click(); // a single select has its search in its list
+    }
+    await root.locator('.glsr-searchable__input').fill('5');
+    const isAnswered = await answered;
+    await page.keyboard.press('Escape');
+    return isAnswered;
+};
 let post = null;
 let review = null;
 let sessionStorage = null;
@@ -224,6 +240,15 @@ try {
         rules.flatMap(rule => rule.split(',')).filter(selector => !selector.trim().startsWith('.glsr-searchable')),
         [],
         'and the stylesheet reaches no other field'
+    );
+
+    equal(
+        [
+            await searches('site-reviews/form', 'Assign Reviews to Pages', '/shortcodes/site_reviews_form/options/assigned_posts'),
+            await searches('site-reviews/review', 'Review Post ID', '/shortcodes/site_review/options/post_id'),
+        ],
+        [true, true],
+        'a multi select and a single select each send a search of one digit'
     );
 
     await page.goto(adminUrl(`site-editor.php?postType=page&postId=${post.id}&canvas=edit`));

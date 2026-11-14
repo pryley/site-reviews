@@ -4,6 +4,7 @@ import { _nx, _x, sprintf } from '@wordpress/i18n';
 import { VisuallyHidden } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import { ControlProps, Item, TransformedItem } from './types';
+import { isSearchable } from '../utils';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
@@ -69,7 +70,7 @@ const AjaxSearchControl = (props: ControlProps) => {
     };
 
     const performSearch = async () => {
-        if (search.length < 2 || isFirstRun.current) {
+        if (!isSearchable(search) || isFirstRun.current) {
             isFirstRun.current = false;
             return;
         }

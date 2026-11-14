@@ -15,6 +15,9 @@ export const toOption = (item: OptionItem): Option => ({
     value: String(item.id),
 });
 
+// two or more characters or any number (Post IDs can be a single digit)
+export const isSearchable = (search: string): boolean => search.length > 1 || /^\d+$/.test(search);
+
 /**
  * Builds the CSS value for a ColorControl attribute pair.
  * Mirrors Block::resolveColor() on the server.
