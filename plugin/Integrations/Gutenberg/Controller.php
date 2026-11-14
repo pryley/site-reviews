@@ -13,14 +13,22 @@ use GeminiLabs\SiteReviews\Modules\Assets\Stylesheets;
 
 class Controller extends AbstractController
 {
+    protected bool $printsCanvasImportMap = false;
+
     /**
-     * Enqueue every component of the site's style in the canvas, which cannot know what a preview renders.
+     * Enqueue what a block preview needs in the canvas.
      *
      * @action enqueue_block_assets
      */
     public function enqueueBlockAssets(): void
     {
-        if (!is_admin() || !glsr()->filterBool('assets/css', true)) {
+        if (!is_admin()) {
+            return;
+        }
+        if (!wp_should_load_block_editor_scripts_and_styles()) {
+            $this->enqueueCanvasScripts();
+        }
+        if (!glsr()->filterBool('assets/css', true)) {
             return;
         }
         $stylesheets = glsr(Stylesheets::class);
@@ -100,6 +108,17 @@ class Controller extends AbstractController
     }
 
     /**
+     * @action wp_print_footer_scripts:1
+     */
+    public function printCanvasImportMap(): void
+    {
+        if ($this->printsCanvasImportMap) {
+            $this->printsCanvasImportMap = false; // the page prints its own
+            wp_script_modules()->print_import_map();
+        }
+    }
+
+    /**
      * @action init
      */
     public function registerBlocks(): void
@@ -125,5 +144,20 @@ class Controller extends AbstractController
     {
         array_push($widgets, 'glsr_site-review', 'glsr_site-reviews', 'glsr_site-reviews-form', 'glsr_site-reviews-summary');
         return $widgets;
+    }
+
+    /**
+     * Enqueue the public script and print the import map in the canvas.
+     */
+    protected function enqueueCanvasScripts(): void
+    {
+        // check if the editor has removed the callback
+        $loadsEveryBlock = false !== has_action('enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles');
+        // check if the script is registered in the Site Editor
+        if ($loadsEveryBlock && !wp_script_is(glsr()->id, 'registered')) {
+            $this->execute(new EnqueuePublicAssets());
+        }
+        $this->printsCanvasImportMap = true; // WordPress doesn't print the import map in the canvas
+        add_action('wp_print_footer_scripts', [$this, 'printCanvasImportMap'], 1); // before footer scripts
     }
 }

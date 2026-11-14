@@ -11,6 +11,7 @@ import path from 'node:path';
 import { ROOT } from './harness.mjs';
 
 const TESTS = {
+    'block-editor': 'block-editor.mjs',
     'category-quick-edit': 'category-quick-edit.mjs',
     dashboard: 'dashboard.mjs',
     documentation: 'documentation.mjs',

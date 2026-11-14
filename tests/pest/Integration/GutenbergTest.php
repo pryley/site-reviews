@@ -130,6 +130,44 @@ test('the editor loads the public script, and the canvas every stylesheet of the
     set_current_screen('front');
 });
 
+test('the canvas prints the public script, an import map for its modules and its footer scripts', function () {
+    wp_styles(); // the canvas copies this registry and the suite may have unset it
+    wp_register_script('canvas-footer-script', 'https://example.org/canvas-footer.js', [], null, ['in_footer' => true]);
+    $enqueue = fn () => wp_enqueue_script('canvas-footer-script');
+    add_action('enqueue_block_assets', $enqueue);
+    set_current_screen('edit-page');
+    $scripts = _wp_get_iframed_editor_assets()['scripts'];
+    ob_start();
+    do_action('wp_print_footer_scripts'); // a later run of the action
+    $footer = (string) ob_get_clean();
+    set_current_screen('front');
+    remove_action('enqueue_block_assets', $enqueue);
+    wp_deregister_script('canvas-footer-script');
+
+    expect($scripts)->toContain('assets/scripts/site-reviews.js')
+        ->toContain('type="importmap"')
+        ->toContain('"@site-reviews/form":')
+        ->toContain('"@site-reviews/request":') // a module the form module imports
+        ->toContain('canvas-footer.js')
+        ->and($footer)->not->toContain('importmap');
+});
+
+test('a canvas collected before the editor registered the public script gets it, unless the editor loads its blocks alone', function () {
+    wp_styles();
+    // the Site Editor collects the canvas before enqueue_block_editor_assets
+    wp_deregister_script(glsr()->id);
+    set_current_screen('edit-page');
+    $everyBlock = _wp_get_iframed_editor_assets()['scripts'];
+    remove_action('enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles');
+    $ownBlocks = _wp_get_iframed_editor_assets()['scripts'];
+    add_action('enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles');
+    set_current_screen('front');
+
+    expect($everyBlock)->toContain('assets/scripts/site-reviews.js')
+        ->toContain('"@site-reviews/form":')
+        ->and($ownBlocks)->not->toContain('assets/scripts/site-reviews.js');
+});
+
 test('a block with no styling of its own still renders wrapped', function () {
     // do_blocks() is the production path: it stages the block-supports context
     // that render() reads through WP_Block_Supports.
