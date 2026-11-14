@@ -6,7 +6,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { ControlProps, Item, TransformedItem } from './types';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import { useCallback, useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import SearchableChipSelectControl, { LoadingIndicator } from '../searchable-chip-select-control';
 import type { Item as Choice } from '../searchable-results/types';
 
@@ -122,7 +122,9 @@ const AjaxFormTokenField = (props: ControlProps) => {
         onChange(nextValues.map((selected) => selected.id));
     };
 
-    const debouncedSearch = useDebounce(performSearch, 250);
+    const performSearchRef = useRef(performSearch);
+    performSearchRef.current = performSearch;
+    const debouncedSearch = useDebounce(useCallback(() => performSearchRef.current(), []), 250);
 
     const choices = useMemo(() => {
         const text = search.toLocaleLowerCase();

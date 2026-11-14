@@ -258,6 +258,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed the next page of reviews and the response to a submitted review being in the site's default language on a Polylang page
 - Fixed the plugin requirement notice not finding a plugin whose folder was renamed
 - Fixed the search fields of the blocks opening their results whenever they took the focus, and the results pushing the settings below them down
+- Fixed the search in a block's assignment fields being ignored when it was typed before the field had finished loading
 - Fixed the submit and load more button block styles
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
