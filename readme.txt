@@ -249,6 +249,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed reviews not being saved on a website that uses version 3 of the SQLite Database Integration plugin
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the default settings of an addon not applying until its settings are saved
+- Fixed the "Enable Session Storage" setting being applied to the Review Form block's preview in the block editor
 - Fixed the Install button in the plugin requirement notice
 - Fixed the license key of a deactivated addon being removed when the settings are saved
 - Fixed the MultilingualPress integration so that a review's metadata is also copied to the review's translations

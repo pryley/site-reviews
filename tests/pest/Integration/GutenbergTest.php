@@ -168,6 +168,14 @@ test('a canvas collected before the editor registered the public script gets it,
         ->and($ownBlocks)->not->toContain('assets/scripts/site-reviews.js');
 });
 
+test('a Review Form block keeps session storage on the frontend', function () {
+    // The editor's preview drops it on a request with context=edit, which tests/browser/block-editor.mjs makes.
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.forms.session_storage', 'yes');
+
+    expect(do_blocks('<!-- wp:site-reviews/form /-->'))->toContain('glsr-persist-data')
+        ->and(has_filter('site-reviews/option/forms/session_storage'))->toBeFalse();
+});
+
 test('a block with no styling of its own still renders wrapped', function () {
     // do_blocks() is the production path: it stages the block-supports context
     // that render() reads through WP_Block_Supports.

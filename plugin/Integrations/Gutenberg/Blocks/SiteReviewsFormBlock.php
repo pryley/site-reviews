@@ -6,6 +6,18 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormBlock extends Block
 {
+    public function render(array $attributes): string
+    {
+        if ('edit' !== filter_input(\INPUT_GET, 'context')) {
+            return parent::render($attributes);
+        }
+        // don't use session storage in the block editor
+        add_filter('site-reviews/option/forms/session_storage', '__return_false');
+        $rendered = parent::render($attributes);
+        remove_filter('site-reviews/option/forms/session_storage', '__return_false');
+        return $rendered;
+    }
+
     public static function shortcodeClass(): string
     {
         return SiteReviewsFormShortcode::class;
