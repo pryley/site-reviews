@@ -1,3 +1,4 @@
+import './editor.scss';
 import './style.scss';
 import edit from './edit';
 import metadata from './block.json';
