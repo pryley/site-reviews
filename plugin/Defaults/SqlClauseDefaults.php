@@ -9,15 +9,8 @@ class SqlClauseDefaults extends DefaultsAbstract
      * This is done before $sanitize and $enums.
      */
     public array $casts = [
+        'clauses' => 'array',
         'replace' => 'bool',
-    ];
-
-    /**
-     * The values that should be sanitized.
-     * This is done after $casts and before $enums.
-     */
-    public array $sanitize = [
-        'clauses' => 'array-string',
     ];
 
     protected function defaults(): array
@@ -33,7 +26,8 @@ class SqlClauseDefaults extends DefaultsAbstract
      */
     protected function finalize(array $values = []): array
     {
-        $values['clauses'] = array_values(array_unique($values['clauses']));
+        $clauses = array_map('trim', array_filter($values['clauses'], 'is_string'));
+        $values['clauses'] = array_values(array_unique($clauses));
         return $values;
     }
 }

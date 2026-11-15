@@ -31,6 +31,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
+    remove_all_filters('site-reviews/review-table/clauses');
     set_current_screen('front');
     $GLOBALS['pagenow'] = $this->pagenow ?? 'index.php';
     $GLOBALS['wp_the_query'] = $this->theQuery ?? new WP_Query();
@@ -373,6 +374,54 @@ test('nobody else\'s query is touched', function () {
     $query->set('post_type', glsr()->post_type);
     set_current_screen('front'); // …not the admin at all
     expect(glsr(ListTableController::class)->filterPostClauses(postClauses(), $query))->toBe(postClauses());
+});
+
+/*
+ * site-reviews/review-table/clauses: what a snippet or an add-on adds to the query.
+ */
+
+/**
+ * Add a clause to the query of the reviews list table, as a listener on the filter does.
+ *
+ * @param mixed $clause
+ */
+function addListTableClause(string $key, $clause): void
+{
+    add_filter('site-reviews/review-table/clauses', function (array $clauses) use ($key, $clause) {
+        $clauses[$key]['clauses'][] = $clause;
+        $clauses[$key]['replace'] = false;
+
+        return $clauses;
+    });
+}
+
+test('a clause added through the filter reaches the query as it was written', function () {
+    $posts = glsr(Tables::class)->table('posts');
+    $clause = "AND {$posts}.post_title LIKE '%cafe &amp; bar%'";
+    addListTableClause('where', $clause);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), onReviewsListTable());
+
+    expect($clauses['where'])->toContain($clause);
+});
+
+test('a clause added through the filter that is not a string is dropped', function () {
+    addListTableClause('where', ['AND 1 = 1']); // implode() would print it as "Array"
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), onReviewsListTable());
+
+    expect($clauses['where'])->toBe(postClauses()['where']);
+});
+
+test('a join added through the filter that the table already makes is joined once', function () {
+    // MySQL refuses a table that is joined twice under one name.
+    $posts = glsr(Tables::class)->table('posts');
+    $ratings = glsr(Tables::class)->table('ratings');
+    addListTableClause('join', " INNER JOIN {$ratings} ON ({$ratings}.review_id = {$posts}.ID) ");
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), onReviewsListTable(['rating' => '5']));
+
+    expect(substr_count($clauses['join'], 'INNER JOIN'))->toBe(1);
 });
 
 /*
