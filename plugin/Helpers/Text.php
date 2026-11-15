@@ -244,6 +244,9 @@ class Text
             return null;
         }
         $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
+        if (!$iterator instanceof \IntlRuleBasedBreakIterator) { // has getRuleStatus()
+            return null;
+        }
         $normalizedText = \Normalizer::normalize($text);
         if (empty($normalizedText)) {
             return null;
