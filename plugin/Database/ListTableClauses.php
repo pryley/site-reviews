@@ -133,6 +133,9 @@ class ListTableClauses
 
     protected function whereType(string $value): string
     {
+        if (!array_key_exists($value, glsr()->retrieveAs('array', 'review_types'))) {
+            return '';
+        }
         return "AND {$this->ratings}.type = '{$value}'";
     }
 }
