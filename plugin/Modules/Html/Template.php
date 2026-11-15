@@ -55,7 +55,6 @@ class Template implements TemplateContract
     public function minify(string $html): string
     {
         $html = trim($html);
-        $html = preg_replace('/\v+/u', '', $html);
         $html = preg_replace('/>\s+</u', '><', $html);
         return $html;
     }

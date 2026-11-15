@@ -41,6 +41,12 @@ test('minified output loses the whitespace between tags and nothing else', funct
         ->and($html)->toContain('<input type="text" />');
 });
 
+test('minified output keeps a line break that is inside text', function () {
+    $html = glsr(Template::class)->minify("<p>one\ntwo</p>\r\n<p>\n</p>");
+
+    expect($html)->toBe("<p>one\ntwo</p><p></p>");
+});
+
 test('a list of templates renders each entry, skipping anything that is not one', function () {
     // renderMultiple() drives the review-list templates: one data array per entry, echoed in
     // order. A non-array entry (a filter gone wrong) is skipped rather than fatal.
