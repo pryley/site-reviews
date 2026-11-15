@@ -32,7 +32,7 @@ class FetchPagedReviews extends AbstractCommand
         }
         return [
             'max_num_pages' => $this->html->max_num_pages,
-            'pagination' => $this->html->getPagination($wrap = false),
+            'pagination' => $this->html->getPagination(false), // don't wrap
             'reviews' => $this->html->getReviews(),
         ];
     }

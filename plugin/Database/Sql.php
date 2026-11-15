@@ -283,7 +283,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('assigned_posts', $this->joinKeyword()),
             $this->args['assigned_posts'],
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -303,7 +303,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('assigned_terms', $this->joinKeyword()),
             $this->args['assigned_terms'],
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -312,7 +312,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('assigned_users', $this->joinKeyword()),
             $this->args['assigned_users'],
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -321,7 +321,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('posts', 'INNER JOIN'),
             $this->args['content'],
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -330,7 +330,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('posts', 'INNER JOIN'),
             array_filter($this->args['date']),
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -339,7 +339,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('posts', 'INNER JOIN'),
             $this->args['user__in'],
-            $prepare = false
+            false // don't prepare
         );
     }
 
@@ -348,7 +348,7 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             $this->join('posts', 'INNER JOIN'),
             $this->args['user__not_in'],
-            $prepare = false
+            false // don't prepare
         );
     }
 

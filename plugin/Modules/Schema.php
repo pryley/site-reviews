@@ -208,7 +208,7 @@ class Schema
         if (is_array($setting)) {
             return $this->getSchemaOptionDefault($setting, $fallback);
         }
-        return Helper::ifEmpty($setting, $fallback, $strict = true);
+        return Helper::ifEmpty($setting, $fallback, true); // use strict comparison
     }
 
     protected function getSchemaOptionDefault(array $setting, string $fallback): string

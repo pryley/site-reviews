@@ -24,7 +24,7 @@ class Arr
         }
         if (is_object($value)) {
             $values = get_object_vars($value);
-            $value = Helper::ifEmpty($values, (array) $value, $strict = true);
+            $value = Helper::ifEmpty($values, (array) $value, true); // use strict comparison
         }
         return is_array($value) ? $value : $fallback;
     }

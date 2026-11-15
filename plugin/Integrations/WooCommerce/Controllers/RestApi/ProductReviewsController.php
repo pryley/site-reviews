@@ -225,7 +225,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
         // update review post
         $postArgs = $this->prepare_item_for_update($request);
         $postArgs['ID'] = $review->ID;
-        $updatePost = wp_update_post($postArgs, $wperror = true);
+        $updatePost = wp_update_post($postArgs, true); // return a WP_Error on failure
         if (is_wp_error($updatePost)) {
             return new \WP_Error('woocommerce_rest_comment_failed_edit', 'Updating review failed.', ['status' => 500]);
         }

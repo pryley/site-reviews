@@ -116,7 +116,7 @@ class SystemInfo implements \Stringable
                 'Database Version' => $this->value('wp-database.database_version'),
             ];
         }
-        $engines = glsr(Tables::class)->tableEngines($removePrefix = true);
+        $engines = glsr(Tables::class)->tableEngines(true); // remove the prefix
         foreach ($engines as $engine => $tables) {
             $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
         }

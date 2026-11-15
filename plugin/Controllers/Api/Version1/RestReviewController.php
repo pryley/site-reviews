@@ -290,7 +290,7 @@ class RestReviewController extends \WP_REST_Controller
             ->normalize($args)
             ->buildReviewsHtml();
         $response = rest_ensure_response([
-            'pagination' => $html->getPagination($wrap = false),
+            'pagination' => $html->getPagination(false), // don't wrap
             'rendered' => $html->getReviews(),
         ]);
         return $this->prepareResponse($response, $request, $html->reviews);

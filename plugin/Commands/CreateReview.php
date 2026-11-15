@@ -59,7 +59,7 @@ class CreateReview extends AbstractCommand
     {
         $this->request = $this->normalize($request); // IP address is set here
         $this->setProperties(); // do this after setting the request
-        $this->review = new Review($this->toArray(), $init = false);
+        $this->review = new Review($this->toArray(), false); // don't init
         $this->validation = new Arguments();
         $this->custom = $this->custom();
         $this->type = $this->type();

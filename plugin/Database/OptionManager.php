@@ -381,7 +381,7 @@ class OptionManager
     public function wp(string $path, $fallback = '', string $cast = '')
     {
         $option = get_option($path, $fallback);
-        return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
+        return Cast::to($cast, Helper::ifEmpty($option, $fallback, true)); // use strict comparison
     }
 
     /**

@@ -43,7 +43,7 @@ class Query
 
     public function ratings(array $args = []): array
     {
-        $this->setArgs($args, $unset = ['orderby']);
+        $this->setArgs($args, ['orderby']); // unset orderby
         $results = glsr(Database::class)->dbGetResults($this->queryRatings(), \ARRAY_A);
         return $this->normalizeRatings($results);
     }
@@ -54,7 +54,7 @@ class Query
         if (!method_exists($this, $method)) {
             return [];
         }
-        $this->setArgs($args, $unset = ['orderby']);
+        $this->setArgs($args, ['orderby']); // unset orderby
         $results = glsr(Database::class)->dbGetResults($this->$method(), \ARRAY_A);
         return $this->normalizeRatingsByAssignedId($results);
     }
@@ -124,7 +124,7 @@ class Query
 
     public function totalReviews(array $args = [], array $reviews = []): int
     {
-        $this->setArgs($args, $unset = ['orderby']);
+        $this->setArgs($args, ['orderby']); // unset orderby
         if (empty($this->sqlLimit()) && !empty($reviews)) {
             return count($reviews);
         }

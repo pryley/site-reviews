@@ -51,10 +51,10 @@ class MainController extends AbstractController
         foreach (glsr(Tables::class)->tables() as $classname) {
             $table = glsr($classname);
             if ($table instanceof TableRatings) {
-                $ratingsTable[$table->name($prefixName = true)] = $table->tablename;
+                $ratingsTable[$table->name(true)] = $table->tablename; // use the prefixed name
                 continue;
             }
-            $customTables[$table->name($prefixName = true)] = $table->tablename;
+            $customTables[$table->name(true)] = $table->tablename; // use the prefixed name
         }
         return $customTables + $ratingsTable + $tables;
     }
