@@ -140,7 +140,6 @@ class SettingForm extends Form
         if (!$field instanceof SettingField) {
             return; // only a setting field has dependencies
         }
-        $isHidden = false;
         foreach (Arr::consolidate($field->depends_on) as $path => $expectedValue) {
             $default = Arr::get(glsr()->defaults(), $path);
             $value = $this->session->values[$path] ?? $default;

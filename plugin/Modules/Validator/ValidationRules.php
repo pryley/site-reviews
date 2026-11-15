@@ -172,9 +172,7 @@ trait ValidationRules
             return $message;
         }
         return preg_replace_callback('/(%s)/', function () use (&$parameters) {
-            foreach ($parameters as $key => $value) {
-                return array_shift($parameters);
-            }
+            return array_shift($parameters);
         }, $message);
     }
 

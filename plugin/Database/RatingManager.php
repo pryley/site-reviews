@@ -21,9 +21,7 @@ class RatingManager
         $metaGroup = strtolower(Str::restrictTo(['post', 'term', 'user'], $metaGroup, 'post'));
         $metaTable = sprintf('%smeta', $metaGroup);
         $ratings = glsr(Query::class)->ratingsFor($metaTable, $args);
-        foreach ($ratings as $id => &$group) {
-            $group = $this->reduce($group, $args);
-        }
+        $ratings = array_map(fn ($group) => $this->reduce($group, $args), $ratings);
         return glsr()->filterArray('ratings/grouped', $ratings, $metaGroup, $args);
     }
 

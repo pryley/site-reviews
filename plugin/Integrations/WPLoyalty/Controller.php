@@ -43,8 +43,8 @@ class Controller extends AbstractController
                 'user_email' => Woocommerce::getInstance()->get_login_user_email(),
             ]);
             $messages = [$field->after];
-            foreach ($rewardsList as $action => $rewards) {
-                foreach ($rewards as $key => $reward) {
+            foreach ($rewardsList as $rewards) {
+                foreach ($rewards as $reward) {
                     $messages[] = $reward['messages'] ?? '';
                 }
             }

@@ -7,9 +7,7 @@ class SanitizeEmails extends StringSanitizer
     public function run(): string
     {
         $emails = explode(',', $this->value());
-        foreach ($emails as &$email) {
-            $email = sanitize_email($email);
-        }
+        $emails = array_map(fn ($email) => sanitize_email($email), $emails);
         return implode(',', array_filter($emails));
     }
 }

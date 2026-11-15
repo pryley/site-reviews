@@ -205,9 +205,7 @@ class ListTableController extends AbstractController
             if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
                 unset($filters['type']);
             }
-            foreach ($filters as $key => &$value) {
-                $value = glsr($value)->title();
-            }
+            $filters = array_map(fn ($value) => glsr($value)->title(), $filters);
             ksort($filters);
             $setting = 'edit_'.glsr()->post_type.'_filters';
             $enabled = get_user_meta($userId, $setting, true);

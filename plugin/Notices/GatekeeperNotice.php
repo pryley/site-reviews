@@ -185,7 +185,7 @@ class GatekeeperNotice extends AbstractNotice
     protected function pluginLinks(array $errors): string
     {
         $links = [];
-        foreach ($errors as $plugin => $data) {
+        foreach ($errors as $data) {
             $links[] = sprintf('<span class="plugin-%s"><a href="%s">%s</a></span>',
                 $data['textdomain'],
                 $data['plugin_uri'],

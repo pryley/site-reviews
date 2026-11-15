@@ -18,7 +18,7 @@ class Paginate
         $args = glsr(PaginationDefaults::class)->restrict($args);
         $parts = explode('?', $base);
         if (wp_is_serving_rest_request() || !NormalizePaginationArgs::pagedRequest()->isEmpty()) {
-            $parts = [$parts[0]]; // this is an AJAX request
+            $parts = []; // this is an AJAX request
         }
         if ($parts[1] ?? false) {
             $format = explode('?', str_replace('%_%', $args['format'], $args['base']));

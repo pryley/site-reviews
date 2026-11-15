@@ -123,7 +123,7 @@ class Text
             return count(preg_split('/[^\p{L}\p{N}\']+/u', $text));
         }
         $wordCount = 0;
-        foreach ($iterator->getPartsIterator() as $part) {
+        while (\IntlBreakIterator::DONE !== $iterator->next()) {
             if (\IntlBreakIterator::WORD_NONE !== $iterator->getRuleStatus()) {
                 ++$wordCount;
             }
