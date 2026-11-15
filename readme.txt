@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.3.7
+Stable tag: 8.3.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,26 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.3.8 (2026-11-15) =
+
+- Fixed a security issue in review excerpts
+- Fixed a security issue in the notice shown after restoring a revision
+- Fixed a security issue in the review type filter
+- Fixed a security issue in the schema
+- Fixed captcha checks slowly filling up the database
+- Fixed forms with more than one Assigned Pages, Categories or Users field not submitting
+- Fixed hidden form fields changing after a failed submission
+- Fixed MultilingualPress translations losing their custom field values when the original review is edited
+- Fixed number fields ignoring decimals in their minimum and maximum
+- Fixed reviews not saving with version 3 of the SQLite Database Integration plugin
+- Fixed some assigned pages, categories or users not being saved with a review
+- Fixed the admin search permission check
+- Fixed the Install button in the missing plugin notice
+- Fixed the IP address detection tool permission check
+- Fixed the review approval permission check
+- Fixed the validation of submitted reviews
+- Fixed the verification email permission check
 
 = 8.3.7 (2026-10-31) =
 

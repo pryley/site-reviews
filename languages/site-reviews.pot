@@ -2,7 +2,7 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Reviews 8.3.7\n"
+"Project-Id-Version: Site Reviews 8.3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-reviews\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
@@ -3267,7 +3267,7 @@ msgid "The verification request email was sent."
 msgstr ""
 
 #: plugin/Commands/SendVerificationEmail.php:71
-#: plugin/Controllers/VerificationController.php:34
+#: plugin/Controllers/VerificationController.php:35
 msgctxt "admin-text"
 msgid "Resend Verification Request"
 msgstr ""
@@ -3357,11 +3357,16 @@ msgctxt "admin-text"
 msgid "Import"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:309
-#: plugin/Controllers/AdminController.php:327
-#: plugin/Controllers/AdminController.php:340
+#: plugin/Controllers/AdminController.php:313
+#: plugin/Controllers/AdminController.php:332
+#: plugin/Controllers/AdminController.php:346
 msgctxt "admin-text"
 msgid "Nothing found."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:390
+msgctxt "admin-text"
+msgid "You do not have permission to search."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:13
@@ -3493,61 +3498,66 @@ msgctxt "admin-text"
 msgid "Limit result set to verified status."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:18
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:19
 msgctxt "admin-text"
 msgid "Cannot create existing review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:22
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:23
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this user."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:26
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:27
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this review author."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:30
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:139
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:31
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:146
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:121
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:46
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:69
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:122
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:51
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:52
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to delete this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:74
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:75
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:81
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:127
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:82
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:128
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:97
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:98
 msgctxt "admin-text"
 msgid "Sorry, you do not have permission to access reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:104
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:105
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:133
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:134
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to approve this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:140
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update the review as this user."
 msgstr ""
@@ -3561,12 +3571,12 @@ msgid "The review does not exist."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestRenderController.php:103
-#: plugin/Controllers/VerificationController.php:96
+#: plugin/Controllers/VerificationController.php:105
 msgid "Thank you, your review has been verified."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestRenderController.php:104
-#: plugin/Controllers/VerificationController.php:97
+#: plugin/Controllers/VerificationController.php:106
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
@@ -3922,7 +3932,7 @@ msgid "Other Reason"
 msgstr ""
 
 #. translators: %s: the review type
-#: plugin/Controllers/EditorController.php:108
+#: plugin/Controllers/EditorController.php:109
 #, php-format
 msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
@@ -4191,18 +4201,18 @@ msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:272
+#: plugin/Controllers/ListTableController.php:270
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:275
+#: plugin/Controllers/ListTableController.php:273
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
 #. translators: %s: user's name
-#: plugin/Controllers/ListTableController.php:281
+#: plugin/Controllers/ListTableController.php:279
 #, php-format
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
@@ -4338,31 +4348,37 @@ msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:366
+#: plugin/Controllers/ToolsController.php:314
+#: plugin/Controllers/ToolsController.php:332
+msgctxt "admin-text"
+msgid "You do not have permission to change the IP address detection."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:380
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/ToolsController.php:371
+#: plugin/Controllers/ToolsController.php:385
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/ToolsController.php:427
+#: plugin/Controllers/ToolsController.php:441
 #, php-format
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:446
+#: plugin/Controllers/ToolsController.php:460
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:451
+#: plugin/Controllers/ToolsController.php:465
 #: views/pages/tools/general/rollback-plugin.php:21
 msgctxt "admin-text"
 msgid "Rollback is unavailable because the Site Reviews folder is a git repository."
@@ -4470,9 +4486,14 @@ msgctxt "admin-text"
 msgid "%s was not updated because its folder is a git repository."
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:35
+#: plugin/Controllers/VerificationController.php:36
 msgctxt "admin-text"
 msgid "Send Verification Request"
+msgstr ""
+
+#: plugin/Controllers/VerificationController.php:52
+msgctxt "admin-text"
+msgid "You do not have permission to request verification of this review."
 msgstr ""
 
 #: plugin/Controllers/WelcomeController.php:22
@@ -4506,7 +4527,7 @@ msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
 
-#: plugin/Database.php:237
+#: plugin/Database.php:231
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
@@ -6496,7 +6517,7 @@ msgstr ""
 msgid "Rated %1$s out of %2$s stars"
 msgstr ""
 
-#: plugin/Modules/Html/ReviewForm.php:14
+#: plugin/Modules/Html/ReviewForm.php:15
 msgid "Submit Review"
 msgstr ""
 
@@ -6628,7 +6649,7 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
-#: plugin/Modules/Validator/SignatureValidator.php:27
+#: plugin/Modules/Validator/SignatureValidator.php:28
 #: views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr ""
@@ -6659,14 +6680,14 @@ msgid "Activate %s"
 msgstr ""
 
 #. translators: %s: the plugin name
-#: plugin/Notices/GatekeeperNotice.php:130
+#: plugin/Notices/GatekeeperNotice.php:133
 #, php-format
 msgctxt "admin-text"
 msgid "Install %s"
 msgstr ""
 
 #. translators: %s: the plugin name
-#: plugin/Notices/GatekeeperNotice.php:146
+#: plugin/Notices/GatekeeperNotice.php:149
 #, php-format
 msgctxt "admin-text"
 msgid "Update %s"
