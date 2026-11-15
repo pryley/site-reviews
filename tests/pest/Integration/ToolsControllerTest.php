@@ -151,6 +151,17 @@ test('the ip proxy header is saved through the admin route', function () {
     expect(get_option(glsr()->prefix.'ip_proxy')['proxy_http_header'])->toBe('x-forwarded-for');
 });
 
+test('the ip proxy header is not saved by somebody without the settings capability', function () {
+    wp_set_current_user(createUser(['role' => 'editor']));
+
+    glsr(ToolsController::class)->ipAddressDetection(
+        new Request(['proxy_http_header' => 'x-forwarded-for', 'trusted_proxies' => '10.0.0.1'])
+    );
+
+    expect(get_option(glsr()->prefix.'ip_proxy'))->toBeFalse()
+        ->and(glsr(Notice::class)->get())->toContain('You do not have permission');
+});
+
 test('every line of a multi-line trusted proxies list is saved', function () {
     // The Tools page posts the form through jQuery's serializeArray(), which sends the lines of a
     // textarea separated by CRLF.
