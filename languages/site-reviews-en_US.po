@@ -313,7 +313,7 @@ msgstr[0] "%s Star"
 msgstr[1] "%s Stars"
 
 #. translators: %s: amount of claims
-#: plugin/Overrides/ScheduledActionsTable.php:240
+#: plugin/Overrides/ScheduledActionsTable.php:241
 #, php-format
 msgid "Maximum simultaneous queues already in progress (%s queue). No additional queues will begin processing until the current queues are complete."
 msgid_plural "Maximum simultaneous queues already in progress (%s queues). No additional queues will begin processing until the current queues are complete."
@@ -3129,7 +3129,7 @@ msgid "Author Unknown"
 msgstr "Author Unknown"
 
 #: plugin/Commands/EnqueueAdminAssets.php:27
-#: plugin/Overrides/ScheduledActionsTable.php:114
+#: plugin/Overrides/ScheduledActionsTable.php:115
 #: views/partials/editor/pinned.php:29
 #: views/partials/editor/verified.php:30
 #: views/partials/screen/inline-edit.php:31
@@ -3437,7 +3437,7 @@ msgid "Community support"
 msgstr "Community support"
 
 #: plugin/Controllers/AdminController.php:112
-#: views/pages/tools/console.php:60
+#: views/pages/tools/console.php:59
 msgctxt "admin-text"
 msgid "Apply"
 msgstr "Apply"
@@ -4158,8 +4158,8 @@ msgctxt "admin-text"
 msgid "Update %s"
 msgstr "Update %s"
 
-#: plugin/Overrides/ScheduledActionsTable.php:86
-#: plugin/Overrides/ScheduledActionsTable.php:119
+#: plugin/Overrides/ScheduledActionsTable.php:87
+#: plugin/Overrides/ScheduledActionsTable.php:120
 #: views/partials/settings/premium-license.php:21
 #: views/partials/strings/plural.php:13
 #: views/partials/strings/single.php:12
@@ -4167,125 +4167,127 @@ msgctxt "admin-text"
 msgid "Delete"
 msgstr "Delete"
 
-#: plugin/Overrides/ScheduledActionsTable.php:89
+#: plugin/Overrides/ScheduledActionsTable.php:90
 msgctxt "admin-text"
 msgid "Hook"
 msgstr "Hook"
 
-#: plugin/Overrides/ScheduledActionsTable.php:90
+#: plugin/Overrides/ScheduledActionsTable.php:91
 #: views/partials/screen/inline-edit.php:66
 msgctxt "admin-text"
 msgid "Status"
 msgstr "Status"
 
-#: plugin/Overrides/ScheduledActionsTable.php:91
+#: plugin/Overrides/ScheduledActionsTable.php:92
 msgctxt "admin-text"
 msgid "Recurrence"
 msgstr "Recurrence"
 
-#: plugin/Overrides/ScheduledActionsTable.php:92
+#: plugin/Overrides/ScheduledActionsTable.php:93
 msgctxt "admin-text"
 msgid "Scheduled Date"
 msgstr "Scheduled Date"
 
-#: plugin/Overrides/ScheduledActionsTable.php:93
+#: plugin/Overrides/ScheduledActionsTable.php:94
+#: plugin/Overrides/ScheduledActionsTable.php:157
 msgctxt "admin-text"
 msgid "Args"
 msgstr "Args"
 
-#: plugin/Overrides/ScheduledActionsTable.php:94
+#: plugin/Overrides/ScheduledActionsTable.php:95
+#: plugin/Overrides/ScheduledActionsTable.php:188
 msgctxt "admin-text"
 msgid "Log"
 msgstr "Log"
 
-#: plugin/Overrides/ScheduledActionsTable.php:100
+#: plugin/Overrides/ScheduledActionsTable.php:101
 msgctxt "admin-text"
 msgid "Claim ID"
 msgstr "Claim ID"
 
-#: plugin/Overrides/ScheduledActionsTable.php:106
+#: plugin/Overrides/ScheduledActionsTable.php:107
 msgctxt "admin-text"
 msgid "Retry"
 msgstr "Retry"
 
-#: plugin/Overrides/ScheduledActionsTable.php:107
+#: plugin/Overrides/ScheduledActionsTable.php:108
 msgctxt "admin-text"
 msgid "Retry the action now as if it were run as part of a queue"
 msgstr "Retry the action now as if it were run as part of a queue"
 
-#: plugin/Overrides/ScheduledActionsTable.php:110
+#: plugin/Overrides/ScheduledActionsTable.php:111
 msgctxt "admin-text"
 msgid "Run Now"
 msgstr "Run Now"
 
-#: plugin/Overrides/ScheduledActionsTable.php:111
+#: plugin/Overrides/ScheduledActionsTable.php:112
 msgctxt "admin-text"
 msgid "Process the action now as if it were run as part of a queue"
 msgstr "Process the action now as if it were run as part of a queue"
 
-#: plugin/Overrides/ScheduledActionsTable.php:115
+#: plugin/Overrides/ScheduledActionsTable.php:116
 msgctxt "admin-text"
 msgid "Cancel the action now to avoid it being run in future"
 msgstr "Cancel the action now to avoid it being run in future"
 
-#: plugin/Overrides/ScheduledActionsTable.php:120
+#: plugin/Overrides/ScheduledActionsTable.php:121
 msgctxt "admin-text"
 msgid "Delete the action now"
 msgstr "Delete the action now"
 
-#: plugin/Overrides/ScheduledActionsTable.php:225
+#: plugin/Overrides/ScheduledActionsTable.php:226
 msgctxt "admin-text"
 msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 msgstr "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 
 #. translators: %d: seconds
-#: plugin/Overrides/ScheduledActionsTable.php:258
+#: plugin/Overrides/ScheduledActionsTable.php:259
 #, php-format
 msgctxt "admin-text"
 msgid "The next queue will begin processing in approximately %d seconds."
 msgstr "The next queue will begin processing in approximately %d seconds."
 
 #. translators: %s: process URL
-#: plugin/Overrides/ScheduledActionsTable.php:255
+#: plugin/Overrides/ScheduledActionsTable.php:256
 #, php-format
 msgctxt "admin-text"
 msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
 msgstr "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
 
 #. translators: 1: action HTML 2: action ID 3: error message
-#: plugin/Overrides/ScheduledActionsTable.php:292
+#: plugin/Overrides/ScheduledActionsTable.php:293
 #, php-format
 msgctxt "admin-text"
 msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
 msgstr "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
 
 #. translators: %s: action HTML
-#: plugin/Overrides/ScheduledActionsTable.php:275
+#: plugin/Overrides/ScheduledActionsTable.php:276
 #, php-format
 msgctxt "admin-text"
 msgid "Successfully executed action: %s"
 msgstr "Successfully executed action: %s"
 
 #. translators: %s: action HTML
-#: plugin/Overrides/ScheduledActionsTable.php:279
+#: plugin/Overrides/ScheduledActionsTable.php:280
 #, php-format
 msgctxt "admin-text"
 msgid "Successfully canceled action: %s"
 msgstr "Successfully canceled action: %s"
 
-#: plugin/Overrides/ScheduledActionsTable.php:282
+#: plugin/Overrides/ScheduledActionsTable.php:283
 msgctxt "admin-text"
 msgid "Successfully deleted action"
 msgstr "Successfully deleted action"
 
 #. translators: %s: action HTML
-#: plugin/Overrides/ScheduledActionsTable.php:286
+#: plugin/Overrides/ScheduledActionsTable.php:287
 #, php-format
 msgctxt "admin-text"
 msgid "Successfully processed change for action: %s"
 msgstr "Successfully processed change for action: %s"
 
-#: plugin/Overrides/ScheduledActionsTable.php:453
+#: plugin/Overrides/ScheduledActionsTable.php:454
 msgctxt "admin-text"
 msgid "Non-repeating"
 msgstr "Non-repeating"
@@ -4858,7 +4860,7 @@ msgctxt "admin-text"
 msgid "Open the Screen Options"
 msgstr "Open the Screen Options"
 
-#: views/partials/page-header.php:19
+#: views/partials/page-header.php:22
 msgctxt "admin-text"
 msgid "Screen Options"
 msgstr "Screen Options"
@@ -4868,7 +4870,7 @@ msgctxt "admin-text"
 msgid "Open the Getting Started page"
 msgstr "Open the Getting Started page"
 
-#: views/partials/page-header.php:27
+#: views/partials/page-header.php:30
 msgctxt "admin-text"
 msgid "Read the Getting Started Guide"
 msgstr "Read the Getting Started Guide"
@@ -5552,27 +5554,27 @@ msgctxt "admin-text"
 msgid "Clear"
 msgstr "Clear"
 
-#: views/pages/tools/console.php:49
+#: views/pages/tools/console.php:42
 msgctxt "admin-text"
 msgid "Level 1: Informational"
 msgstr "Level 1: Informational"
 
-#: views/pages/tools/console.php:50
+#: views/pages/tools/console.php:43
 msgctxt "admin-text"
 msgid "Level 2: Notices"
 msgstr "Level 2: Notices"
 
-#: views/pages/tools/console.php:51
+#: views/pages/tools/console.php:44
 msgctxt "admin-text"
 msgid "Level 4: Warnings"
 msgstr "Level 4: Warnings"
 
-#: views/pages/tools/console.php:53
+#: views/pages/tools/console.php:46
 msgctxt "admin-text"
 msgid "Unknown Level"
 msgstr "Unknown Level"
 
-#: views/pages/tools/console.php:59
+#: views/pages/tools/console.php:58
 msgctxt "admin-text"
 msgid "Please wait..."
 msgstr "Please wait..."
@@ -6190,19 +6192,20 @@ msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"
 
-#: plugin/Modules/Html/FieldElements/Secret.php:25
-#: plugin/Modules/Html/FieldElements/Secret.php:28
-#: plugin/Modules/Html/FieldElements/Secret.php:29
+#: plugin/Modules/Html/FieldElements/Secret.php:27
+#: plugin/Modules/Html/FieldElements/Secret.php:30
+#: plugin/Modules/Html/FieldElements/Secret.php:38
 msgctxt "admin-text"
 msgid "Show value"
 msgstr "Show value"
 
-#: plugin/Modules/Html/FieldElements/Secret.php:27
+#: plugin/Modules/Html/FieldElements/Secret.php:29
 msgctxt "admin-text"
 msgid "Hide value"
 msgstr "Hide value"
 
 #: plugin/Modules/Html/FieldElements/Textarea.php:69
+#: plugin/Modules/Html/FieldElements/Textarea.php:75
 msgctxt "admin-text"
 msgid "Reset value to default"
 msgstr "Reset value to default"
@@ -7625,7 +7628,7 @@ msgstr[0] "%s second ago"
 msgstr[1] "%s seconds ago"
 
 #. translators: %s: time interval
-#: plugin/Overrides/ScheduledActionsTable.php:458
+#: plugin/Overrides/ScheduledActionsTable.php:459
 #, php-format
 msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
@@ -8488,7 +8491,7 @@ msgid_plural "%1$s has not been tested with the installed versions of the follow
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:506
+#: plugin/Overrides/ScheduledActionsTable.php:507
 msgctxt "admin-text"
 msgid "async"
 msgstr ""
@@ -9396,7 +9399,7 @@ msgctxt "admin-text"
 msgid "Enable this setting to keep code snippets working that were written for earlier versions of Site Reviews. Turn it off to check that your site no longer needs it."
 msgstr ""
 
-#: views/pages/tools/console.php:48
+#: views/pages/tools/console.php:52
 msgctxt "admin-text"
 msgid "Turn on Debug Mode in the settings to log the entries used for debugging."
 msgstr ""
@@ -9491,28 +9494,20 @@ msgctxt "admin-text"
 msgid "You do not have permission to change the IP address detection."
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Textarea.php:87
-#: plugin/Modules/Html/FieldElements/Textarea.php:89
+#: plugin/Modules/Html/FieldElements/Textarea.php:86
+#: plugin/Modules/Html/FieldElements/Textarea.php:88
 msgctxt "admin-text"
 msgid "Insert a tag"
 msgstr ""
 
-#: views/pages/tools/console.php:42
+#. translators: %s: the label of a setting
+#: plugin/Modules/Html/Tooltip.php:33
+#, php-format
 msgctxt "admin-text"
-msgid "Here you can change the <u>minimum</u> log level used by the Console. Site Reviews uses the Console to log various details and events throughout the plugin. The log level determines the importance of the logged entry: the higher the level, the more important the entry."
+msgid "More information about %s"
 msgstr ""
 
-#: views/pages/tools/console.php:44
+#: views/pages/tools/console.php:51
 msgctxt "admin-text"
-msgid "Level 1: Informational entries."
-msgstr ""
-
-#: views/pages/tools/console.php:45
-msgctxt "admin-text"
-msgid "Level 2: Deprecation notices."
-msgstr ""
-
-#: views/pages/tools/console.php:46
-msgctxt "admin-text"
-msgid "Level 4: Warnings."
+msgid "Here you can change the minimum log level used by the Console. Site Reviews uses the Console to log various details and events throughout the plugin. The log level determines the importance of the logged entry: the higher the level, the more important the entry."
 msgstr ""

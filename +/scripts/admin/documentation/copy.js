@@ -10,7 +10,7 @@ export default class Copy {
     }
 
     static onCopy (ev) {
-        if (!ev.target.closest?.('.shortcode-example, .tippy-content')) return;
+        if (!ev.target.closest?.('.shortcode-example, .glsr-tooltip')) return;
         ev.clipboardData.setData('text/plain', document.getSelection().toString())
         ev.preventDefault()
     }

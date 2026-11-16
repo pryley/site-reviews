@@ -32,32 +32,17 @@
 /* Field
  ------------------------- */
 
-tr.glsr-setting-field .glsr-tooltip {
-  margin-right: 6px;
-  margin-left: 0;
-}
-
-tr.glsr-setting-field th {
+tr.glsr-setting-field th[scope="row"] {
   width: 240px;
 }
-
-tr.glsr-setting-field th label {
+tr.glsr-setting-field th[scope="row"] > div {
   align-items: flex-start;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  gap: 4px;
 }
 
-tr.glsr-setting-field th .tippy-box {
-  font-weight: 400;
-}
-
-@media only screen and (min-width: 783px) {
-  tr.glsr-setting-field .glsr-tooltip {
-    float: left;
-    margin-left: 0;
-    margin-right: 6px;
-  }
+tr.glsr-setting-field .glsr-tooltip-button {
+  transform: translateY(-1px);
 }
 
 tr.glsr-setting-field td .inline br {

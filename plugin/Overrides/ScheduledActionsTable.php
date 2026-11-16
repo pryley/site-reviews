@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Overrides;
 use ActionScheduler;
 use ActionScheduler_Abstract_ListTable;
 use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Html\Tooltip;
 use GeminiLabs\SiteReviews\Modules\Queue;
 
 class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
@@ -152,9 +153,9 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
             "/(\d+),\s+(\],\\n)/" => '$1$2',
         ];
         $tooltip = preg_replace(array_keys($patterns), array_values($patterns), $tooltip);
-        $row_html = sprintf('<span class="glsr-tooltip dashicons-before dashicons-format-aside" data-syntax="php" data-tippy-allowHTML="1" data-tippy-content="%s" data-tippy-delay="0" data-tippy-interactive="1" data-tippy-maxWidth="640" data-tippy-trigger="click"></span>',
-            esc_html($tooltip)
-        );
+        $id = "glsr-action-{$row['ID']}-args";
+        $row_html = glsr(Tooltip::class)->button($id, _x('Args', 'admin-text', 'site-reviews'), ['icon' => 'dashicons-format-aside'])
+            .glsr(Tooltip::class)->popover($id, $tooltip, ['syntax' => 'php']);
         return apply_filters('action_scheduler_list_table_column_args', $row_html, $row);
     }
 
@@ -183,9 +184,9 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
             $log_entries_html .= $this->get_log_entry_html($log_entry, $timezone);
         }
         $log_entries_html .= '</ol>';
-        return sprintf('<span class="glsr-tooltip dashicons-before dashicons-format-aside" data-tippy-allowHTML="1" data-tippy-content="%s" data-tippy-delay="0" data-tippy-interactive="1" data-tippy-trigger="click"></span>',
-            esc_html($log_entries_html)
-        );
+        $id = "glsr-action-{$row['ID']}-log";
+        return glsr(Tooltip::class)->button($id, _x('Log', 'admin-text', 'site-reviews'), ['icon' => 'dashicons-format-aside'])
+            .glsr(Tooltip::class)->popover($id, $log_entries_html);
     }
 
     /**

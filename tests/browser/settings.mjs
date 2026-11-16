@@ -111,7 +111,7 @@ try {
             await page.waitForFunction(() => !document.querySelector('#glsr-premium-license').dataset.probe);
             await page.unrouteAll({ behavior: 'ignoreErrors' });
             await page.locator('#glsr-premium-license .wp-pwd button').hover();
-            const tooltip = await page.locator('.tippy-content').first().innerText({ timeout: 3000 }).catch(() => '');
+            const tooltip = await page.locator('#glsr-premium-license .glsr-tooltip:popover-open').innerText({ timeout: 3000 }).catch(() => '');
             assert(tooltip.length > 0, 'the show/hide button has its tooltip after the row is drawn again');
         } else {
             info('the License Key row has no Verify button on this site');

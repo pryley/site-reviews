@@ -1,0 +1,145 @@
+/* The tooltips and popovers of Modules\Html\Tooltip, in the look of WordPress's .components-tooltip */
+
+.glsr-tooltip[popover] {
+  background: #000;
+  border: 0; /* a browser gives a popover a border */
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 2px 3px rgba(0, 0, 0, 0.04), 0 6px 6px rgba(0, 0, 0, 0.03), 0 8px 8px rgba(0, 0, 0, 0.02);
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: min(280px, calc(100vw - 32px));
+  overflow: visible;
+  padding: 4px 8px;
+  text-align: center;
+  text-wrap: auto;
+}
+
+/* a rule for the divs of a page would show a closed popover */
+.glsr-tooltip[popover]:not(:popover-open) {
+  display: none;
+}
+
+.glsr-tooltip[popover]:popover-open {
+  display: block;
+}
+
+/* a tooltip that holds HTML is spaced as a popover is */
+.glsr-tooltip[popover]:has(*),
+.glsr-tooltip[popover="auto"] {
+  line-height: 1.5;
+  max-width: min(350px, calc(100vw - 32px));
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.glsr-tooltip[popover].is-code {
+  max-width: min(640px, calc(100vw - 32px));
+  padding: 0;
+}
+
+.glsr-tooltip[popover] a {
+  color: #72aee6;
+}
+
+.glsr-tooltip[popover] a:hover {
+  color: #4f94d4;
+}
+
+.glsr-tooltip[popover] code {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  display: inline-block;
+  padding: 0 4px;
+}
+
+.glsr-tooltip[popover] pre {
+  border-radius: 4px;
+  margin: 0;
+}
+
+.glsr-tooltip[popover] pre > code {
+  background: none;
+  display: block;
+  padding: 0;
+  white-space: pre-wrap;
+}
+
+.glsr-tooltip[popover] li,
+.glsr-tooltip[popover] ol,
+.glsr-tooltip[popover] p,
+.glsr-tooltip[popover] ul {
+  color: inherit; /* wp-admin colours these in a table */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.glsr-tooltip[popover] ol,
+.glsr-tooltip[popover] ul {
+  margin: 4px 0 4px 1.5em;
+}
+
+.glsr-tooltip[popover] ol {
+  list-style: decimal;
+}
+
+.glsr-tooltip[popover] ul {
+  list-style: disc;
+}
+
+.glsr-tooltip[popover] p {
+  margin: 0 0 0.5em;
+}
+
+.glsr-tooltip-button {
+  background: none;
+  border: 0;
+  border-radius: 2px;
+  color: #646970;
+  cursor: pointer;
+  padding: 0;
+}
+
+.glsr-tooltip-button.glsr-help {
+  cursor: help;
+}
+
+.glsr-tooltip-button:focus-visible {
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
+  outline: 2px solid transparent;
+}
+
+/* a browser without the Popover API shows a popover as plain content */
+@supports not selector(:popover-open) {
+  .glsr-tooltip[popover] {
+    display: none;
+  }
+}
+
+@supports (anchor-name: --a) {
+  .glsr-tooltip[popover] {
+    margin: 8px 4px;
+    position-area: top;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+
+  .glsr-tooltip[popover].is-below {
+    position-area: bottom;
+  }
+
+  .glsr-tooltip[popover].is-start {
+    inset: auto 4px anchor(top) max(4px, calc(anchor(left) - 12px));
+    margin: 8px 0;
+    position-area: none;
+    position-try-fallbacks: flip-block;
+  }
+}
+
+/* the script sets left and top */
+@supports not (anchor-name: --a) {
+  .glsr-tooltip[popover] {
+    inset: auto;
+    margin: 0;
+  }
+}

@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Modules\Html\SettingField;
+use GeminiLabs\SiteReviews\Modules\Html\Tooltip;
 
 class Textarea extends AbstractFieldElement
 {
@@ -63,17 +64,15 @@ class Textarea extends AbstractFieldElement
         if (empty($args->default)) {
             return '';
         }
+        $tooltipId = "{$this->field->id}-reset-tooltip";
         $button = $this->field->builder()->button([
-            'class' => 'button is-reset-button hide-if-no-js',
+            'aria-label' => esc_attr_x('Reset value to default', 'admin-text', 'site-reviews'),
+            'class' => 'button is-reset-button dashicons dashicons-undo hide-if-no-js',
             'data-default' => esc_attr($args->default),
-            'data-tippy-content' => esc_attr_x('Reset value to default', 'admin-text', 'site-reviews'),
-            'text' => $this->field->builder()->span([
-                'aria-hidden' => 'true',
-                'class' => 'dashicons dashicons-undo',
-            ]),
+            'data-tooltip' => $tooltipId,
             'type' => 'button',
         ]);
-        return $button;
+        return $button.glsr(Tooltip::class)->tooltip($tooltipId, _x('Reset value to default', 'admin-text', 'site-reviews'));
     }
 
     protected function tagInserter(Arguments $args): string

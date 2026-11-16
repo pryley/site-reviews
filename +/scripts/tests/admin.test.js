@@ -46,12 +46,17 @@ test('GLSR.addons holds what an 8.x filter wrote', () => {
     assert.deepEqual(plain(window.GLSR.addons['site-reviews-forms']), { options: [] })
 });
 
-test('the admin script has its two modules and the tippy library', () => {
+test('the admin script has its two modules and no tippy library', () => {
     const { GLSR } = loadAdmin({ compat: false }).window;
     assert.deepEqual(Object.keys(GLSR.Notice).sort(), ['add', 'error', 'notice'])
     assert.deepEqual(Object.keys(GLSR.Rating).sort(), ['destroy', 'init', 'rebuild'])
-    assert.equal(typeof GLSR.lib.tippy.tippy, 'function')
-    assert.equal(typeof GLSR.lib.tippy.plugins.followCursor, 'object')
+    assert.equal(GLSR.lib.tippy, undefined)
+});
+
+test('debug mode says that GLSR.Tippy has no replacement', () => {
+    const { warnings, window } = loadAdmin({ debug: true });
+    assert.equal(window.GLSR.Tippy, undefined)
+    assert.deepEqual(warnings, ['[site-reviews] GLSR.Tippy was removed in Site Reviews 9.0.0; it has no replacement.'])
 });
 
 test('debug mode names the replacement of a removed admin key, once', () => {

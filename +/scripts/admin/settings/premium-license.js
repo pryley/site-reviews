@@ -167,7 +167,10 @@ export default class PremiumLicense {
         const icon = button.querySelector('.dashicons');
         const label = icon.classList.contains('dashicons-visibility') ? button.dataset.hide : button.dataset.show;
         button.setAttribute('aria-label', label)
-        button._tippy?.setContent(label)
+        const tooltip = document.getElementById(button.dataset.tooltip);
+        if (tooltip) {
+            tooltip.textContent = label;
+        }
         icon.classList.toggle('dashicons-hidden')
         icon.classList.toggle('dashicons-visibility')
     }

@@ -81,9 +81,12 @@ class SettingField extends Field
 
     public function buildFieldLabel(): string
     {
-        return $this->builder()->label([
+        $label = $this->builder()->label([
             'for' => !$this->isChoiceField() ? $this->id : '',
-            'text' => $this->label.$this->buildFieldTooltip(),
+            'text' => $this->label,
+        ]);
+        return $this->builder()->div([
+            'text' => $this->buildFieldTooltip().$label,
         ]);
     }
 
@@ -92,17 +95,8 @@ class SettingField extends Field
         if (empty($this->tooltip)) {
             return '';
         }
-        return $this->builder()->span([
-            'class' => 'glsr-tooltip dashicons-before dashicons-editor-help',
-            'data-tippy-allowHTML' => true,
-            'data-tippy-content' => $this->tooltip,
-            'data-tippy-delay' => [200, null],
-            'data-tippy-interactive' => true,
-            'data-tippy-offset' => [-10, 10],
-            'data-tippy-placement' => 'top-start',
-            // 'data-tippy-animation' => 'scale',
-            // 'data-tippy-inertia' => true,
-            // 'data-tippy-trigger' => 'click',
+        return glsr(Tooltip::class)->help("{$this->id}-help", $this->label, $this->tooltip, [
+            'placement' => 'top-start',
         ]);
     }
 

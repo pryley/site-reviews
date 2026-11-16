@@ -38,14 +38,14 @@
                         <?php
                         $no = sprintf('<i class="dashicons-before dashicons-no-alt" aria-label="%s"></i>', _x('No', 'admin-text', 'site-reviews'));
                         $yes = sprintf('<i class="dashicons-before dashicons-yes" aria-label="%s"></i>', _x('Yes', 'admin-text', 'site-reviews'));
-                        foreach ($features as $args) {
+                        foreach ($features as $index => $args) {
                             $row = glsr()->args($args);
                             ?>
                             <tr style="<?php echo !$row->premium ? 'display:none;' : ''; ?>">
                                 <td>
                                     <div>
                                         <?php if (!empty($row->tooltip)) { ?>
-                                            <i class="glsr-tooltip dashicons-before dashicons-editor-help" data-tippy-content="<?php echo esc_attr($row->tooltip); ?>"></i>
+                                            <?php echo glsr('Modules\Html\Tooltip')->help("glsr-premium-feature-{$index}-help", $row->feature, $row->tooltip, ['placement' => 'top-start']); ?>
                                         <?php } ?>
                                         <?php echo $row->feature; ?>
                                     </div>

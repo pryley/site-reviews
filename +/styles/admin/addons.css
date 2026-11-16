@@ -79,7 +79,7 @@
   justify-content: center;
 }
 
-.glsr-premium__table :is(td,th):first-of-type div {
+.glsr-premium__table :is(td,th):first-of-type > div {
   justify-content: start;
   text-align: start;
   text-wrap: balance;
@@ -133,7 +133,7 @@
   color: #00D48B;
 }
 
-.glsr-premium__table td .glsr-tooltip {
+.glsr-premium__table td .glsr-tooltip-button {
   color: #000;
 }
 

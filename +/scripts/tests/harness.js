@@ -106,6 +106,11 @@ const DEPENDENCIES = () => JQUERY;
 // jsdom has no dialog.showModal(), which the modal needs to count as supported.
 const DIALOG = 'HTMLDialogElement.prototype.showModal = function () {};';
 
+// jsdom has no Popover API: a popover is open while it has data-open, and its toggle event says which way it went.
+const POPOVER = `
+HTMLElement.prototype.showPopover = function () { this.dataset.open = ''; this.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'open' })) };
+HTMLElement.prototype.hidePopover = function () { delete this.dataset.open; this.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' })) };`;
+
 const scripts = (name, modes) => ['compat', 'debug'].filter(mode => modes[mode]).map(mode => `${name}-${mode}.js`);
 
 /**
@@ -180,4 +185,4 @@ const loadBoth = ({ debug = false, html = '', order = ['public', 'admin'] } = {}
     return { errors, infos, warnings, window };
 };
 
-module.exports = { DIALOG, adminConfig, inlineScript, loadAdmin, loadBoth, loadNotices, loadPublic, loadRollback, publicConfig, read };
+module.exports = { DIALOG, POPOVER, adminConfig, inlineScript, loadAdmin, loadBoth, loadNotices, loadPublic, loadRollback, publicConfig, read };

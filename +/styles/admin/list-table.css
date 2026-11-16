@@ -314,12 +314,6 @@
   background-color: color-mix(in srgb, #d54e21 5%, transparent);
 }
 
-#scheduled.glsr-nav-view .column-args .glsr-tooltip,
-#scheduled.glsr-nav-view .column-log_entries .glsr-tooltip {
-  float: none;
-  margin: 0;
-}
-
 @media screen and (max-width: 782px) {
   #scheduled.glsr-nav-view tbody tr.action-in-progress td {
     border-left: 3px solid #c3c4c7;

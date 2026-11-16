@@ -1,5 +1,4 @@
 @import "admin/variables";
-@import "admin/vendor/tippy";
 @import "admin/addons";
 @import "admin/button";
 @import "admin/cards";
@@ -23,6 +22,7 @@
 @import "admin/tabs";
 @import "admin/textarea-editor";
 @import "admin/toggle";
+@import "admin/tooltip";
 @import "admin/track-select";
 @import "admin/videos";
 @import "admin/welcome";

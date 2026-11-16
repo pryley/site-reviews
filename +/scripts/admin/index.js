@@ -41,7 +41,6 @@ import TrackSelect from '@/admin/settings/track-select.js';
 import UploadForm from '@/admin/shared/upload-form.js';
 import Verification from '@/admin/review/verification.js';
 import Videos from '@/admin/documentation/videos.js';
-import tippy, { followCursor } from 'tippy.js';
 
 GLSR.Event = adopt(GLSR.Event);
 GLSR.lib = lib;
@@ -49,7 +48,6 @@ GLSR.Notice = Notice;
 GLSR.Rating = StarRating();
 GLSR.Request = Request;
 GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, historyState, isEmpty, parseJson, selectText, throttle };
-lib.register('tippy', { tippy, plugins: { followCursor } })
 share()
 
 // PremiumLicense: the premium notice has an install link on every screen; ToolButton: the migration notice has a tool button

@@ -167,7 +167,6 @@ GLSR.Rating      // { init(selector, options), rebuild(), destroy() }
 GLSR.Event
 GLSR.Request
 GLSR.Util
-GLSR.lib.tippy   // { tippy, plugins: { followCursor } }
 ```
 
 ## An editor screen
@@ -240,7 +239,7 @@ GLSR.config
 
 ```js
 GLSR.lib.register(name, value)   // adds an entry
-GLSR.lib.tippy                   // reads an entry
+GLSR.lib[name]                  // reads an entry
 ```
 
 - The first registration of a name wins; an entry cannot be replaced.
@@ -334,7 +333,7 @@ The admin script:
 | `GLSR.shortcode`, `GLSR.shortcodes`, `GLSR.tinymce` | nothing; the shortcode button of the classic editor is gone, and a classic editor types the shortcode |
 | `GLSR.stars` | `GLSR.Rating` |
 | `GLSR.text` | `GLSR.config.text` (the keys are camelCase) |
-| `GLSR.Tippy` | `GLSR.lib.tippy` |
+| `GLSR.Tippy` | nothing; a tooltip is a popover that PHP prints, and tippy.js is no longer in the admin script |
 | `GLSR.Utils` | `GLSR.Util` |
 
 These are removed with no warning:

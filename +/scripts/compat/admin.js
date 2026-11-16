@@ -20,7 +20,7 @@ const REMOVED = {
     stars: 'GLSR.Rating',
     text: 'GLSR.config.text',
     tinymce: null,
-    Tippy: 'GLSR.lib.tippy',
+    Tippy: null,
     Utils: 'GLSR.Util',
 };
 
