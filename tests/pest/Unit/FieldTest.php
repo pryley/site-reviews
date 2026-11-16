@@ -99,7 +99,7 @@ test('build password', function () {
             'type' => 'password',
         ]))->toEqual('<div>'.
             '<label for="site-reviews-foobar">Foobar</label>'.
-            '<input type="password" id="site-reviews-foobar" name="site-reviews[foobar]" autocomplete="off" value="" />'.
+            '<input type="password" id="site-reviews-foobar" spellcheck="false" name="site-reviews[foobar]" autocomplete="off" value="" />'.
         '</div>');
 });
 

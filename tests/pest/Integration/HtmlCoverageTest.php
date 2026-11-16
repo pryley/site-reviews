@@ -53,6 +53,109 @@ test('an input attribute that does not apply to its type is dropped', function (
         ->and($attributes['type'])->toBe('hidden');
 });
 
+test('an attribute that every element may carry is kept on any tag', function () {
+    expect(glsr(Attributes::class)->span(['popover' => 'manual', 'inert' => true, 'translate' => 'no', 'enterkeyhint' => 'go'])->toString())
+        ->toBe('popover="manual" inert translate="no" enterkeyhint="go"');
+});
+
+test('a button and a button input can name the popover they open', function () {
+    expect(glsr(Attributes::class)->button(['type' => 'button', 'popovertarget' => 'help', 'popovertargetaction' => 'show', 'commandfor' => 'dialog', 'command' => 'show-modal'])->toString())
+        ->toBe('type="button" popovertarget="help" popovertargetaction="show" commandfor="dialog" command="show-modal"');
+    expect(glsr(Attributes::class)->input(['type' => 'submit', 'popovertarget' => 'help'])->toString())
+        ->toBe('type="submit" popovertarget="help"');
+    expect(glsr(Attributes::class)->input(['type' => 'text', 'popovertarget' => 'help'])->toString())
+        ->toBe('type="text"');
+});
+
+test('an input keeps the attributes of its own type', function () {
+    expect(glsr(Attributes::class)->input(['type' => 'color', 'alpha' => true, 'colorspace' => 'display-p3'])->toString())
+        ->toBe('type="color" alpha colorspace="display-p3"');
+    expect(glsr(Attributes::class)->input(['type' => 'text', 'alpha' => true, 'colorspace' => 'display-p3'])->toString())
+        ->toBe('type="text"');
+    expect(glsr(Attributes::class)->input(['type' => 'checkbox', 'switch' => true])->toString())
+        ->toBe('type="checkbox" switch');
+    expect(glsr(Attributes::class)->input(['type' => 'image', 'alt' => 'Send', 'src' => '/send.png'])->toString())
+        ->toBe('type="image" alt="Send" src="/send.png"');
+    expect(glsr(Attributes::class)->input(['type' => 'password', 'dirname' => 'key.dir'])->toString())
+        ->toBe('type="password" dirname="key.dir"');
+});
+
+test('a list, a form, an image, a select and a textarea keep the attributes of their tag', function () {
+    expect(glsr(Attributes::class)->ol(['start' => '3', 'reversed' => true, 'type' => 'a'])->toString())
+        ->toBe('start="3" reversed type="a"');
+    expect(glsr(Attributes::class)->li(['value' => '2'])->toString())
+        ->toBe('value="2"');
+    expect(glsr(Attributes::class)->form(['method' => 'post', 'rel' => 'noopener'])->toString())
+        ->toBe('method="post" rel="noopener"');
+    expect(glsr(Attributes::class)->img(['src' => '/a.png', 'fetchpriority' => 'high'])->toString())
+        ->toBe('src="/a.png" fetchpriority="high"');
+    expect(glsr(Attributes::class)->select(['name' => 'country', 'autocomplete' => 'country'])->toString())
+        ->toBe('name="country" autocomplete="country"');
+    expect(glsr(Attributes::class)->textarea(['name' => 'note', 'dirname' => 'note.dir'])->toString())
+        ->toBe('name="note" dirname="note.dir"');
+});
+
+test('an attribute that browsers no longer know is dropped', function () {
+    expect(glsr(Attributes::class)->span(['contextmenu' => 'menu', 'dropzone' => 'copy', 'id' => 'kept'])->toString())
+        ->toBe('id="kept"');
+    expect(glsr(Attributes::class)->form(['accept' => 'text/plain', 'method' => 'post'])->toString())
+        ->toBe('method="post"');
+});
+
+test('an attribute written as a keyword takes it from true or false', function () {
+    expect(glsr(Attributes::class)->span(['translate' => false])->toString())
+        ->toBe('translate="no"');
+    expect(glsr(Attributes::class)->input(['type' => 'text', 'autocorrect' => false])->toString())
+        ->toBe('type="text" autocorrect="off"');
+    expect(glsr(Attributes::class)->span(['translate' => 'yes'])->toString())
+        ->toBe('translate="yes"');
+});
+
+test('an attribute written as true or false keeps its value', function () {
+    expect(glsr(Attributes::class)->input(['type' => 'text', 'name' => 'title', 'spellcheck' => 'false'])->toString())
+        ->toBe('type="text" spellcheck="false" name="title"');
+    expect(glsr(Attributes::class)->span(['draggable' => true])->toString())
+        ->toBe('draggable="true"');
+    expect(glsr(Attributes::class)->span(['draggable' => 'false'])->toString())
+        ->toBe('draggable="false"');
+    expect(glsr(Attributes::class)->span(['contenteditable' => 'plaintext-only'])->toString())
+        ->toBe('contenteditable="plaintext-only"');
+    expect(glsr(Attributes::class)->input(['spellcheck', 'type' => 'text'])->toString()) // the shorthand a config uses
+        ->toBe('type="text" spellcheck="true"');
+    expect(glsr(Attributes::class)->span(['spellcheck' => 'nope'])->toString()) // not a keyword, so it is read as on
+        ->toBe('spellcheck="true"');
+});
+
+test('an enumerated attribute with no keyword for true or false is written by its name or left out', function () {
+    expect(glsr(Attributes::class)->span(['hidden' => 'until-found'])->toString())
+        ->toBe('hidden="until-found"');
+    expect(glsr(Attributes::class)->span(['hidden' => true, 'id' => 'panel'])->toString())
+        ->toBe('hidden id="panel"');
+    expect(glsr(Attributes::class)->span(['hidden' => 'hidden'])->toString()) // the value is its name
+        ->toBe('hidden');
+    expect(glsr(Attributes::class)->span(['hidden' => false, 'id' => 'panel'])->toString())
+        ->toBe('id="panel"');
+    expect(glsr(Attributes::class)->span(['hidden' => 'false', 'id' => 'panel'])->toString()) // not a keyword of hidden
+        ->toBe('id="panel"');
+    expect(glsr(Attributes::class)->span(['popover' => true, 'id' => 'panel'])->toString())
+        ->toBe('popover id="panel"');
+    expect(glsr(Attributes::class)->input(['type' => 'file', 'name' => 'photo', 'capture' => 'environment'])->toString())
+        ->toBe('type="file" name="photo" capture="environment"');
+    expect(glsr(Attributes::class)->input(['type' => 'file', 'name' => 'photo', 'capture' => true])->toString())
+        ->toBe('type="file" name="photo" capture');
+});
+
+test('an on or off attribute is printed by its name alone or left out', function () {
+    expect(glsr(Attributes::class)->input(['type' => 'checkbox', 'checked' => true])->toString())
+        ->toBe('type="checkbox" checked');
+    expect(glsr(Attributes::class)->input(['type' => 'checkbox', 'checked' => false])->toString())
+        ->toBe('type="checkbox"');
+    expect(glsr(Attributes::class)->img(['src' => '/map.png', 'ismap' => true])->toString())
+        ->toBe('src="/map.png" ismap');
+    expect(glsr(Attributes::class)->span(['itemscope' => true, 'itemtype' => 'https://schema.org/Review'])->toString())
+        ->toBe('itemscope itemtype="https://schema.org/Review"');
+});
+
 /*
  * Builder.
  */

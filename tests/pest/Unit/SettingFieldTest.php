@@ -314,6 +314,7 @@ test('build general notification discord', function () {
                     'type="text" '.
                     'class="large-text" '.
                     'id="site_reviews-settings-general-notification_discord" '.
+                    'spellcheck="false" '.
                     'name="site_reviews[settings][general][notification_discord]" '.
                     'autocomplete="off" '.
                     'value="" />'.
@@ -333,6 +334,7 @@ test('build general notification slack', function () {
                     'type="text" '.
                     'class="large-text" '.
                     'id="site_reviews-settings-general-notification_slack" '.
+                    'spellcheck="false" '.
                     'name="site_reviews[settings][general][notification_slack]" '.
                     'autocomplete="off" '.
                     'value="" />'.
@@ -1093,7 +1095,7 @@ test('build forms friendlycaptcha key', function () {
                 '<label for="site_reviews-settings-forms-friendlycaptcha-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-key" name="site_reviews[settings][forms][friendlycaptcha][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-key" spellcheck="false" name="site_reviews[settings][forms][friendlycaptcha][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1104,7 +1106,7 @@ test('build forms friendlycaptcha secret', function () {
                 '<label for="site_reviews-settings-forms-friendlycaptcha-secret">API Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-secret" name="site_reviews[settings][forms][friendlycaptcha][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][friendlycaptcha][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1115,7 +1117,7 @@ test('build forms hcaptcha key', function () {
                 '<label for="site_reviews-settings-forms-hcaptcha-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-key" name="site_reviews[settings][forms][hcaptcha][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-key" spellcheck="false" name="site_reviews[settings][forms][hcaptcha][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1126,7 +1128,7 @@ test('build forms hcaptcha secret', function () {
                 '<label for="site_reviews-settings-forms-hcaptcha-secret">Secret Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-secret" name="site_reviews[settings][forms][hcaptcha][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][hcaptcha][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1137,7 +1139,7 @@ test('build forms procaptcha key', function () {
                 '<label for="site_reviews-settings-forms-procaptcha-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-key" name="site_reviews[settings][forms][procaptcha][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-key" spellcheck="false" name="site_reviews[settings][forms][procaptcha][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1148,7 +1150,7 @@ test('build forms procaptcha secret', function () {
                 '<label for="site_reviews-settings-forms-procaptcha-secret">Secret Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-secret" name="site_reviews[settings][forms][procaptcha][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][procaptcha][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1174,7 +1176,7 @@ test('build forms recaptcha key', function () {
                 '<label for="site_reviews-settings-forms-recaptcha-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-key" name="site_reviews[settings][forms][recaptcha][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-key" spellcheck="false" name="site_reviews[settings][forms][recaptcha][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1185,7 +1187,7 @@ test('build forms recaptcha secret', function () {
                 '<label for="site_reviews-settings-forms-recaptcha-secret">Secret Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-secret" name="site_reviews[settings][forms][recaptcha][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][recaptcha][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1196,7 +1198,7 @@ test('build forms recaptcha v3 key', function () {
                 '<label for="site_reviews-settings-forms-recaptcha_v3-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-key" name="site_reviews[settings][forms][recaptcha_v3][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-key" spellcheck="false" name="site_reviews[settings][forms][recaptcha_v3][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1207,7 +1209,7 @@ test('build forms recaptcha v3 secret', function () {
                 '<label for="site_reviews-settings-forms-recaptcha_v3-secret">Secret Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-secret" name="site_reviews[settings][forms][recaptcha_v3][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-secret" spellcheck="false" name="site_reviews[settings][forms][recaptcha_v3][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1230,7 +1232,7 @@ test('build forms turnstile key', function () {
                 '<label for="site_reviews-settings-forms-turnstile-key">Site Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-key" name="site_reviews[settings][forms][turnstile][key]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-key" spellcheck="false" name="site_reviews[settings][forms][turnstile][key]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });
@@ -1241,7 +1243,7 @@ test('build forms turnstile secret', function () {
                 '<label for="site_reviews-settings-forms-turnstile-secret">Secret Key</label>'.
             '</th>'.
             '<td>'.
-                '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-secret" name="site_reviews[settings][forms][turnstile][secret]" autocomplete="off" value="" />'.
+                '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-secret" spellcheck="false" name="site_reviews[settings][forms][turnstile][secret]" autocomplete="off" value="" />'.
             '</td>'.
         '</tr>');
 });

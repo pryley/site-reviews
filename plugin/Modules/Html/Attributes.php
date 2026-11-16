@@ -4,6 +4,12 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
+/**
+ * HTML Living Standard, 16 November 2026; W3C's HTML Media Capture.
+ *
+ * @see https://html.spec.whatwg.org/commit-snapshots/efcc0bcdec596651e2cb316ab076c0bdc7c4d120/
+ * @see https://www.w3.org/TR/html-media-capture/
+ */
 class Attributes
 {
     public const ATTRIBUTES_A = [
@@ -11,27 +17,28 @@ class Attributes
     ];
 
     public const ATTRIBUTES_BUTTON = [
-        'autofocus', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod',
-        'formnovalidate', 'formtarget', 'name', 'type', 'value',
+        'command', 'commandfor', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod',
+        'formnovalidate', 'formtarget', 'name', 'popovertarget', 'popovertargetaction', 'type',
+        'value',
     ];
 
     public const ATTRIBUTES_FORM = [
-        'accept', 'accept-charset', 'action', 'autocapitalize', 'autocomplete', 'enctype', 'method',
-        'name', 'novalidate', 'target',
+        'accept-charset', 'action', 'autocomplete', 'enctype', 'method', 'name', 'novalidate',
+        'rel', 'target',
     ];
 
     public const ATTRIBUTES_IMG = [
-        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'loading', 'referrerpolicy', 'sizes',
-        'src', 'srcset', 'width', 'usemap',
+        'alt', 'controls', 'crossorigin', 'decoding', 'fetchpriority', 'height', 'ismap', 'loading',
+        'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'width',
     ];
 
     public const ATTRIBUTES_INPUT = [
-        'accept', 'autocomplete', 'autocorrect', 'autofocus', 'capture', 'checked', 'disabled',
-        'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'height',
-        'incremental', 'inputmode', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple',
-        'name', 'pattern', 'placeholder', 'readonly', 'results', 'required', 'selectionDirection',
-        'selectionEnd', 'selectionStart', 'size', 'spellcheck', 'src', 'step', 'tabindex', 'type',
-        'value', 'webkitdirectory', 'width',
+        'accept', 'alpha', 'alt', 'autocomplete', 'capture', 'checked', 'colorspace', 'dirname',
+        'disabled', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate',
+        'formtarget', 'height', 'incremental', 'list', 'max', 'maxlength', 'min', 'minlength',
+        'multiple', 'name', 'pattern', 'placeholder', 'popovertarget', 'popovertargetaction',
+        'readonly', 'required', 'results', 'size', 'src', 'step', 'switch', 'type', 'value',
+        'webkitdirectory', 'width',
     ];
 
     public const ATTRIBUTES_INPUT_EXCLUDED = [
@@ -46,10 +53,12 @@ class Attributes
 
     public const ATTRIBUTES_INPUT_INCLUDED = [
         'accept' => ['file'],
+        'alpha' => ['color'],
         'alt' => ['image'],
         'capture' => ['file'],
         'checked' => ['checkbox', 'radio'],
-        'dirname' => ['hidden', 'text', 'search', 'url', 'tel', 'email'],
+        'colorspace' => ['color'],
+        'dirname' => ['hidden', 'text', 'search', 'url', 'tel', 'email', 'password', 'submit'],
         'formaction' => ['image', 'submit'],
         'formenctype' => ['image', 'submit'],
         'formmethod' => ['image', 'submit'],
@@ -63,16 +72,25 @@ class Attributes
         'multiple' => ['email', 'file'],
         'pattern' => ['text', 'search', 'url', 'tel', 'email', 'password'],
         'placeholder' => ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
-        'popovertarget' => ['button'],
-        'popovertargetaction' => ['button'],
+        'popovertarget' => ['button', 'image', 'reset', 'submit'],
+        'popovertargetaction' => ['button', 'image', 'reset', 'submit'],
         'size' => ['text', 'search', 'url', 'tel', 'email', 'password'],
         'src' => ['image'],
         'step' => ['date', 'month', 'week', 'time', 'datetime-local', 'number', 'range'],
+        'switch' => ['checkbox'],
         'width' => ['image'],
     ];
 
     public const ATTRIBUTES_LABEL = [
         'for',
+    ];
+
+    public const ATTRIBUTES_LI = [
+        'value',
+    ];
+
+    public const ATTRIBUTES_OL = [
+        'reversed', 'start', 'type',
     ];
 
     public const ATTRIBUTES_OPTGROUP = [
@@ -84,23 +102,37 @@ class Attributes
     ];
 
     public const ATTRIBUTES_SELECT = [
-        'autofocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size',
+        'autocomplete', 'disabled', 'form', 'multiple', 'name', 'required', 'size',
     ];
 
     public const ATTRIBUTES_TEXTAREA = [
-        'autocapitalize', 'autocomplete', 'autofocus', 'cols', 'disabled', 'form', 'maxlength',
-        'minlength', 'name', 'placeholder', 'readonly', 'required', 'rows', 'spellcheck', 'wrap',
+        'autocomplete', 'cols', 'dirname', 'disabled', 'form', 'maxlength', 'minlength', 'name',
+        'placeholder', 'readonly', 'required', 'rows', 'wrap',
     ];
 
     public const BOOLEAN_ATTRIBUTES = [
-        'autofocus', 'capture', 'checked', 'disabled', 'draggable', 'formnovalidate', 'hidden',
-        'multiple', 'novalidate', 'readonly', 'required', 'selected', 'spellcheck',
-        'webkitdirectory',
+        'alpha', 'autofocus', 'checked', 'controls', 'disabled', 'formnovalidate', 'headingreset',
+        'inert', 'ismap', 'itemscope', 'multiple', 'novalidate', 'readonly', 'required',
+        'reversed', 'selected', 'switch', 'webkitdirectory',
+    ];
+
+    public const ENUMERATED_ATTRIBUTES = [
+        'autocorrect' => ['off', 'on'],
+        'capture' => ['environment', 'user'],
+        'contenteditable' => ['false', 'plaintext-only', 'true'],
+        'draggable' => ['false', 'true'],
+        'hidden' => ['hidden', 'until-found'],
+        'popover' => ['auto', 'hint', 'manual'],
+        'spellcheck' => ['false', 'true'],
+        'translate' => ['no', 'yes'],
+        'writingsuggestions' => ['false', 'true'],
     ];
 
     public const GLOBAL_ATTRIBUTES = [
-        'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
-        'hidden', 'id', 'lang', 'role', 'spellcheck', 'style', 'tabindex', 'title',
+        'accesskey', 'autocapitalize', 'autocorrect', 'autofocus', 'class', 'contenteditable',
+        'dir', 'draggable', 'enterkeyhint', 'headingoffset', 'headingreset', 'hidden', 'id',
+        'inert', 'inputmode', 'is', 'lang', 'nonce', 'popover', 'role', 'slot', 'spellcheck',
+        'style', 'tabindex', 'title', 'translate', 'writingsuggestions',
     ];
 
     public const GLOBAL_WILDCARD_ATTRIBUTES = [
@@ -158,7 +190,7 @@ class Attributes
     {
         $attributes = [];
         foreach ($this->attributes as $attribute => $value) {
-            if (in_array($attribute, static::BOOLEAN_ATTRIBUTES)) {
+            if ($this->isAttributeKeyAlone($attribute, $value)) {
                 $attributes[] = $attribute;
                 continue;
             }
@@ -201,6 +233,17 @@ class Attributes
     /**
      * @param mixed $value
      */
+    protected function isAttributeKeyAlone(string $key, $value): bool
+    {
+        if (!in_array($key, static::BOOLEAN_ATTRIBUTES) && !array_key_exists($key, static::ENUMERATED_ATTRIBUTES)) {
+            return false;
+        }
+        return $key === $value || true === $value;
+    }
+
+    /**
+     * @param mixed $value
+     */
     protected function isAttributeKeyNumeric(string $key, $value): bool
     {
         return is_string($value)
@@ -212,6 +255,7 @@ class Attributes
     {
         $this->attributes = array_change_key_case($args, \CASE_LOWER);
         $this->normalizeBooleanAttributes();
+        $this->normalizeEnumeratedAttributes();
         $this->normalizeDataAttributes();
         $this->normalizeStringAttributes();
         $this->removeEmptyAttributes();
@@ -250,6 +294,26 @@ class Attributes
                 $value = wp_json_encode($value, \JSON_HEX_APOS | \JSON_NUMERIC_CHECK | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
             }
             $this->attributes[$key] = esc_attr($value);
+        }
+    }
+
+    protected function normalizeEnumeratedAttributes(): void
+    {
+        foreach ($this->attributes as $key => $value) {
+            if ($this->isAttributeKeyNumeric($key, $value)) {
+                $key = $value;
+                $value = true;
+            }
+            if (!array_key_exists($key, static::ENUMERATED_ATTRIBUTES) || in_array($value, [null, ''], true)) {
+                continue;
+            }
+            $keywords = static::ENUMERATED_ATTRIBUTES[$key];
+            if (in_array($value, $keywords, true)) {
+                continue; // value is keyword
+            }
+            $isOn = wp_validate_boolean($value);
+            $keyword = current(array_intersect($isOn ? ['on', 'true', 'yes'] : ['false', 'no', 'off'], $keywords));
+            $this->attributes[$key] = false === $keyword ? $isOn : $keyword; // the name alone, or left out
         }
     }
 
@@ -293,7 +357,7 @@ class Attributes
         $attributes = $this->attributes;
         $permanentAttributes = $this->getPermanentAttributes();
         foreach ($this->attributes as $key => $value) {
-            if (in_array($key, static::BOOLEAN_ATTRIBUTES) && !$value) {
+            if (!$value && $this->isAttributeKeyAlone($key, true)) { // true checks only the key
                 unset($attributes[$key]);
             }
             if (str_starts_with($key, 'data-')) {
