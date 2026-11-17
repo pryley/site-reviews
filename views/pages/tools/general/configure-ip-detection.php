@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit;
 
-$clientIp = glsr(\GeminiLabs\SiteReviews\Modules\ClientIp::class);
+$clientIp = glsr('Modules\ClientIp');
 $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
 $proxyHeader = $clientIp->proxyHeader();
 $proxyHeaders = $clientIp->headers();
