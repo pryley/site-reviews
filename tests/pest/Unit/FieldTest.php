@@ -37,17 +37,6 @@ test('build checkboxes', function () {
         '</div>');
 });
 
-test('build code', function () {
-    expect(buildField([
-            'label' => 'Foobar',
-            'name' => 'foobar',
-            'type' => 'code',
-        ]))->toEqual('<div>'.
-            '<label for="site-reviews-foobar">Foobar</label>'.
-            '<textarea id="site-reviews-foobar" name="site-reviews[foobar]"></textarea>'.
-        '</div>');
-});
-
 test('build color', function () {
     expect(buildField([
             'label' => 'Foobar',

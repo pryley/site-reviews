@@ -21,7 +21,7 @@
 @import "admin/setting-field";
 @import "admin/strings";
 @import "admin/tabs";
-@import "admin/template-editor";
+@import "admin/textarea-editor";
 @import "admin/toggle";
 @import "admin/track-select";
 @import "admin/videos";

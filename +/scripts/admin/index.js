@@ -25,7 +25,6 @@ import PremiumLicense from '@/admin/settings/premium-license.js';
 import PublishAction from '@/admin/review/publish-action.js';
 import QuickEdit from '@/admin/reviews/quick-edit.js';
 import Request from '@/public/modules/request/request.js';
-import ResetButton from '@/admin/settings/reset-button.js';
 import Rollback from '@/admin/tools/rollback.js';
 import ScreenMeta from '@/admin/shared/screen-meta.js';
 import { share } from '@/admin/shared.js';
@@ -34,7 +33,7 @@ import Status from '@/admin/reviews/status.js';
 import Strings from '@/admin/settings/strings.js';
 import SystemInfo from '@/admin/tools/system-info.js';
 import Tabs from '@/admin/shared/tabs.js';
-import TemplateEditor from '@/admin/settings/template-editor.js';
+import TextareaEditor from '@/admin/settings/textarea-editor.js';
 import ToolButton from '@/admin/tools/tool-button.js';
 import ToggleFlag from '@/admin/reviews/toggle-flag.js';
 import Tooltip from '@/admin/shared/tooltip.js';
@@ -64,7 +63,7 @@ const SCREENS = [
     { classes: ['post-new-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['post-php', 'post-type-site-review'], modules: [Assigned, Filter, Metabox, PublishAction, Verification] },
     { classes: ['site-review_page_glsr-documentation'], modules: [Copy, Videos] },
-    { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, ResetButton, Strings, TemplateEditor, TrackSelect] },
+    { classes: ['site-review_page_glsr-settings'], modules: [ColorPicker, Depends, Strings, TextareaEditor, TrackSelect] },
     { classes: ['site-review_page_glsr-tools'], modules: [Console, Import, IpDetection, Rollback, SystemInfo] },
 ];
 

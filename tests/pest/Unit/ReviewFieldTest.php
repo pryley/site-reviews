@@ -103,20 +103,6 @@ test('build checkboxes with descriptions', function () {
         '</div>');
 });
 
-test('build code', function () {
-    expect(buildReviewField([
-            'label' => 'Foobar',
-            'name' => 'foobar',
-            'type' => 'code',
-        ]))->toEqual('<div class="glsr-field glsr-field-code" data-field="foobar" data-type="code">'.
-            '<label class="glsr-label" for="site-reviews-foobar">'.
-                '<span>Foobar</span>'.
-            '</label>'.
-            '<textarea class="glsr-textarea" id="site-reviews-foobar" name="site-reviews[foobar]"></textarea>'.
-            '<div class="glsr-field-error"></div>'.
-        '</div>');
-});
-
 test('build color', function () {
     expect(buildReviewField([
             'label' => 'Foobar',

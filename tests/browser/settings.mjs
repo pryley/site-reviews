@@ -1,5 +1,5 @@
 /**
- * The Settings page: the tabs, a dependent field, the template-editor tags, a reset button, the
+ * The Settings page: the tabs, a dependent field, a textarea's tag select and reset button, the
  * Strings tab's search and rows, and the License Key field's show/hide toggle, as a user sees them.
  * Nothing is saved.
  *
@@ -40,25 +40,33 @@ try {
     await radio('request_verification', 'yes').check();
     assert(!await message.evaluate(el => el.classList.contains('hidden')), 'and shows when it is Yes');
 
-    // the template-editor tags
-    const editor = message.locator('.glsr-template-editor');
+    // the tag select
+    const editor = message.locator('.glsr-textarea-editor');
     const textarea = editor.locator('textarea');
-    const tagButton = editor.locator('input[data-tag]').first();
-    const tag = await tagButton.getAttribute('data-tag');
+    const inserter = editor.locator('.glsr-textarea-editor__toolbar select');
+    const tag = await inserter.locator('option').nth(1).getAttribute('value');
     const before = await textarea.inputValue();
     await textarea.click();
-    await textarea.evaluate(el => el.setSelectionRange(0, 0));
-    await tagButton.click();
-    assert((await textarea.inputValue()).startsWith(`{${tag}}`), `a tag button inserts {${tag}} at the cursor`);
-    assert((await textarea.inputValue()).length === before.length + tag.length + 2, 'and nothing else changes');
+    await textarea.evaluate(el => el.setSelectionRange(5, 5));
+    await inserter.focus(); // the textarea loses the focus as it does on a click
+    await inserter.selectOption(tag);
+    equal(await textarea.inputValue(), `${before.slice(0, 5)}{${tag}}${before.slice(5)}`, `the tag select inserts {${tag}} at the cursor`);
+    equal(await inserter.inputValue(), '', 'and shows its first option again');
+    assert(await textarea.evaluate(el => el === document.activeElement), 'and the textarea has the focus');
+    await inserter.selectOption(tag);
+    assert((await textarea.inputValue()).includes(`{${tag}}{${tag}}`), 'the same tag inserts a second time');
 
     // a reset button
     const reset = page.locator('#general .glsr-setting-field:not(.hidden) button.is-reset-button').first();
     if (await reset.count()) {
-        const target = reset.locator('xpath=preceding-sibling::textarea[1]');
+        const target = reset.locator('xpath=ancestor::div[contains(concat(" ", @class, " "), " glsr-textarea-editor ")]').locator('textarea');
         await target.fill('changed by the browser suite');
         await reset.click();
         equal(await target.inputValue(), await reset.getAttribute('data-default'), 'a reset button restores the textarea\'s default');
+        if ('chromium' === ENGINE) { // Playwright's WebKit undoes the text typed before the reset in the same step
+            await page.keyboard.press('ControlOrMeta+z');
+            equal(await target.inputValue(), 'changed by the browser suite', 'and undo brings the changed text back');
+        }
     } else {
         info('no reset button in a visible row of the General tab');
     }

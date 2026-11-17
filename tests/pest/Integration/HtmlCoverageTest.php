@@ -350,7 +350,7 @@ test('a condition on a list field with an operator lists cannot use is refused',
     expect($refused)->toBeFalse();
 });
 
-test('a settings textarea without autosize is a plain textarea', function () {
+test('a settings textarea without a default or tags is a plain textarea', function () {
     $field = new \GeminiLabs\SiteReviews\Modules\Html\SettingField([
         'name' => 'settings.custom.note',
         'type' => 'textarea',
@@ -358,7 +358,7 @@ test('a settings textarea without autosize is a plain textarea', function () {
     ]);
 
     expect($field->buildFieldElement())->toContain('<textarea')
-        ->and($field->buildFieldElement())->not->toContain('has-reset-button');
+        ->and($field->buildFieldElement())->not->toContain('glsr-textarea-editor');
 });
 
 test('a multi-file field keeps its list value under the base normalizer', function () {

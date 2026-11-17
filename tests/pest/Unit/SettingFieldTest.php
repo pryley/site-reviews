@@ -8,7 +8,9 @@ uses()->group('plugin');
 test('build general delete data on uninstall', function () {
     expect(buildSetting('settings.general.delete_data_on_uninstall'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.delete_data_on_uninstall">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-delete_data_on_uninstall">Delete data on uninstall</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-delete_data_on_uninstall">Delete data on uninstall</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-general-delete_data_on_uninstall" data-glsr-track="" name="site_reviews[settings][general][delete_data_on_uninstall]">'.
@@ -23,7 +25,9 @@ test('build general delete data on uninstall', function () {
 test('build general style', function () {
     expect(buildSetting('settings.general.style'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.style">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-style">Plugin Style</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-style">Plugin Style</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-general-style" name="site_reviews[settings][general][style]">'.
@@ -58,7 +62,9 @@ test('build general style', function () {
 test('build general request verification', function () {
     expect(buildSetting('settings.general.request_verification'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.request_verification">'.
             '<th scope="row">'.
-                '<label>Request Verification</label>'.
+                '<div>'.
+                    '<label>Request Verification</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -82,36 +88,48 @@ test('build general request verification', function () {
 test('build general request verification message', function () {
     expect(buildSetting('settings.general.request_verification_message'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.request_verification_message">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-request_verification_message">'.
-                    'Verification Template'.
-                '</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-request_verification_message">'.
+                        'Verification Template'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
-                '<div class="glsr-template-editor">'.
+                '<div class="glsr-textarea-editor">'.
                     '<textarea '.
-                        'class="autosized code large-text" '.
+                        'class="autosized large-text" '.
                         'id="site_reviews-settings-general-request_verification_message" '.
                         'style="min-height:3lh;" '.
                         'name="site_reviews[settings][general][request_verification_message]" '.
                         'rows="3"'.
                     '></textarea>'.
-                    '<div class="quicktags-toolbar">'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_links" value="assigned links" />'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_posts" value="assigned posts" />'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_users" value="assigned users" />'.
-                        '<input type="button" class="button button-small" data-tag="review_author" value="name" />'.
-                        '<input type="button" class="button button-small" data-tag="review_categories" value="categories" />'.
-                        '<input type="button" class="button button-small" data-tag="review_content" value="content" />'.
-                        '<input type="button" class="button button-small" data-tag="review_email" value="email" />'.
-                        '<input type="button" class="button button-small" data-tag="review_rating" value="rating" />'.
-                        '<input type="button" class="button button-small" data-tag="review_stars" value="stars" />'.
-                        '<input type="button" class="button button-small" data-tag="review_title" value="title" />'.
-                        '<input type="button" class="button button-small" data-tag="site_title" value="site title" />'.
-                        '<input type="button" class="button button-small" data-tag="site_url" value="site url" />'.
-                        '<input type="button" class="button button-small" data-tag="verify_url" value="verify url" />'.
+                    '<div class="glsr-textarea-editor__toolbar">'.
+                        '<select class="hide-if-no-js" aria-label="Insert a tag">'.
+                            '<option value="">Insert a tag</option>'.
+                            '<option value="review_assigned_links">review_assigned_links</option>'.
+                            '<option value="review_assigned_posts">review_assigned_posts</option>'.
+                            '<option value="review_assigned_users">review_assigned_users</option>'.
+                            '<option value="review_author">review_author</option>'.
+                            '<option value="review_categories">review_categories</option>'.
+                            '<option value="review_content">review_content</option>'.
+                            '<option value="review_email">review_email</option>'.
+                            '<option value="review_rating">review_rating</option>'.
+                            '<option value="review_stars">review_stars</option>'.
+                            '<option value="review_title">review_title</option>'.
+                            '<option value="site_title">site_title</option>'.
+                            '<option value="site_url">site_url</option>'.
+                            '<option value="verify_url">verify_url</option>'.
+                        '</select>'.
+                        '<button '.
+                            'class="button is-reset-button dashicons dashicons-undo hide-if-no-js" '.
+                            'aria-label="Reset value to default" '.
+                            'data-default="Howdy,You recently submitted a review on &lt;a href=&quot;{site_url}&quot;&gt;{site_title}&lt;/a&gt;.To verify your review, please click the link below. If you believe this is an error, ignore this message and nothing more will happen.&lt;a href=&quot;{verify_url}&quot;&gt;Verify Review&lt;/a&gt;" '.
+                            'data-tooltip="site_reviews-settings-general-request_verification_message-reset-tooltip" '.
+                            'type="button"'.
+                        '></button>'.
+                        '<span class="glsr-tooltip" id="site_reviews-settings-general-request_verification_message-reset-tooltip" popover="manual" role="tooltip">Reset value to default</span>'.
                     '</div>'.
                 '</div>'.
-                '<p class="description">Description</p>'.
             '</td>'.
         '</tr>');
 });
@@ -119,9 +137,11 @@ test('build general request verification message', function () {
 test('build general require approval', function () {
     expect(buildSetting('settings.general.require.approval'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.approval">'.
             '<th scope="row">'.
-                '<label>'.
-                    'Require Approval'.
-                '</label>'.
+                '<div>'.
+                    '<label>'.
+                        'Require Approval'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -145,9 +165,11 @@ test('build general require approval', function () {
 test('build general require approval for', function () {
     expect(buildSetting('settings.general.require.approval_for'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.approval_for">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-require-approval_for">'.
-                    'Require Approval For'.
-                '</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-require-approval_for">'.
+                        'Require Approval For'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select '.
@@ -168,7 +190,9 @@ test('build general require approval for', function () {
 test('build general require login', function () {
     expect(buildSetting('settings.general.require.login'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.login">'.
             '<th scope="row">'.
-                '<label>Require Login</label>'.
+                '<div>'.
+                    '<label>Require Login</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -192,7 +216,9 @@ test('build general require login', function () {
 test('build general require login url', function () {
     expect(buildSetting('settings.general.require.login_url'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.login_url">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-require-login_url">Custom Login URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-require-login_url">Custom Login URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -210,7 +236,9 @@ test('build general require login url', function () {
 test('build general require register', function () {
     expect(buildSetting('settings.general.require.register'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.register">'.
             '<th scope="row">'.
-                '<label>Show Registration Link</label>'.
+                '<div>'.
+                    '<label>Show Registration Link</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -234,7 +262,9 @@ test('build general require register', function () {
 test('build general require register url', function () {
     expect(buildSetting('settings.general.require.register_url'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.require.register_url">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-require-register_url">Custom Registration URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-require-register_url">Custom Registration URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -252,7 +282,9 @@ test('build general require register url', function () {
 test('build general multilingual', function () {
     expect(buildSetting('settings.general.multilingual'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.multilingual">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-multilingual">Multilingual</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-multilingual">Multilingual</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-general-multilingual" name="site_reviews[settings][general][multilingual]">'.
@@ -268,7 +300,9 @@ test('build general multilingual', function () {
 test('build general notifications', function () {
     expect(buildSetting('settings.general.notifications'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notifications">'.
             '<th scope="row">'.
-                '<label>Notifications</label>'.
+                '<div>'.
+                    '<label>Notifications</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -305,9 +339,11 @@ test('build general notifications', function () {
 test('build general notification discord', function () {
     expect(buildSetting('settings.general.notification_discord'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notification_discord">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-notification_discord">'.
-                    'Discord Webhook URL'.
-                '</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-notification_discord">'.
+                        'Discord Webhook URL'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -325,9 +361,11 @@ test('build general notification discord', function () {
 test('build general notification slack', function () {
     expect(buildSetting('settings.general.notification_slack'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notification_slack">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-notification_slack">'.
-                    'Slack Webhook URL'.
-                '</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-notification_slack">'.
+                        'Slack Webhook URL'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -345,7 +383,9 @@ test('build general notification slack', function () {
 test('build general notification from', function () {
     expect(buildSetting('settings.general.notification_from'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notification_from">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-notification_from">Send Emails From</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-notification_from">Send Emails From</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -363,7 +403,9 @@ test('build general notification from', function () {
 test('build general notification email', function () {
     expect(buildSetting('settings.general.notification_email'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notification_email">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-notification_email">Send Emails To</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-notification_email">Send Emails To</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input '.
@@ -380,39 +422,51 @@ test('build general notification email', function () {
 test('build general notification message', function () {
     expect(buildSetting('settings.general.notification_message'))->toEqual('<tr class="glsr-setting-field" data-field="settings.general.notification_message">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-general-notification_message">'.
-                    'Notification Template'.
-                '</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-general-notification_message">'.
+                        'Notification Template'.
+                    '</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
-                '<div class="glsr-template-editor">'.
+                '<div class="glsr-textarea-editor">'.
                     '<textarea '.
-                        'class="autosized code large-text" '.
+                        'class="autosized large-text" '.
                         'id="site_reviews-settings-general-notification_message" '.
                         'style="min-height:3lh;" '.
                         'name="site_reviews[settings][general][notification_message]" '.
                         'rows="3">'.
                     '</textarea>'.
-                    '<div class="quicktags-toolbar">'.
-                        '<input type="button" class="button button-small" data-tag="approve_url" value="approve url" />'.
-                        '<input type="button" class="button button-small" data-tag="edit_url" value="edit url" />'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_links" value="assigned links" />'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_posts" value="assigned posts" />'.
-                        '<input type="button" class="button button-small" data-tag="review_assigned_users" value="assigned users" />'.
-                        '<input type="button" class="button button-small" data-tag="review_author" value="name" />'.
-                        '<input type="button" class="button button-small" data-tag="review_categories" value="categories" />'.
-                        '<input type="button" class="button button-small" data-tag="review_content" value="content" />'.
-                        '<input type="button" class="button button-small" data-tag="review_email" value="email" />'.
-                        '<input type="button" class="button button-small" data-tag="review_id" value="review id" />'.
-                        '<input type="button" class="button button-small" data-tag="review_ip" value="ip address" />'.
-                        '<input type="button" class="button button-small" data-tag="review_rating" value="rating" />'.
-                        '<input type="button" class="button button-small" data-tag="review_stars" value="stars" />'.
-                        '<input type="button" class="button button-small" data-tag="review_title" value="title" />'.
-                        '<input type="button" class="button button-small" data-tag="site_title" value="site title" />'.
-                        '<input type="button" class="button button-small" data-tag="site_url" value="site url" />'.
+                    '<div class="glsr-textarea-editor__toolbar">'.
+                        '<select class="hide-if-no-js" aria-label="Insert a tag">'.
+                            '<option value="">Insert a tag</option>'.
+                            '<option value="approve_url">approve_url</option>'.
+                            '<option value="edit_url">edit_url</option>'.
+                            '<option value="review_assigned_links">review_assigned_links</option>'.
+                            '<option value="review_assigned_posts">review_assigned_posts</option>'.
+                            '<option value="review_assigned_users">review_assigned_users</option>'.
+                            '<option value="review_author">review_author</option>'.
+                            '<option value="review_categories">review_categories</option>'.
+                            '<option value="review_content">review_content</option>'.
+                            '<option value="review_email">review_email</option>'.
+                            '<option value="review_id">review_id</option>'.
+                            '<option value="review_ip">review_ip</option>'.
+                            '<option value="review_rating">review_rating</option>'.
+                            '<option value="review_stars">review_stars</option>'.
+                            '<option value="review_title">review_title</option>'.
+                            '<option value="site_title">site_title</option>'.
+                            '<option value="site_url">site_url</option>'.
+                        '</select>'.
+                        '<button '.
+                            'class="button is-reset-button dashicons dashicons-undo hide-if-no-js" '.
+                            'aria-label="Reset value to default" '.
+                            'data-default="&lt;strong&gt;A new {review_rating}-star review has been submitted:&lt;/strong&gt;{review_title}{review_content}{review_author} ({review_email}) - {review_ip}&lt;a href=&quot;{edit_url}&quot;&gt;Edit Review&lt;/a&gt;" '.
+                            'data-tooltip="site_reviews-settings-general-notification_message-reset-tooltip" '.
+                            'type="button"'.
+                        '></button>'.
+                        '<span class="glsr-tooltip" id="site_reviews-settings-general-notification_message-reset-tooltip" popover="manual" role="tooltip">Reset value to default</span>'.
                     '</div>'.
                 '</div>'.
-                '<p class="description">Description</p>'.
             '</td>'.
         '</tr>');
 });
@@ -420,7 +474,9 @@ test('build general notification message', function () {
 test('build reviews date format', function () {
     expect(buildSetting('settings.reviews.date.format'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.date.format">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-date-format">Date Format</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-date-format">Date Format</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-date-format" name="site_reviews[settings][reviews][date][format]">'.
@@ -435,7 +491,9 @@ test('build reviews date format', function () {
 test('build reviews date custom', function () {
     expect(buildSetting('settings.reviews.date.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.date.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-date-custom">Custom Date Format</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-date-custom">Custom Date Format</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-reviews-date-custom" name="site_reviews[settings][reviews][date][custom]" value="" />'.
@@ -446,7 +504,9 @@ test('build reviews date custom', function () {
 test('build reviews name format', function () {
     expect(buildSetting('settings.reviews.name.format'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.name.format">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-name-format">Name Format</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-name-format">Name Format</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-name-format" name="site_reviews[settings][reviews][name][format]">'.
@@ -463,7 +523,9 @@ test('build reviews name format', function () {
 test('build reviews name initial', function () {
     expect(buildSetting('settings.reviews.name.initial'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.name.initial">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-name-initial">Initial Format</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-name-initial">Initial Format</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-name-initial" name="site_reviews[settings][reviews][name][initial]">'.
@@ -478,7 +540,9 @@ test('build reviews name initial', function () {
 test('build reviews assignment', function () {
     expect(buildSetting('settings.reviews.assignment'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.assignment">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-assignment">Review Assignment</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-assignment">Review Assignment</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-assignment" name="site_reviews[settings][reviews][assignment]">'.
@@ -493,7 +557,9 @@ test('build reviews assignment', function () {
 test('build reviews assigned links', function () {
     expect(buildSetting('settings.reviews.assigned_links'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.assigned_links">'.
             '<th scope="row">'.
-                '<label>Enable Assigned Links</label>'.
+                '<div>'.
+                    '<label>Enable Assigned Links</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -517,7 +583,9 @@ test('build reviews assigned links', function () {
 test('build reviews avatars', function () {
     expect(buildSetting('settings.reviews.avatars'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.avatars">'.
             '<th scope="row">'.
-                '<label>Enable Avatars</label>'.
+                '<div>'.
+                    '<label>Enable Avatars</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -541,7 +609,9 @@ test('build reviews avatars', function () {
 test('build reviews avatars fallback', function () {
     expect(buildSetting('settings.reviews.avatars_fallback'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.avatars_fallback">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-avatars_fallback">Fallback Avatar</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-avatars_fallback">Fallback Avatar</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-avatars_fallback" name="site_reviews[settings][reviews][avatars_fallback]">'.
@@ -563,7 +633,9 @@ test('build reviews avatars fallback', function () {
 test('build reviews avatars fallback url', function () {
     expect(buildSetting('settings.reviews.avatars_fallback_url'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.avatars_fallback_url">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-avatars_fallback_url">Fallback Avatar URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-avatars_fallback_url">Fallback Avatar URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="large-text" id="site_reviews-settings-reviews-avatars_fallback_url" name="site_reviews[settings][reviews][avatars_fallback_url]" value="" />'.
@@ -574,7 +646,9 @@ test('build reviews avatars fallback url', function () {
 test('build reviews avatars regenerate', function () {
     expect(buildSetting('settings.reviews.avatars_regenerate'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.avatars_regenerate">'.
             '<th scope="row">'.
-                '<label>Regenerate Avatars</label>'.
+                '<div>'.
+                    '<label>Regenerate Avatars</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -598,7 +672,9 @@ test('build reviews avatars regenerate', function () {
 test('build reviews avatars size', function () {
     expect(buildSetting('settings.reviews.avatars_size'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.avatars_size">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-avatars_size">Avatar Size</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-avatars_size">Avatar Size</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="number" class="small-text" id="site_reviews-settings-reviews-avatars_size" name="site_reviews[settings][reviews][avatars_size]" min="16" value="" />&nbsp;pixels'.
@@ -609,7 +685,9 @@ test('build reviews avatars size', function () {
 test('build reviews excerpts', function () {
     expect(buildSetting('settings.reviews.excerpts'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.excerpts">'.
             '<th scope="row">'.
-                '<label>Enable Excerpts</label>'.
+                '<div>'.
+                    '<label>Enable Excerpts</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -633,7 +711,9 @@ test('build reviews excerpts', function () {
 test('build reviews excerpts action', function () {
     expect(buildSetting('settings.reviews.excerpts_action'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.excerpts_action">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-excerpts_action">Excerpt Action</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-excerpts_action">Excerpt Action</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-reviews-excerpts_action" name="site_reviews[settings][reviews][excerpts_action]">'.
@@ -647,7 +727,9 @@ test('build reviews excerpts action', function () {
 test('build reviews excerpts length', function () {
     expect(buildSetting('settings.reviews.excerpts_length'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.excerpts_length">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-reviews-excerpts_length">Excerpt Length</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-reviews-excerpts_length">Excerpt Length</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="number" class="small-text" id="site_reviews-settings-reviews-excerpts_length" name="site_reviews[settings][reviews][excerpts_length]" value="" />&nbsp;words'.
@@ -658,7 +740,9 @@ test('build reviews excerpts length', function () {
 test('build reviews fallback', function () {
     expect(buildSetting('settings.reviews.fallback'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.fallback">'.
             '<th scope="row">'.
-                '<label>Enable Fallback Text</label>'.
+                '<div>'.
+                    '<label>Enable Fallback Text</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -683,7 +767,9 @@ test('build reviews fallback', function () {
 test('build reviews pagination url parameter', function () {
     expect(buildSetting('settings.reviews.pagination.url_parameter'))->toEqual('<tr class="glsr-setting-field" data-field="settings.reviews.pagination.url_parameter">'.
             '<th scope="row">'.
-                '<label>Enable Paginated URLs</label>'.
+                '<div>'.
+                    '<label>Enable Paginated URLs</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -708,7 +794,9 @@ test('build reviews pagination url parameter', function () {
 test('build schema integration plugin', function () {
     expect(buildSetting('settings.schema.integration.plugin'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.integration.plugin">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-integration-plugin">Integrate with plugin</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-integration-plugin">Integrate with plugin</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-integration-plugin" name="site_reviews[settings][schema][integration][plugin]">'.
@@ -726,7 +814,9 @@ test('build schema integration plugin', function () {
 test('build schema type default', function () {
     expect(buildSetting('settings.schema.type.default'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.type.default">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-type-default">Default Schema Type</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-type-default">Default Schema Type</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-type-default" name="site_reviews[settings][schema][type][default]">'.
@@ -741,7 +831,9 @@ test('build schema type default', function () {
 test('build schema type custom', function () {
     expect(buildSetting('settings.schema.type.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.type.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-type-custom">Custom Schema Type</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-type-custom">Custom Schema Type</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-type-custom" name="site_reviews[settings][schema][type][custom]" value="" />'.
@@ -752,7 +844,9 @@ test('build schema type custom', function () {
 test('build schema name default', function () {
     expect(buildSetting('settings.schema.name.default'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.name.default">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-name-default">Default Name</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-name-default">Default Name</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-name-default" name="site_reviews[settings][schema][name][default]">'.
@@ -766,7 +860,9 @@ test('build schema name default', function () {
 test('build schema name custom', function () {
     expect(buildSetting('settings.schema.name.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.name.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-name-custom">Custom Name</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-name-custom">Custom Name</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-name-custom" name="site_reviews[settings][schema][name][custom]" value="" />'.
@@ -777,7 +873,9 @@ test('build schema name custom', function () {
 test('build schema description default', function () {
     expect(buildSetting('settings.schema.description.default'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.description.default">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-description-default">Default Description</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-description-default">Default Description</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-description-default" name="site_reviews[settings][schema][description][default]">'.
@@ -791,7 +889,9 @@ test('build schema description default', function () {
 test('build schema description custom', function () {
     expect(buildSetting('settings.schema.description.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.description.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-description-custom">Custom Description</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-description-custom">Custom Description</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-description-custom" name="site_reviews[settings][schema][description][custom]" value="" />'.
@@ -802,7 +902,9 @@ test('build schema description custom', function () {
 test('build schema url default', function () {
     expect(buildSetting('settings.schema.url.default'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.url.default">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-url-default">Default URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-url-default">Default URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-url-default" name="site_reviews[settings][schema][url][default]">'.
@@ -816,7 +918,9 @@ test('build schema url default', function () {
 test('build schema url custom', function () {
     expect(buildSetting('settings.schema.url.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.url.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-url-custom">Custom URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-url-custom">Custom URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-url-custom" name="site_reviews[settings][schema][url][custom]" value="" />'.
@@ -827,7 +931,9 @@ test('build schema url custom', function () {
 test('build schema image default', function () {
     expect(buildSetting('settings.schema.image.default'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.image.default">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-image-default">Default Image</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-image-default">Default Image</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-image-default" name="site_reviews[settings][schema][image][default]">'.
@@ -841,7 +947,9 @@ test('build schema image default', function () {
 test('build schema image custom', function () {
     expect(buildSetting('settings.schema.image.custom'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.image.custom">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-image-custom">Custom Image URL</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-image-custom">Custom Image URL</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-image-custom" name="site_reviews[settings][schema][image][custom]" value="" />'.
@@ -852,7 +960,9 @@ test('build schema image custom', function () {
 test('build schema address', function () {
     expect(buildSetting('settings.schema.address'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.address">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-address">Address</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-address">Address</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-address" name="site_reviews[settings][schema][address]" placeholder="Placeholder" value="" />'.
@@ -863,7 +973,9 @@ test('build schema address', function () {
 test('build schema telephone', function () {
     expect(buildSetting('settings.schema.telephone'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.telephone">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-telephone">Telephone Number</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-telephone">Telephone Number</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-telephone" name="site_reviews[settings][schema][telephone]" placeholder="Placeholder" value="" />'.
@@ -874,7 +986,9 @@ test('build schema telephone', function () {
 test('build schema pricerange', function () {
     expect(buildSetting('settings.schema.pricerange'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.pricerange">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-pricerange">Price Range</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-pricerange">Price Range</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-pricerange" name="site_reviews[settings][schema][pricerange]" placeholder="Placeholder" value="" />'.
@@ -885,7 +999,9 @@ test('build schema pricerange', function () {
 test('build schema offertype', function () {
     expect(buildSetting('settings.schema.offertype'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.offertype">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-offertype">Offer Type</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-offertype">Offer Type</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-offertype" name="site_reviews[settings][schema][offertype]">'.
@@ -899,7 +1015,9 @@ test('build schema offertype', function () {
 test('build schema price', function () {
     expect(buildSetting('settings.schema.price'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.price">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-price">Price</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-price">Price</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-price" name="site_reviews[settings][schema][price]" placeholder="Placeholder" value="" />'.
@@ -910,7 +1028,9 @@ test('build schema price', function () {
 test('build schema lowprice', function () {
     expect(buildSetting('settings.schema.lowprice'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.lowprice">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-lowprice">Low Price</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-lowprice">Low Price</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-lowprice" name="site_reviews[settings][schema][lowprice]" placeholder="Placeholder" value="" />'.
@@ -921,7 +1041,9 @@ test('build schema lowprice', function () {
 test('build schema highprice', function () {
     expect(buildSetting('settings.schema.highprice'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.highprice">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-highprice">High Price</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-highprice">High Price</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-highprice" name="site_reviews[settings][schema][highprice]" placeholder="Placeholder" value="" />'.
@@ -932,7 +1054,9 @@ test('build schema highprice', function () {
 test('build schema pricecurrency', function () {
     expect(buildSetting('settings.schema.pricecurrency'))->toEqual('<tr class="glsr-setting-field" data-field="settings.schema.pricecurrency">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-schema-pricecurrency">Price Currency</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-schema-pricecurrency">Price Currency</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-schema-pricecurrency" name="site_reviews[settings][schema][pricecurrency]" placeholder="Placeholder" value="" />'.
@@ -943,7 +1067,9 @@ test('build schema pricecurrency', function () {
 test('build forms required', function () {
     expect(buildSetting('settings.forms.required'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.required">'.
             '<th scope="row">'.
-                '<label>Required Fields</label>'.
+                '<div>'.
+                    '<label>Required Fields</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -984,7 +1110,9 @@ test('build forms required', function () {
 test('build forms limit', function () {
     expect(buildSetting('settings.forms.limit'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-limit">Limit Reviews</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-limit">Limit Reviews</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-limit" name="site_reviews[settings][forms][limit]">'.
@@ -1000,7 +1128,9 @@ test('build forms limit', function () {
 test('build forms limit time', function () {
     expect(buildSetting('settings.forms.limit_time'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit_time">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-limit_time">Limit Reviews For</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-limit_time">Limit Reviews For</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="number" class="small-text" id="site_reviews-settings-forms-limit_time" name="site_reviews[settings][forms][limit_time]" min="0" value="" />&nbsp;days'.
@@ -1011,7 +1141,9 @@ test('build forms limit time', function () {
 test('build forms limit assignments', function () {
     expect(buildSetting('settings.forms.limit_assignments'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit_assignments">'.
             '<th scope="row">'.
-                '<label>Restrict Limits To</label>'.
+                '<div>'.
+                    '<label>Restrict Limits To</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -1039,7 +1171,9 @@ test('build forms limit assignments', function () {
 test('build forms limit whitelist email', function () {
     expect(buildSetting('settings.forms.limit_whitelist.email'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.email">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-email" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][email]" rows="3"></textarea>'.
@@ -1050,7 +1184,9 @@ test('build forms limit whitelist email', function () {
 test('build forms limit whitelist ip address', function () {
     expect(buildSetting('settings.forms.limit_whitelist.ip_address'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.ip_address">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="3"></textarea>'.
@@ -1061,7 +1197,9 @@ test('build forms limit whitelist ip address', function () {
 test('build forms limit whitelist username', function () {
     expect(buildSetting('settings.forms.limit_whitelist.username'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.username">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-username" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][username]" rows="3"></textarea>'.
@@ -1072,7 +1210,9 @@ test('build forms limit whitelist username', function () {
 test('build forms captcha integration', function () {
     expect(buildSetting('settings.forms.captcha.integration'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.captcha.integration">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-captcha-integration">CAPTCHA</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-captcha-integration">CAPTCHA</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-captcha-integration" name="site_reviews[settings][forms][captcha][integration]">'.
@@ -1092,7 +1232,9 @@ test('build forms captcha integration', function () {
 test('build forms friendlycaptcha key', function () {
     expect(buildSetting('settings.forms.friendlycaptcha.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.friendlycaptcha.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-friendlycaptcha-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-friendlycaptcha-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-key" spellcheck="false" name="site_reviews[settings][forms][friendlycaptcha][key]" autocomplete="off" value="" />'.
@@ -1103,7 +1245,9 @@ test('build forms friendlycaptcha key', function () {
 test('build forms friendlycaptcha secret', function () {
     expect(buildSetting('settings.forms.friendlycaptcha.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.friendlycaptcha.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-friendlycaptcha-secret">API Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-friendlycaptcha-secret">API Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-friendlycaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][friendlycaptcha][secret]" autocomplete="off" value="" />'.
@@ -1114,7 +1258,9 @@ test('build forms friendlycaptcha secret', function () {
 test('build forms hcaptcha key', function () {
     expect(buildSetting('settings.forms.hcaptcha.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.hcaptcha.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-hcaptcha-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-hcaptcha-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-key" spellcheck="false" name="site_reviews[settings][forms][hcaptcha][key]" autocomplete="off" value="" />'.
@@ -1125,7 +1271,9 @@ test('build forms hcaptcha key', function () {
 test('build forms hcaptcha secret', function () {
     expect(buildSetting('settings.forms.hcaptcha.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.hcaptcha.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-hcaptcha-secret">Secret Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-hcaptcha-secret">Secret Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][hcaptcha][secret]" autocomplete="off" value="" />'.
@@ -1136,7 +1284,9 @@ test('build forms hcaptcha secret', function () {
 test('build forms procaptcha key', function () {
     expect(buildSetting('settings.forms.procaptcha.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-procaptcha-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-procaptcha-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-key" spellcheck="false" name="site_reviews[settings][forms][procaptcha][key]" autocomplete="off" value="" />'.
@@ -1147,7 +1297,9 @@ test('build forms procaptcha key', function () {
 test('build forms procaptcha secret', function () {
     expect(buildSetting('settings.forms.procaptcha.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-procaptcha-secret">Secret Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-procaptcha-secret">Secret Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][procaptcha][secret]" autocomplete="off" value="" />'.
@@ -1158,7 +1310,9 @@ test('build forms procaptcha secret', function () {
 test('build forms procaptcha type', function () {
     expect(buildSetting('settings.forms.procaptcha.type'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.type">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-procaptcha-type">CAPTCHA Type</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-procaptcha-type">CAPTCHA Type</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-procaptcha-type" name="site_reviews[settings][forms][procaptcha][type]">'.
@@ -1173,7 +1327,9 @@ test('build forms procaptcha type', function () {
 test('build forms recaptcha key', function () {
     expect(buildSetting('settings.forms.recaptcha.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.recaptcha.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-recaptcha-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-recaptcha-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-key" spellcheck="false" name="site_reviews[settings][forms][recaptcha][key]" autocomplete="off" value="" />'.
@@ -1184,7 +1340,9 @@ test('build forms recaptcha key', function () {
 test('build forms recaptcha secret', function () {
     expect(buildSetting('settings.forms.recaptcha.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.recaptcha.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-recaptcha-secret">Secret Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-recaptcha-secret">Secret Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha-secret" spellcheck="false" name="site_reviews[settings][forms][recaptcha][secret]" autocomplete="off" value="" />'.
@@ -1195,7 +1353,9 @@ test('build forms recaptcha secret', function () {
 test('build forms recaptcha v3 key', function () {
     expect(buildSetting('settings.forms.recaptcha_v3.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-recaptcha_v3-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-recaptcha_v3-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-key" spellcheck="false" name="site_reviews[settings][forms][recaptcha_v3][key]" autocomplete="off" value="" />'.
@@ -1206,7 +1366,9 @@ test('build forms recaptcha v3 key', function () {
 test('build forms recaptcha v3 secret', function () {
     expect(buildSetting('settings.forms.recaptcha_v3.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-recaptcha_v3-secret">Secret Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-recaptcha_v3-secret">Secret Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-recaptcha_v3-secret" spellcheck="false" name="site_reviews[settings][forms][recaptcha_v3][secret]" autocomplete="off" value="" />'.
@@ -1217,7 +1379,9 @@ test('build forms recaptcha v3 secret', function () {
 test('build forms recaptcha v3 threshold', function () {
     expect(buildSetting('settings.forms.recaptcha_v3.threshold'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.threshold">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-recaptcha_v3-threshold">Score Threshold</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-recaptcha_v3-threshold">Score Threshold</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="number" class="small-text" id="site_reviews-settings-forms-recaptcha_v3-threshold" name="site_reviews[settings][forms][recaptcha_v3][threshold]" min="0" max="1" step="0.1" value="" />'.
@@ -1229,7 +1393,9 @@ test('build forms recaptcha v3 threshold', function () {
 test('build forms turnstile key', function () {
     expect(buildSetting('settings.forms.turnstile.key'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.turnstile.key">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-turnstile-key">Site Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-turnstile-key">Site Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-key" spellcheck="false" name="site_reviews[settings][forms][turnstile][key]" autocomplete="off" value="" />'.
@@ -1240,7 +1406,9 @@ test('build forms turnstile key', function () {
 test('build forms turnstile secret', function () {
     expect(buildSetting('settings.forms.turnstile.secret'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.turnstile.secret">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-turnstile-secret">Secret Key</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-turnstile-secret">Secret Key</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<input type="text" class="regular-text" id="site_reviews-settings-forms-turnstile-secret" spellcheck="false" name="site_reviews[settings][forms][turnstile][secret]" autocomplete="off" value="" />'.
@@ -1251,7 +1419,9 @@ test('build forms turnstile secret', function () {
 test('build forms captcha badge', function () {
     expect(buildSetting('settings.forms.captcha.badge'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.captcha.badge">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-captcha-badge">CAPTCHA Placement</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-captcha-badge">CAPTCHA Placement</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-captcha-badge" name="site_reviews[settings][forms][captcha][badge]">'.
@@ -1267,7 +1437,9 @@ test('build forms captcha badge', function () {
 test('build forms captcha theme', function () {
     expect(buildSetting('settings.forms.captcha.theme'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.captcha.theme">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-captcha-theme">CAPTCHA Theme</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-captcha-theme">CAPTCHA Theme</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-captcha-theme" name="site_reviews[settings][forms][captcha][theme]">'.
@@ -1281,7 +1453,9 @@ test('build forms captcha theme', function () {
 test('build forms captcha usage', function () {
     expect(buildSetting('settings.forms.captcha.usage'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.captcha.usage">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-captcha-usage">CAPTCHA Usage</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-captcha-usage">CAPTCHA Usage</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-captcha-usage" name="site_reviews[settings][forms][captcha][usage]">'.
@@ -1295,7 +1469,9 @@ test('build forms captcha usage', function () {
 test('build forms akismet', function () {
     expect(buildSetting('settings.forms.akismet'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.akismet">'.
             '<th scope="row">'.
-                '<label>Enable Akismet</label>'.
+                '<div>'.
+                    '<label>Enable Akismet</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -1319,7 +1495,9 @@ test('build forms akismet', function () {
 test('build forms prevent duplicates', function () {
     expect(buildSetting('settings.forms.prevent_duplicates'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.prevent_duplicates">'.
             '<th scope="row">'.
-                '<label>Prevent Duplicates</label>'.
+                '<div>'.
+                    '<label>Prevent Duplicates</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<fieldset data-depends="">'.
@@ -1343,7 +1521,9 @@ test('build forms prevent duplicates', function () {
 test('build forms blacklist integration', function () {
     expect(buildSetting('settings.forms.blacklist.integration'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.blacklist.integration">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-blacklist-integration">Blacklist</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-blacklist-integration">Blacklist</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-blacklist-integration" name="site_reviews[settings][forms][blacklist][integration]">'.
@@ -1357,7 +1537,9 @@ test('build forms blacklist integration', function () {
 test('build forms blacklist entries', function () {
     expect(buildSetting('settings.forms.blacklist.entries'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.blacklist.entries">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-blacklist-entries">Review Blacklist</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-blacklist-entries">Review Blacklist</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<textarea class="autosized code large-text" id="site_reviews-settings-forms-blacklist-entries" style="min-height:3lh;" name="site_reviews[settings][forms][blacklist][entries]" rows="3"></textarea>'.
@@ -1368,7 +1550,9 @@ test('build forms blacklist entries', function () {
 test('build forms blacklist action', function () {
     expect(buildSetting('settings.forms.blacklist.action'))->toEqual('<tr class="glsr-setting-field" data-field="settings.forms.blacklist.action">'.
             '<th scope="row">'.
-                '<label for="site_reviews-settings-forms-blacklist-action">Blacklist Action</label>'.
+                '<div>'.
+                    '<label for="site_reviews-settings-forms-blacklist-action">Blacklist Action</label>'.
+                '</div>'.
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-forms-blacklist-action" name="site_reviews[settings][forms][blacklist][action]">'.

@@ -1,0 +1,79 @@
+.glsr-textarea-editor {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+}
+
+.glsr-textarea-editor textarea {
+  margin: 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.glsr-textarea-editor:has(.glsr-textarea-editor__toolbar) textarea {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.glsr-textarea-editor textarea + .glsr-textarea-editor__toolbar {
+  border: 1px solid #8c8f94;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  gap: 4px;
+  justify-content: space-between;
+  padding: 4px;
+}
+
+.glsr-textarea-editor textarea:focus + .glsr-textarea-editor__toolbar {
+  border-color: var(--wp-admin-theme-color, #2271b1);
+  box-shadow: 0 0 0 var(--wp-admin-border-width-focus,1.5px) var(--wp-admin-theme-color, #2271b1);
+  outline: 2px solid transparent;
+}
+
+.glsr-textarea-editor .glsr-textarea-editor__toolbar select {
+  line-height: 1.5;
+  margin: 0;
+  min-height: 32px;
+  min-width: 32px;
+}
+
+@media screen and (max-width: 782px) {
+  .glsr-textarea-editor .glsr-textarea-editor__toolbar select {
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+.glsr-textarea-editor button.is-reset-button {
+  align-items: center;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0;
+}
+
+@media screen and (max-width: 782px) {
+  .glsr-textarea-editor button.is-reset-button {
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+.glsr-textarea-editor:not(:has(.glsr-textarea-editor__toolbar)) textarea.autosized {
+  padding-right: 40px;
+}
+
+.glsr-textarea-editor:not(:has(.glsr-textarea-editor__toolbar)) button.is-reset-button {
+  background-color: transparent;
+  border-color: transparent;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  z-index: 1;
+}
