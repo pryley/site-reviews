@@ -8,6 +8,22 @@ abstract class StringSanitizer extends AbstractSanitizer
 {
     abstract public function run(): string;
 
+    /**
+     * Decode the entities of a value until it holds none.
+     */
+    protected function decode(string $value): string
+    {
+        for ($pass = 0; $pass < 10; ++$pass) {
+            $decoded = html_entity_decode($value, \ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
+            $decoded = wp_specialchars_decode($decoded); // &lt; => <
+            if ($decoded === $value) {
+                return $value;
+            }
+            $value = $decoded;
+        }
+        return str_replace('&', '', $value); // text is never encoded this often
+    }
+
     protected function kses(string $value): string
     {
         $regex = '/on(abort|autocomplete|autocompleteerror|beforeprint|beforeunload|blur|cancel|canplay|canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag|dragend|dragenter|dragleave|dragover|dragstart|drop|durationchange|emptied|ended|error|focus|hashchange|input|invalid|keydown|keypress|keyup|languagechange|load|loadeddata|loadedmetadata|loadstart|message|mousedown|mouseenter|mouseleave|mousemove|mouseout|mouseover|mouseup|mousewheel|offline|online|pause|play|playing|popstate|progress|ratechange|redo|reset|resize|scroll|seeked|seeking|select|show|sort|stalled|storage|submit|suspend|timeupdate|toggle|undo|unload|volumechange|waiting)\s*=/i';

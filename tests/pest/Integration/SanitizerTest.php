@@ -1902,3 +1902,74 @@ test('a sanitizer that does not exist logs and falls back to the given fallback'
     expect(glsr(Sanitizer::class)->sanitizeNoSuchThing('the-value', 'the-fallback'))
         ->toBe('the-fallback');
 });
+
+/*
+ * A text sanitiser decodes a value until it holds no entity before it removes or checks the
+ * tags, so a value that is sanitised again, or decoded again on its way to the page, gains
+ * nothing it did not have after the first pass.
+ */
+
+function encodedTimes(string $value, int $times, string $entities = 'named'): string
+{
+    $encoded = [ // order is intentional: the ampersand first
+        'decimal' => ['&' => '&#38;', '"' => '&#34;', '<' => '&#60;', '>' => '&#62;'],
+        'hex' => ['&' => '&#x26;', '"' => '&#x22;', '<' => '&#x3c;', '>' => '&#x3e;'],
+        'named' => ['&' => '&amp;', '"' => '&quot;', '<' => '&lt;', '>' => '&gt;'],
+    ];
+    for ($i = 0; $i < $times; ++$i) {
+        $value = strtr($value, $encoded[$entities]);
+    }
+    return $value;
+}
+
+test('plain text holds no tag however many times its tags were encoded', function (string $sanitizer, string $entities, int $times) {
+    $method = GeminiLabs\SiteReviews\Helper::buildMethodName('sanitize', $sanitizer);
+    $value = encodedTimes('One <em class="two">three</em> four', $times, $entities);
+
+    $written = glsr(Sanitizer::class)->$method($value);
+    $read = glsr(Sanitizer::class)->$method($written);
+
+    expect($read)->toBe($written);
+    expect($written)->not->toContain('<em');
+    expect(GeminiLabs\SiteReviews\Helpers\Text::normalize($read))->not->toContain('<em'); // with excerpts off
+    expect(GeminiLabs\SiteReviews\Helpers\Text::excerpt($read, 2))->not->toContain('<em'); // with excerpts on
+})->with(['text', 'text-multiline'])->with(['decimal', 'hex', 'named'])->with(range(0, 8));
+
+test('text that may hold tags is the same when it is sanitised again', function (string $sanitizer, string $entities, int $times) {
+    $method = GeminiLabs\SiteReviews\Helper::buildMethodName('sanitize', $sanitizer);
+    $value = encodedTimes('One <em>two</em> <img src="three.png"> four', $times, $entities);
+
+    $written = glsr(Sanitizer::class)->$method($value);
+
+    expect(wp_unslash(glsr(Sanitizer::class)->$method($written)))->toBe(wp_unslash($written));
+})->with(['text-html', 'text-post'])->with(['decimal', 'hex', 'named'])->with(range(0, 8));
+
+test('a tag written inside another tag leaves nothing for a second pass', function (string $sanitizer) {
+    $method = GeminiLabs\SiteReviews\Helper::buildMethodName('sanitize', $sanitizer);
+    $value = 'One <strong cl<em>ass="two">three</strong> <img sr<img src="x">c=four.png> five';
+
+    $written = glsr(Sanitizer::class)->$method($value);
+
+    expect(wp_unslash(glsr(Sanitizer::class)->$method($written)))->toBe(wp_unslash($written));
+    expect($written)->not->toContain('<img');
+})->with(['text', 'text-html', 'text-multiline']);
+
+test('ordinary text is sanitised as before', function (string $value, string $text, string $html) {
+    expect(glsr(Sanitizer::class)->sanitizeText($value))->toBe($text);
+    expect(glsr(Sanitizer::class)->sanitizeTextMultiline($value))->toBe($text);
+    expect(glsr(Sanitizer::class)->sanitizeTextHtml($value))->toBe($html);
+})->with([
+    'an ampersand' => ['AT&T', 'AT&T', 'AT&amp;T'],
+    'an encoded ampersand' => ['Tom &amp; Jerry', 'Tom & Jerry', 'Tom &amp; Jerry'],
+    'a less-than sign' => ['3 < 4', '3 &lt; 4', '3 &lt; 4'],
+    'an apostrophe' => ['It&#8217;s fine', 'It’s fine', 'It’s fine'],
+]);
+
+test('text encoded more often than text ever is comes back with no entity', function () {
+    $value = encodedTimes('One <em>two</em>', 40, 'decimal');
+
+    $sanitized = glsr(Sanitizer::class)->sanitizeTextMultiline($value);
+
+    expect($sanitized)->not->toContain('&');
+    expect(GeminiLabs\SiteReviews\Helpers\Text::normalize($sanitized))->not->toContain('<em');
+});

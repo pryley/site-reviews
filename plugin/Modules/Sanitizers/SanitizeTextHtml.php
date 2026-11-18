@@ -21,11 +21,14 @@ class SanitizeTextHtml extends StringSanitizer
     public function run(): string
     {
         $allowedHtml = $this->allowedHtml();
-        $value = $this->kses($this->value());
-        $value = html_entity_decode($value, \ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
-        $value = addslashes(wp_kses(stripslashes($value), $allowedHtml));
-        $value = wp_specialchars_decode($value); // &lt; => <
-        $value = wp_kses(stripslashes($value), $allowedHtml); // do this a final time to catch tags inside <script> tag
+        $value = stripslashes($this->kses($this->decode($this->value())));
+        for ($pass = 0; $pass < 10; ++$pass) { // a tag that is removed can leave another one behind
+            $sanitized = wp_kses($this->decode($value), $allowedHtml);
+            if ($sanitized === $value) {
+                break;
+            }
+            $value = $sanitized;
+        }
         return $value;
     }
 }

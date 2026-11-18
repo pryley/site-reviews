@@ -9,11 +9,14 @@ class SanitizeTextPost extends StringSanitizer
 {
     public function run(): string
     {
-        $value = $this->kses($this->value());
-        $value = html_entity_decode($value, \ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
-        $value = wp_filter_post_kses($value);
-        $value = wp_specialchars_decode($value); // &lt; => <
-        $value = wp_filter_post_kses($value); // do this a second time to catch tags inside <script> tag
+        $value = $this->kses($this->decode($this->value()));
+        for ($pass = 0; $pass < 10; ++$pass) { // a tag that is removed can leave another one behind
+            $sanitized = wp_filter_post_kses($this->decode($value));
+            if ($sanitized === $value) {
+                break;
+            }
+            $value = $sanitized;
+        }
         return $value;
     }
 }
