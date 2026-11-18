@@ -53,10 +53,10 @@ test('the missing columns are added, each after the one it belongs behind', func
             (new Migrate_6_0_0())->migrateDatabase();
 
             expect($fake->queries)->toHaveCount(2)
-                ->and($fake->queries[0])->toContain('ADD COLUMN is_verified')
-                ->and($fake->queries[0])->toContain('AFTER is_pinned')
-                ->and($fake->queries[1])->toContain('ADD COLUMN score')
-                ->and($fake->queries[1])->toContain('AFTER terms');
+                ->and($fake->queries[0])->toContain('ADD COLUMN `is_verified`')
+                ->and($fake->queries[0])->toContain('AFTER `is_pinned`')
+                ->and($fake->queries[1])->toContain('ADD COLUMN `score`')
+                ->and($fake->queries[1])->toContain('AFTER `terms`');
         });
     });
 
