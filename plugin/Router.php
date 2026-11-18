@@ -89,6 +89,35 @@ class Router implements ControllerContract
         $this->post('public', $request);
     }
 
+    /**
+     * The capability that each admin route asks for, keyed by the hook of the route.
+     *
+     * @return array<string, string>
+     */
+    protected function adminCapabilities(): array
+    {
+        $console = glsr()->getPermission('tools', 'console');
+        $general = glsr()->getPermission('tools', 'general');
+        $settings = glsr()->getPermission('settings');
+        return glsr()->filterArray('router/admin/capabilities', [
+            'route/admin/clear-console' => $console,
+            'route/admin/console-level' => $console,
+            'route/admin/convert-table-engine' => $settings,
+            'route/admin/download-console' => $console,
+            'route/admin/download-csv-template' => $general,
+            'route/admin/download-system-info' => glsr()->getPermission('tools', 'system-info'),
+            'route/admin/export-reviews' => $general,
+            'route/admin/export-settings' => $settings,
+            'route/admin/import-settings' => $settings,
+            'route/admin/ip-address-detection' => $settings,
+            'route/admin/migrate-plugin' => $settings,
+            'route/admin/repair-permissions' => 'edit_users',
+            'route/admin/repair-review-relations' => $settings,
+            'route/admin/reset-assigned-meta' => $settings,
+            'route/get/admin/approve' => glsr(Role::class)->capability('publish_posts'),
+        ]);
+    }
+
     protected function checkAjaxNonce(Request $request): void
     {
         if (in_array($request->_action, $this->unguardedPublicActions())) {
@@ -127,7 +156,23 @@ class Router implements ControllerContract
             glsr_log()->warning("Unknown {$type} router GET request: {$request->action}");
             return;
         }
+        if ('admin' === $type && !$this->isPermitted($hook)) {
+            return;
+        }
         glsr()->action($hook, $request);
+    }
+
+    /**
+     * If the user has the capability that the admin route asks for.
+     */
+    protected function isPermitted(string $hook): bool
+    {
+        $capability = $this->adminCapabilities()[$hook] ?? '';
+        if (!is_string($capability) || '' === $capability) {
+            glsr_log()->warning("The admin route [{$hook}] names no capability in the site-reviews/router/admin/capabilities filter.");
+            return false;
+        }
+        return glsr()->can($capability);
     }
 
     /**
@@ -197,6 +242,9 @@ class Router implements ControllerContract
         glsr()->action('route/request', $request, $hook);
         if (!$this->isRouted($hook)) {
             glsr_log()->warning("Unknown {$type} router POST request: {$request->_action}");
+            return;
+        }
+        if ('admin' === $type && !$this->isPermitted($hook)) {
             return;
         }
         glsr()->action($hook, $request);

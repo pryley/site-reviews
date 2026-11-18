@@ -18,6 +18,7 @@
 - Added the `site-reviews/stylesheet/url` filter hook to point a stylesheet at your own file
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Added the `site-reviews/review/value`, `site-reviews/review/label` and `site-reviews/review/notice` filters for developers, which run on every tag before the per-tag ones
+- Added the `site-reviews/router/admin/capabilities` filter hook to name the capability of an admin route added by custom code; a route that names none is not run
 - Changed the browser console: a request the server declines is logged as a warning and a fault as an error
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
 - Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid

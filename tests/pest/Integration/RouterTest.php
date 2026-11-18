@@ -200,12 +200,62 @@ test('the unguarded actions are the four a cached page needs', function () {
 
 test('an admin form post with a valid nonce is routed', function () {
     wp_set_current_user(createUser(['role' => 'administrator']));
+    add_filter('site-reviews/router/admin/capabilities', fn ($capabilities) => $capabilities + ['route/admin/test-route' => 'manage_options']);
     formPost(['_action' => 'test-route'], wp_create_nonce('test-route'));
     $recorded = recordRoute('route/admin/test-route');
 
     glsr(Router::class)->routeAdminPostRequest();
 
     expect($recorded)->toHaveCount(1);
+});
+
+test('an admin route is not run for a user without the capability it names', function () {
+    wp_set_current_user(createUser(['role' => 'editor']));
+    add_filter('site-reviews/router/admin/capabilities', fn ($capabilities) => $capabilities + ['route/admin/test-route' => 'manage_options']);
+    formPost(['_action' => 'test-route'], wp_create_nonce('test-route'));
+    $recorded = recordRoute('route/admin/test-route');
+
+    glsr(Router::class)->routeAdminPostRequest();
+
+    expect($recorded)->toHaveCount(0);
+});
+
+test('an admin route that names no capability is not run, and the console says which', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    formPost(['_action' => 'test-route'], wp_create_nonce('test-route'));
+    $recorded = recordRoute('route/admin/test-route');
+
+    glsr(Router::class)->routeAdminPostRequest();
+
+    expect($recorded)->toHaveCount(0);
+    expect(glsr(Console::class)->get())->toContain('route/admin/test-route')
+        ->toContain('site-reviews/router/admin/capabilities');
+});
+
+test('an admin get route asks for its capability as well', function () {
+    add_filter('site-reviews/router/admin/capabilities', fn ($capabilities) => $capabilities + ['route/get/admin/test-route' => 'manage_options']);
+    $recorded = recordRoute('route/get/admin/test-route');
+    $get = protectedMethod(Router::class, 'get');
+
+    wp_set_current_user(createUser(['role' => 'editor']));
+    $get->invoke(glsr(Router::class), 'admin', new Request(['action' => 'test-route']));
+    expect($recorded)->toHaveCount(0);
+
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $get->invoke(glsr(Router::class), 'admin', new Request(['action' => 'test-route']));
+    expect($recorded)->toHaveCount(1);
+});
+
+test('every admin route of the plugin names a capability', function () {
+    global $wp_filter;
+    $capabilities = protectedMethod(Router::class, 'adminCapabilities')->invoke(glsr(Router::class));
+    $routes = array_filter(array_keys($wp_filter), fn ($hook) => str_starts_with($hook, 'site-reviews/route/admin/')
+        || str_starts_with($hook, 'site-reviews/route/get/admin/'));
+
+    expect($routes)->not->toBeEmpty();
+    foreach ($routes as $hook) {
+        expect($capabilities)->toHaveKey(substr($hook, strlen('site-reviews/')));
+    }
 });
 
 test('an admin form post with a bad nonce is stopped dead', function () {
