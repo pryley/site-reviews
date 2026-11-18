@@ -164,18 +164,18 @@ class MigrateReviews implements MigrateContract
             if (empty($postIds)) {
                 break;
             }
-            $postIds = implode(',', $postIds);
+            $in = implode(',', array_fill(0, count($postIds), '%d'));
             $sql = glsr(Query::class)->sql("
                 SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM table|posts AS p
                 LEFT JOIN table|postmeta AS m ON (m.post_id = p.ID)
-                WHERE p.ID IN ({$postIds})
+                WHERE p.ID IN ({$in})
                 AND NOT EXISTS (
                     SELECT r.review_id
                     FROM table|ratings AS r
                     WHERE r.review_id = p.ID
                 )
-            ");
+            ", ...array_values($postIds));
             $results = glsr(Database::class)->dbGetResults($sql, \OBJECT);
             if (!empty($results)) {
                 $values = $this->parseRatings($results);

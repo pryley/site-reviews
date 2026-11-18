@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
@@ -89,18 +90,17 @@ class ImportManager
         if (empty($submittedHashes)) {
             return [];
         }
-        $hashes = implode("','", array_map('esc_sql', $submittedHashes));
-        $sql = "
+        $in = implode(',', array_fill(0, count($submittedHashes), '%s'));
+        $sql = glsr(Query::class)->sql("
             SELECT pm.meta_value AS submitted_hash, MIN(p.ID) AS review_id
             FROM table|posts AS p
             INNER JOIN table|postmeta AS pm ON (pm.post_id = p.ID)
             WHERE 1=1
             AND p.post_type = %s
             AND pm.meta_key = '_submitted_hash'
-            AND pm.meta_value IN ('{$hashes}')
+            AND pm.meta_value IN ({$in})
             GROUP BY pm.meta_value
-        ";
-        $sql = glsr(Query::class)->sql($sql, glsr()->post_type);
+        ", glsr()->post_type, ...array_map([Cast::class, 'toString'], array_values($submittedHashes)));
         $results = glsr(Database::class)->dbGetResults($sql, \ARRAY_A);
         return array_column(Arr::consolidate($results), 'review_id', 'submitted_hash');
     }

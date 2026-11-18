@@ -31,36 +31,34 @@ class SearchAssignedPosts extends AbstractSearch
 
     protected function searchById(int $searchId): array
     {
-        $sql = "
-            SELECT p.ID as id, p.post_title as name
-            FROM table|posts AS p
-            INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
-            WHERE 1=1
-            AND ap.post_id = %d
-            AND p.post_status IN ({$this->postStatuses()})
-            GROUP BY p.ID
-        ";
         return (array) glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql, $searchId)
+            glsr(Query::class)->sql("
+                SELECT p.ID as id, p.post_title as name
+                FROM table|posts AS p
+                INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
+                WHERE 1=1
+                AND ap.post_id = %d
+                AND p.post_status IN ({$this->postStatuses()})
+                GROUP BY p.ID
+            ", $searchId)
         );
     }
 
     protected function searchByTerm(string $searchTerm): array
     {
         $like = '%'.$this->db->esc_like($searchTerm).'%';
-        $sql = "
-            SELECT p.ID as id, p.post_title as name
-            FROM table|posts AS p
-            INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
-            WHERE 1=1
-            AND p.post_title LIKE %s
-            AND p.post_status IN ({$this->postStatuses()})
-            GROUP BY p.ID
-            ORDER BY p.post_title LIKE %s DESC, p.post_date DESC
-            LIMIT 20
-        ";
         return (array) glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql, $like, $like)
+            glsr(Query::class)->sql("
+                SELECT p.ID as id, p.post_title as name
+                FROM table|posts AS p
+                INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
+                WHERE 1=1
+                AND p.post_title LIKE %s
+                AND p.post_status IN ({$this->postStatuses()})
+                GROUP BY p.ID
+                ORDER BY p.post_title LIKE %s DESC, p.post_date DESC
+                LIMIT 20
+            ", $like, $like)
         );
     }
 }

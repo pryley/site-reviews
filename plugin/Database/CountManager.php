@@ -139,19 +139,14 @@ class CountManager
      */
     protected function idsWithRatingMeta(string $metaGroup): array
     {
-        $metaKeys = glsr(Query::class)->escValuesForInsert([
-            static::META_AVERAGE,
-            static::META_RANKING,
-            static::META_REVIEWS,
-        ]);
         $metaId = $this->metaId($metaGroup);
-        $metaTable = $this->metaTable($metaGroup);
+        $metaTable = glsr(Tables::class)->table($this->metaTable($metaGroup));
         return Arr::uniqueInt( // because the SQL statement can be filtered with hook
             glsr(Database::class)->dbGetCol(glsr(Query::class)->sql("
-                SELECT DISTINCT {$metaId}
-                FROM table|{$metaTable}
-                WHERE meta_key IN {$metaKeys}
-            "))
+                SELECT DISTINCT %i
+                FROM %i
+                WHERE meta_key IN (%s,%s,%s)
+            ", $metaId, $metaTable, static::META_AVERAGE, static::META_RANKING, static::META_REVIEWS))
         );
     }
 

@@ -28,14 +28,12 @@ class Queue implements QueueContract
         $labels = \ActionScheduler_Store::instance()->get_status_labels();
         $sql = glsr(Query::class)->sql("
             SELECT a.status, count(a.status) as 'count'
-            FROM {$wpdb->actionscheduler_actions} a
-            INNER JOIN {$wpdb->actionscheduler_groups} g ON (g.group_id = a.group_id)
-            WHERE g.slug = '%s'
+            FROM %i a
+            INNER JOIN %i g ON (g.group_id = a.group_id)
+            WHERE g.slug = %s
             GROUP BY a.status
-        ");
-        $results = glsr(Database::class)->dbGetResults(
-            sprintf($sql, glsr()->id)
-        );
+        ", $wpdb->actionscheduler_actions, $wpdb->actionscheduler_groups, glsr()->id);
+        $results = glsr(Database::class)->dbGetResults($sql);
         foreach ($results as $result) {
             if (!array_key_exists($result->status, $labels)) {
                 continue;

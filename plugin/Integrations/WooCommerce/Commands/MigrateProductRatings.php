@@ -61,8 +61,9 @@ class MigrateProductRatings extends AbstractCommand
      */
     protected function deleteTerms(array $ttids): int
     {
+        $ttids = array_values($ttids);
+        $in = implode(',', array_fill(0, count($ttids), '%d'));
         if (glsr(Tables::class)->isSqlite()) { // the SQLite plugin can't run the joined DELETE
-            $in = implode(',', array_fill(0, count($ttids), '%d'));
             $table = glsr(Tables::class)->table('term_relationships');
             $sql = glsr(Query::class)->sql("
                 DELETE FROM %i
@@ -72,9 +73,8 @@ class MigrateProductRatings extends AbstractCommand
                     WHERE p.ID = %i.object_id AND p.post_type = 'product'
                 )
                 AND term_taxonomy_id IN ({$in})
-            ", $table, $table, ...array_values($ttids));
+            ", $table, $table, ...$ttids);
         } else {
-            $in = implode(',', $ttids);
             $sql = glsr(Query::class)->sql("
                 DELETE tr
                 FROM table|term_relationships AS tr
@@ -82,7 +82,7 @@ class MigrateProductRatings extends AbstractCommand
                 WHERE 1=1
                 AND p.post_type = 'product'
                 AND tr.term_taxonomy_id IN ({$in})
-            ");
+            ", ...$ttids);
         }
         $results = glsr(Database::class)->dbQuery($sql);
         return Cast::toInt($results);

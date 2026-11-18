@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Request;
 
 class ImportProductReviews extends AbstractCommand
@@ -101,9 +100,8 @@ class ImportProductReviews extends AbstractCommand
      */
     public function reviews(): array
     {
-        $reviewIds = $this->reviewIds();
-        $reviewIds = implode(',', $reviewIds);
-        $reviewIds = Str::fallback($reviewIds, '0'); // if there are no comment IDs, default to 0
+        $reviewIds = $this->reviewIds() ?: [0]; // if there are no comment IDs, default to 0
+        $in = implode(',', array_fill(0, count($reviewIds), '%d'));
         $sql = glsr(Query::class)->sql("
             SELECT 
                 c.comment_ID,
@@ -120,14 +118,14 @@ class ImportProductReviews extends AbstractCommand
             FROM table|comments AS c
             INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1
-            AND c.comment_ID IN ({$reviewIds})
+            AND c.comment_ID IN ({$in})
             AND cm.meta_key = 'rating'
-        ");
+        ", ...$reviewIds);
         $reviews = glsr(Database::class)->dbGetResults($sql, \OBJECT_K);
         if (empty($reviews)) {
             return [];
         }
-        $verifiedCommentIds = $this->verifiedCommentIds($reviewIds);
+        $verifiedCommentIds = $this->verifiedCommentIds(implode(',', $reviewIds));
         foreach ($reviews as $commentId => $values) {
             if (in_array((int) $commentId, $verifiedCommentIds)) {
                 $values->verified = 1;
@@ -141,15 +139,17 @@ class ImportProductReviews extends AbstractCommand
      */
     public function verifiedCommentIds(string $reviewIds): array
     {
+        $commentIds = wp_parse_id_list($reviewIds) ?: [0];
+        $in = implode(',', array_fill(0, count($commentIds), '%d'));
         $sql = glsr(Query::class)->sql("
             SELECT c.comment_ID
             FROM table|comments AS c
             INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1
-            AND c.comment_ID IN ({$reviewIds})
+            AND c.comment_ID IN ({$in})
             AND cm.meta_key = 'verified'
             AND cm.meta_value = 1
-        ");
+        ", ...$commentIds);
         $results = glsr(Database::class)->dbGetCol($sql);
         return Arr::uniqueInt($results);
     }

@@ -46,8 +46,8 @@ test('the missing column is added after is_pinned', function () {
         withDdlFreeDatabase(function ($fake) {
             (new Migrate_7_0_0())->migrateDatabase();
 
-            expect($fake->queries[0])->toContain('ADD COLUMN is_flagged')
-                ->and($fake->queries[0])->toContain('AFTER is_pinned');
+            expect($fake->queries[0])->toContain('ADD COLUMN `is_flagged`')
+                ->and($fake->queries[0])->toContain('AFTER `is_pinned`');
         });
     });
 
@@ -60,7 +60,7 @@ test('on sqlite the column is added without saying where', function () {
         withDdlFreeDatabase(function ($fake) {
             (new Migrate_7_0_0())->migrateDatabase();
 
-            expect($fake->queries[0])->toContain('ADD COLUMN is_flagged')
+            expect($fake->queries[0])->toContain('ADD COLUMN `is_flagged`')
                 ->and($fake->queries[0])->not->toContain('AFTER');
         });
     });

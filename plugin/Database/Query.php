@@ -191,7 +191,7 @@ class Query
 
     protected function queryImport(): string
     {
-        $sql = "
+        return $this->sql("
             SELECT m.post_id, m.meta_value
             FROM table|postmeta AS m
             INNER JOIN table|posts AS p ON (p.ID = m.post_id)
@@ -200,8 +200,7 @@ class Query
             ORDER BY m.meta_id
             {$this->sqlLimit()}
             {$this->sqlOffset()}
-        ";
-        return $this->sql($sql, glsr()->post_type, glsr()->export_key);
+        ", glsr()->post_type, glsr()->export_key);
     }
 
     /**
@@ -287,6 +286,8 @@ class Query
     {
         $orderBy = !empty($this->args['order']) ? $this->sqlOrderBy() : '';
         $postType = glsr()->post_type;
+        $reviewIds = implode(',', wp_parse_id_list($reviewIds)); // the statement below is not prepared
+        // @phpstan-ignore siteReviews.querySql (addons filter this statement as text and read its IDs, so it takes no arguments)
         return $this->sql("
             SELECT
                 r.*,

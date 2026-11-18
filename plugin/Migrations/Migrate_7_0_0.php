@@ -58,14 +58,14 @@ class Migrate_7_0_0 implements MigrateContract
         if (glsr(Tables::class)->isSqlite()) {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD COLUMN {$column} tinyint(1) NOT NULL DEFAULT '0'
-            ");
+                ADD COLUMN %i tinyint(1) NOT NULL DEFAULT '0'
+            ", $column);
         } else {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD COLUMN {$column} tinyint(1) NOT NULL DEFAULT '0'
-                AFTER {$afterColumn}
-            ");
+                ADD COLUMN %i tinyint(1) NOT NULL DEFAULT '0'
+                AFTER %i
+            ", $column, $afterColumn);
         }
         if (false === glsr(Database::class)->dbQuery($sql)) {
             glsr_log()->error("The ratings table could not be altered, the [{$column}] column was not added.");
