@@ -262,6 +262,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Improved the tooltips in the admin: the help of a setting opens with the keyboard and stays open when it is clicked
 - Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
 - Removed the fallbacks for the hook names and template tags that version 5.0 replaced: `site-reviews/review/response`, `site-reviews/reviews/reviews-wrapper`, `site-reviews/review-table/filter`, `site-reviews/config/forms/submission-form`, `site-reviews/submission-form/order`, `{{ review_id }}` and `{{ assigned_to }}`, and the `site-reviews/support/deprecated/v5` filter hook
+- Removed the names that version 5.0 replaced from the shortcode options, the review form fields and the arguments of the helper functions: `assign_to`, `assigned_to`, `category` and `user`; use `assigned_posts`, `assigned_terms` and `assigned_users`
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
 - Removed the tippy.js library from the admin script: the tooltips use the Popover API of the browser, and `GLSR.Tippy` has no replacement
 - Renamed the `Compatibility` PHP class to `Helpers\Hook`

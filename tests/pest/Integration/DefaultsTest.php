@@ -14,9 +14,10 @@ test('reviews restrict', function () {
     $termId = createTerm(['taxonomy' => glsr()->taxonomy]);
     $userId = createUser();
     $args = [
-        'assigned_to' => $postId,
+        'assigned_posts' => $postId,
+        'assigned_terms' => $termId,
+        'assigned_users' => $userId,
         'block' => '',
-        'category' => $termId,
         'class' => '',
         'display' => 1,
         'hide' => [],
@@ -28,7 +29,6 @@ test('reviews restrict', function () {
         'schema' => '',
         'terms' => '',
         'type' => 'local',
-        'user' => $userId,
     ];
     $expected = [
         'assigned_posts' => [$postId],
@@ -73,8 +73,9 @@ test('site reviews restrict', function () {
     $termId = createTerm(['taxonomy' => glsr()->taxonomy]);
     $userId = createUser();
     $args = [
-        'assigned_to' => $postId,
-        'category' => $termId,
+        'assigned_posts' => $postId,
+        'assigned_terms' => $termId,
+        'assigned_users' => $userId,
         'class' => '',
         'className' => '',
         'display' => 1,
@@ -86,7 +87,6 @@ test('site reviews restrict', function () {
         'schema' => 1,
         'terms' => '',
         'type' => 'local',
-        'user' => $userId,
         'verified' => '',
     ];
     $test = glsr(SiteReviewsDefaults::class)->restrict($args);

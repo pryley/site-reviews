@@ -8,7 +8,10 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\Vectorface\Whip\Whip;
 
+use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\createTerm;
+use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -166,4 +169,56 @@ test('the notices are written to the console once each, and those of other plugi
     expect(substr_count($console, 'Function glsr_get_rating is'))->toBe(1);
     expect($console)->toContain('Hook site-reviews/slack/compose is');
     expect($console)->not->toContain('another');
+});
+
+/*
+ * Until 8.0 a block kept its assignments in assign_to (the form) or assigned_to, category and
+ * user, and wrote assigned_posts, assigned_terms and assigned_users only for typed IDs. A block
+ * that has not been saved since still holds the old attributes. They are read whether or not
+ * Compatibility Mode is on: the suite runs with the old hooks of every version off.
+ */
+
+function assignedTo(string $html, string $name): string
+{
+    preg_match('/'.$name.'&#093;" value="([^"]*)"/', $html, $matches);
+    return $matches[1] ?? 'missing';
+}
+
+test('a reviews block saved before 8.0 shows the reviews of the page it names', function () {
+    $pageId = createPost(['post_type' => 'page']);
+    $assigned = createReview(['assigned_posts' => $pageId]);
+    $other = createReview();
+
+    $html = do_blocks('<!-- wp:site-reviews/reviews {"assigned_to":"'.$pageId.'"} /-->');
+
+    expect($html)->toContain('id="review-'.$assigned->ID.'"');
+    expect($html)->not->toContain('id="review-'.$other->ID.'"');
+});
+
+test('a form block saved before 8.0 assigns its reviews to the page, category and user it names', function () {
+    $pageId = createPost(['post_type' => 'page']);
+    $termId = createTerm(['taxonomy' => glsr()->taxonomy]);
+    $userId = createUser();
+
+    $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"'.$pageId.'","category":'.$termId.',"user":"'.$userId.'"} /-->');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe((string) $pageId);
+    expect(assignedTo($html, 'assigned_terms'))->toBe((string) $termId);
+    expect(assignedTo($html, 'assigned_users'))->toBe((string) $userId);
+});
+
+test('the typed IDs of a block saved before 8.0 are kept', function () {
+    $pageId = createPost(['post_type' => 'page']);
+
+    $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"custom","assigned_posts":"'.$pageId.'"} /-->');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe((string) $pageId);
+});
+
+test('the old attributes of a block are not read as shortcode options', function () {
+    $pageId = createPost(['post_type' => 'page']);
+
+    $html = do_shortcode('[site_reviews_form assign_to="'.$pageId.'"]');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe('');
 });

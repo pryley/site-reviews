@@ -27,10 +27,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
      * Note: Mapped keys should not be included in the defaults!
      */
     public array $mapped = [
-        'assign_to' => 'assigned_posts',
-        'category' => 'assigned_terms',
         'className' => 'class',
-        'user' => 'assigned_users',
     ];
 
     /**

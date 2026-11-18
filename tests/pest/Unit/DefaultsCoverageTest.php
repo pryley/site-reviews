@@ -12,6 +12,8 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\Tel;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
+use function GeminiLabs\SiteReviews\Tests\createTerm;
+use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -278,21 +280,21 @@ test('an activated or checked lifetime licence gets a far-away expiry too', func
     \GeminiLabs\SiteReviews\Licensing\Defaults\CheckLicenseDefaults::class,
 ]);
 
-test('the deprecated assignment keys map onto the real ones, new winning over old', function (string $class) {
-    // assigned_to is the old name for assigned_posts: alone it maps across, and
-    // when both are given the new key wins and the old is discarded.
-    $postId = createPost();
+test('a name that version 5.0 replaced is not read', function (string $class, array $names) {
+    // each name is given the id of a post, a category or a user that exists
+    $ids = [createPost(), createTerm(['taxonomy' => glsr()->taxonomy]), createUser()];
+    $assigned = array_flip(['assigned_posts', 'assigned_terms', 'assigned_users']);
 
-    $mapped = glsr($class)->restrict(['assigned_to' => $postId]);
-    expect($mapped)->not->toHaveKey('assigned_to');
-    if (\GeminiLabs\SiteReviews\Defaults\SiteReviewsFormDefaults::class !== $class) {
-        // the form shortcode sanitizes assignments differently (ids resolve at submission)
-        expect((array) $mapped['assigned_posts'])->toBe([$postId]);
-    }
+    $values = glsr($class)->restrict(array_combine($names, array_slice($ids, 0, count($names))));
+
+    expect(array_intersect_key($values, $assigned))
+        ->toBe(array_intersect_key(glsr($class)->restrict([]), $assigned));
 })->with([
-    \GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults::class,
-    \GeminiLabs\SiteReviews\Defaults\SiteReviewsSummaryDefaults::class,
-    \GeminiLabs\SiteReviews\Defaults\SiteReviewsFormDefaults::class,
+    [\GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults::class, ['assign_to', 'category']],
+    [\GeminiLabs\SiteReviews\Defaults\ReviewsDefaults::class, ['assigned_to', 'category', 'user']],
+    [\GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults::class, ['assigned_to', 'category', 'user']],
+    [\GeminiLabs\SiteReviews\Defaults\SiteReviewsFormDefaults::class, ['assign_to', 'category', 'user']],
+    [\GeminiLabs\SiteReviews\Defaults\SiteReviewsSummaryDefaults::class, ['assigned_to', 'category', 'user']],
 ]);
 
 test('an assigned post that is really a post type becomes a type filter', function () {

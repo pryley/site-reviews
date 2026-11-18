@@ -47,14 +47,11 @@ class ReviewsDefaults extends DefaultsAbstract
      * Note: Mapped keys should not be included in the defaults!
      */
     public array $mapped = [
-        'assigned_to' => 'assigned_posts',
         'author' => 'user__in',
         'author_id' => 'user__in',
-        'category' => 'assigned_terms',
         'display' => 'per_page',
         'exclude' => 'post__not_in',
         'include' => 'post__in',
-        'user' => 'assigned_users',
     ];
 
     /**

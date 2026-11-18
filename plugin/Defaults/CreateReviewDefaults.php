@@ -41,8 +41,6 @@ class CreateReviewDefaults extends DefaultsAbstract
     public array $mapped = [
         '_post_id' => 'post_id',
         '_referer' => 'referer',
-        'assign_to' => 'assigned_posts', // support custom assign_to fields
-        'category' => 'assigned_terms', // support custom category fields
         'author' => 'name',
     ];
 

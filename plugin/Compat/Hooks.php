@@ -58,6 +58,7 @@ class Hooks extends AbstractHooks
         ]);
         $this->hook(Controller::class, [
             ['enqueueCanvasScript', 'enqueue_block_assets', 999],
+            ['filterBlockAssignments', 'site-reviews/shortcode/args', 10, 2],
             ['requireCompatScript', 'admin_print_footer_scripts', 0],
             ['requireCompatScript', 'wp_print_footer_scripts', 0],
             ['requireCompatScript', 'wp_print_scripts', 0],

@@ -54,6 +54,7 @@ echo '&lt;/div&gt;';</code></pre>
             <li>
                 <p><strong>The hook names that version 5.0 replaced no longer work.</strong></p>
                 <p>Version 5.0 deprecated these in 2020, and they were kept working until now: <code>site-reviews/review/response</code>, <code>site-reviews/reviews/reviews-wrapper</code>, <code>site-reviews/review-table/filter</code>, <code>site-reviews/config/forms/submission-form</code>, <code>site-reviews/submission-form/order</code>, and the <code>{{ review_id }}</code> and <code>{{ assigned_to }}</code> template tags. The <code>site-reviews/support/deprecated/v5</code> filter hook is removed with them.</p>
+                <p>The shortcode options that version 5.0 replaced no longer work either: <code>assign_to</code>, <code>assigned_to</code>, <code>category</code> and <code>user</code>. A shortcode that still uses one of them shows every review, and a form saves its reviews unassigned. Use <code>assigned_posts</code>, <code>assigned_terms</code> and <code>assigned_users</code> instead.</p>
             </li>
             <li>
                 <p><strong>The hooks of the admin-ajax actions and of the Sync Reviews tab have been removed.</strong></p>
