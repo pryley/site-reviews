@@ -240,6 +240,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Changed Compatibility Mode to no longer keep the Javascript names that only the add-ons of earlier versions used (`GLSR.addons`, `GLSR.forms`, `GLSR.pagination`), since those add-ons do not run on this version
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed a relative `src` address being given a `http://` scheme by the HTML builder
 - Fixed a template tag that has no value being printed as text in a custom template
 - Fixed cached API responses adding to a list in the database that is never cleaned up
 - Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style

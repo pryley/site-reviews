@@ -202,6 +202,18 @@ class Attributes
         return implode(' ', $attributes);
     }
 
+    protected function escapeUrl(string $key, string $url): string
+    {
+        $isRelativeFile = 'src' === $key
+            && '' !== $url
+            && !str_contains($url, ':')
+            && !in_array($url[0], ['#', '/', '?'], true);
+        if ($isRelativeFile) {
+            return substr(esc_url("/{$url}"), 1); // esc_url() reads a path with no slash as a host
+        }
+        return esc_url($url);
+    }
+
     protected function filterAttributes(array $allowedAttributes): array
     {
         return array_intersect_key($this->attributes, array_flip($allowedAttributes));
@@ -345,7 +357,7 @@ class Attributes
                 continue;
             }
             if (in_array($key, static::URL_ATTRIBUTES)) {
-                $this->attributes[$key] = esc_url(trim($value));
+                $this->attributes[$key] = $this->escapeUrl($key, trim($value));
             } else {
                 $this->attributes[$key] = esc_attr(trim($value));
             }

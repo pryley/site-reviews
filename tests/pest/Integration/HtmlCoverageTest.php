@@ -80,6 +80,17 @@ test('an input keeps the attributes of its own type', function () {
         ->toBe('type="password" dirname="key.dir"');
 });
 
+test('the address of a file is kept as it was written', function () {
+    expect(glsr(Attributes::class)->input(['type' => 'image', 'alt' => 'Send', 'src' => 'send.png'])->toString())
+        ->toBe('type="image" alt="Send" src="send.png"');
+    expect(glsr(Attributes::class)->img(['src' => 'images/a b.png'])->toString())
+        ->toBe('src="images/a%20b.png"');
+    expect(glsr(Attributes::class)->img(['src' => 'https://example.org/a.png'])->toString())
+        ->toBe('src="https://example.org/a.png"');
+    expect(glsr(Attributes::class)->a(['href' => 'example.org'])->toString()) // a link keeps the scheme WordPress gives it
+        ->toBe('href="http://example.org"');
+});
+
 test('a list, a form, an image, a select and a textarea keep the attributes of their tag', function () {
     expect(glsr(Attributes::class)->ol(['start' => '3', 'reversed' => true, 'type' => 'a'])->toString())
         ->toBe('start="3" reversed type="a"');
