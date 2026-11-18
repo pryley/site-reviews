@@ -75,24 +75,44 @@ class Migrate_6_2_1 implements MigrateContract
      */
     protected function removeDuplicateCustomFields(): void
     {
-        $sql = "
-            DELETE pm
-            FROM table|postmeta AS pm
-            INNER JOIN table|posts AS p ON (p.ID = pm.post_id)
-            WHERE p.post_type = %s
-            AND pm.meta_key LIKE '_custom_%%'
-            AND pm.meta_id NOT IN (
-                SELECT *
-                FROM (
-                    SELECT MAX(meta_id)
-                    FROM table|postmeta
-                    WHERE meta_key LIKE '_custom_%%'
-                    GROUP BY post_id, meta_key
-                ) AS x
-            )
-        ";
-        glsr(Database::class)->dbQuery(
-            glsr(Query::class)->sql($sql, glsr()->post_type)
-        );
+        if (glsr(Tables::class)->isSqlite()) { // the SQLite plugin can't run the joined DELETE
+            $table = glsr(Tables::class)->table('postmeta');
+            $sql = glsr(Query::class)->sql("
+                DELETE FROM %i
+                WHERE meta_key LIKE '_custom_%%'
+                AND EXISTS (
+                    SELECT 1
+                    FROM table|posts AS p
+                    WHERE p.ID = %i.post_id AND p.post_type = %s
+                )
+                AND meta_id NOT IN (
+                    SELECT *
+                    FROM (
+                        SELECT MAX(meta_id)
+                        FROM table|postmeta
+                        WHERE meta_key LIKE '_custom_%%'
+                        GROUP BY post_id, meta_key
+                    ) AS x
+                )
+            ", $table, $table, glsr()->post_type);
+        } else {
+            $sql = glsr(Query::class)->sql("
+                DELETE pm
+                FROM table|postmeta AS pm
+                INNER JOIN table|posts AS p ON (p.ID = pm.post_id)
+                WHERE p.post_type = %s
+                AND pm.meta_key LIKE '_custom_%%'
+                AND pm.meta_id NOT IN (
+                    SELECT *
+                    FROM (
+                        SELECT MAX(meta_id)
+                        FROM table|postmeta
+                        WHERE meta_key LIKE '_custom_%%'
+                        GROUP BY post_id, meta_key
+                    ) AS x
+                )
+            ", glsr()->post_type);
+        }
+        glsr(Database::class)->dbQuery($sql);
     }
 }

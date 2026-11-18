@@ -5,8 +5,10 @@ use GeminiLabs\SiteReviews\Migrations\Migrate_6_2_1;
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sqlStatements;
 use function GeminiLabs\SiteReviews\Tests\withDatabaseAnswering;
 use function GeminiLabs\SiteReviews\Tests\withDdlFreeDatabase;
+use function GeminiLabs\SiteReviews\Tests\withSqliteTables;
 use function GeminiLabs\SiteReviews\Tests\withTablesAnswering;
 
 /*
@@ -93,4 +95,27 @@ test('only the newest of a duplicated custom field value survives', function () 
         ->and(get_post_meta($review->ID, '_not_custom'))->toBe(['first', 'second'])
         // the review post type is the only one swept
         ->and(get_post_meta($post, '_custom_colour'))->toBe(['first', 'second']);
+});
+
+test('on SQLite the duplicate is removed by a statement that has no join', function () {
+    // The SQLite Database Integration plugin cannot run the joined DELETE (see TablesTest), so
+    // a SQLite site kept every duplicate.
+    $review = createReview();
+    $post = createPost();
+    foreach ([$review->ID, $post] as $postId) {
+        add_post_meta($postId, '_custom_colour', 'first');
+        add_post_meta($postId, '_custom_colour', 'second');
+        add_post_meta($postId, '_not_custom', 'first');
+        add_post_meta($postId, '_not_custom', 'second');
+    }
+
+    $statements = sqlStatements(fn () => withSqliteTables(fn () => (new Migrate_6_2_1())->run()));
+
+    wp_cache_delete($review->ID, 'post_meta');
+    wp_cache_delete($post, 'post_meta');
+    expect(get_post_meta($review->ID, '_custom_colour'))->toBe(['second'])
+        ->and(get_post_meta($review->ID, '_not_custom'))->toBe(['first', 'second'])
+        ->and(get_post_meta($post, '_custom_colour'))->toBe(['first', 'second'])
+        ->and(implode(' ', $statements))->toContain('DELETE FROM')
+        ->and(implode(' ', $statements))->not->toContain('JOIN');
 });
