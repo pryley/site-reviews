@@ -122,6 +122,7 @@ test('with Compatibility Mode off only the notices of the compat layer are hooke
     remove_filter('site-reviews/support/deprecated/v8', '__return_false');
     $blocks = hookedAt('render_block_data', 10);
     $canvas = hookedAt('enqueue_block_assets', 999);
+    $editor = hookedAt('enqueue_block_editor_assets', 10);
     $notices = hookedAt('deprecated_hook_run', 10);
     $scripts = hookedAt('wp_print_scripts', 0);
     glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
@@ -131,6 +132,7 @@ test('with Compatibility Mode off only the notices of the compat layer are hooke
 
     expect(has_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']))->toBeFalse();
     expect(hookedAt('render_block_data', 10))->toBe($blocks);
+    expect(hookedAt('enqueue_block_editor_assets', 10))->toBe($editor);
     expect(hookedAt('enqueue_block_assets', 999))->toBe($canvas);
     expect(hookedAt('wp_print_scripts', 0))->toBe($scripts);
     expect(hookedAt('deprecated_hook_run', 10))->toBe($notices + 1);
@@ -297,6 +299,37 @@ test('the typed IDs of a block saved before 8.0 are kept', function () {
     $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"custom","assigned_posts":"'.$pageId.'"} /-->');
 
     expect(assignedTo($html, 'assigned_posts'))->toBe((string) $pageId);
+});
+
+test('the editor script of each block that 8.0 rebuilt waits for the compat script of the blocks', function () {
+    // The compat script gives the blocks a deprecated version, which the editor has to know
+    // before a block registers.
+    $handles = [];
+    foreach (['form', 'review', 'reviews', 'summary'] as $block) {
+        $handles[$block] = WP_Block_Type_Registry::get_instance()->get_registered(glsr()->id.'/'.$block)->editor_script_handles[0];
+        if (!wp_script_is($handles[$block], 'registered')) {
+            wp_register_script($handles[$block], 'https://example.org/index.js'); // the suite starts each test without scripts
+        }
+    }
+
+    glsr(Controller::class)->enqueueBlocksScript();
+
+    $compat = glsr()->id.'/blocks/compat';
+    expect(wp_scripts()->registered[$compat]->src)->toBe(glsr()->url('assets/scripts/site-reviews-blocks-compat.js'));
+    foreach (['form', 'reviews', 'summary'] as $block) {
+        expect(wp_scripts()->registered[$handles[$block]]->deps)->toContain($compat);
+    }
+    expect(wp_scripts()->registered[$handles['review']]->deps)->not->toContain($compat);
+});
+
+test('the compat script of the blocks is hooked with the old hooks of version 8 only', function () {
+    $hooked = hookedAt('enqueue_block_editor_assets', 10);
+
+    registerOldHooks([6, 7]);
+    expect(hookedAt('enqueue_block_editor_assets', 10))->toBe($hooked);
+
+    registerOldHooks([8]);
+    expect(hookedAt('enqueue_block_editor_assets', 10))->toBe($hooked + 1);
 });
 
 test('the old attributes of a block are not read with the old hooks of version 8 off', function () {

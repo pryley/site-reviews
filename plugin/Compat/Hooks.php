@@ -41,6 +41,7 @@ class Hooks extends AbstractHooks
         ]);
         if (glsr()->filterBool('support/deprecated/v8', true)) {
             $this->hook(Controller::class, [
+                ['enqueueBlocksScript', 'enqueue_block_editor_assets'],
                 ['filterBlockData', 'render_block_data'],
             ]);
             $this->hook(HookController::class, [

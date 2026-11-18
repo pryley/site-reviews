@@ -9,6 +9,26 @@ use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 class Controller extends AbstractController
 {
     /**
+     * Load the script that converts a block saved before 8.0 before the editor registers the block.
+     *
+     * @action enqueue_block_editor_assets
+     */
+    public function enqueueBlocksScript(): void
+    {
+        $compat = glsr()->id.'/blocks/compat';
+        wp_register_script($compat, glsr()->url('assets/scripts/site-reviews-blocks-compat.js'), ['wp-hooks'], glsr()->version);
+        foreach (['form', 'reviews', 'summary'] as $block) {
+            $type = \WP_Block_Type_Registry::get_instance()->get_registered(glsr()->id."/{$block}");
+            foreach ($type->editor_script_handles ?? [] as $handle) {
+                $script = wp_scripts()->registered[$handle] ?? null;
+                if ($script && !in_array($compat, $script->deps, true)) {
+                    $script->deps[] = $compat;
+                }
+            }
+        }
+    }
+
+    /**
      * @action enqueue_block_assets
      */
     public function enqueueCanvasScript(): void

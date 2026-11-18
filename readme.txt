@@ -245,6 +245,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style
 - Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed MultilingualPress leaving out the categories of a review submitted by a visitor when it is copied to the review's translations
+- Fixed the block editor leaving out the assignments, hidden fields and schema setting of a block saved before version 8.0
 - Fixed the Contact Form 7 style's inputs missing the classes Contact Form 7 gives each input type
 - Fixed the default settings of an addon not applying until its settings are saved
 - Fixed the "Enable Session Storage" setting being applied to the Review Form block's preview in the block editor

@@ -44,6 +44,7 @@ const jsBundles = [
     js('scripts/site-reviews', 'assets/scripts', '', { budget: 4096 }), // the bootstrap is on every page
     js('scripts/site-reviews-admin-compat', 'assets/scripts/admin', 'admin-compat'),
     js('scripts/site-reviews-admin-debug', 'assets/scripts/admin', 'admin-debug'),
+    js('scripts/site-reviews-blocks-compat'),
     js('scripts/site-reviews-compat'),
     js('scripts/site-reviews-debug'),
 ];

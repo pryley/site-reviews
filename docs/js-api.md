@@ -290,6 +290,8 @@ Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-c
 add_filter('site-reviews/compat/assets', '__return_false');
 ```
 
+The block editor loads a third script, `site-reviews-blocks-compat.js`, before the Review Form, Latest Reviews and Rating Summary blocks register. It gives each of them a deprecated version that converts a block saved before 8.0.0, so the block opens with its assignments, its hidden fields and its schema setting. The converted block is written when the content of the page is next changed and saved. This script follows the `site-reviews/support/deprecated/v8` filter, not the one above.
+
 The public script:
 
 | Removed | Use instead |
