@@ -110,7 +110,7 @@ class Database
     public function delete(string $table, array $where)
     {
         $result = $this->db->delete(glsr(Tables::class)->table($table), $where);
-        glsr(Query::class)->sql($this->db->last_query); // for logging use only
+        glsr(Query::class)->sqlExecuted($this->db->last_query);
         return $this->logErrors($result);
     }
 
@@ -123,11 +123,12 @@ class Database
      */
     public function deleteMeta($keys, string $table = 'postmeta')
     {
-        $table = glsr(Tables::class)->table($table);
-        $metaKeys = glsr(Query::class)->escValuesForInsert(Arr::convertFromString($keys));
-        $sql = glsr(Query::class)->sql("
-            DELETE FROM {$table} WHERE meta_key IN {$metaKeys}
-        ");
+        $keys = Arr::convertFromString($keys) ?: ['']; // IN () is a syntax error
+        $in = implode(',', array_fill(0, count($keys), '%s'));
+        $sql = glsr(Query::class)->sql("DELETE FROM %i WHERE meta_key IN ({$in})",
+            glsr(Tables::class)->table($table),
+            ...array_map([Cast::class, 'toString'], array_values($keys))
+        );
         return $this->dbQuery($sql);
     }
 
@@ -153,11 +154,21 @@ class Database
     public function insert(string $table, array $data)
     {
         $this->db->insert_id = 0;
-        $table = glsr(Tables::class)->table($table);
-        $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
-        $values = glsr(Query::class)->escValuesForInsert($data);
-        $ignore = glsr(Tables::class)->isSqliteLegacy() ? 'OR IGNORE' : 'IGNORE';
-        $sql = glsr(Query::class)->sql("INSERT {$ignore} INTO {$table} {$fields} VALUES {$values}");
+        if (empty($data)) {
+            return false;
+        }
+        $columns = implode(',', array_fill(0, count($data), '%i'));
+        $values = implode(',', array_fill(0, count($data), '%s'));
+        $args = [ // order is intentional
+            glsr(Tables::class)->table($table),
+            ...array_keys($data),
+            ...array_map([Cast::class, 'toString'], array_values($data)),
+        ];
+        if (glsr(Tables::class)->isSqliteLegacy()) {
+            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO %i ({$columns}) VALUES ({$values})", ...$args);
+        } else {
+            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO %i ({$columns}) VALUES ({$values})", ...$args);
+        }
         return $this->dbQuery($sql);
     }
 
@@ -169,19 +180,27 @@ class Database
     public function insertBulk(string $table, array $values, array $fields)
     {
         $this->db->insert_id = 0;
-        $data = [];
+        $args = [ // order is intentional
+            glsr(Tables::class)->table($table),
+            ...array_values($fields),
+        ];
+        $count = 0;
         foreach ($values as $value) {
             $value = array_intersect_key($value, array_flip($fields)); // only keep field values
             if (count($value) === count($fields)) {
                 $value = array_merge(array_flip($fields), $value); // make sure the order is correct
-                $data[] = glsr(Query::class)->escValuesForInsert($value);
+                array_push($args, ...array_map([Cast::class, 'toString'], array_values($value)));
+                ++$count;
             }
         }
-        $table = glsr(Tables::class)->table($table);
-        $fields = glsr(Query::class)->escFieldsForInsert($fields);
-        $values = implode(',', $data);
-        $ignore = glsr(Tables::class)->isSqliteLegacy() ? 'OR IGNORE' : 'IGNORE';
-        $sql = glsr(Query::class)->sql("INSERT {$ignore} INTO {$table} {$fields} VALUES {$values}");
+        $columns = implode(',', array_fill(0, count($fields), '%i'));
+        $row = '('.implode(',', array_fill(0, count($fields), '%s')).')';
+        $rows = implode(',', array_fill(0, $count, $row));
+        if (glsr(Tables::class)->isSqliteLegacy()) {
+            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO %i ({$columns}) VALUES {$rows}", ...$args);
+        } else {
+            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO %i ({$columns}) VALUES {$rows}", ...$args);
+        }
         return $this->dbQuery($sql);
     }
 
@@ -277,7 +296,7 @@ class Database
     public function update(string $table, array $data, array $where)
     {
         $result = $this->db->update(glsr(Tables::class)->table($table), $data, $where);
-        glsr(Query::class)->sql($this->db->last_query); // for logging use only
+        glsr(Query::class)->sqlExecuted($this->db->last_query);
         return $this->logErrors($result);
     }
 

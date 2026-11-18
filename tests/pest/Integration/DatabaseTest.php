@@ -2,9 +2,11 @@
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
+use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -116,6 +118,59 @@ test('sqlite on the current driver is sent the statements mysql is', function ()
     expect($queries[0])->toBe('START TRANSACTION;')
         ->and($queries[1])->toStartWith('INSERT IGNORE INTO')
         ->and($queries[2])->toStartWith('INSERT IGNORE INTO');
+});
+
+test('an insert, a bulk insert and a meta delete send the statement they always did, with the table name quoted', function () {
+    // Every name and value goes to $wpdb->prepare() as a placeholder. Each statement is compared
+    // with the one the escaping helpers used to build, for a row made to trip either of them up.
+    global $wpdb;
+    $row = [
+        'avatar' => "it's",
+        'email' => 'back\\slash',
+        'ip_address' => '100% satisfied, %d and %i',
+        'is_approved' => true,
+        'is_pinned' => false,
+        'name' => null,
+        'rating' => 0,
+        'review_id' => 999999001,
+        'score' => 1.5,
+        'url' => '',
+    ];
+    $queries = [];
+    $capture = function (string $query) use (&$queries) {
+        $queries[] = preg_replace('/\s+/', ' ', trim($query));
+        return 'SELECT 1';
+    };
+    add_filter('query', $capture);
+    try {
+        glsr(Database::class)->insert('ratings', $row);
+        glsr(Database::class)->insertBulk('ratings', [$row, array_merge($row, ['review_id' => 999999002])], array_keys($row));
+        glsr(Database::class)->deleteMeta(['_one', "_it's", '_100% s']);
+        glsr(Database::class)->deleteMeta('');
+    } finally {
+        remove_filter('query', $capture);
+    }
+    $ratings = glsr(Tables::class)->table('ratings');
+    $fields = glsr(Query::class)->escFieldsForInsert(array_keys($row));
+    $values = fn (array $values) => $wpdb->remove_placeholder_escape(glsr(Query::class)->escValuesForInsert($values));
+
+    expect($queries[0])->toBe("INSERT IGNORE INTO `{$ratings}` {$fields} VALUES {$values($row)}")
+        ->and($queries[1])->toBe("INSERT IGNORE INTO `{$ratings}` {$fields} VALUES {$values($row)},{$values(array_merge($row, ['review_id' => 999999002]))}")
+        ->and($queries[2])->toBe("DELETE FROM `{$wpdb->postmeta}` WHERE meta_key IN {$values(['_one', "_it's", '_100% s'])}")
+        ->and($queries[3])->toBe("DELETE FROM `{$wpdb->postmeta}` WHERE meta_key IN ('')")
+        ->and($queries)->toHaveCount(4)
+        ->and(glsr(Database::class)->insert('ratings', []))->toBeFalse(); // no statement at all
+});
+
+test('a value that holds a percent sign, a quote and a backslash is stored as it was given', function () {
+    global $wpdb;
+    $postId = createPost(); // the ratings table only takes the ID of a post
+    $name = "100% satisfied, %d and %i, it's a back\\slash";
+
+    expect(glsr(Database::class)->insert('ratings', ['name' => $name, 'rating' => 5, 'review_id' => $postId]))->toBe(1);
+
+    $ratings = glsr(Tables::class)->table('ratings');
+    expect($wpdb->get_var($wpdb->prepare("SELECT name FROM {$ratings} WHERE review_id = %d", $postId)))->toBe($name);
 });
 
 test('finishing a transaction commits, in every engine dialect', function () {

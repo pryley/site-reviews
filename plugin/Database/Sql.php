@@ -74,6 +74,17 @@ trait Sql
         return $statement;
     }
 
+    /**
+     * Pass a statement that has run to the hooks of sql().
+     */
+    public function sqlExecuted(string $statement): void
+    {
+        $handle = $this->sqlHandle();
+        $statement = glsr()->filterString("database/sql/{$handle}", $statement);
+        glsr()->action("database/sql/{$handle}", $statement);
+        glsr()->action('database/sql', $statement, $handle);
+    }
+
     public function sqlJoin(array $additional = []): string
     {
         $joins = $this->clauses('join');
