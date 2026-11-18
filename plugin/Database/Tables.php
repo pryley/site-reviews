@@ -53,12 +53,22 @@ class Tables
         return Cast::toBool($result);
     }
 
+    /**
+     * The tables the Tools page offers to convert to InnoDB.
+     *
+     * @return string[]
+     */
+    public function convertibleTables(): array
+    {
+        return [$this->db->options, $this->db->posts, $this->db->terms, $this->db->users];
+    }
+
     public function convertTableEngine(string $table): int
     {
-        if (!$this->isMyisam($table)) {
+        $table = $this->table($table);
+        if (!in_array($table, $this->convertibleTables(), true) || !$this->isMyisam($table)) {
             return -1;
         }
-        $table = $this->table($table);
         $result = glsr(Database::class)->dbQuery(
             glsr(Query::class)->sql("ALTER TABLE {$table} ENGINE = InnoDB;")
         );
@@ -177,12 +187,14 @@ class Tables
         if ($this->isSqlite()) {
             return [];
         }
-        $results = $this->db->get_results("
+        $tables = $this->convertibleTables();
+        $placeholders = implode(',', array_fill(0, count($tables), '%s'));
+        $sql = "
             SELECT TABLE_NAME as table_name, ENGINE as engine
             FROM INFORMATION_SCHEMA.TABLES
-            WHERE TABLE_SCHEMA = '{$this->database}'
-            AND TABLE_NAME IN ('{$this->db->options}','{$this->db->posts}','{$this->db->terms}','{$this->db->users}')
-        ");
+            WHERE TABLE_SCHEMA = %s AND TABLE_NAME IN ({$placeholders})
+        ";
+        $results = $this->db->get_results($this->db->prepare($sql, $this->database, ...$tables));
         $engines = [];
         foreach ($results as $result) {
             if (!array_key_exists($result->engine, $engines)) {

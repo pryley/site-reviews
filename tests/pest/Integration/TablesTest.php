@@ -42,6 +42,17 @@ test('on sqlite there are no engines, no constraints, and columns are listed ins
     expect(glsr(Tables::class)->tableExists('ratings'))->toBeTrue(); // and nothing was dropped
 });
 
+test('the engine tool offers the options, posts, terms and users tables, and the page lists the same four', function () {
+    global $wpdb;
+    $tables = glsr(Tables::class);
+
+    expect($tables->convertibleTables())->toBe([$wpdb->options, $wpdb->posts, $wpdb->terms, $wpdb->users]);
+
+    $listed = array_merge(...array_values($tables->tableEngines()));
+    sort($listed);
+    expect($listed)->toBe($tables->convertibleTables());
+});
+
 test('the engine of a table that does not exist is a logged warning, not a guess', function () {
     expect(glsr(Tables::class)->tableEngine('glsr_no_such_table_xyz'))->toBe('');
 });

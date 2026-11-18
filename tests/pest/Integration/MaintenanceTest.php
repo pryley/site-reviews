@@ -118,17 +118,64 @@ test('a MyISAM table converts with a success notice, and a failed ALTER with an 
     glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $fakeTables);
     try {
         glsr()->alias(GeminiLabs\SiteReviews\Database::class, $makeDatabase(true));
-        $success = new ConvertTableEngine(new Request(['table' => 'ratings']));
+        $success = new ConvertTableEngine(new Request(['table' => 'posts']));
         $success->handle();
         expect($success->successful())->toBeTrue();
         expect($success->response()['notices'])->toContain('successly converted to InnoDB');
 
         glsr(Notice::class)->clear();
         glsr()->alias(GeminiLabs\SiteReviews\Database::class, $makeDatabase(false));
-        $failure = new ConvertTableEngine(new Request(['table' => 'ratings']));
+        $failure = new ConvertTableEngine(new Request(['table' => 'posts']));
         $failure->handle();
         expect($failure->successful())->toBeFalse();
         expect(glsr(Notice::class)->get())->toContain('could not be converted');
+    } finally {
+        glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $originalTables);
+        glsr()->alias(GeminiLabs\SiteReviews\Database::class, $originalDatabase);
+    }
+});
+
+test('a table the Tools page does not list is left as it is', function () {
+    // The stand-ins call every table MyISAM and keep each statement, so a refusal shows as no
+    // statement at all.
+    $fakeTables = new class() extends GeminiLabs\SiteReviews\Database\Tables {
+        public function addForeignConstraints(): void
+        {
+        }
+
+        public function isMyisam(string $table): bool
+        {
+            return true;
+        }
+    };
+    $fakeDatabase = new class() extends GeminiLabs\SiteReviews\Database {
+        public array $statements = [];
+
+        public function dbQuery(string $sql)
+        {
+            $this->statements[] = $sql;
+            return true;
+        }
+    };
+    $originalTables = glsr(GeminiLabs\SiteReviews\Database\Tables::class);
+    $originalDatabase = glsr(GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $fakeTables);
+    glsr()->alias(GeminiLabs\SiteReviews\Database::class, $fakeDatabase);
+    try {
+        foreach (['comments', 'ratings'] as $table) {
+            $command = new ConvertTableEngine(new Request(['table' => $table]));
+            $command->handle();
+            expect($command->successful())->toBeFalse();
+            expect(glsr(Notice::class)->get())->toContain('not found in the database, or does not use the MyISAM engine');
+            glsr(Notice::class)->clear();
+        }
+        expect($fakeDatabase->statements)->toBe([]);
+
+        $command = new ConvertTableEngine(new Request(['table' => 'users']));
+        $command->handle();
+        expect($command->successful())->toBeTrue();
+        expect($fakeDatabase->statements)->toHaveCount(1);
+        expect($fakeDatabase->statements[0])->toContain($GLOBALS['wpdb']->users);
     } finally {
         glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $originalTables);
         glsr()->alias(GeminiLabs\SiteReviews\Database::class, $originalDatabase);
