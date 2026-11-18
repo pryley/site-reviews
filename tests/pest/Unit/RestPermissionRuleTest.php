@@ -57,9 +57,12 @@ test('hasPermission() is refused under the REST controllers and allowed elsewher
     $dir = restPermissionFixture([
         'plugin/Controllers/Api/Version1/Refused.php' => $probe('Controllers\\Api\\Version1'),
         'plugin/Controllers/Allowed.php' => $probe('Controllers'),
+        'plugin/Features/Images/Controllers/RestController.php' => $probe('Features\\Images\\Controllers'),
     ]);
 
+    $message = 'hasPermission() passes whenever is_admin() is false; a REST permission callback checks with glsr()->can().';
     expect(restPermissionErrors($dir))->toBe([
-        'Refused.php' => 'hasPermission() passes whenever is_admin() is false; a REST permission callback checks with glsr()->can().',
+        'Refused.php' => $message,
+        'RestController.php' => $message,
     ]);
 });

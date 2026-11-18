@@ -12,7 +12,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * The PHPStan rule that keeps hasPermission() out of plugin/Controllers/Api/.
+ * The PHPStan rule that keeps hasPermission() out of the REST controllers: the classes in
+ * plugin/Controllers/Api/ and any class named Rest…Controller.
  *
  * @implements Rule<MethodCall>
  */
@@ -29,7 +30,9 @@ class RestPermissionRule implements Rule
             return [];
         }
         $file = str_replace('\\', '/', $scope->getFile());
-        if (!str_contains($file, '/plugin/Controllers/Api/')) {
+        $isRestController = str_contains($file, '/plugin/Controllers/Api/')
+            || 1 === preg_match('#/Rest[A-Za-z]*Controller\.php$#', $file); // RestController.php, RestImagesController.php
+        if (!$isRestController) {
             return [];
         }
         return [
