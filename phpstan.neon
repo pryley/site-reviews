@@ -2,6 +2,7 @@ includes:
     - vendor/pryley/wp-plugin-tooling/phpstan/base.neon
 rules:
   - GeminiLabs\SiteReviews\PhpStan\PublicRouteRule
+  - GeminiLabs\SiteReviews\PhpStan\QuerySqlRule
   - GeminiLabs\SiteReviews\PhpStan\RestPermissionRule
 parameters:
   bootstrapFiles:
