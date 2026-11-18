@@ -47,6 +47,21 @@ test('the reviews list exposes its pieces the same way', function () {
         ->and($html['no_such_key'])->toBe(''); // the filter's answer, cast to string
 });
 
+test('the reviews template is given its class, its pagination and its reviews', function () {
+    createReview();
+    $tags = [];
+    add_filter('site-reviews/interpolate/reviews', function (array $context) use (&$tags) {
+        $tags = array_keys($context);
+        return $context;
+    });
+
+    $html = (string) reviewsHtml(['display' => 1]);
+    sort($tags);
+
+    expect($html)->toContain('glsr-reviews');
+    expect($tags)->toBe(['class', 'pagination', 'reviews']);
+});
+
 test('ajax and load-more pagination each mark the wrapper for their script', function () {
     createReview();
     createReview();

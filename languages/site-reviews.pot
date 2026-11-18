@@ -1455,7 +1455,7 @@ msgstr ""
 #: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:83
 #: plugin/Integrations/UltimateMember/Controllers/AccountController.php:54
 #: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:65
-#: plugin/Modules/Html/ReviewsHtml.php:113
+#: plugin/Modules/Html/ReviewsHtml.php:110
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 

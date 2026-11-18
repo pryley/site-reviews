@@ -34,10 +34,7 @@ class ReviewsHtml extends \ArrayObject
         return glsr(Template::class)->build('templates/reviews', [
             'args' => $this->args,
             'context' => [
-                'assigned_to' => $this->args->assigned_posts,
-                'category' => $this->args->assigned_terms,
                 'class' => 'glsr-reviews',
-                'id' => '', // @deprecated_v5
                 'pagination' => Helper::ifTrue(!empty($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
