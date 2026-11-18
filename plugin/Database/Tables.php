@@ -41,14 +41,15 @@ class Tables
 
     public function columnExists(string $table, string $column): bool
     {
+        $table = $this->table($table);
         if ($this->isSqlite()) {
             $result = $this->db->get_col(
-                glsr(Query::class)->sql("SHOW COLUMNS FROM table|{$table}")
+                glsr(Query::class)->sql('DESCRIBE %i', $table) // SHOW COLUMNS returns nothing for a quoted name
             );
             return in_array($column, $result);
         }
         $result = $this->db->query(
-            glsr(Query::class)->sql("SHOW COLUMNS FROM table|{$table} LIKE %s", $column)
+            glsr(Query::class)->sql('SHOW COLUMNS FROM %i LIKE %s', $table, $column)
         );
         return Cast::toBool($result);
     }
@@ -70,7 +71,7 @@ class Tables
             return -1;
         }
         $result = glsr(Database::class)->dbQuery(
-            glsr(Query::class)->sql("ALTER TABLE {$table} ENGINE = InnoDB;")
+            glsr(Query::class)->sql('ALTER TABLE %i ENGINE = InnoDB;', $table)
         );
         if (true === $result) {
             update_option(glsr()->prefix."engine_{$table}", 'innodb');

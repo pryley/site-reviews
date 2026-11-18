@@ -25,10 +25,10 @@ class TableStats extends AbstractTable
         glsr(Database::class)->dbSafeQuery(
             glsr(Query::class)->sql("
                 DELETE t
-                FROM {$this->tablename} AS t
+                FROM %i AS t
                 LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 WHERE r.ID IS NULL
-            ")
+            ", $this->tablename)
         );
     }
 
@@ -40,7 +40,7 @@ class TableStats extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->tablename} (
+            CREATE TABLE %i (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 rating_id bigint(20) unsigned NOT NULL,
                 continent varchar(10) NOT NULL,
@@ -50,6 +50,6 @@ class TableStats extends AbstractTable
                 PRIMARY KEY  (ID),
                 UNIQUE KEY glsr_stats_rating_id_unique (rating_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
-        ");
+        ", $this->tablename);
     }
 }

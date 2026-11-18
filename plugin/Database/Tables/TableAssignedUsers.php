@@ -27,11 +27,11 @@ class TableAssignedUsers extends AbstractTable
         glsr(Database::class)->dbSafeQuery(
             glsr(Query::class)->sql("
                 DELETE t
-                FROM {$this->tablename} AS t
+                FROM %i AS t
                 LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 LEFT JOIN table|users AS u ON (u.ID = t.user_id)
                 WHERE (r.ID IS NULL OR u.ID IS NULL)
-            ")
+            ", $this->tablename)
         );
     }
 
@@ -43,11 +43,11 @@ class TableAssignedUsers extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->tablename} (
+            CREATE TABLE %i (
                 rating_id bigint(20) unsigned NOT NULL,
                 user_id bigint(20) unsigned NOT NULL,
                 PRIMARY KEY  (rating_id,user_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
-        ");
+        ", $this->tablename);
     }
 }

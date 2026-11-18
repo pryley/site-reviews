@@ -28,11 +28,11 @@ class TableAssignedTerms extends AbstractTable
         glsr(Database::class)->dbSafeQuery(
             glsr(Query::class)->sql("
                 DELETE t
-                FROM {$this->tablename} AS t
+                FROM %i AS t
                 LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 LEFT JOIN table|term_taxonomy AS tt ON (tt.term_id = t.term_id)
-                WHERE (r.ID IS NULL OR tt.term_id IS NULL) OR tt.taxonomy != '{$taxonomy}'
-            ")
+                WHERE (r.ID IS NULL OR tt.term_id IS NULL) OR tt.taxonomy != %s
+            ", $this->tablename, $taxonomy)
         );
     }
 
@@ -44,11 +44,11 @@ class TableAssignedTerms extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->tablename} (
+            CREATE TABLE %i (
                 rating_id bigint(20) unsigned NOT NULL,
                 term_id bigint(20) unsigned NOT NULL,
                 PRIMARY KEY  (rating_id,term_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
-        ");
+        ", $this->tablename);
     }
 }

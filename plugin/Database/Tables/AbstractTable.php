@@ -40,12 +40,12 @@ abstract class AbstractTable
         }
         $this->removeInvalidRows();
         return (bool) glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
-            ALTER TABLE {$this->tablename}
-            ADD CONSTRAINT {$constraint}
-            FOREIGN KEY ({$column})
-            REFERENCES {$foreignTable} ({$foreignColumn})
+            ALTER TABLE %i
+            ADD CONSTRAINT %i
+            FOREIGN KEY (%i)
+            REFERENCES %i (%i)
             ON DELETE CASCADE
-        "));
+        ", $this->tablename, $constraint, $column, $foreignTable, $foreignColumn));
     }
 
     abstract public function addForeignConstraints(): void;

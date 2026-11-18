@@ -37,7 +37,7 @@ class Install
         }
         foreach ($tables as $table) {
             glsr(Database::class)->dbQuery(
-                glsr(Query::class)->sql("DROP TABLE IF EXISTS {$table}")
+                glsr(Query::class)->sql('DROP TABLE IF EXISTS %i', $table)
             );
         }
         delete_option(glsr()->prefix.'db_version');

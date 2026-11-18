@@ -25,10 +25,10 @@ class TableFields extends AbstractTable
         glsr(Database::class)->dbSafeQuery(
             glsr(Query::class)->sql("
                 DELETE t
-                FROM {$this->tablename} AS t
+                FROM %i AS t
                 LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 WHERE r.ID IS NULL
-            ")
+            ", $this->tablename)
         );
     }
 
@@ -42,7 +42,7 @@ class TableFields extends AbstractTable
         // Indexes have a maximum size of 767 bytes and utf8mb4 uses 4 bytes per character.
         $maxIndexLength = 191; // floor(767/4) = 191 characters
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->tablename} (
+            CREATE TABLE %i (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 rating_id bigint(20) unsigned NOT NULL,
                 field_name varchar(255) NOT NULL,
@@ -51,6 +51,6 @@ class TableFields extends AbstractTable
                 KEY glsr_fields_rating_id_index (rating_id),
                 KEY glsr_fields_field_name_index (field_name($maxIndexLength))
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
-        ");
+        ", $this->tablename);
     }
 }

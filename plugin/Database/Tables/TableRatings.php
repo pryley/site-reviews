@@ -35,10 +35,10 @@ class TableRatings extends AbstractTable
         } else {
             $sql = glsr(Query::class)->sql("
                 DELETE t
-                FROM {$this->tablename} AS t
+                FROM %i AS t
                 LEFT JOIN table|posts AS p ON (p.ID = t.review_id)
-                WHERE (p.post_type IS NULL OR p.post_type != '{$type}')
-            ");
+                WHERE (p.post_type IS NULL OR p.post_type != %s)
+            ", $this->tablename, $type);
         }
         glsr(Database::class)->dbSafeQuery($sql);
     }
@@ -51,7 +51,7 @@ class TableRatings extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->tablename} (
+            CREATE TABLE %i (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 review_id bigint(20) unsigned NOT NULL,
                 rating int(11) NOT NULL DEFAULT '0',
@@ -74,6 +74,6 @@ class TableRatings extends AbstractTable
                 KEY glsr_ratings_ip_address_index (ip_address),
                 KEY glsr_ratings_is_flagged_index (is_flagged)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
-        ");
+        ", $this->tablename);
     }
 }
