@@ -245,6 +245,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed a PHP warning when a text field of the review form is submitted as a list
 - Fixed a relative `src` address being given a `http://` scheme by the HTML builder
 - Fixed a template tag that has no value being printed as text in a custom template
+- Fixed braces in a review not being shown as they were typed on a page built with Bricks
 - Fixed cached API responses adding to a list in the database that is never cleaned up
 - Fixed colors saved as rgb, rgba or hsl being removed from a shortcode's style
 - Fixed duplicate custom field values not being removed when the migrations are run with the SQLite Database Integration plugin

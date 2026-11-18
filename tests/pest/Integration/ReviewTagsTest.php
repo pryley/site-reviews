@@ -261,7 +261,7 @@ test('a tag with no class of its own is escaped', function () {
     add_filter('site-reviews/build/template/review', fn ($template) => $template.'<i data-custom="{{ custom }}"></i>');
 
     expect((string) $review->build())
-        ->toContain('data-custom="a:1:{s:3:&quot;xyz&quot;;s:5:&quot;value&quot;;}"');
+        ->toContain('data-custom="a:1:&#123;s:3:&quot;xyz&quot;;s:5:&quot;value&quot;;&#125;"'); // braces are printed as entities
 });
 
 test('a tag written in the review content stays text', function () {
@@ -270,7 +270,8 @@ test('a tag written in the review content stays text', function () {
         'secret' => 'value',
     ]);
 
-    expect((string) $review->build())->toContain('Before {custom} and {{ email }} after.');
+    // braces are printed as entities
+    expect((string) $review->build())->toContain('Before &#123;custom&#125; and &#123;&#123; email &#125;&#125; after.');
 });
 
 /*

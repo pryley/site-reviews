@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 class Text
 {
     /**
-     * Encode the square brackets of rendered HTML.
+     * Encode the square brackets and the braces of rendered HTML.
      */
     public static function escapeShortcodes(string $html): string
     {
@@ -17,10 +17,12 @@ class Text
             '&#93;' => '&#093;',
             '[' => '&#091;',
             ']' => '&#093;',
+            '{' => '&#123;', // Bricks reads a brace pair as a dynamic data tag
+            '}' => '&#125;',
         ];
         // skip script and style elements because browsers don't decode entities in them
         $result = preg_replace_callback(
-            '~<(script|style)\b.*?</\1\s*>|&#9[13];|[\[\]]~is',
+            '~<(script|style)\b.*?</\1\s*>|&#9[13];|[\[\]{}]~is',
             fn ($matches) => empty($matches[1]) ? $entities[$matches[0]] : $matches[0],
             $html
         );

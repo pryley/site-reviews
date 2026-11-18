@@ -471,3 +471,14 @@ test('a shortcode can be asked to explain itself', function () {
     expect(glsr()->shortcode('site_reviews')->build(['debug' => true], 'function'))
         ->not->toContain('glsr-debug');
 });
+
+test('a brace typed in a review is printed as an entity', function () {
+    // Bricks reads a brace pair in rendered output as a dynamic data tag of its own.
+    createReview(['content' => 'It cost {probe} in total', 'title' => 'A {probe} title']);
+
+    $html = do_shortcode('[site_reviews]');
+
+    expect($html)->toContain('It cost &#123;probe&#125; in total')
+        ->and($html)->toContain('A &#123;probe&#125; title')
+        ->and($html)->not->toContain('{probe}');
+});

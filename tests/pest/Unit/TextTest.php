@@ -29,6 +29,20 @@ test('escapeShortcodes encodes everything outside a complete script element', fu
     expect(Text::escapeShortcodes('<scripted>[1]</scripted>'))->toBe('<scripted>&#091;1&#093;</scripted>');
 });
 
+test('escapeShortcodes encodes braces', function () {
+    // Bricks reads a brace pair in rendered output as a dynamic data tag of its own.
+    expect(Text::escapeShortcodes('<p>{probe} and {probe:x}</p>'))->toBe('<p>&#123;probe&#125; and &#123;probe:x&#125;</p>');
+    expect(Text::escapeShortcodes('<div data-c=\'{"a":1}\'>d</div>'))->toBe('<div data-c=\'&#123;"a":1&#125;\'>d</div>');
+    $once = Text::escapeShortcodes('<a title="{b}">{c} &#123;d&#125;</a>');
+    expect($once)->toBe('<a title="&#123;b&#125;">&#123;c&#125; &#123;d&#125;</a>')
+        ->and(Text::escapeShortcodes($once))->toBe($once);
+});
+
+test('escapeShortcodes leaves the braces of script and style elements alone', function () {
+    $html = '<script>var a = {b: 1};</script><style>a{color:red}</style>';
+    expect(Text::escapeShortcodes($html.'{c}'))->toBe($html.'&#123;c&#125;');
+});
+
 test('escapeShortcodes is idempotent', function () {
     $once = Text::escapeShortcodes('<a href="[b]">[c] &#91;d&#93;</a><script>[1]</script>');
     expect(Text::escapeShortcodes($once))->toBe($once);
