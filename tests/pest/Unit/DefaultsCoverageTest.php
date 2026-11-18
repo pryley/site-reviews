@@ -327,3 +327,17 @@ test('dataAttributes json-encodes a changed value that is not scalar', function 
 
     expect($defaults->dataAttributes(['options' => $value]))->toBe(['data-options' => '{"a":1}']);
 });
+
+test('the text fields of a submission are read as text by its checks', function () {
+    $values = glsr(\GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults::class)->merge([
+        'content' => ['one', 'two'],
+        'email' => ['key' => 'jane@example.org'],
+        'name' => 'Jane',
+        'title' => ['key' => 'three'],
+    ]);
+
+    expect($values['content'])->toBe('one, two')
+        ->and($values['email'])->toBe('')
+        ->and($values['name'])->toBe('Jane')
+        ->and($values['title'])->toBe('');
+});
