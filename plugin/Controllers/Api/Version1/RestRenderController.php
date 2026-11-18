@@ -34,7 +34,7 @@ class RestRenderController extends AbstractRestController
                 ],
                 'callback' => [$this, 'renderReviews'],
                 'methods' => \WP_REST_Server::READABLE,
-                'permission_callback' => '__return_true',
+                'permission_callback' => '__return_true', // @phpstan-ignore siteReviews.publicRoute (a visitor reads the next page of reviews)
             ],
         ]);
         register_rest_route($this->restNamespace(), '/render/reviews/(?P<id>[\d]+)', [
@@ -59,7 +59,7 @@ class RestRenderController extends AbstractRestController
                 ],
                 'callback' => [$this, 'renderReview'],
                 'methods' => \WP_REST_Server::READABLE,
-                'permission_callback' => '__return_true',
+                'permission_callback' => '__return_true', // @phpstan-ignore siteReviews.publicRoute (a visitor reads a review that was approved or verified)
             ],
         ]);
     }
