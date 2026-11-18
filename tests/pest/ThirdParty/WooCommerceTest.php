@@ -4,11 +4,16 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller as WooCommerceController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\OrderReviewsController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\MigrateProductRatings;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Request;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sqlStatements;
+use function GeminiLabs\SiteReviews\Tests\withSqliteTables;
 
 /*
  * The WooCommerce integration's answers to the two review pipelines that
@@ -260,4 +265,40 @@ test('the import route runs the product review stages and the ratings migration 
         1 => \GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\MigrateProductRatings::class,
     ]);
     expect(apply_filters('site-reviews/import/stages', ['csv'], 'csv'))->toBe(['csv']); // another source is left alone
+});
+
+test('the ratings migration removes the rated terms of products only, with a join on MySQL and without one on SQLite', function () {
+    // The SQLite Database Integration plugin cannot run the joined DELETE (see TablesTest). The
+    // join stays for MySQL and MariaDB, where no other form was faster on every version measured.
+    global $wpdb;
+    $product = createPost(['post_type' => 'product']);
+    $post = createPost();
+    $rated = ['rated-1' => '900001', 'rated-2' => '900002']; // keyed by name, as the command reads them
+    $addTerms = function () use ($post, $product, $wpdb) {
+        foreach ([$post, $product] as $objectId) {
+            foreach ([900001, 900009] as $ttid) {
+                $wpdb->replace($wpdb->term_relationships, ['object_id' => $objectId, 'term_taxonomy_id' => $ttid]);
+            }
+        }
+    };
+    $terms = fn () => $wpdb->get_col(
+        "SELECT CONCAT(object_id, ':', term_taxonomy_id) FROM {$wpdb->term_relationships} WHERE term_taxonomy_id > 900000 ORDER BY 1"
+    );
+    $left = ["{$post}:900001", "{$post}:900009", "{$product}:900009"];
+    sort($left);
+    $command = new MigrateProductRatings(new Request());
+    $deleteTerms = protectedMethod(MigrateProductRatings::class, 'deleteTerms');
+
+    $addTerms();
+    $statements = sqlStatements(fn () => $deleteTerms->invoke($command, $rated));
+
+    expect($terms())->toBe($left)
+        ->and(implode(' ', $statements))->toContain('INNER JOIN');
+
+    $addTerms();
+    $statements = sqlStatements(fn () => withSqliteTables(fn () => $deleteTerms->invoke($command, $rated)));
+
+    expect($terms())->toBe($left)
+        ->and(implode(' ', $statements))->toContain('DELETE FROM')
+        ->and(implode(' ', $statements))->not->toContain('JOIN');
 });

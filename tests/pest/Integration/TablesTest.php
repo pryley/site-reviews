@@ -4,10 +4,15 @@ use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
+use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 
+use function GeminiLabs\SiteReviews\Tests\createPost;
+use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sqlStatements;
 use function GeminiLabs\SiteReviews\Tests\withDdlFreeDatabase;
+use function GeminiLabs\SiteReviews\Tests\withSqliteTables;
 
 /*
  * The custom-table machinery. Two things are deliberately faked here:
@@ -196,6 +201,42 @@ test('the tmp table has no constraints and no invalid rows to remove', function 
 
         expect($fake->queries)->toBe([]);
     });
+});
+
+test('a rating whose post is gone or is not a review is removed, with a join on MySQL and without one on SQLite', function () {
+    // The SQLite Database Integration plugin cannot run the joined DELETE: before version 3 it
+    // runs a statement of its own on the options table in place of any DELETE that has a JOIN,
+    // and version 3 throws on the alias. The join stays for MySQL and MariaDB, where no other
+    // form was faster on any version measured.
+    global $wpdb;
+    $ratings = glsr(Tables::class)->table('ratings');
+    $review = createReview();
+    $page = createPost(['post_type' => 'page']);
+    $addInvalidRatings = function () use ($page, $ratings, $wpdb) {
+        $wpdb->query('SET foreign_key_checks = 0');
+        $wpdb->insert($ratings, ['rating' => 3, 'review_id' => 987654321]); // no such post
+        $wpdb->query('SET foreign_key_checks = 1');
+        $wpdb->insert($ratings, ['rating' => 3, 'review_id' => $page]);
+    };
+    $reviewIds = fn () => array_map('intval', $wpdb->get_col("SELECT review_id FROM {$ratings}"));
+
+    $addInvalidRatings();
+    expect($reviewIds())->toContain($review->ID, $page, 987654321);
+    $statements = sqlStatements(fn () => glsr(TableRatings::class)->removeInvalidRows());
+
+    expect($reviewIds())->toContain($review->ID)
+        ->and($reviewIds())->not->toContain($page)
+        ->and($reviewIds())->not->toContain(987654321)
+        ->and(implode(' ', $statements))->toContain('LEFT JOIN');
+
+    $addInvalidRatings();
+    $statements = sqlStatements(fn () => withSqliteTables(fn () => glsr(TableRatings::class)->removeInvalidRows()));
+
+    expect($reviewIds())->toContain($review->ID)
+        ->and($reviewIds())->not->toContain($page)
+        ->and($reviewIds())->not->toContain(987654321)
+        ->and(implode(' ', $statements))->toContain('DELETE FROM')
+        ->and(implode(' ', $statements))->not->toContain('JOIN');
 });
 
 // NOTE (ceiling): AbstractTable::foreignConstraint()'s multisite suffix (line 99) is gated on

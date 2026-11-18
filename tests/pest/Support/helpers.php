@@ -580,6 +580,37 @@ function withDdlFreeDatabase(callable $callback)
 }
 
 /**
+ * The statements the query builder writes while the callback runs.
+ *
+ * @return string[]
+ */
+function sqlStatements(callable $callback): array
+{
+    $statements = [];
+    $collect = function (string $sql) use (&$statements) {
+        $statements[] = $sql;
+    };
+    add_action('site-reviews/database/sql', $collect);
+    try {
+        $callback();
+    } finally {
+        remove_action('site-reviews/database/sql', $collect);
+    }
+    return $statements;
+}
+
+/**
+ * Run the callback as a SQLite site would: the plugin writes its SQLite statements, and the
+ * suite's database runs them, since each is one it accepts too.
+ */
+function withSqliteTables(callable $callback)
+{
+    $tables = new \GeminiLabs\SiteReviews\Database\Tables();
+    $tables->engine = 'sqlite';
+    return swapInstance(\GeminiLabs\SiteReviews\Database\Tables::class, $tables, $callback);
+}
+
+/**
  * A DDL-free Database that also answers the reads from canned values, and can be told to
  * FAIL its writes — the branch a migration takes when the ALTER it needs is refused, which
  * is otherwise reachable only on a database the suite cannot produce.

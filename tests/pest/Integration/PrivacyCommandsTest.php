@@ -9,9 +9,12 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
+use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sqlStatements;
+use function GeminiLabs\SiteReviews\Tests\withSqliteTables;
 
 /*
  * Three commands, each touching something a person would rather you were careful with: where they
@@ -212,4 +215,42 @@ test('removing the location data leaves everything that is not a location alone'
 
     expect(glsr(PostMeta::class)->get($review->ID, 'response'))->toBe('Thank you for the review!');
     expect(glsr_get_review($review->ID)->isValid())->toBeTrue(); // and the review is still there
+});
+
+test('the location data of reviews, and only of reviews, is removed with a join on MySQL and without one on SQLite', function () {
+    // The SQLite Database Integration plugin cannot run the joined DELETE (see TablesTest). The
+    // join stays for MySQL and MariaDB, where no other form was faster on every version measured.
+    global $wpdb;
+    commitsTransaction(); // TableStats::empty() TRUNCATEs — see above
+    $review = createReview();
+    $page = createPost(['post_type' => 'page']);
+    $addLocations = function () use ($page, $review) {
+        update_post_meta($review->ID, '_geolocation', ['city' => 'Berlin']);
+        update_post_meta($page, '_geolocation', ['city' => 'Paris']);
+    };
+    $pageLocation = fn () => $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = '_geolocation'", $page
+    ));
+    glsr(PostMeta::class)->set($review->ID, 'response', 'Thank you for the review!');
+
+    try {
+        $addLocations();
+        $statements = sqlStatements(fn () => (new RemoveLocationData())->handle());
+
+        expect(locationOf($review->ID))->toBeEmpty()
+            ->and($pageLocation())->toBe('1')
+            ->and(glsr(PostMeta::class)->get($review->ID, 'response'))->toBe('Thank you for the review!')
+            ->and(implode(' ', $statements))->toContain('INNER JOIN');
+
+        $addLocations();
+        $statements = sqlStatements(fn () => withSqliteTables(fn () => (new RemoveLocationData())->handle()));
+
+        expect(locationOf($review->ID))->toBeEmpty()
+            ->and($pageLocation())->toBe('1')
+            ->and(glsr(PostMeta::class)->get($review->ID, 'response'))->toBe('Thank you for the review!')
+            ->and(implode(' ', $statements))->toContain('DELETE FROM')
+            ->and(implode(' ', $statements))->not->toContain('JOIN');
+    } finally {
+        wp_delete_post($page, true); // the suite's purge only removes reviews
+    }
 });

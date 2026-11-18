@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands;
 use GeminiLabs\SiteReviews\Commands\AbstractCommand;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -60,15 +61,29 @@ class MigrateProductRatings extends AbstractCommand
      */
     protected function deleteTerms(array $ttids): int
     {
-        $in = implode(',', $ttids);
-        $sql = glsr(Query::class)->sql("
-            DELETE tr
-            FROM table|term_relationships AS tr
-            INNER JOIN table|posts AS p ON (p.ID = tr.object_id)
-            WHERE 1=1
-            AND p.post_type = 'product'
-            AND tr.term_taxonomy_id IN ({$in})
-        ");
+        if (glsr(Tables::class)->isSqlite()) { // the SQLite plugin can't run the joined DELETE
+            $in = implode(',', array_fill(0, count($ttids), '%d'));
+            $table = glsr(Tables::class)->table('term_relationships');
+            $sql = glsr(Query::class)->sql("
+                DELETE FROM %i
+                WHERE EXISTS (
+                    SELECT 1
+                    FROM table|posts AS p
+                    WHERE p.ID = %i.object_id AND p.post_type = 'product'
+                )
+                AND term_taxonomy_id IN ({$in})
+            ", $table, $table, ...array_values($ttids));
+        } else {
+            $in = implode(',', $ttids);
+            $sql = glsr(Query::class)->sql("
+                DELETE tr
+                FROM table|term_relationships AS tr
+                INNER JOIN table|posts AS p ON (p.ID = tr.object_id)
+                WHERE 1=1
+                AND p.post_type = 'product'
+                AND tr.term_taxonomy_id IN ({$in})
+            ");
+        }
         $results = glsr(Database::class)->dbQuery($sql);
         return Cast::toInt($results);
     }

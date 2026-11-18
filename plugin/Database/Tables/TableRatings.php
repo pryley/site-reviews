@@ -23,14 +23,24 @@ class TableRatings extends AbstractTable
     public function removeInvalidRows(): void
     {
         $type = glsr()->post_type;
-        glsr(Database::class)->dbSafeQuery(
-            glsr(Query::class)->sql("
+        if (glsr(Tables::class)->isSqlite()) { // the SQLite plugin can't run the joined DELETE
+            $sql = glsr(Query::class)->sql("
+                DELETE FROM %i
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM table|posts AS p
+                    WHERE p.ID = %i.review_id AND p.post_type = %s
+                )
+            ", $this->tablename, $this->tablename, $type);
+        } else {
+            $sql = glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
                 LEFT JOIN table|posts AS p ON (p.ID = t.review_id)
                 WHERE (p.post_type IS NULL OR p.post_type != '{$type}')
-            ")
-        );
+            ");
+        }
+        glsr(Database::class)->dbSafeQuery($sql);
     }
 
     /**
