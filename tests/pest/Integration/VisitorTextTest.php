@@ -54,6 +54,8 @@ dataset('typed', [
     'an image' => ['<img src="typed.png" onerror="typed()">'],
     'a tag encoded eight times' => [encodedDeep('<em data-typed="1">word</em>', 8)],
     'a tag inside a tag' => ['<em da<em>ta-typed="1">word</em>'],
+    'a tag with a space after its bracket' => ['< em data-typed="1">word</em>'],
+    'a tag with a vertical tab after its bracket' => ["<\x0Bstrong data-typed=\"1\">word</strong>"],
     'braces' => ['{site_title} and {{ review_id }}'],
     'doubled square brackets' => ['[[site_reviews]] and [site_reviews_form]'],
     'the character an excerpt marks a tag with' => ['one ⍈ two <em class="⍈">three</em>'],

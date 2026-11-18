@@ -27,6 +27,7 @@ abstract class StringSanitizer extends AbstractSanitizer
     protected function kses(string $value): string
     {
         $regex = '/on(abort|autocomplete|autocompleteerror|beforeprint|beforeunload|blur|cancel|canplay|canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag|dragend|dragenter|dragleave|dragover|dragstart|drop|durationchange|emptied|ended|error|focus|hashchange|input|invalid|keydown|keypress|keyup|languagechange|load|loadeddata|loadedmetadata|loadstart|message|mousedown|mouseenter|mouseleave|mousemove|mouseout|mouseover|mouseup|mousewheel|offline|online|pause|play|playing|popstate|progress|ratechange|redo|reset|resize|scroll|seeked|seeking|select|show|sort|stalled|storage|submit|suspend|timeupdate|toggle|undo|unload|volumechange|waiting)\s*=/i';
+        $value = wp_kses_no_null($value); // wp_kses() removes these characters before it looks for a tag
         $value = preg_replace($regex, '', $value); // remove all event function attributes
         $value = preg_replace('/(;amp)+/i', ';amp', $value);
         $value = str_replace('&amp;amp;', '&amp;', $value);

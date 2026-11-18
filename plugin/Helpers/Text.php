@@ -8,6 +8,16 @@ use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 class Text
 {
     /**
+     * Encode a less-than sign that starts no tag.
+     */
+    public static function escapeLessThan(string $html): string
+    {
+        $html = wp_kses_no_null($html); // wp_kses() removes these characters before it looks for a tag
+        // a tag starts with a letter, a slash, an exclamation mark or a question mark
+        return preg_replace('/<(?![a-z\/!?])/i', '&lt;', $html) ?? str_replace('<', '&lt;', $html);
+    }
+
+    /**
      * Encode the square brackets and the braces of rendered HTML.
      */
     public static function escapeShortcodes(string $html): string
@@ -103,6 +113,7 @@ class Text
         $text = convert_invalid_entities($text); // convert invalid Unicode references range to valid range.
         $text = convert_smilies($text); // convert text smilies to emojis.
         $text = wp_specialchars_decode($text);
+        $text = static::escapeLessThan($text); // wp_kses() reads a bracket, a gap and a tag name as a tag
         $text = wp_kses($text, $sanitizer->allowedHtml()); // strip any tag the trailing decode re-formed past the sanitizer.
         return $text;
     }

@@ -1973,3 +1973,53 @@ test('text encoded more often than text ever is comes back with no entity', func
     expect($sanitized)->not->toContain('&');
     expect(GeminiLabs\SiteReviews\Helpers\Text::normalize($sanitized))->not->toContain('<em');
 });
+
+/*
+ * A less-than sign that starts no tag is text. PHP's strip_tags() and a browser agree on that;
+ * wp_kses() reads the sign, a gap and a tag name as the tag.
+ */
+dataset('a tag with a gap after its bracket', [
+    'a space' => ['One < em class="two">three</em> four'],
+    'a tab' => ["One <\tem class=\"two\">three</em> four"],
+    'a line break' => ["One <\nem class=\"two\">three</em> four"],
+]);
+
+test('plain text holds no tag when one is written with a gap after its bracket', function (string $sanitizer, string $value) {
+    $method = GeminiLabs\SiteReviews\Helper::buildMethodName('sanitize', $sanitizer);
+
+    $written = glsr(Sanitizer::class)->$method($value);
+    $read = glsr(Sanitizer::class)->$method($written);
+
+    foreach ([$written, $read] as $text) {
+        expect(GeminiLabs\SiteReviews\Helpers\Text::normalize($text))->not->toContain('<em'); // with excerpts off
+        expect(GeminiLabs\SiteReviews\Helpers\Text::text($text))->not->toContain('<em');
+        expect(GeminiLabs\SiteReviews\Helpers\Text::excerpt($text, 2))->not->toContain('<em'); // with excerpts on
+    }
+})->with(['text', 'text-multiline'])->with('a tag with a gap after its bracket');
+
+test('a sanitizer that keeps tags makes none from a bracket with a gap after it', function (string $sanitizer, string $value) {
+    $method = GeminiLabs\SiteReviews\Helper::buildMethodName('sanitize', $sanitizer);
+
+    $written = glsr(Sanitizer::class)->$method($value);
+    $read = glsr(Sanitizer::class)->$method($written);
+
+    expect($written)->not->toContain('<em');
+    expect($read)->toBe($written);
+    expect(GeminiLabs\SiteReviews\Helpers\Text::normalize($read))->not->toContain('<em');
+})->with(['text-html', 'text-post'])->with('a tag with a gap after its bracket');
+
+test('a sanitizer that keeps tags still keeps a tag written as one', function () {
+    expect(glsr(Sanitizer::class)->sanitizeTextHtml('One <em>two</em> and 3 < 4'))->toBe('One <em>two</em> and 3 &lt; 4');
+});
+
+test('a character that wp_kses() ignores is removed before a tag is looked for', function () {
+    // wp_kses() drops a control character and then reads the bracket and the name as a tag, so
+    // every sanitizer drops it first and sees the same tag.
+    $value = "One <\x0Bem class=\"two\">three</em> four";
+
+    expect(glsr(Sanitizer::class)->sanitizeText($value))->toBe('One three four')
+        ->and(glsr(Sanitizer::class)->sanitizeTextMultiline($value))->toBe('One three four')
+        ->and(glsr(Sanitizer::class)->sanitizeTextHtml($value))->toBe('One <em class="two">three</em> four')
+        ->and(GeminiLabs\SiteReviews\Helpers\Text::normalize(glsr(Sanitizer::class)->sanitizeTextMultiline($value)))->not->toContain('<em');
+});
+

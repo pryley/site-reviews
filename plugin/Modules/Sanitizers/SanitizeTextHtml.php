@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Text;
 
 /**
  * Returns unslashed data.
@@ -23,7 +24,7 @@ class SanitizeTextHtml extends StringSanitizer
         $allowedHtml = $this->allowedHtml();
         $value = stripslashes($this->kses($this->decode($this->value())));
         for ($pass = 0; $pass < 10; ++$pass) { // a tag that is removed can leave another one behind
-            $sanitized = wp_kses($this->decode($value), $allowedHtml);
+            $sanitized = wp_kses(Text::escapeLessThan($this->decode($value)), $allowedHtml);
             if ($sanitized === $value) {
                 break;
             }
