@@ -48,13 +48,26 @@ echo '&lt;/div&gt;';</code></pre>
             </li>
         </ol>
 
+        <h2>Changes to shortcodes and blocks</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <ol>
+            <li>
+                <p><strong>The shortcode options that version 5.0 replaced no longer work.</strong></p>
+                <p>These are <code>assign_to</code>, <code>assigned_to</code>, <code>category</code> and <code>user</code>. A shortcode that still uses one of them shows every review, and a form saves its reviews unassigned. Use <code>assigned_posts</code>, <code>assigned_terms</code> and <code>assigned_users</code> instead.</p>
+            </li>
+            <li>
+                <p><strong>A block that was last saved before version 8.0 needs Compatibility Mode.</strong></p>
+                <p>Until version 8.0, a block stored its assignments, its hidden fields and its schema setting in a different way. While <strong>Compatibility Mode</strong> is on, Site Reviews still reads them, and the block editor shows the block with its options. To convert such a block for good, open its page in the block editor, change something on the page and save it.</p>
+                <p>With Compatibility Mode off, such a block shows every review and its form saves reviews unassigned.</p>
+            </li>
+        </ol>
+
         <h2>Removed hooks</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
                 <p><strong>The hook names that version 5.0 replaced no longer work.</strong></p>
                 <p>Version 5.0 deprecated these in 2020, and they were kept working until now: <code>site-reviews/review/response</code>, <code>site-reviews/reviews/reviews-wrapper</code>, <code>site-reviews/review-table/filter</code>, <code>site-reviews/config/forms/submission-form</code>, <code>site-reviews/submission-form/order</code>, and the <code>{{ review_id }}</code> and <code>{{ assigned_to }}</code> template tags. The <code>site-reviews/support/deprecated/v5</code> filter hook is removed with them.</p>
-                <p>The shortcode options that version 5.0 replaced no longer work either: <code>assign_to</code>, <code>assigned_to</code>, <code>category</code> and <code>user</code>. A shortcode that still uses one of them shows every review, and a form saves its reviews unassigned. Use <code>assigned_posts</code>, <code>assigned_terms</code> and <code>assigned_users</code> instead.</p>
             </li>
             <li>
                 <p><strong>The hooks of the admin-ajax actions and of the Sync Reviews tab have been removed.</strong></p>
@@ -144,7 +157,7 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
                 <p><strong>Some keys of the <code>GLSR</code> object have been renamed and the previous keys no longer work.</strong></p>
                 <p>For example, <code>GLSR.Utils</code> is now <code>GLSR.Util</code>, <code>GLSR.request</code> is now <code>GLSR.Request</code>, and <code>GLSR.forms</code> is now <code>GLSR.Form.instances</code>.</p>
                 <p>To see if your site uses a previous key or a previous event name, turn on <strong>Debug Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page and look for warnings in the browser console. To see them for a single page view instead, add <code>?glsr-debug</code> to the address of the page. A code snippet that uses a previous hook name is noted on the <?php echo glsr_admin_link('tools.console'); ?> page.</p>
-                <p>When no warning is left in either place, you can turn off <strong>Compatibility Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page. This also turns off the previous hook names.</p>
+                <p>When no warning is left in either place, you can turn off <strong>Compatibility Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page. This also turns off the previous hook names. Debug Mode does not warn about a block that was last saved before version 8.0, so convert those first as described above.</p>
             </li>
         </ol>
 
