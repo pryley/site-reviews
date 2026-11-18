@@ -21,6 +21,7 @@
 - Added the `site-reviews/router/admin/capabilities` filter hook to name the capability of an admin route added by custom code; a route that names none is not run
 - Changed the browser console: a request the server declines is logged as a warning and a fault as an error
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
+- Changed the HTML builder to keep the attributes of the current HTML standard (for example `popover`, `popovertarget` and `inert`) and to print the value of attributes such as `spellcheck` and `draggable`; `contextmenu`, `dropzone` and a form's `accept` are no longer printed
 - Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid
 - Changed the Licenses tab: it is shown only while a standalone addon is active
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
