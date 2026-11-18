@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Compat\Controllers;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 
 class Controller extends AbstractController
@@ -24,15 +24,17 @@ class Controller extends AbstractController
     }
 
     /**
-     * Read the assignments of a block from the attributes that 8.0 replaced.
+     * Convert the attributes of a block that was saved before 8.0.
      *
-     * @filter site-reviews/shortcode/args
+     * @filter render_block_data
      */
-    public function filterBlockAssignments(array $args, ShortcodeContract $shortcode): array
+    public function filterBlockData(array $block): array
     {
-        if ('block' !== $shortcode->from) {
-            return $args;
+        $blocks = ['site-reviews/form', 'site-reviews/reviews', 'site-reviews/summary'];
+        if (!in_array($block['blockName'] ?? '', $blocks, true)) {
+            return $block;
         }
+        $attributes = Arr::consolidate($block['attrs'] ?? []);
         $replaced = [
             'assign_to' => 'assigned_posts',
             'assigned_to' => 'assigned_posts',
@@ -40,12 +42,16 @@ class Controller extends AbstractController
             'user' => 'assigned_users',
         ];
         foreach ($replaced as $old => $new) {
-            if (empty($args[$new]) && !empty($args[$old])) {
-                $args[$new] = $args[$old];
+            if (empty($attributes[$new]) && !empty($attributes[$old])) {
+                $attributes[$new] = $attributes[$old];
             }
-            unset($args[$old]);
+            unset($attributes[$old]);
         }
-        return $args;
+        if (is_bool($attributes['schema'] ?? null)) {
+            $attributes['schema'] = (int) $attributes['schema']; // the block declares 0 or 1
+        }
+        $block['attrs'] = $attributes;
+        return $block;
     }
 
     /**

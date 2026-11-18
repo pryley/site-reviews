@@ -41,7 +41,7 @@ class Hooks extends AbstractHooks
         ]);
         if (glsr()->filterBool('support/deprecated/v8', true)) {
             $this->hook(Controller::class, [
-                ['filterBlockAssignments', 'site-reviews/shortcode/args', 10, 2],
+                ['filterBlockData', 'render_block_data'],
             ]);
             $this->hook(HookController::class, [
                 ['filterReviewFormOrder', 'site-reviews/review-form/fields/order'],

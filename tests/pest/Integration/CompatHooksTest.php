@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Compat\Controllers\Controller;
 use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
+use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\Vectorface\Whip\Whip;
@@ -118,8 +119,8 @@ function hookedAt(string $hook, int $priority): int
 
 test('with Compatibility Mode off only the notices of the compat layer are hooked', function () {
     remove_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']);
-    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
     remove_filter('site-reviews/support/deprecated/v8', '__return_false');
+    $blocks = hookedAt('render_block_data', 10);
     $canvas = hookedAt('enqueue_block_assets', 999);
     $notices = hookedAt('deprecated_hook_run', 10);
     $scripts = hookedAt('wp_print_scripts', 0);
@@ -129,7 +130,7 @@ test('with Compatibility Mode off only the notices of the compat layer are hooke
     glsr(Hooks::class)->onPluginsLoaded();
 
     expect(has_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']))->toBeFalse();
-    expect(has_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']))->toBeFalse();
+    expect(hookedAt('render_block_data', 10))->toBe($blocks);
     expect(hookedAt('enqueue_block_assets', 999))->toBe($canvas);
     expect(hookedAt('wp_print_scripts', 0))->toBe($scripts);
     expect(hookedAt('deprecated_hook_run', 10))->toBe($notices + 1);
@@ -254,6 +255,41 @@ test('a form block saved before 8.0 assigns its reviews to the page, category an
     expect(assignedTo($html, 'assigned_users'))->toBe((string) $userId);
 });
 
+test('a block saved before 8.0 is read inside another block', function () {
+    registerOldHooks([8]);
+    $pageId = createPost(['post_type' => 'page']);
+
+    $html = do_blocks('<!-- wp:group --><div class="wp-block-group"><!-- wp:site-reviews/form {"assign_to":"'.$pageId.'"} /--></div><!-- /wp:group -->');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe((string) $pageId);
+});
+
+test('a block saved before 8.0 with its schema on prints the schema', function (string $block) {
+    // The block wrote true or false; today it declares 0 or 1, and WordPress gives the render
+    // the default in place of a value that does not fit.
+    registerOldHooks([8]);
+    createReview(['rating' => 5]);
+    glsr(OptionManager::class)->set('settings.schema.integration.plugin', '');
+
+    do_blocks('<!-- wp:site-reviews/'.$block.' {"schema":true} /-->');
+    ob_start();
+    glsr(PublicController::class)->renderSchema();
+
+    expect((string) ob_get_clean())->toContain('application/ld+json');
+})->with(['reviews', 'summary']);
+
+test('a block saved before 8.0 with its schema on prints no schema with the old hooks of version 8 off', function (string $block) {
+    registerOldHooks([6, 7]);
+    createReview(['rating' => 5]);
+    glsr(OptionManager::class)->set('settings.schema.integration.plugin', '');
+
+    do_blocks('<!-- wp:site-reviews/'.$block.' {"schema":true} /-->');
+    ob_start();
+    glsr(PublicController::class)->renderSchema();
+
+    expect((string) ob_get_clean())->not->toContain('application/ld+json');
+})->with(['reviews', 'summary']);
+
 test('the typed IDs of a block saved before 8.0 are kept', function () {
     registerOldHooks([8]);
     $pageId = createPost(['post_type' => 'page']);
@@ -264,7 +300,6 @@ test('the typed IDs of a block saved before 8.0 are kept', function () {
 });
 
 test('the old attributes of a block are not read with the old hooks of version 8 off', function () {
-    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
     registerOldHooks([6, 7]);
     $pageId = createPost(['post_type' => 'page']);
 
@@ -274,7 +309,6 @@ test('the old attributes of a block are not read with the old hooks of version 8
 });
 
 test('the old attributes of a block are not read with Compatibility Mode off', function () {
-    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
     remove_filter('site-reviews/support/deprecated/v8', '__return_false');
     glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
     glsr(Hooks::class)->onPluginsLoaded();
