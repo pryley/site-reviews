@@ -214,7 +214,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 = 9.0.0 (unreleased) =
 
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
-- Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)
+- Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working, and blocks saved before version 8.0 (enabled by default)
 - Added a confirmation popup to the Rollback Plugin tool
 - Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed

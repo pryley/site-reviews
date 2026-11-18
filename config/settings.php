@@ -1204,7 +1204,7 @@ return [ // order is intentional
         'default' => 'yes',
         'label' => _x('Compatibility Mode', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        'tooltip' => _x('Enable this setting to keep code snippets working that were written for earlier versions of Site Reviews. Turn it off to check that your site no longer needs it.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enable this setting to keep code snippets working that were written for earlier versions of Site Reviews, and blocks that were last saved before version 8.0. Turn it off to check that your site no longer needs it.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
     'settings.advanced.debug' => [
