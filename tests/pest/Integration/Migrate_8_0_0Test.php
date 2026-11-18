@@ -9,7 +9,7 @@ use function GeminiLabs\SiteReviews\Tests\withDatabaseAnswering;
 
 /*
  * v8.0.0: an index on the ratings table, the stats table, and the dismissed
- * notices moving off user meta. The three content migrations it delegates to
+ * notices moving off user meta. The two content migrations it delegates to
  * have their own tests.
  *
  * wp-env's ratings table already has the index, so the "index is missing" arm
@@ -54,7 +54,7 @@ test('a refused ALTER is logged and the migration reports failure', function () 
         ->and(glsr(Console::class)->get())->toContain('the [ip_address_index] index was not added');
 });
 
-test('the whole migration runs the three content migrations and the database one', function () {
+test('the whole migration runs the two content migrations and the database one', function () {
     delete_option(glsr()->prefix.'db_version');
 
     expect((new Migrate_8_0_0())->run())->toBeTrue();

@@ -1,13 +1,11 @@
 <?php
 
-use GeminiLabs\SiteReviews\Addons\Registry;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Migrations\Migrate_6_0_0;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Role;
 
-use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 use function GeminiLabs\SiteReviews\Tests\withDatabaseAnswering;
 use function GeminiLabs\SiteReviews\Tests\withDdlFreeDatabase;
@@ -15,9 +13,8 @@ use function GeminiLabs\SiteReviews\Tests\withTablesAnswering;
 
 /*
  * v6.0.0, the largest of the settings migrations: everything older than v5 is
- * thrown away, two addons' stored content is rewritten, the ratings table gains
- * two columns, the term capabilities are handed out, and `submissions` becomes
- * `forms`.
+ * thrown away, the ratings table gains two columns, the term capabilities are
+ * handed out, and `submissions` becomes `forms`.
  *
  * wp-env's ratings table already has both columns, so the column paths run
  * against a Tables that says it does not and a Database that swallows the ALTER
@@ -38,57 +35,6 @@ test('the settings of every version older than v5 are thrown away', function () 
         expect(get_option(OptionManager::databaseKey($version)))->toBeFalse();
     }
     expect(get_option(OptionManager::databaseKey(5)))->toBe(['settings' => ['general' => []]]);
-});
-
-test('the review filters block is renamed in published content, with the addon installed', function () {
-    $published = createPost(['post_content' => 'before <!-- wp:site-reviews/filter {"id":"x"} --> after']);
-    $draft = createPost([
-        'post_status' => 'draft',
-        'post_content' => '<!-- wp:site-reviews/filter -->',
-    ]);
-
-    withAddons(['site-reviews-filters'], fn () => (new Migrate_6_0_0())->migrateAddonBlocks());
-
-    expect(postContent($published))->toContain('<!-- wp:site-reviews/filters {"id":"x"} -->')
-        ->and(postContent($draft))->not->toContain('site-reviews/filters'); // only published content
-});
-
-test('nothing is rewritten without the review filters addon', function () {
-    $post = createPost(['post_content' => '<!-- wp:site-reviews/filter {"id":"x"} -->']);
-
-    (new Migrate_6_0_0())->migrateAddonBlocks();
-
-    expect(postContent($post))->not->toContain('site-reviews/filters');
-});
-
-test('the review images are put back where attachments belong, with the addon installed', function () {
-    $image = createPost([
-        'post_name' => 'site-reviews-image-1',
-        'post_status' => 'private',
-        'post_type' => 'attachment',
-    ]);
-    $other = createPost([
-        'post_name' => 'somebody-elses-image',
-        'post_status' => 'private',
-        'post_type' => 'attachment',
-    ]);
-
-    withAddons(['site-reviews-images'], fn () => (new Migrate_6_0_0())->migrateAddonReviewImages());
-
-    expect(postStatus($image))->toBe('inherit')
-        ->and(postStatus($other))->toBe('private');
-});
-
-test('nothing is moved without the review images addon', function () {
-    $image = createPost([
-        'post_name' => 'site-reviews-image-1',
-        'post_status' => 'private',
-        'post_type' => 'attachment',
-    ]);
-
-    (new Migrate_6_0_0())->migrateAddonReviewImages();
-
-    expect(postStatus($image))->toBe('private');
 });
 
 test('a database that already has both columns is stamped with the version', function () {
@@ -201,33 +147,3 @@ test('a style that was never a bootstrap 4 one is left as it is', function () {
     expect(Arr::get(get_option(OptionManager::databaseKey(6)), 'settings.general.style'))
         ->toBe('twentysixteen');
 });
-
-/**
- * Runs the callback with the given addon slugs registered. The registry is a
- * property on the Application singleton that nothing in teardown clears, so it
- * is put back afterwards — the same reach AddonHookPrefixTest makes.
- */
-function withAddons(array $slugs, callable $callback)
-{
-    $registry = glsr(Registry::class);
-    $property = new ReflectionProperty($registry, 'addons');
-    $addons = $property->getValue($registry);
-    $property->setValue($registry, array_merge($addons, array_fill_keys($slugs, true)));
-    try {
-        return $callback();
-    } finally {
-        $property->setValue($registry, $addons);
-    }
-}
-
-function postContent(int $postId): string
-{
-    clean_post_cache($postId);
-    return get_post($postId)->post_content;
-}
-
-function postStatus(int $postId): string
-{
-    clean_post_cache($postId);
-    return get_post($postId)->post_status;
-}

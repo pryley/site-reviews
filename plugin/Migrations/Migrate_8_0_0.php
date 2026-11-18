@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables\TableStats;
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateAvadaBuilder;
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateElementor;
-use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateReviewForms;
 
 class Migrate_8_0_0 implements MigrateContract
 {
@@ -18,7 +17,6 @@ class Migrate_8_0_0 implements MigrateContract
     {
         glsr(MigrateAvadaBuilder::class)->run();
         glsr(MigrateElementor::class)->run();
-        glsr(MigrateReviewForms::class)->run();
         return $this->migrateDatabase();
     }
 

@@ -22,36 +22,10 @@ class Migrate_6_0_0 implements MigrateContract
         while ($version) {
             delete_option(OptionManager::databaseKey($version--));
         }
-        $this->migrateAddonBlocks();
-        $this->migrateAddonReviewImages();
         $this->migrateDatabase();
         $this->migrateRoles();
         $this->migrateSettings();
         return true;
-    }
-
-    public function migrateAddonBlocks(): void
-    {
-        if (glsr()->addon('site-reviews-filters')) {
-            $sql = glsr(Query::class)->sql("
-                UPDATE table|posts p
-                SET p.post_content = REPLACE(p.post_content, '<!-- wp:site-reviews/filter ', '<!-- wp:site-reviews/filters ')
-                WHERE p.post_status = 'publish'
-            ");
-            glsr(Database::class)->dbQuery($sql);
-        }
-    }
-
-    public function migrateAddonReviewImages(): void
-    {
-        if (glsr()->addon('site-reviews-images')) {
-            $sql = glsr(Query::class)->sql("
-                UPDATE table|posts p
-                SET p.post_status = 'inherit'
-                WHERE p.post_type = 'attachment' AND p.post_name LIKE 'site-reviews-image%'
-            ");
-            glsr(Database::class)->dbQuery($sql);
-        }
     }
 
     public function migrateDatabase(): void

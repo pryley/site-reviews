@@ -82,7 +82,6 @@ test('the checkbox fields become one comma separated value each', function () {
             'hide-rating' => 'yes',
             'hide-title' => 'yes',
             'hide-date' => '', // not ticked
-            'filter-rating' => 'yes', // the Review Filters addon
         ],
     ]);
 
@@ -91,7 +90,6 @@ test('the checkbox fields become one comma separated value each', function () {
     expect($element['settings'])->toBe([
         'hide-date' => '',
         'hide' => 'rating,title',
-        'filters' => 'rating',
     ]);
 });
 

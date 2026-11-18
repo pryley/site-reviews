@@ -108,7 +108,6 @@ class MigrateElementor implements MigrateContract
     {
         $groups = [
             'hide' => 'hide-',
-            'filters' => 'filter-', // Review Filters addon
         ];
         $collected = [];
         foreach ($settings as $key => $value) {
