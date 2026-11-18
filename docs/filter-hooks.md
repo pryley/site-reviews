@@ -245,6 +245,8 @@ site-reviews/summary/tag/<tag>                              (string $className, 
 site-reviews/summary/value/<tag_or_field_key>               (string $value, Contracts\TagContract $tag): string
 site-reviews/summary/wrap/<tag_or_field_key>                (string $value, string $rawValue, Contracts\TagContract $tag): string
 site-reviews/support/deprecated/v6                          (bool $supportDeprecated): bool
+site-reviews/support/deprecated/v7                          (bool $supportDeprecated): bool
+site-reviews/support/deprecated/v8                          (bool $supportDeprecated): bool
 site-reviews/system-info/section/<key>                      (array $details, array $systemData): array
 site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
 site-reviews/tools/general                                  (array $paths): array

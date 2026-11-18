@@ -284,7 +284,7 @@ In debug mode:
 
 Site Reviews 9.0.0 removed the keys below: use the replacement in anything you write. While compat mode is on, reading a removed key gives `undefined`, and in debug mode the first read logs a warning that names its replacement. Compat mode is on by default: it is the "Compatibility Mode" setting on the Advanced tab of the settings. A script that assigns one of these keys keeps what it assigned.
 
-Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. It also keeps the previous event names firing (see [js-events.md](js-events.md#deprecated-names)). To check that a site no longer uses an old name, turn on debug mode and look for warnings in the browser console; when none are left, turn compat mode off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
+Compat mode is a script of its own (`site-reviews-compat.js`, and `admin/admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. It also keeps the previous event names firing (see [js-events.md](js-events.md#deprecated-names)). To check that a site no longer uses an old name, turn on debug mode and look for warnings in the browser console; when none are left, turn compat mode off. While the setting is on, the filter can turn the script off for a bundle; `$bundle` is `public` or `admin`.
 
 ```php
 add_filter('site-reviews/compat/assets', '__return_false');

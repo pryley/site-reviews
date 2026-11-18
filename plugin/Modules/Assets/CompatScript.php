@@ -24,8 +24,10 @@ class CompatScript
      */
     public function isEnabled(string $bundle): bool
     {
-        $isEnabled = glsr(OptionManager::class)->get('settings.advanced.compat', 'yes', 'bool');
-        return glsr()->filterBool('compat/assets', $isEnabled, $bundle);
+        if (!glsr(OptionManager::class)->get('settings.advanced.compat', 'yes', 'bool')) {
+            return false;
+        }
+        return glsr()->filterBool('compat/assets', true, $bundle);
     }
 
     /**

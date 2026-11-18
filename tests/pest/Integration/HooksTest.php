@@ -90,6 +90,9 @@ test('the compat hooks are registered apart from those of plugin/Hooks, and poin
     $GLOBALS['wp_filter'] = [];
 
     glsr(GeminiLabs\SiteReviews\Hooks::class)->runCompat();
+    expect(array_column(registeredHooks(), 0))->toContain('deprecated_hook_run', 'plugins_loaded')
+        ->not->toContain('site-reviews/route/ajax/submit-review');
+    do_action('plugins_loaded'); // Compatibility Mode is on, so the rest is registered
 
     $registered = registeredHooks();
     expect(array_column($registered, 0))->toContain('site-reviews/route/ajax/submit-review');

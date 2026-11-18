@@ -1,6 +1,8 @@
 <?php
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Compat\Controllers\AjaxController;
+use GeminiLabs\SiteReviews\Compat\Controllers\Controller;
 use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
@@ -78,12 +80,13 @@ test('the filter of a version turns off the old hooks of that version only', fun
     expect($heard)->toBe(['v6']);
 });
 
-test('with Compatibility Mode off the old hooks of every version are off, and the filter of a version turns its own back on', function () {
+test('with Compatibility Mode off the old hooks of every version are off, and the filter of a version cannot turn its own back on', function () {
     glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
     foreach ([6, 7, 8] as $version) {
         remove_filter("site-reviews/support/deprecated/v{$version}", '__return_false');
     }
     add_filter('site-reviews/support/deprecated/v6', '__return_true');
+    $optimiser = hookedAt('wp_enqueue_scripts', 10);
     glsr(Hooks::class)->onPluginsLoaded();
     $heard = [];
     add_filter('site-reviews/review-form/order', function ($order) use (&$heard) {
@@ -98,8 +101,50 @@ test('with Compatibility Mode off the old hooks of every version are off, and th
     glsr()->filterArray('review-form/fields/order', []);
     glsr()->filterArray('slack/notification', []);
 
-    expect($heard)->toBe(['v6'])
-        ->and(has_action('wp_enqueue_scripts', [glsr(HookController::class), 'filterOptimizeAsset']))->toBeFalse();
+    expect($heard)->toBe([])
+        ->and(hookedAt('wp_enqueue_scripts', 10))->toBe($optimiser);
+});
+
+/*
+ * A callback on a hook of WordPress is wrapped in a closure (HookProxy), so has_action() cannot
+ * find it: these tests count the callbacks of the hook and priority instead.
+ */
+
+function hookedAt(string $hook, int $priority): int
+{
+    global $wp_filter;
+    return isset($wp_filter[$hook]) ? count($wp_filter[$hook]->callbacks[$priority] ?? []) : 0;
+}
+
+test('with Compatibility Mode off only the notices of the compat layer are hooked', function () {
+    remove_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']);
+    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
+    remove_filter('site-reviews/support/deprecated/v8', '__return_false');
+    $canvas = hookedAt('enqueue_block_assets', 999);
+    $notices = hookedAt('deprecated_hook_run', 10);
+    $scripts = hookedAt('wp_print_scripts', 0);
+    glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
+
+    glsr(Hooks::class)->run();
+    glsr(Hooks::class)->onPluginsLoaded();
+
+    expect(has_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']))->toBeFalse();
+    expect(has_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']))->toBeFalse();
+    expect(hookedAt('enqueue_block_assets', 999))->toBe($canvas);
+    expect(hookedAt('wp_print_scripts', 0))->toBe($scripts);
+    expect(hookedAt('deprecated_hook_run', 10))->toBe($notices + 1);
+});
+
+test('with Compatibility Mode on the bridges of the compat layer are hooked', function () {
+    $canvas = hookedAt('enqueue_block_assets', 999);
+    $scripts = hookedAt('wp_print_scripts', 0);
+
+    glsr(Hooks::class)->run();
+    glsr(Hooks::class)->onPluginsLoaded();
+
+    expect(has_action('site-reviews/route/ajax/submit-review', [glsr(AjaxController::class), 'submitReviewAjax']))->toBe(10);
+    expect(hookedAt('enqueue_block_assets', 999))->toBe($canvas + 1);
+    expect(hookedAt('wp_print_scripts', 0))->toBe($scripts + 1);
 });
 
 test('a snippet that still turns the 9.0.0 asset optimiser on is told once, and a site without one hears nothing', function () {
@@ -174,8 +219,8 @@ test('the notices are written to the console once each, and those of other plugi
 /*
  * Until 8.0 a block kept its assignments in assign_to (the form) or assigned_to, category and
  * user, and wrote assigned_posts, assigned_terms and assigned_users only for typed IDs. A block
- * that has not been saved since still holds the old attributes. They are read whether or not
- * Compatibility Mode is on: the suite runs with the old hooks of every version off.
+ * that has not been saved since still holds the old attributes. They are read with the old hooks
+ * of version 8.
  */
 
 function assignedTo(string $html, string $name): string
@@ -185,6 +230,7 @@ function assignedTo(string $html, string $name): string
 }
 
 test('a reviews block saved before 8.0 shows the reviews of the page it names', function () {
+    registerOldHooks([8]);
     $pageId = createPost(['post_type' => 'page']);
     $assigned = createReview(['assigned_posts' => $pageId]);
     $other = createReview();
@@ -196,6 +242,7 @@ test('a reviews block saved before 8.0 shows the reviews of the page it names', 
 });
 
 test('a form block saved before 8.0 assigns its reviews to the page, category and user it names', function () {
+    registerOldHooks([8]);
     $pageId = createPost(['post_type' => 'page']);
     $termId = createTerm(['taxonomy' => glsr()->taxonomy]);
     $userId = createUser();
@@ -208,6 +255,7 @@ test('a form block saved before 8.0 assigns its reviews to the page, category an
 });
 
 test('the typed IDs of a block saved before 8.0 are kept', function () {
+    registerOldHooks([8]);
     $pageId = createPost(['post_type' => 'page']);
 
     $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"custom","assigned_posts":"'.$pageId.'"} /-->');
@@ -215,7 +263,30 @@ test('the typed IDs of a block saved before 8.0 are kept', function () {
     expect(assignedTo($html, 'assigned_posts'))->toBe((string) $pageId);
 });
 
+test('the old attributes of a block are not read with the old hooks of version 8 off', function () {
+    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
+    registerOldHooks([6, 7]);
+    $pageId = createPost(['post_type' => 'page']);
+
+    $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"'.$pageId.'"} /-->');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe('');
+});
+
+test('the old attributes of a block are not read with Compatibility Mode off', function () {
+    remove_filter('site-reviews/shortcode/args', [glsr(Controller::class), 'filterBlockAssignments']);
+    remove_filter('site-reviews/support/deprecated/v8', '__return_false');
+    glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
+    glsr(Hooks::class)->onPluginsLoaded();
+    $pageId = createPost(['post_type' => 'page']);
+
+    $html = do_blocks('<!-- wp:site-reviews/form {"assign_to":"'.$pageId.'"} /-->');
+
+    expect(assignedTo($html, 'assigned_posts'))->toBe('');
+});
+
 test('the old attributes of a block are not read as shortcode options', function () {
+    registerOldHooks([8]);
     $pageId = createPost(['post_type' => 'page']);
 
     $html = do_shortcode('[site_reviews_form assign_to="'.$pageId.'"]');

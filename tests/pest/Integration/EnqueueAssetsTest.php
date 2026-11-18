@@ -257,7 +257,7 @@ test('debug mode is off, whatever WP_DEBUG says, until the filter turns it on fo
     expect(wp_scripts()->registered[glsr()->id.'/admin/debug']->deps)->toBe([glsr()->id.'/admin']);
 });
 
-test('each mode follows its setting, and its filter has the last word', function () {
+test('each mode follows its setting: a filter turns debug mode off, and cannot turn compat mode on', function () {
     $compat = glsr(CompatScript::class);
     $debug = glsr(DebugScript::class);
     expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([true, true]);
@@ -271,7 +271,7 @@ test('each mode follows its setting, and its filter has the last word', function
 
     add_filter('site-reviews/compat/assets', fn ($compat, $bundle) => 'admin' === $bundle ? true : $compat, 10, 2);
     add_filter('site-reviews/debug/assets', '__return_false');
-    expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([false, true]);
+    expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([false, false]);
     expect([$debug->isEnabled('public'), $debug->isEnabled('admin')])->toBe([false, false]);
 });
 
