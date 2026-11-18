@@ -58,7 +58,7 @@ dataset('typed', [
     'a tag with a vertical tab after its bracket' => ["<\x0Bstrong data-typed=\"1\">word</strong>"],
     'braces' => ['{site_title} and {{ review_id }}'],
     'doubled square brackets' => ['[[site_reviews]] and [site_reviews_form]'],
-    'the character an excerpt marks a tag with' => ['one ⍈ two <em class="⍈">three</em>'],
+    'the character an excerpt once marked a tag with' => ['one ⍈ two <em class="⍈">three</em>'],
 ]);
 
 test('a review shows what a visitor typed as text', function (string $typed, string $field) {

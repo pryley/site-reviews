@@ -20,15 +20,15 @@
  *                     function_exists, set_transient
  *   Modules\Avatars:  fwrite
  *   Controllers:      function_exists
- *   Helpers:          extension_loaded, preg_replace_callback
+ *   Helpers:          extension_loaded
  *   Migrations\Migrate_8_0_0: defined, class_exists
  *   (root):           extension_loaded, class_exists, error_get_last
  *   filter_input is armed here too; its shadow lives in filter-input.php.
  *
  * Armed behaviours that are not a throw: defined/function_exists/class_exists/
  * extension_loaded answer false (a build without the thing), set_transient
- * answers false (the write raced and lost), preg_replace_callback answers null
- * (PCRE giving up), error_get_last answers a fatal error inside the plugin
+ * answers false (the write raced and lost), error_get_last answers a fatal
+ * error inside the plugin
  * (the one state catchFatalError() exists for, and one nothing in-process can
  * put into the real error_get_last()), error_get_last_foreign makes it
  * answer a fatal error inside another plugin, and error_get_last_trace makes
@@ -215,24 +215,6 @@ if (!function_exists(__NAMESPACE__.'\extension_loaded')) {
         return \extension_loaded($extension);
     }
 }
-
-if (!function_exists(__NAMESPACE__.'\preg_replace_callback')) {
-    /**
-     * Armed, PCRE gives up (backtrack limit) — the null Text::replaceTags()
-     * recovers from by leaving the text untagged.
-     *
-     * @param callable|string|array $pattern
-     * @return string|array|null
-     */
-    function preg_replace_callback($pattern, callable $callback, $subject, int $limit = -1, &$count = null, int $flags = 0)
-    {
-        if (functionFails('preg_replace_callback')) {
-            return null;
-        }
-        return \preg_replace_callback($pattern, $callback, $subject, $limit, $count, $flags);
-    }
-}
-
 namespace GeminiLabs\SiteReviews;
 
 use function GeminiLabs\SiteReviews\Tests\functionFails;

@@ -7,6 +7,12 @@ use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 
 class Text
 {
+    /** @var string[] the tags an excerpt keeps */
+    protected const INLINE_TAGS = [
+        'a', 'abbr', 'b', 'bdi', 'bdo', 'cite', 'code', 'data', 'del', 'dfn', 'em', 'i', 'ins', 'kbd',
+        'mark', 'q', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr',
+    ];
+
     /**
      * Encode a less-than sign that starts no tag.
      */
@@ -45,15 +51,14 @@ class Text
 
     public static function excerpt(?string $text, int $limit = 55, bool $splitWords = true): string
     {
-        [$text, $map] = static::replaceTags(static::normalize($text));
+        $tokens = static::tokens(static::normalize($text));
         $excerptLength = $limit;
         if ($splitWords) {
-            $excerpt = static::words(static::decode($text), $limit);
+            $excerpt = static::words(static::decode(static::tokenText($tokens)), $limit);
             $excerptLength = mb_strlen($excerpt);
         }
-        $paragraphs = static::extractParagraphs($text, $excerptLength);
-        $text = implode(\PHP_EOL, $paragraphs);
-        return static::restoreTags($text, $map);
+        $paragraphs = static::extractParagraphs(static::paragraphs($tokens), $excerptLength);
+        return implode(\PHP_EOL, $paragraphs);
     }
 
     public static function initials(?string $name, string $initialPunctuation = ''): string
@@ -151,6 +156,55 @@ class Text
     }
 
     /**
+     * The closing tags of the open tags, the last one first.
+     *
+     * @param array<int, array{0: string, 1: string, 2?: string}> $open
+     *
+     * @return array<int, array{0: string, 1: string, 2?: string}>
+     */
+    protected static function closeTags(array $open): array
+    {
+        return array_map(
+            fn ($token) => ['close', sprintf('</%s>', $token[2] ?? ''), $token[2] ?? ''],
+            array_reverse($open)
+        );
+    }
+
+    /**
+     * The HTML of a paragraph before and after its first $length characters. A tag open at
+     * the cut is closed before it and opened again after it.
+     *
+     * @param array<int, array{0: string, 1: string, 2?: string}> $tokens
+     *
+     * @return array{0: string, 1: string}
+     */
+    protected static function cutTokens(array $tokens, int $length): array
+    {
+        $open = [];
+        $visible = '';
+        foreach ($tokens as $index => $token) {
+            if ('text' !== $token[0]) {
+                $open = static::openTags($open, $token);
+                $visible .= $token[1];
+                continue;
+            }
+            $textLength = mb_strlen(static::decode($token[1]));
+            if ($length >= $textLength) {
+                $length -= $textLength;
+                $visible .= $token[1];
+                continue;
+            }
+            $cut = static::encodedLength($token[1], $length);
+            $rest = array_slice($tokens, $index + 1);
+            return [
+                $visible.mb_substr($token[1], 0, $cut).static::tokenHtml(static::closeTags($open)),
+                static::tokenHtml(static::reopenTags($open)).mb_substr($token[1], $cut).static::tokenHtml($rest),
+            ];
+        }
+        return [$visible, ''];
+    }
+
+    /**
      * The text as a reader sees it: normalize() leaves the texturized
      * punctuation as numeric entities, which are one character each.
      */
@@ -214,23 +268,27 @@ class Text
         return mb_strlen(rtrim($match));
     }
 
-    protected static function extractParagraphs(string $text, int $length): array
+    /**
+     * The paragraphs of an excerpt: what follows the first $length characters is hidden.
+     *
+     * @param array<int, array<int, array{0: string, 1: string, 2?: string}>> $paragraphs
+     *
+     * @return string[]
+     */
+    protected static function extractParagraphs(array $paragraphs, int $length): array
     {
-        $paragraphs = preg_split('/\R+/um', $text);
-        $paragraphs = array_map('trim', $paragraphs);
+        $html = [];
         $lastIndex = count($paragraphs) - 1;
-        foreach ($paragraphs as $index => &$paragraph) {
-            $paragraphLength = mb_strlen(static::decode($paragraph));
+        foreach ($paragraphs as $index => $tokens) {
+            $paragraphLength = mb_strlen(static::decode(static::tokenText($tokens)));
             if ($length > $paragraphLength || ($length === $paragraphLength && $index === $lastIndex)) {
-                $paragraph = sprintf('<p>%s</p>', $paragraph);
+                $html[] = sprintf('<p>%s</p>', static::tokenHtml($tokens));
                 $length -= $paragraphLength;
                 continue;
             }
             if ($length > 0) {
-                $cut = static::encodedLength($paragraph, $length);
-                $hidden = mb_substr($paragraph, $cut);
-                $visible = mb_substr($paragraph, 0, $cut);
-                $paragraph = glsr(Builder::class)->p([
+                [$visible, $hidden] = static::cutTokens($tokens, $length);
+                $html[] = glsr(Builder::class)->p([
                     'class' => 'glsr-hidden-text',
                     'data-show-less' => __('Show less', 'site-reviews'),
                     'data-show-more' => __('Show more', 'site-reviews'),
@@ -240,12 +298,12 @@ class Text
                 $length = 0;
                 continue;
             }
-            $paragraph = glsr(Builder::class)->p([
+            $html[] = glsr(Builder::class)->p([
                 'class' => 'glsr-hidden',
-                'text' => $paragraph,
+                'text' => static::tokenHtml($tokens),
             ]);
         }
-        return $paragraphs;
+        return $html;
     }
 
     /**
@@ -269,29 +327,150 @@ class Text
         }
         return $iterator;
     }
-
-    protected static function replaceTags(string $text): array
+    /**
+     * The open tags after a token.
+     *
+     * @param array<int, array{0: string, 1: string, 2?: string}> $open
+     * @param array{0: string, 1: string, 2?: string} $token
+     *
+     * @return array<int, array{0: string, 1: string, 2?: string}>
+     */
+    protected static function openTags(array $open, array $token): array
     {
-        $map = [];
-        $text = str_replace('⍈', '&#x2348;', $text); // a ⍈ in the text is not a placeholder
-        $result = preg_replace_callback('|<([a-z]+)[^>]*?>.*?</\\1>|siu', function ($matches) use (&$map) {
-            $map[] = $matches[0];
-            return '⍈';
-        }, $text);
-        return is_null($result)
-            ? [$text, []]
-            : [$result, $map];
+        if ('open' === $token[0]) {
+            $open[] = $token;
+        } elseif ('close' === $token[0]) {
+            array_pop($open); // the processor gives the closing tags in order
+        }
+        return $open;
     }
 
-    protected static function restoreTags(string $text, array $map = []): string
+    /**
+     * The tokens of each paragraph. A tag left open at a line break is closed there and opened
+     * again in the next paragraph.
+     *
+     * @param array<int, array{0: string, 1: string, 2?: string}> $tokens
+     *
+     * @return array<int, array<int, array{0: string, 1: string, 2?: string}>>
+     */
+    protected static function paragraphs(array $tokens): array
     {
-        if (empty($map)) {
-            return $text;
+        $open = [];
+        $paragraphs = [[]];
+        foreach ($tokens as $token) {
+            if ('text' !== $token[0]) {
+                $open = static::openTags($open, $token);
+                $paragraphs[array_key_last($paragraphs)][] = $token;
+                continue;
+            }
+            foreach (preg_split('/\R+/um', $token[1]) ?: [$token[1]] as $index => $line) {
+                if ($index > 0) { // after a line break
+                    array_push($paragraphs[array_key_last($paragraphs)], ...static::closeTags($open));
+                    $paragraphs[] = static::reopenTags($open);
+                }
+                $paragraphs[array_key_last($paragraphs)][] = ['text', $line];
+            }
         }
-        $i = 0;
-        $result = preg_replace_callback('|⍈|u', function ($matches) use (&$i, $map) {
-            return $map[$i++] ?? '';
-        }, $text);
-        return $result ?? $text;
+        return array_map([static::class, 'trimTokens'], $paragraphs);
+    }
+
+    /**
+     * The open tags as they are opened again, without the id that only one element may have.
+     *
+     * @param array<int, array{0: string, 1: string, 2?: string}> $open
+     *
+     * @return array<int, array{0: string, 1: string, 2?: string}>
+     */
+    protected static function reopenTags(array $open): array
+    {
+        foreach ($open as &$token) {
+            $token[1] = (string) preg_replace('/ id="[^"]*"/', '', $token[1]);
+        }
+        return $open;
+    }
+
+    /**
+     * The token the processor is on.
+     *
+     * @return array{0: string, 1: string, 2?: string} // the type (break, close, open, text or void), the HTML and the tag name
+     */
+    protected static function token(\WP_HTML_Processor $processor): array
+    {
+        $type = $processor->get_token_type();
+        if ('#text' === $type) {
+            return ['text', $processor->serialize_token()];
+        }
+        if ('#tag' !== $type) {
+            return ['text', '']; // a comment
+        }
+        $name = strtolower((string) $processor->get_token_name());
+        if (!in_array($name, static::INLINE_TAGS, true)) {
+            return ['break', \PHP_EOL, $name];
+        }
+        if ($processor->is_tag_closer()) {
+            return ['close', $processor->serialize_token(), $name];
+        }
+        $type = false === $processor->expects_closer() ? 'void' : 'open';
+        return [$type, $processor->serialize_token(), $name];
+    }
+
+    /**
+     * @param array<int, array{0: string, 1: string, 2?: string}> $tokens
+     */
+    protected static function tokenHtml(array $tokens): string
+    {
+        return implode('', array_column($tokens, 1));
+    }
+
+    /**
+     * The text and the inline tags of normalized HTML, in order. Only the text when the HTML
+     * can't be read or holds a tag that is not inline, which then ends its line.
+     *
+     * @return array<int, array{0: string, 1: string, 2?: string}>
+     */
+    protected static function tokens(string $html): array
+    {
+        if (!str_contains($html, '<')) {
+            return [['text', $html]]; // no tag
+        }
+        $processor = \WP_HTML_Processor::create_fragment($html);
+        $tokens = [];
+        while ($processor && $processor->next_token()) {
+            $tokens[] = static::token($processor);
+        }
+        if (!$processor || null !== $processor->get_last_error()) {
+            return [['text', wp_strip_all_tags($html)]];
+        }
+        if (!in_array('break', array_column($tokens, 0), true)) {
+            return $tokens;
+        }
+        $text = array_filter($tokens, fn ($token) => in_array($token[0], ['break', 'text'], true));
+        return [['text', trim(static::tokenHtml($text))]];
+    }
+
+    /**
+     * @param array<int, array{0: string, 1: string, 2?: string}> $tokens
+     */
+    protected static function tokenText(array $tokens): string
+    {
+        return static::tokenHtml(array_filter($tokens, fn ($token) => 'text' === $token[0]));
+    }
+
+    /**
+     * @param array<int, array{0: string, 1: string, 2?: string}> $tokens
+     *
+     * @return array<int, array{0: string, 1: string, 2?: string}>
+     */
+    protected static function trimTokens(array $tokens): array
+    {
+        $first = array_key_first($tokens);
+        $last = array_key_last($tokens);
+        if (null !== $first && 'text' === $tokens[$first][0]) {
+            $tokens[$first][1] = ltrim($tokens[$first][1]);
+        }
+        if (null !== $last && 'text' === $tokens[$last][0]) {
+            $tokens[$last][1] = rtrim($tokens[$last][1]);
+        }
+        return $tokens;
     }
 }

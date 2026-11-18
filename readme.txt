@@ -230,6 +230,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Added the `site-reviews/review/value`, `site-reviews/review/label` and `site-reviews/review/notice` filters for developers, which run on every tag before the per-tag ones
 - Added the `site-reviews/router/admin/capabilities` filter hook to name the capability of an admin route added by custom code; a route that names none is not run
+- Changed review excerpts: the words inside a link or another inline tag are counted as words, and the excerpt never ends inside a tag
 - Changed the browser console: a request the server declines is logged as a warning and a fault as an error
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
 - Changed the HTML builder to keep the attributes of the current HTML standard (for example `popover`, `popovertarget` and `inert`) and to print the value of attributes such as `spellcheck` and `draggable`; `contextmenu`, `dropzone` and a form's `accept` are no longer printed

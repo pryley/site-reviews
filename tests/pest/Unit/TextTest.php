@@ -195,18 +195,86 @@ test('an entity does not count as a word', function () {
     expect($excerpt)->toContain('I said &#8220;hello<span class="glsr-hidden">&#8221; to them all</span>');
 });
 
-test('html tags do not count against the limit, and survive the excerpt', function () {
-    // Tags are swapped out for a placeholder before measuring and restored afterwards, so
-    // a link mid-review is neither truncated in half nor counted as words.
+test('the words inside a tag count, and the tag survives the excerpt', function () {
     $excerpt = Text::excerpt('Great <a href="https://x.com">product</a> here and more words', 4);
 
-    expect($excerpt)->toContain('<a href="https://x.com">product</a>')
-        ->toContain('<span class="glsr-hidden"> words</span>');
+    expect($excerpt)->toContain('Great <a href="https://x.com">product</a> here and<span class="glsr-hidden"> more words</span>');
 });
 
-test('a ⍈ typed in the text stays where it was typed', function () {
+test('a tag that is open at the cut is closed before it and opened again after it', function () {
+    expect(Text::excerpt('One <em>two three four</em> five', 2))->toBe(
+        '<p class="glsr-hidden-text" data-show-less="Show less" data-show-more="Show more" data-trigger="expand">'
+        .'One <em>two</em><span class="glsr-hidden"><em> three four</em> five</span></p>'
+    );
+});
+
+test('a cut at the end of a tag leaves the tag whole', function () {
+    $excerpt = Text::excerpt('A <a href="https://x.com" title="t"><strong>bold link</strong></a> end', 3);
+
+    expect($excerpt)->toContain('A <a href="https://x.com" title="t"><strong>bold link</strong></a><span class="glsr-hidden"> end</span>');
+});
+
+test('a tag that is open at a line break is closed there and opened again in the next paragraph', function () {
+    expect(Text::excerpt("One <strong>two\n\nthree</strong> four"))
+        ->toBe("<p>One <strong>two</strong></p>\n<p><strong>three</strong> four</p>");
+});
+
+test('an excerpt keeps only the text when a tag is not inline, and the tag ends its line', function () {
+    // A snippet can allow a tag such as br or p in a review.
+    $allow = fn () => array_intersect_key(wp_kses_allowed_html('post'), array_flip(['br', 'em', 'p']));
+    add_filter('site-reviews/sanitize/allowed-html', $allow);
+    try {
+        expect(Text::excerpt('One <em>two</em><br>three four'))->toBe("<p>One two</p>\n<p>three four</p>")
+            ->and(Text::excerpt('<p>One <em>two</em></p><p>three four</p>'))->toBe("<p>One two</p>\n<p>three four</p>");
+    } finally {
+        remove_filter('site-reviews/sanitize/allowed-html', $allow);
+    }
+});
+
+test('an excerpt keeps only the text when its tags are closed out of order', function () {
+    // WordPress's HTML API refuses tags it would have to rebuild.
+    $allow = fn () => array_intersect_key(wp_kses_allowed_html('post'), array_flip(['b', 'i']));
+    add_filter('site-reviews/sanitize/allowed-html', $allow);
+    try {
+        expect(Text::excerpt('<b>one <i>two</b> three</i> four'))->toBe('<p>one two three four</p>');
+    } finally {
+        remove_filter('site-reviews/sanitize/allowed-html', $allow);
+    }
+});
+
+test('a tag that is never closed, or closed without being opened, leaves no tag open', function () {
+    $tags = fn (string $html) => [preg_match_all('/<(em|p|span)\b/', $html), preg_match_all('~</(em|p|span)>~', $html)];
+
+    foreach (['<em>one two three four', "<em>one two\n\nthree four", 'one</em> two three four', "one</em> two\n\nthree four"] as $text) {
+        [$opened, $closed] = $tags(Text::excerpt($text, 2));
+        expect($opened)->toBe($closed);
+    }
+    expect(Text::excerpt('<em>one two three four', 2))->toContain('<em>one two</em><span class="glsr-hidden"><em> three four</em></span>');
+});
+
+test('a tag that is opened again does not repeat its id', function () {
+    $allow = fn () => ['em' => ['class' => true, 'id' => true]];
+    add_filter('site-reviews/sanitize/allowed-html', $allow);
+    try {
+        expect(Text::excerpt('<em id="x" class="y">one two three four</em>', 2))
+            ->toContain('<em id="x" class="y">one two</em><span class="glsr-hidden"><em class="y"> three four</em></span>');
+    } finally {
+        remove_filter('site-reviews/sanitize/allowed-html', $allow);
+    }
+});
+
+test('an excerpt cut by characters counts the text of a tag, not the tag', function () {
+    expect(Text::excerpt('One <em>two three</em> four', 6, false))
+        ->toContain('One <em>tw</em><span class="glsr-hidden"><em>o three</em> four</span>');
+});
+
+test('a character typed in the text is not read as a tag of the excerpt', function () {
     expect(Text::excerpt('Five ⍈ stars and <strong>bold</strong> words'))
-        ->toBe('<p>Five &#x2348; stars and <strong>bold</strong> words</p>');
+        ->toBe('<p>Five ⍈ stars and <strong>bold</strong> words</p>');
+});
+
+test('the text beside a tag keeps its entities', function () {
+    expect(Text::excerpt('Tom & <em>Jerry</em> ate 3 < 4 pies'))->toBe('<p>Tom &amp; <em>Jerry</em> ate 3 &lt; 4 pies</p>');
 });
 
 test('name initials period space', function () {
@@ -222,18 +290,6 @@ test('without the intl extension the word count falls back to a plain split', fu
     try {
         expect(Text::wordCount('Hello wonderful world'))->toBe(3)
             ->and(Text::words('Hello wonderful world', 2))->toBe('Hello wonderful');
-    } finally {
-        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
-    }
-});
-
-test('when pcre gives up mid-excerpt the text is left untagged rather than lost', function () {
-    // preg_replace_callback() answers null past the backtrack limit; replaceTags() must hand
-    // back the original text with an empty tag map, not null.
-    $method = GeminiLabs\SiteReviews\Tests\protectedMethod(Text::class, 'replaceTags');
-    \GeminiLabs\SiteReviews\Tests\armFailingFunction('preg_replace_callback');
-    try {
-        expect($method->invoke(null, 'text with <b>tags</b>'))->toBe(['text with <b>tags</b>', []]);
     } finally {
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
     }
